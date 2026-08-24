@@ -45,6 +45,7 @@ build/
 coverage/
 .nyc_output/
 playwright-report/
+test-results/
 
 # OS files
 .DS_Store

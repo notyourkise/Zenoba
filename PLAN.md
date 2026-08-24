@@ -103,7 +103,7 @@ Boundary rule: place code by domain responsibility under `src/features/*`; keep 
 - `dev`, `lint`, `typecheck`, `test`, `test:e2e`, and `build` scripts
 - HTTP health response with stable shape
 
-- [x] Pin a supported Node.js LTS version using `.nvmrc` (Node 20.x).
+- [x] Pin a supported Node.js LTS version using `.nvmrc` (Node 20.19+).
 - [x] Scaffold Next.js with TypeScript and Tailwind CSS.
 - [x] Add ESLint + Prettier formatting rules via `.editorconfig` and `eslint.config.mjs`.
 - [x] Add Vitest unit/integration test framework with jsdom environment.

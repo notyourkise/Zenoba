@@ -5,9 +5,7 @@
  * Sprint 2: Learning path/module/lesson seeds
  */
 
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { closeDatabaseConnection } from "../src/lib/db/client";
 
 async function main() {
   console.log("🌱 Netloka database seed - No initial seeds required");
@@ -19,5 +17,5 @@ main()
     process.exit(1);
   })
   .finally(async () => {
-    await prisma.$disconnect();
+    await closeDatabaseConnection();
   });

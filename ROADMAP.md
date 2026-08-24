@@ -5,7 +5,7 @@
 > **Product:** Interactive networking learning platform  
 > **Primary audience:** SMK TKJ students, networking beginners, and learners preparing for network/sysadmin work  
 > **Core experience:** Learn → Interact → Practice → Challenge → Consultant Project  
-> **Status:** Milestone 0 repair in progress; local verification complete, security/deployment review pending
+> **Status:** Milestone 0 foundation and security remediation complete; deployment tasks pending target configuration
 > **Timezone for project logs:** WITA / GMT+8
 
 ---

@@ -10,6 +10,7 @@ pnpm-lock.yaml
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+src/generated/
 
 # Next.js
 .next/

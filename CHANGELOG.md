@@ -40,6 +40,17 @@ All notable project changes are recorded here.
 
 # 2026-08-24
 
+- [2026-08-24 15:48 WITA] [REVIEW] [Milestone 0 / Sprint 0]
+  GitHub Actions validation passed for Prisma security-remediation pull request #2: lint/type-check, unit tests, Chromium browser E2E, production build, and quality gate.
+  Validation: GitHub Actions run 32702942803 passed.
+  Git: PR #2
+
+- [2026-08-24 15:44 WITA] [SECURITY] [Milestone 0 / Sprint 0]
+  Upgraded Prisma ORM to 7.9.1, migrated the PostgreSQL client to `@prisma/adapter-pg`, and pinned transitive `deepmerge-ts` to 8.0.2 through npm overrides. This removes the audited Prisma 6 CLI advisory path without changing the database schema.
+  Files/areas: `package.json`, `prisma.config.ts`, `prisma/schema.prisma`, `src/lib/db/client.ts`, `scripts/verify-db.ts`, `.github/workflows/ci.yml`
+  Validation: `npm audit --omit=dev` reports 0 vulnerabilities; Prisma validation/migration status, live `SELECT 1`, lint, typecheck, unit tests, three-browser E2E, and production build passed locally.
+  Git: d05ca0b
+
 - [2026-08-24 15:25 WITA] [REVIEW] [Milestone 0 / Sprint 0]
   GitHub Actions validation passed for pull request #1: lint/type-check, unit tests, Chromium browser E2E, production build, and the aggregate quality gate.
   Remaining blockers to Sprint 0 completion are the reviewed Prisma security-remediation decision and the unconfigured Cloudflare/staging deployment tasks.

@@ -1,29 +1,14 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
+import { GET } from "./route";
 
 describe("Health Check Endpoint", () => {
-  it("should have a valid response structure", () => {
-    const mockResponse = {
-      status: "ok" as const,
-      timestamp: new Date().toISOString(),
-    };
+  it("returns the health contract", async () => {
+    const response = await GET();
+    const body = await response.json();
 
-    // Verify required fields exist
-    expect(mockResponse).toHaveProperty("status");
-    expect(mockResponse.status).toBe("ok");
-
-    // Verify timestamp is a valid ISO string
-    expect(new Date(mockResponse.timestamp).getTime()).toBeGreaterThan(0);
-  });
-
-  it("should maintain stable API contract", () => {
-    // Health endpoint should return predictable shape
-    const expectedContract = {
-      status: "ok",
-      timestamp: "ISO-8601-timestamp-string",
-    };
-
-    expect(typeof expectedContract.status).toBe("string");
-    expect(expectedContract.status).toBe("ok");
-    expect(typeof expectedContract.timestamp).toBe("string");
+    expect(response.status).toBe(200);
+    expect(response.headers.get("content-type")).toContain("application/json");
+    expect(body.status).toBe("ok");
+    expect(new Date(body.timestamp).toISOString()).toBe(body.timestamp);
   });
 });

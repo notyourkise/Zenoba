@@ -15,7 +15,7 @@
 - `main` remains the primary branch and `https://github.com/notyourkise/NetLoka.git` remains the canonical remote.
 - Do not include any uncommitted Sprint 1 authentication/profile files in this branch.
 - Keep npm as the only package manager and commit `package-lock.json`.
-- Bind the development database to `127.0.0.1`, never all interfaces.
+- Bind the development database to `127.0.0.1:5433` on the host and container port `5432`, never all interfaces.
 - Use real route-handler calls in unit tests and a real browser for E2E tests.
 - Do not mark Sprint 0 complete until lint, typecheck, unit tests, E2E tests, production build, Docker-backed Prisma validation, documentation review, and GitHub PR checks pass.
 - Record meaningful project changes in `CHANGELOG.md` using WITA timestamps.
@@ -210,7 +210,7 @@ Replace the compose port mapping with:
 
 ```yaml
 ports:
-  - "127.0.0.1:5432:5432"
+  - "127.0.0.1:5433:5432"
 ```
 
 - [ ] **Step 2: Start the service and wait for the health check**
@@ -224,16 +224,17 @@ docker compose ps
 
 Expected: service `postgresql` is `healthy`.
 
-- [ ] **Step 3: Create the initial migration through Prisma**
+- [ ] **Step 3: Create and apply the explicit empty baseline migration**
 
 Run:
 
 ```powershell
 npm run db:generate
-npm run db:migrate -- --name init
+npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script
+npx prisma migrate deploy
 ```
 
-Expected: a timestamped migration directory exists under `prisma/migrations/` and Prisma reports that the migration was applied.
+Expected: the diff command prints `-- This is an empty migration.`, and Prisma applies `prisma/migrations/20260824152000_init/migration.sql` to record the Sprint 0 baseline without adding application models.
 
 - [ ] **Step 4: Verify database connectivity and migration state**
 

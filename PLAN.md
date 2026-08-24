@@ -131,7 +131,7 @@ Boundary rule: place code by domain responsibility under `src/features/*`; keep 
 - [x] Install/configure Prisma ORM; generate client successfully.
 - [x] Add environment validation that fails fast for missing required server variables (Zod schema).
 - [x] Created initial database migration structure (requires running PostgreSQL).
-- [ ] Verify a local database connection (pending: start Docker container first).
+- [x] Verify a local database connection and Prisma migration status with Docker PostgreSQL on `127.0.0.1:5433`.
 - [x] Run automated checks — lint/typecheck/test/build all pass.
 - [x] Commit database/environment foundation.
 
@@ -146,6 +146,7 @@ Boundary rule: place code by domain responsibility under `src/features/*`; keep 
 - [x] Run lint enforcement via GitHub Actions.
 - [x] Run type-check enforcement via GitHub Actions.
 - [x] Run automated tests enforcement via GitHub Actions.
+- [x] Run Chromium browser E2E enforcement via GitHub Actions.
 - [x] Run production build enforcement via GitHub Actions.
 - [x] Document local setup commands in `README.md` with comprehensive contributor onboarding guide.
 - [x] Record Sprint 0 work in `CHANGELOG.md` with WITA timestamps and detailed validation notes.

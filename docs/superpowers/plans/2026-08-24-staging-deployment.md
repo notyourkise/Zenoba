@@ -4,7 +4,7 @@
 
 **Goal:** Deliver a repeatable, isolated manual staging deployment for Netloka on the approved VPS.
 
-**Architecture:** A standalone Next.js image runs as the `app` service in the `netloka-staging` Compose project and publishes only host loopback port 3001. A private PostgreSQL service has no host port and stores data in its own named volume. Host Nginx proxies the staging hostname; a narrowly scoped root bootstrap establishes the Nginx/Certbot interface for the non-root deploy user.
+**Architecture:** A standalone Next.js image runs as the `app` service in the `netloka-staging` Compose project and publishes only host loopback port 3001. The app joins both the private internal network for PostgreSQL and a managed, explicitly named Netloka staging bridge network for its host-proxied edge. A private PostgreSQL service has no host port and stores data in its own named volume. Host Nginx proxies the staging hostname; a narrowly scoped root bootstrap establishes the Nginx/Certbot interface for the non-root deploy user.
 
 **Tech Stack:** Node 20.19, Next.js 16 standalone output, Docker Engine 29.7, Docker Compose 2.40, PostgreSQL 16, Prisma 7, host Nginx, Certbot, cron.
 
@@ -15,6 +15,7 @@
 - Use `/srv/netloka/staging` as the VPS root, owned by `deploy`.
 - Use only the `netloka-staging` Compose project and its Netloka-specific resources.
 - Publish the app only as `127.0.0.1:3001:3000`; publish no database port.
+- Keep `db` and `migrate` only on the project-scoped internal network; attach only `app` to the managed `netloka_staging_edge` bridge with no `external` declaration.
 - Do not commit staging secrets, certificate email, private keys, or database credentials.
 - Before every pending migration, the atomic backup command must succeed.
 - Do not run broad Docker cleanup commands or mutate unrelated host workloads.
@@ -179,7 +180,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 12
-    networks: [netloka_staging_internal]
+    networks: [netloka_staging_internal, netloka_staging_edge]
   migrate:
     build: { context: ., dockerfile: Dockerfile, target: builder }
     env_file: ${STAGING_ENV_FILE:?STAGING_ENV_FILE must point to the external staging environment file}
@@ -191,6 +192,9 @@ services:
 networks:
   netloka_staging_internal:
     internal: true
+  netloka_staging_edge:
+    name: netloka_staging_edge
+    driver: bridge
 volumes:
   netloka_staging_postgres_data:
 ```
@@ -236,12 +240,12 @@ bash -n scripts/backup-staging-postgres.sh
 $stagingEnvFile = Join-Path ([System.IO.Path]::GetTempPath()) "netloka-staging-compose-$PID.env"
 Copy-Item deploy/staging.env.example $stagingEnvFile
 $env:STAGING_ENV_FILE = $stagingEnvFile
-docker compose --env-file $stagingEnvFile -f compose.staging.yml config
+docker compose --env-file $stagingEnvFile -f compose.staging.yml --profile maintenance config
 Remove-Item Env:STAGING_ENV_FILE
 Remove-Item $stagingEnvFile
 ```
 
-Expected: Bash returns zero and Compose renders an app bound only to `127.0.0.1:3001`, with no `ports` key for `db`.
+Expected: Bash returns zero and Compose renders an app bound only to `127.0.0.1:3001`, on both `netloka-staging_netloka_staging_internal` and the managed `netloka_staging_edge` bridge network. The edge network has exact name `netloka_staging_edge`, driver `bridge`, and no `external` declaration. The `db` and `migrate` services remain only on the internal network, `db` has no `ports` key, and `netloka-staging_netloka_staging_postgres_data` remains a project-scoped non-external volume.
 
 - [ ] **Step 6: Commit isolated staging operations**
 

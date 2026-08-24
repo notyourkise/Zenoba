@@ -115,6 +115,15 @@ The script operates only the `netloka-staging` Compose project. Do not use
 Docker prune commands, `down -v`, or commands that target generic Docker
 resources.
 
+The Compose topology keeps `db` and `migrate` only on the internal,
+project-scoped `netloka-staging_netloka_staging_internal` network. The `app`
+service also joins the managed `netloka_staging_edge` bridge network, whose
+exact name is `netloka_staging_edge` and which has no `external` declaration.
+The explicit loopback-only publication `127.0.0.1:3001:3000` provides host
+Nginx access; the edge network is the approved app topology, not the host
+proxy path. The PostgreSQL volume remains project-scoped as
+`netloka-staging_netloka_staging_postgres_data` and is not external.
+
 ## Backups and scheduled backup
 
 Before destructive maintenance, including any change that could destroy or
@@ -142,12 +151,19 @@ After a deployment, validate only staging resources:
 ```bash
 sudo /usr/sbin/nginx -t
 ss -ltn '( sport = :3001 )'
+STAGING_ENV_FILE=/srv/netloka/staging/.env docker compose --project-name netloka-staging --env-file /srv/netloka/staging/.env -f /srv/netloka/staging/repo/compose.staging.yml --profile maintenance config
 STAGING_ENV_FILE=/srv/netloka/staging/.env docker compose --project-name netloka-staging --env-file /srv/netloka/staging/.env -f /srv/netloka/staging/repo/compose.staging.yml ps
 curl --fail --silent --show-error https://staging.netloka.biz.id/api/health
 ```
 
-Confirm that port 3001 is loopback-only, the app is healthy, the database has
-no published host port, and the public health endpoint returns HTTP 200.
+Confirm in the rendered Compose configuration that `netloka_staging_edge` has
+exact name `netloka_staging_edge`, driver `bridge`, and no `external` property;
+that `netloka-staging_netloka_staging_internal` remains internal and
+project-scoped; and that `app` joins both networks while `db` and `migrate`
+remain internal-only. Confirm the project-scoped PostgreSQL volume has no
+`external` property, port 3001 is loopback-only, the app service is healthy,
+the database has no published host port, and the public health endpoint returns
+HTTP 200.
 
 ## Application rollback
 

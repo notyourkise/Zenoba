@@ -13,7 +13,7 @@ Deploy the current `main` branch to an isolated Docker Compose staging environme
 - Deployment root: `/srv/netloka/staging`, owned by `deploy`.
 - Host Nginx is active and ports 80/443 are occupied by it; port 3001 is currently unused.
 - Cloudflare proxies `staging.netloka.biz.id` to the VPS using Full (Strict) TLS and Always Use HTTPS.
-- Host Nginx terminates origin TLS using Certbot; its staging upstream is `127.0.0.1:3001`.
+- Host Nginx terminates origin TLS using Certbot; its staging upstream is made reachable by the app's explicit loopback-only publication at `127.0.0.1:3001`.
 - PostgreSQL runs in the Netloka Compose project only, with its own named volume and no published port.
 - Backups run daily at 03:00 WITA as `pg_dump -Fc`, retained locally for seven days under `/srv/netloka/staging/backups/postgres/`.
 
@@ -25,18 +25,29 @@ Internet
   -> host Nginx + Certbot certificate
   -> 127.0.0.1:3001
   -> netloka-staging-app (container port 3000)
-  -> internal netloka-staging network
-  -> netloka-staging-postgres (no host port)
-  -> named volume netloka_staging_postgres_data
+       -> netloka_staging_edge (managed bridge; app only)
+       -> netloka-staging_netloka_staging_internal (internal)
+            -> netloka-staging-postgres (no host port)
+                 -> netloka-staging_netloka_staging_postgres_data
+            -> netloka-staging-migrate (maintenance profile only)
 ```
 
-The Compose project name is `netloka-staging`. Every container, network, and volume uses this project identity and is separate from all non-Netloka Docker resources.
+The Compose project name is `netloka-staging`. The app is dual-homed: its
+explicit loopback port publication is the sole path that gives host Nginx
+access, while the managed `netloka_staging_edge` bridge is the approved app
+edge topology. The edge network has `name: netloka_staging_edge`,
+`driver: bridge`, and no `external` declaration. The database and maintenance
+migration service attach only to the private
+`netloka-staging_netloka_staging_internal` network, which stays `internal:
+true` and project-scoped. PostgreSQL stores data only in the project-scoped
+`netloka-staging_netloka_staging_postgres_data` volume. No service references
+the default, shared, or external Docker network, volume, or project resource.
 
 ## Repository Artifacts
 
 - `Dockerfile`: multi-stage Node 20.19+ image that generates Prisma Client and builds the standalone Next.js application.
 - `.dockerignore`: excludes secrets, local build output, Git metadata, dependencies, and test artifacts from image context.
-- `compose.staging.yml`: defines only `app`, `db`, and a maintenance-only `migrate` service. The app binds `127.0.0.1:3001:3000`; database has no `ports` entry.
+- `compose.staging.yml`: defines only `app`, `db`, and a maintenance-only `migrate` service. The app binds `127.0.0.1:3001:3000` and joins the internal network plus the managed `netloka_staging_edge` bridge; `db` and `migrate` remain internal-only, and the database has no `ports` entry.
 - `scripts/deploy-staging.sh`: fetches `origin/main`, refuses non-fast-forward deployment, builds the isolated Compose project, runs `prisma migrate deploy`, and restarts the app.
 - `scripts/backup-staging-postgres.sh`: creates a date-stamped custom-format database dump and removes backups older than seven days. It reads no credentials from source files.
 - `deploy/nginx/staging.netloka.biz.id.conf`: host Nginx virtual host that proxies only the staging domain to loopback port 3001 and forwards standard proxy headers.
@@ -56,7 +67,7 @@ The Compose project name is `netloka-staging`. Every container, network, and vol
 1. The operator creates `/srv/netloka/staging`, clones the repository as `deploy`, and creates the private `.env`.
 2. A VPS administrator runs the root-only bootstrap to install the narrowly scoped host configuration.
 3. The operator runs the deploy script. It first creates a manual backup if a migration is pending, then pulls `origin/main` with fast-forward-only semantics.
-4. Compose builds the app image, starts the database, runs `prisma migrate deploy` through the maintenance service, then starts or replaces the app.
+4. Compose builds the app image, starts the database, runs `prisma migrate deploy` through the maintenance service, then starts or replaces the dual-homed app. The loopback publication, not the edge network, provides host Nginx access.
 5. The deploy script verifies the Docker health check and `https://staging.netloka.biz.id/api/health`.
 6. Rollback restores the prior Git revision, rebuilds only the Netloka Compose project, and does not remove the database volume. Database rollback is manual and only from a verified pre-migration dump.
 
@@ -71,8 +82,9 @@ The Compose project name is `netloka-staging`. Every container, network, and vol
 ## Validation
 
 - Local: lint, type-check, unit tests, three-browser E2E, production build, Prisma validation, and migration status remain green before staging deployment.
+- Local topology: render `docker compose --project-name netloka-staging --env-file <external-safe-env> -f compose.staging.yml --profile maintenance config --format json` without starting containers. Confirm `netloka_staging_edge` has exact name `netloka_staging_edge`, driver `bridge`, and no `external` property; confirm `netloka-staging_netloka_staging_internal` remains internal and project-scoped; confirm `app` is dual-homed, `db` and `migrate` are internal-only, the database has no ports, and the PostgreSQL volume is `netloka-staging_netloka_staging_postgres_data` without an `external` property.
 - VPS: validate DNS resolution; Nginx configuration syntax; a valid TLS certificate; Docker Compose service health; application publication only on `127.0.0.1:3001`; no PostgreSQL host port; internal application-to-database connectivity; expected migration state; and the successful public health endpoint response.
-- Isolation: all staging Docker resources use the `netloka-staging` namespace or an explicitly approved Netloka staging name. Read-only host or Docker inspection is permitted only for validation or collision detection. Never stop, restart, recreate, remove, prune, rename, or otherwise mutate unrelated containers, networks, volumes, images, databases, or host Nginx virtual hosts; never use broad cleanup commands such as `docker system prune` or `docker volume prune`.
+- Isolation: all staging Docker resources use the `netloka-staging` namespace or the explicitly approved managed `netloka_staging_edge` name; neither network nor the PostgreSQL volume may use an `external` declaration. Read-only host or Docker inspection is permitted only for validation or collision detection. Never stop, restart, recreate, remove, prune, rename, or otherwise mutate unrelated containers, networks, volumes, images, databases, or host Nginx virtual hosts; never use broad cleanup commands such as `docker system prune` or `docker volume prune`.
 
 ## Out of Scope
 

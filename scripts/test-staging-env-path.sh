@@ -62,9 +62,99 @@ assert_line_order() {
   (( first_line < second_line )) || fail "expected '$first' before '$second'"
 }
 
+assert_rendered_topology() {
+  local rendered_compose="$1"
+
+  node - "$rendered_compose" <<'NODE'
+const fs = require("node:fs");
+
+const compose = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+const fail = (message) => {
+  console.error(`FAIL: ${message}`);
+  process.exit(1);
+};
+const serviceNetworks = (serviceName) =>
+  Object.keys(compose.services?.[serviceName]?.networks ?? {}).sort();
+const hasOwn = (value, property) =>
+  Object.prototype.hasOwnProperty.call(value ?? {}, property);
+const internalNetwork = compose.networks?.netloka_staging_internal;
+const edgeNetwork = compose.networks?.netloka_staging_edge;
+const postgresVolume = compose.volumes?.netloka_staging_postgres_data;
+
+if (compose.name !== "netloka-staging") {
+  fail("Compose project name must remain netloka-staging");
+}
+
+if (internalNetwork?.internal !== true) {
+  fail("netloka_staging_internal must stay internal");
+}
+
+if (internalNetwork?.name !== "netloka-staging_netloka_staging_internal") {
+  fail("netloka_staging_internal must retain its project-scoped network name");
+}
+
+if (hasOwn(internalNetwork, "external")) {
+  fail("netloka_staging_internal must not declare an external network");
+}
+
+if (
+  edgeNetwork?.name !== "netloka_staging_edge" ||
+  edgeNetwork?.driver !== "bridge"
+) {
+  fail("netloka_staging_edge must be the explicitly named bridge network");
+}
+
+if (hasOwn(edgeNetwork, "external")) {
+  fail("netloka_staging_edge must not declare an external network");
+}
+
+if (postgresVolume?.name !== "netloka-staging_netloka_staging_postgres_data") {
+  fail("PostgreSQL volume must retain its project-scoped volume name");
+}
+
+if (hasOwn(postgresVolume, "external")) {
+  fail("PostgreSQL volume must not declare an external volume");
+}
+
+if (JSON.stringify(serviceNetworks("db")) !== JSON.stringify(["netloka_staging_internal"])) {
+  fail("db must remain only on netloka_staging_internal");
+}
+
+if (compose.services?.db?.ports !== undefined) {
+  fail("db must not publish host ports");
+}
+
+if (
+  JSON.stringify(serviceNetworks("app")) !==
+  JSON.stringify(["netloka_staging_edge", "netloka_staging_internal"])
+) {
+  fail("app must join both the internal and Netloka staging edge networks");
+}
+
+if (edgeNetwork?.internal === true) {
+  fail("netloka_staging_edge must not be internal");
+}
+
+if (JSON.stringify(serviceNetworks("migrate")) !== JSON.stringify(["netloka_staging_internal"])) {
+  fail("migrate must remain only on netloka_staging_internal");
+}
+
+const appPorts = compose.services?.app?.ports ?? [];
+if (
+  appPorts.length !== 1 ||
+  appPorts[0].host_ip !== "127.0.0.1" ||
+  String(appPorts[0].published) !== "3001" ||
+  appPorts[0].target !== 3000
+) {
+  fail("app must publish only 127.0.0.1:3001:3000");
+}
+NODE
+}
+
 fake_bin="$work_dir/bin"
 docker_log="$work_dir/docker.log"
 external_env="$work_dir/staging.env"
+rendered_compose="$work_dir/compose.json"
 secret_value="DO_NOT_PRINT_STAGING_SECRET"
 repo_env="$COMPOSE_FILE"
 
@@ -159,6 +249,16 @@ assert_failure \
 assert_success \
   "external staging environment path renders Compose configuration" \
   run_validator "$external_env" 0
+
+if ! STAGING_ENV_FILE="$external_env" docker compose \
+  --env-file "$external_env" \
+  -f "$COMPOSE_FILE" \
+  --profile maintenance \
+  config --format json >"$rendered_compose"; then
+  fail "real staging Compose configuration could not render"
+fi
+
+assert_rendered_topology "$rendered_compose"
 
 grep -Fq -- '--env-file' "$docker_log" || fail "validator did not pass an explicit Compose env file"
 grep -Fq -- 'config' "$docker_log" || fail "validator did not render Compose configuration"

@@ -40,7 +40,7 @@ Netloka is an interactive networking learning platform for SMK TKJ students, net
 
 ### Prerequisites
 
-- Node.js LTS (v20.0.0 or higher)
+- Node.js LTS (v20.19.0 or higher)
 - npm (comes with Node.js)
 - Docker (for local PostgreSQL development)
 - Git
@@ -107,6 +107,7 @@ Visit [`http://localhost:3000`](http://localhost:3000)
 | `npm run db:migrate` | Apply database migrations |
 | `npm run db:seed` | Run database seed script |
 | `npm run db:studio` | Open Prisma Studio (database GUI) |
+| `npm run db:verify` | Verify the configured PostgreSQL connection with `SELECT 1` |
 
 ---
 

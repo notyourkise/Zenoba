@@ -35,11 +35,17 @@ STAGING_ENV_FILE="$ENV_FILE" "${compose[@]}" up -d db
 STAGING_ENV_FILE="$ENV_FILE" "${compose[@]}" build migrate
 
 if ! STAGING_ENV_FILE="$ENV_FILE" "${compose[@]}" run --rm migrate npx prisma migrate status; then
-  echo "Migration status is not clean; deployment will not assume the database state is safe." >&2
+  echo "Migration status is not clean; a backup is required before migration resolution." >&2
 fi
 
 "$REPO_DIR/scripts/backup-staging-postgres.sh"
 STAGING_ENV_FILE="$ENV_FILE" "${compose[@]}" --profile maintenance run --rm migrate
+
+if ! STAGING_ENV_FILE="$ENV_FILE" "${compose[@]}" run --rm migrate npx prisma migrate status; then
+  echo "Migration state remains non-clean after deployment; refusing to start the app." >&2
+  exit 1
+fi
+
 STAGING_ENV_FILE="$ENV_FILE" "${compose[@]}" up -d --build app
 
 for _ in {1..24}; do

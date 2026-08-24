@@ -115,6 +115,13 @@ The script operates only the `netloka-staging` Compose project. Do not use
 Docker prune commands, `down -v`, or commands that target generic Docker
 resources.
 
+The Compose topology keeps `db` and `migrate` only on the internal
+`netloka_staging_internal` network. The `app` service also joins the managed
+`netloka_staging_edge` bridge network so its only published port,
+`127.0.0.1:3001:3000`, remains reachable by the host Nginx proxy. The edge
+network belongs to this staging configuration and must not be replaced with an
+external or shared Docker network.
+
 ## Backups and scheduled backup
 
 Before destructive maintenance, including any change that could destroy or
@@ -142,12 +149,16 @@ After a deployment, validate only staging resources:
 ```bash
 sudo /usr/sbin/nginx -t
 ss -ltn '( sport = :3001 )'
+STAGING_ENV_FILE=/srv/netloka/staging/.env docker compose --project-name netloka-staging --env-file /srv/netloka/staging/.env -f /srv/netloka/staging/repo/compose.staging.yml --profile maintenance config
 STAGING_ENV_FILE=/srv/netloka/staging/.env docker compose --project-name netloka-staging --env-file /srv/netloka/staging/.env -f /srv/netloka/staging/repo/compose.staging.yml ps
 curl --fail --silent --show-error https://staging.netloka.biz.id/api/health
 ```
 
-Confirm that port 3001 is loopback-only, the app is healthy, the database has
-no published host port, and the public health endpoint returns HTTP 200.
+Confirm in the rendered Compose configuration that `app` joins both its
+internal and Netloka staging edge networks while `db` and `migrate` remain
+internal-only. Confirm that port 3001 is loopback-only, the app service is
+healthy, the database has no published host port, and the public health
+endpoint returns HTTP 200.
 
 ## Application rollback
 

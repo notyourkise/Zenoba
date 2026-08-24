@@ -42,6 +42,7 @@ services:
       retries: 12
     networks:
       - netloka_staging_internal
+      - netloka_staging_edge
 
   migrate:
     build:
@@ -61,6 +62,9 @@ services:
 networks:
   netloka_staging_internal:
     internal: true
+  netloka_staging_edge:
+    name: netloka_staging_edge
+    driver: bridge
 
 volumes:
   netloka_staging_postgres_data:

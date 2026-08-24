@@ -1,7 +1,7 @@
 # Sprint 0 Foundation Repair Design
 
-**Status:** Approved for specification review  
-**Date:** 2026-08-24  
+**Status:** Approved for specification review
+**Date:** 2026-08-24
 **Scope:** Milestone 0 / Sprint 0 only
 
 ## Goal

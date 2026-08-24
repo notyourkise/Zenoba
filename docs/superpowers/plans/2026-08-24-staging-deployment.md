@@ -155,7 +155,7 @@ services:
   db:
     image: postgres:16-alpine
     restart: unless-stopped
-    env_file: .env
+    env_file: ${STAGING_ENV_FILE:?STAGING_ENV_FILE must point to the external staging environment file}
     volumes:
       - netloka_staging_postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -167,7 +167,7 @@ services:
   app:
     build: { context: ., dockerfile: Dockerfile }
     restart: unless-stopped
-    env_file: .env
+    env_file: ${STAGING_ENV_FILE:?STAGING_ENV_FILE must point to the external staging environment file}
     environment:
       PORT: 3000
       HOSTNAME: 0.0.0.0
@@ -182,7 +182,7 @@ services:
     networks: [netloka_staging_internal]
   migrate:
     build: { context: ., dockerfile: Dockerfile, target: builder }
-    env_file: .env
+    env_file: ${STAGING_ENV_FILE:?STAGING_ENV_FILE must point to the external staging environment file}
     command: npm run db:deploy
     profiles: ["maintenance"]
     depends_on:
@@ -233,9 +233,12 @@ Run:
 ```powershell
 bash -n scripts/deploy-staging.sh
 bash -n scripts/backup-staging-postgres.sh
-Copy-Item deploy/staging.env.example .env.staging.test
-STAGING_ENV_FILE=.env.staging.test docker compose --env-file .env.staging.test -f compose.staging.yml config
-Remove-Item .env.staging.test
+$stagingEnvFile = Join-Path ([System.IO.Path]::GetTempPath()) "netloka-staging-compose-$PID.env"
+Copy-Item deploy/staging.env.example $stagingEnvFile
+$env:STAGING_ENV_FILE = $stagingEnvFile
+docker compose --env-file $stagingEnvFile -f compose.staging.yml config
+Remove-Item Env:STAGING_ENV_FILE
+Remove-Item $stagingEnvFile
 ```
 
 Expected: Bash returns zero and Compose renders an app bound only to `127.0.0.1:3001`, with no `ports` key for `db`.

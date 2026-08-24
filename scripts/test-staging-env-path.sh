@@ -6,6 +6,8 @@ readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 readonly REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd -P)"
 readonly VALIDATOR="$SCRIPT_DIR/validate-staging-env.sh"
 readonly COMPOSE_FILE="$REPO_DIR/compose.staging.yml"
+readonly DEPLOY_SCRIPT="$SCRIPT_DIR/deploy-staging.sh"
+readonly DEPLOYMENT_PLAN="$REPO_DIR/docs/superpowers/plans/2026-08-24-staging-deployment.md"
 
 work_dir="$(mktemp -d)"
 
@@ -43,6 +45,21 @@ assert_failure() {
     cat "$work_dir/output" >&2
     fail "$description did not report: $expected_message"
   }
+}
+
+assert_line_order() {
+  local file="$1"
+  local first="$2"
+  local second="$3"
+  local first_line
+  local second_line
+
+  first_line="$(grep -nF -- "$first" "$file" | head -n 1 | cut -d: -f1)"
+  second_line="$(grep -nF -- "$second" "$file" | head -n 1 | cut -d: -f1)"
+
+  [[ -n "$first_line" ]] || fail "missing expected line: $first"
+  [[ -n "$second_line" ]] || fail "missing expected line: $second"
+  (( first_line < second_line )) || fail "expected '$first' before '$second'"
 }
 
 fake_bin="$work_dir/bin"
@@ -100,6 +117,23 @@ grep -Fq -- 'env_file: ${STAGING_ENV_FILE:?STAGING_ENV_FILE must point to the ex
 
 if grep -Fq -- '${STAGING_ENV_FILE:-.env}' "$COMPOSE_FILE"; then
   fail "compose.staging.yml must not fall back to repository .env"
+fi
+
+assert_line_order \
+  "$DEPLOY_SCRIPT" \
+  'git pull --ff-only origin main' \
+  'STAGING_ENV_FILE="$ENV_FILE" "$REPO_DIR/scripts/validate-staging-env.sh"'
+
+if [[ "$(grep -Fc -- 'env_file: ${STAGING_ENV_FILE:?STAGING_ENV_FILE must point to the external staging environment file}' "$DEPLOYMENT_PLAN")" -ne 3 ]]; then
+  fail "staging deployment plan must require external STAGING_ENV_FILE for all three env_file examples"
+fi
+
+if grep -Fq -- 'env_file: .env' "$DEPLOYMENT_PLAN"; then
+  fail "staging deployment plan must not reference repository .env"
+fi
+
+if grep -Fq -- '.env.staging.test' "$DEPLOYMENT_PLAN"; then
+  fail "staging deployment plan manual validation must use an external temporary environment file"
 fi
 
 assert_failure \

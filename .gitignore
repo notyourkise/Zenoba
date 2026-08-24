@@ -66,3 +66,6 @@ temp/
 # Cache
 .cache/
 .eslintcache
+
+# Superpowers execution workspace
+.superpowers/

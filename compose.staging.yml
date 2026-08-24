@@ -1,0 +1,66 @@
+name: netloka-staging
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    env_file: ${STAGING_ENV_FILE:-.env}
+    volumes:
+      - netloka_staging_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    networks:
+      - netloka_staging_internal
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: ${STAGING_ENV_FILE:-.env}
+    environment:
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+    ports:
+      - 127.0.0.1:3001:3000
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3000/api/health').then((response) => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    networks:
+      - netloka_staging_internal
+
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    env_file: ${STAGING_ENV_FILE:-.env}
+    command: npm run db:deploy
+    profiles:
+      - maintenance
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - netloka_staging_internal
+
+networks:
+  netloka_staging_internal:
+    internal: true
+
+volumes:
+  netloka_staging_postgres_data:

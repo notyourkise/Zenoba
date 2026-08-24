@@ -9,6 +9,7 @@ readonly REPO_DIR="$STAGING_ROOT/repo"
 readonly ENV_FILE="$STAGING_ROOT/.env"
 readonly COMPOSE_FILE="$REPO_DIR/compose.staging.yml"
 readonly BACKUP_DIR="$STAGING_ROOT/backups/postgres"
+readonly LOCK_FILE="$BACKUP_DIR/.netloka-staging-backup.lock"
 
 temporary_dump=""
 
@@ -35,24 +36,25 @@ if [[ ! -d "$BACKUP_DIR" ]]; then
   exit 1
 fi
 
-set -a
-# shellcheck disable=SC1090
-source "$ENV_FILE"
-set +a
-
-: "${POSTGRES_USER:?POSTGRES_USER must be set in the staging environment file}"
-: "${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in the staging environment file}"
-: "${POSTGRES_DB:?POSTGRES_DB must be set in the staging environment file}"
+exec 9>"$LOCK_FILE"
+flock -x 9
 
 timestamp="$(TZ=Asia/Makassar date '+%Y%m%d-%H%M%S')"
 final_dump="$BACKUP_DIR/netloka-staging-$timestamp.dump"
+
+while [[ -e "$final_dump" ]]; do
+  sleep 1
+  timestamp="$(TZ=Asia/Makassar date '+%Y%m%d-%H%M%S')"
+  final_dump="$BACKUP_DIR/netloka-staging-$timestamp.dump"
+done
+
 temporary_dump="$(mktemp "$BACKUP_DIR/.netloka-staging-XXXXXXXX.dump.tmp")"
 
 STAGING_ENV_FILE="$ENV_FILE" docker compose \
   --project-name "$PROJECT_NAME" \
   --env-file "$ENV_FILE" \
   -f "$COMPOSE_FILE" \
-  exec -T db pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" -Fc >"$temporary_dump"
+  exec -T db sh -c 'pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" -Fc' >"$temporary_dump"
 
 mv -- "$temporary_dump" "$final_dump"
 temporary_dump=""

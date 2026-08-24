@@ -32,18 +32,13 @@ git checkout main
 git pull --ff-only origin main
 
 STAGING_ENV_FILE="$ENV_FILE" "${compose[@]}" up -d db
+STAGING_ENV_FILE="$ENV_FILE" "${compose[@]}" build migrate
 
-migration_status=""
-migration_status_exit=0
-migration_status="$(STAGING_ENV_FILE="$ENV_FILE" "${compose[@]}" run --rm migrate npx prisma migrate status 2>&1)" || migration_status_exit=$?
-
-if grep -q "Following migration.*have not yet been applied" <<<"$migration_status"; then
-  "$REPO_DIR/scripts/backup-staging-postgres.sh"
-elif ((migration_status_exit != 0)); then
-  echo "Unable to determine Netloka staging migration status." >&2
-  exit "$migration_status_exit"
+if ! STAGING_ENV_FILE="$ENV_FILE" "${compose[@]}" run --rm migrate npx prisma migrate status; then
+  echo "Migration status is not clean; deployment will not assume the database state is safe." >&2
 fi
 
+"$REPO_DIR/scripts/backup-staging-postgres.sh"
 STAGING_ENV_FILE="$ENV_FILE" "${compose[@]}" --profile maintenance run --rm migrate
 STAGING_ENV_FILE="$ENV_FILE" "${compose[@]}" up -d --build app
 

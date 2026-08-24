@@ -32,7 +32,14 @@ approved review channel, then copy exactly those two reviewed artifacts into a
 root-owned staging directory before execution. The following procedure has no
 certificate email value; the bootstrap prompts for it later without echoing it.
 
+### Export reviewed artifacts as deploy
+
+As deploy, export the reviewed Git objects without sudo. Git's `safe.directory`
+protection can reject a root process reading this deploy-owned checkout, so the
+administrator never invokes Git against it.
+
 ```bash
+# Run as deploy.
 set -euo pipefail
 
 REVIEWED_COMMIT=<approved-commit>
@@ -42,17 +49,36 @@ REVIEWED_NGINX_SHA256=<approved-nginx-sha256>
 [[ "$REVIEWED_COMMIT" =~ ^[0-9a-f]{40}$ ]] || { echo "Invalid reviewed commit." >&2; exit 1; }
 [[ "$REVIEWED_BOOTSTRAP_SHA256" =~ ^[0-9a-f]{64}$ ]] || { echo "Invalid bootstrap checksum." >&2; exit 1; }
 [[ "$REVIEWED_NGINX_SHA256" =~ ^[0-9a-f]{64}$ ]] || { echo "Invalid Nginx checksum." >&2; exit 1; }
-git -C /srv/netloka/staging/repo rev-parse --verify "${REVIEWED_COMMIT}^{commit}" >/dev/null
 
+REVIEW_EXPORT_DIR=/srv/netloka/staging/bootstrap-review
+install -d -m 0700 "$REVIEW_EXPORT_DIR"
+git -C /srv/netloka/staging/repo rev-parse --verify "${REVIEWED_COMMIT}^{commit}" >/dev/null
+git -C /srv/netloka/staging/repo show "$REVIEWED_COMMIT:deploy/bootstrap-staging-host.sh" > "$REVIEW_EXPORT_DIR/bootstrap-staging-host.sh"
+git -C /srv/netloka/staging/repo show "$REVIEWED_COMMIT:deploy/nginx/staging.netloka.biz.id.conf" > "$REVIEW_EXPORT_DIR/staging.netloka.biz.id.conf"
+chmod 0600 "$REVIEW_EXPORT_DIR/bootstrap-staging-host.sh" "$REVIEW_EXPORT_DIR/staging.netloka.biz.id.conf"
+printf '%s  %s\n' "$REVIEWED_BOOTSTRAP_SHA256" "$REVIEW_EXPORT_DIR/bootstrap-staging-host.sh" | sha256sum -c -
+printf '%s  %s\n' "$REVIEWED_NGINX_SHA256" "$REVIEW_EXPORT_DIR/staging.netloka.biz.id.conf" | sha256sum -c -
+```
+
+In a separate administrator shell, re-enter the same approved checksum values.
+The administrator does not invoke Git. The two `install` commands only copy
+data from fixed export paths; the root-owned copies are checked before use.
+
+```bash
+# Run only as a root-capable administrator.
+set -euo pipefail
+
+REVIEW_EXPORT_DIR=/srv/netloka/staging/bootstrap-review
+REVIEWED_BOOTSTRAP_SHA256=<approved-bootstrap-sha256>
+REVIEWED_NGINX_SHA256=<approved-nginx-sha256>
+
+[[ "$REVIEWED_BOOTSTRAP_SHA256" =~ ^[0-9a-f]{64}$ ]] || { echo "Invalid bootstrap checksum." >&2; exit 1; }
+[[ "$REVIEWED_NGINX_SHA256" =~ ^[0-9a-f]{64}$ ]] || { echo "Invalid Nginx checksum." >&2; exit 1; }
 sudo install -d -o root -g root -m 0700 /root/netloka-staging-bootstrap/deploy/nginx
-sudo sh -c 'git -C "$1" show "$2" > "$3"' sh /srv/netloka/staging/repo "$REVIEWED_COMMIT:deploy/bootstrap-staging-host.sh" /root/netloka-staging-bootstrap/deploy/bootstrap-staging-host.sh
-sudo sh -c 'git -C "$1" show "$2" > "$3"' sh /srv/netloka/staging/repo "$REVIEWED_COMMIT:deploy/nginx/staging.netloka.biz.id.conf" /root/netloka-staging-bootstrap/deploy/nginx/staging.netloka.biz.id.conf
+sudo install -o root -g root -m 0700 -- "$REVIEW_EXPORT_DIR/bootstrap-staging-host.sh" /root/netloka-staging-bootstrap/deploy/bootstrap-staging-host.sh
+sudo install -o root -g root -m 0644 -- "$REVIEW_EXPORT_DIR/staging.netloka.biz.id.conf" /root/netloka-staging-bootstrap/deploy/nginx/staging.netloka.biz.id.conf
 printf '%s  %s\n' "$REVIEWED_BOOTSTRAP_SHA256" /root/netloka-staging-bootstrap/deploy/bootstrap-staging-host.sh | sudo sha256sum -c -
 printf '%s  %s\n' "$REVIEWED_NGINX_SHA256" /root/netloka-staging-bootstrap/deploy/nginx/staging.netloka.biz.id.conf | sudo sha256sum -c -
-sudo chown -R root:root /root/netloka-staging-bootstrap
-sudo chmod 0700 /root/netloka-staging-bootstrap /root/netloka-staging-bootstrap/deploy /root/netloka-staging-bootstrap/deploy/nginx
-sudo chmod 0700 /root/netloka-staging-bootstrap/deploy/bootstrap-staging-host.sh
-sudo chmod 0644 /root/netloka-staging-bootstrap/deploy/nginx/staging.netloka.biz.id.conf
 sudo /root/netloka-staging-bootstrap/deploy/bootstrap-staging-host.sh
 ```
 

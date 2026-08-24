@@ -4,7 +4,7 @@ services:
   db:
     image: postgres:16-alpine
     restart: unless-stopped
-    env_file: ${STAGING_ENV_FILE:-.env}
+    env_file: ${STAGING_ENV_FILE:?STAGING_ENV_FILE must point to the external staging environment file}
     volumes:
       - netloka_staging_postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -20,7 +20,7 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
-    env_file: ${STAGING_ENV_FILE:-.env}
+    env_file: ${STAGING_ENV_FILE:?STAGING_ENV_FILE must point to the external staging environment file}
     environment:
       PORT: 3000
       HOSTNAME: 0.0.0.0
@@ -48,7 +48,7 @@ services:
       context: .
       dockerfile: Dockerfile
       target: builder
-    env_file: ${STAGING_ENV_FILE:-.env}
+    env_file: ${STAGING_ENV_FILE:?STAGING_ENV_FILE must point to the external staging environment file}
     command: npm run db:deploy
     profiles:
       - maintenance

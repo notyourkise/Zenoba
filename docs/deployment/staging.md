@@ -108,7 +108,7 @@ certificate.
 Run as `deploy` from the staging repository:
 
 ```bash
-/srv/netloka/staging/repo/scripts/deploy-staging.sh
+STAGING_ENV_FILE=/srv/netloka/staging/.env /srv/netloka/staging/repo/scripts/deploy-staging.sh
 ```
 
 The script operates only the `netloka-staging` Compose project. Do not use
@@ -121,7 +121,7 @@ Before destructive maintenance, including any change that could destroy or
 invalidate data, make and verify a manual backup first:
 
 ```bash
-/srv/netloka/staging/repo/scripts/backup-staging-postgres.sh
+STAGING_ENV_FILE=/srv/netloka/staging/.env /srv/netloka/staging/repo/scripts/backup-staging-postgres.sh
 ls -l /srv/netloka/staging/backups/postgres/netloka-staging-*.dump
 ```
 
@@ -129,7 +129,7 @@ As `deploy`, install the daily user cron entry with `crontab -e`:
 
 ```cron
 CRON_TZ=Asia/Makassar
-0 3 * * * /srv/netloka/staging/repo/scripts/backup-staging-postgres.sh >> /srv/netloka/staging/backups/postgres/backup.log 2>&1
+0 3 * * * STAGING_ENV_FILE=/srv/netloka/staging/.env /srv/netloka/staging/repo/scripts/backup-staging-postgres.sh >> /srv/netloka/staging/backups/postgres/backup.log 2>&1
 ```
 
 The backup job creates atomic PostgreSQL dumps and retains the most recent
@@ -142,7 +142,7 @@ After a deployment, validate only staging resources:
 ```bash
 sudo /usr/sbin/nginx -t
 ss -ltn '( sport = :3001 )'
-docker compose --project-name netloka-staging --env-file /srv/netloka/staging/.env -f /srv/netloka/staging/repo/compose.staging.yml ps
+STAGING_ENV_FILE=/srv/netloka/staging/.env docker compose --project-name netloka-staging --env-file /srv/netloka/staging/.env -f /srv/netloka/staging/repo/compose.staging.yml ps
 curl --fail --silent --show-error https://staging.netloka.biz.id/api/health
 ```
 

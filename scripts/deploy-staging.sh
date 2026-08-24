@@ -31,6 +31,8 @@ git fetch origin main
 git checkout main
 git pull --ff-only origin main
 
+STAGING_ENV_FILE="$ENV_FILE" "$REPO_DIR/scripts/validate-staging-env.sh"
+
 STAGING_ENV_FILE="$ENV_FILE" "${compose[@]}" up -d db
 STAGING_ENV_FILE="$ENV_FILE" "${compose[@]}" build migrate
 

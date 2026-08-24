@@ -31,6 +31,8 @@ if [[ ! -f "$COMPOSE_FILE" ]]; then
   exit 1
 fi
 
+STAGING_ENV_FILE="$ENV_FILE" "$REPO_DIR/scripts/validate-staging-env.sh"
+
 if [[ ! -d "$BACKUP_DIR" ]]; then
   echo "Missing staging backup directory: $BACKUP_DIR" >&2
   exit 1

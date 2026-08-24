@@ -49,5 +49,5 @@
 
 - [x] Run `npm audit --omit=dev`; confirm the Prisma 6/deepmerge-ts advisory path is absent.
 - [x] Run lint, type-check, unit tests, three-browser E2E, build, Prisma validation, migration status, and `git diff --check`.
-- [ ] Update Sprint 0 status and WITA changelog with verified facts.
-- [ ] Commit, push, create a PR, and verify GitHub Actions checks.
+- [x] Update Sprint 0 status and WITA changelog with verified facts.
+- [x] Commit, push, create a PR, and verify GitHub Actions checks.

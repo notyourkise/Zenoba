@@ -1,0 +1,21 @@
+name: netloka
+services:
+  postgresql:
+    image: postgres:16-alpine
+    container_name: netloka-postgres
+    environment:
+      POSTGRES_USER: netloka
+      POSTGRES_PASSWORD: netloka_dev_password
+      POSTGRES_DB: netloka
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U netloka"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgresql_data:

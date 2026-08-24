@@ -1,0 +1,15 @@
+// Netloka - Prisma Schema
+// Initial schema for Sprint 0 foundation setup
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Model definitions will be added in subsequent sprints
+// (Sprint 1: User model, Sprint 2: Learning hierarchy)

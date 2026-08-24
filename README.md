@@ -1,6 +1,6 @@
 # Netloka — Interactive Networking Learning Platform
 
-[![CI](https://github.com/netloka/netloka/actions/workflows/ci.yml/badge.svg)](https://github.com/netloka/netloka/actions)
+[![CI](https://github.com/notyourkise/NetLoka/actions/workflows/ci.yml/badge.svg)](https://github.com/notyourkise/NetLoka/actions)
 ![Node.js LTS](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen?style=for-the-badge&logo=node.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=for-the-badge&logo=typescript)
 
@@ -50,14 +50,14 @@ Netloka is an interactive networking learning platform for SMK TKJ students, net
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/netloka/netloka.git
+git clone https://github.com/notyourkise/NetLoka.git
 cd netloka
 ```
 
 2. **Install dependencies**
 
 ```bash
-npm install
+npm ci
 ```
 
 3. **Set up environment variables**
@@ -73,13 +73,13 @@ cp .env.example .env
 docker compose up -d
 ```
 
-Wait ~10 seconds for PostgreSQL to be ready.
+The Netloka container listens only on `127.0.0.1:5433`, avoiding a local PostgreSQL service already using port `5432`. Wait until `docker compose ps` reports `healthy`.
 
 5. **Initialize the database**
 
 ```bash
 npm run db:generate
-npm run db:migrate -- --name init
+npx prisma migrate deploy
 ```
 
 6. **Run development server**
@@ -190,6 +190,7 @@ Before any commit or PR:
 npm run lint       # ESLint checks
 npm run typecheck  # TypeScript validation
 npm test           # All tests must pass
+npm run test:e2e   # Browser smoke tests must pass
 npm run build      # Production build must succeed
 ```
 

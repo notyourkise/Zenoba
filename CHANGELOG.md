@@ -40,6 +40,24 @@ All notable project changes are recorded here.
 
 # 2026-08-24
 
+- [2026-08-24 15:20 WITA] [REVIEW] [Milestone 0 / Sprint 0]
+  Re-audited the foundation before Sprint 1. Resolved the missing lockfile, absent Prisma migration history, unsafe default Docker port collision, placeholder health test, absent browser smoke coverage, and the Vitest/Playwright test-runner overlap.
+  Remaining decision: `npm audit --omit=dev` reports a high advisory in Prisma CLI 6.19.3 through `deepmerge-ts`; the available automatic remediation requires a Prisma 7 major upgrade and is not applied without a reviewed migration decision.
+  Validation: `npm ci`, Docker/Prisma migration validation, lint, typecheck, unit test, three-browser E2E, and production build executed; GitHub CI and deployment validation pending.
+  Git: pending
+
+- [2026-08-24 15:20 WITA] [FIXED] [Milestone 0 / Sprint 0 / Task 0.2]
+  Bound the local PostgreSQL container to loopback-only host port `5433` to avoid interfering with the existing PostgreSQL service on `5432`, and committed the explicit empty Prisma baseline migration.
+  Files/areas: `docker-compose.yml`, `.env.example`, `prisma/migrations/`
+  Validation: container healthy; `prisma generate`, `prisma validate`, `prisma migrate deploy`, and `prisma migrate status` passed.
+  Git: cd1491d
+
+- [2026-08-24 15:20 WITA] [TEST] [Milestone 0 / Sprint 0 / Tasks 0.1, 0.3]
+  Added a route-handler health contract test, landing-page and health-endpoint browser smoke tests, Playwright CI coverage, and a correct Vitest exclusion for browser specs.
+  Files/areas: `src/app/api/health/health.test.ts`, `src/e2e/foundation.spec.ts`, `.github/workflows/ci.yml`, `vitest.config.ts`
+  Validation: focused unit test, Chromium E2E, and the three-browser E2E suite passed.
+  Git: 191f934, a547a11, 86e3a1f
+
 - [2026-08-24 13:44 WITA] [SPEED] [Milestone 0 / Sprint 0 / Task 0.3]
   Completed Repository & Environment Bootstrap sprint with full verification suite passing.
   Created GitHub Actions CI workflow enforcing lint, typecheck, test, and build gates on all PRs.

@@ -75,9 +75,45 @@ const fail = (message) => {
 };
 const serviceNetworks = (serviceName) =>
   Object.keys(compose.services?.[serviceName]?.networks ?? {}).sort();
+const hasOwn = (value, property) =>
+  Object.prototype.hasOwnProperty.call(value ?? {}, property);
+const internalNetwork = compose.networks?.netloka_staging_internal;
+const edgeNetwork = compose.networks?.netloka_staging_edge;
+const postgresVolume = compose.volumes?.netloka_staging_postgres_data;
 
-if (compose.networks?.netloka_staging_internal?.internal !== true) {
+if (compose.name !== "netloka-staging") {
+  fail("Compose project name must remain netloka-staging");
+}
+
+if (internalNetwork?.internal !== true) {
   fail("netloka_staging_internal must stay internal");
+}
+
+if (internalNetwork?.name !== "netloka-staging_netloka_staging_internal") {
+  fail("netloka_staging_internal must retain its project-scoped network name");
+}
+
+if (hasOwn(internalNetwork, "external")) {
+  fail("netloka_staging_internal must not declare an external network");
+}
+
+if (
+  edgeNetwork?.name !== "netloka_staging_edge" ||
+  edgeNetwork?.driver !== "bridge"
+) {
+  fail("netloka_staging_edge must be the explicitly named bridge network");
+}
+
+if (hasOwn(edgeNetwork, "external")) {
+  fail("netloka_staging_edge must not declare an external network");
+}
+
+if (postgresVolume?.name !== "netloka-staging_netloka_staging_postgres_data") {
+  fail("PostgreSQL volume must retain its project-scoped volume name");
+}
+
+if (hasOwn(postgresVolume, "external")) {
+  fail("PostgreSQL volume must not declare an external volume");
 }
 
 if (JSON.stringify(serviceNetworks("db")) !== JSON.stringify(["netloka_staging_internal"])) {
@@ -95,7 +131,7 @@ if (
   fail("app must join both the internal and Netloka staging edge networks");
 }
 
-if (compose.networks?.netloka_staging_edge?.internal === true) {
+if (edgeNetwork?.internal === true) {
   fail("netloka_staging_edge must not be internal");
 }
 

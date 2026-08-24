@@ -15,6 +15,7 @@
 - Use `/srv/netloka/staging` as the VPS root, owned by `deploy`.
 - Use only the `netloka-staging` Compose project and its Netloka-specific resources.
 - Publish the app only as `127.0.0.1:3001:3000`; publish no database port.
+- Keep `db` and `migrate` only on the project-scoped internal network; attach only `app` to the managed `netloka_staging_edge` bridge with no `external` declaration.
 - Do not commit staging secrets, certificate email, private keys, or database credentials.
 - Before every pending migration, the atomic backup command must succeed.
 - Do not run broad Docker cleanup commands or mutate unrelated host workloads.
@@ -244,7 +245,7 @@ Remove-Item Env:STAGING_ENV_FILE
 Remove-Item $stagingEnvFile
 ```
 
-Expected: Bash returns zero and Compose renders an app bound only to `127.0.0.1:3001`, on both `netloka_staging_internal` and the managed `netloka_staging_edge` bridge network. The `db` and `migrate` services remain only on the internal network, and `db` has no `ports` key.
+Expected: Bash returns zero and Compose renders an app bound only to `127.0.0.1:3001`, on both `netloka-staging_netloka_staging_internal` and the managed `netloka_staging_edge` bridge network. The edge network has exact name `netloka_staging_edge`, driver `bridge`, and no `external` declaration. The `db` and `migrate` services remain only on the internal network, `db` has no `ports` key, and `netloka-staging_netloka_staging_postgres_data` remains a project-scoped non-external volume.
 
 - [ ] **Step 6: Commit isolated staging operations**
 

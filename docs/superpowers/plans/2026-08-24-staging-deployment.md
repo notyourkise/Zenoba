@@ -200,7 +200,7 @@ volumes:
 Create `scripts/backup-staging-postgres.sh` with `set -euo pipefail`, `umask 077`, a `mktemp` file under `/srv/netloka/staging/backups/postgres`, and a cleanup trap. Execute the dump only through the staging Compose project:
 
 ```bash
-docker compose --project-name netloka-staging --env-file "$STAGING_ROOT/.env" -f "$REPO_DIR/compose.staging.yml" exec -T db \
+STAGING_ENV_FILE="$STAGING_ROOT/.env" docker compose --project-name netloka-staging --env-file "$STAGING_ROOT/.env" -f "$REPO_DIR/compose.staging.yml" exec -T db \
   pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" -Fc > "$temporary_dump"
 mv "$temporary_dump" "$final_dump"
 find "$BACKUP_DIR" -type f -name 'netloka-staging-*.dump' -mtime +6 -delete
@@ -216,12 +216,12 @@ Create `scripts/deploy-staging.sh` with `set -euo pipefail`. It must:
 git fetch origin main
 git checkout main
 git pull --ff-only origin main
-docker compose --project-name netloka-staging --env-file "$STAGING_ROOT/.env" -f compose.staging.yml up -d db
-if docker compose --project-name netloka-staging --env-file "$STAGING_ROOT/.env" -f compose.staging.yml run --rm migrate npx prisma migrate status 2>&1 | grep -q "Following migration.*have not yet been applied"; then
+STAGING_ENV_FILE="$STAGING_ROOT/.env" docker compose --project-name netloka-staging --env-file "$STAGING_ROOT/.env" -f compose.staging.yml up -d db
+if STAGING_ENV_FILE="$STAGING_ROOT/.env" docker compose --project-name netloka-staging --env-file "$STAGING_ROOT/.env" -f compose.staging.yml run --rm migrate npx prisma migrate status 2>&1 | grep -q "Following migration.*have not yet been applied"; then
   "$REPO_DIR/scripts/backup-staging-postgres.sh"
 fi
-docker compose --project-name netloka-staging --env-file "$STAGING_ROOT/.env" -f compose.staging.yml --profile maintenance run --rm migrate
-docker compose --project-name netloka-staging --env-file "$STAGING_ROOT/.env" -f compose.staging.yml up -d --build app
+STAGING_ENV_FILE="$STAGING_ROOT/.env" docker compose --project-name netloka-staging --env-file "$STAGING_ROOT/.env" -f compose.staging.yml --profile maintenance run --rm migrate
+STAGING_ENV_FILE="$STAGING_ROOT/.env" docker compose --project-name netloka-staging --env-file "$STAGING_ROOT/.env" -f compose.staging.yml up -d --build app
 ```
 
 It must verify only the `netloka-staging` service health plus the staging health URL, and must never use Docker prune, `down -v`, or commands targeting generic Docker resources.
@@ -234,7 +234,7 @@ Run:
 bash -n scripts/deploy-staging.sh
 bash -n scripts/backup-staging-postgres.sh
 Copy-Item deploy/staging.env.example .env.staging.test
-docker compose --env-file .env.staging.test -f compose.staging.yml config
+STAGING_ENV_FILE=.env.staging.test docker compose --env-file .env.staging.test -f compose.staging.yml config
 Remove-Item .env.staging.test
 ```
 
@@ -362,7 +362,7 @@ As `deploy`, run `/srv/netloka/staging/repo/scripts/deploy-staging.sh`. Verify:
 
 ```bash
 ss -ltn '( sport = :3001 )'
-docker compose --project-name netloka-staging --env-file /srv/netloka/staging/.env -f /srv/netloka/staging/repo/compose.staging.yml ps
+STAGING_ENV_FILE=/srv/netloka/staging/.env docker compose --project-name netloka-staging --env-file /srv/netloka/staging/.env -f /srv/netloka/staging/repo/compose.staging.yml ps
 curl --fail --silent --show-error https://staging.netloka.biz.id/api/health
 ```
 

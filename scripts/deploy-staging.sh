@@ -18,6 +18,8 @@ if [[ ! -f "$COMPOSE_FILE" ]]; then
   exit 1
 fi
 
+STAGING_ENV_FILE="$ENV_FILE" "$REPO_DIR/scripts/validate-staging-env.sh"
+
 cd "$REPO_DIR"
 
 compose=(

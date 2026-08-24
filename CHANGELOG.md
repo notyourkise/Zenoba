@@ -40,6 +40,12 @@ All notable project changes are recorded here.
 
 # 2026-08-24
 
+- [2026-08-24 19:26 WITA] [DEPLOY] [Milestone 0 / Sprint 0]
+  Required an explicit external `STAGING_ENV_FILE` for staging Compose operations, added a pre-Docker path/config validator, and made the deploy, backup, runbook, and deployment-plan commands preserve that explicit path.
+  Files/areas: `compose.staging.yml`, `scripts/validate-staging-env.sh`, `scripts/deploy-staging.sh`, `scripts/backup-staging-postgres.sh`, `scripts/test-staging-env-path.sh`, `docs/deployment/staging.md`, `docs/superpowers/plans/2026-08-24-staging-deployment.md`
+  Validation: focused red/green shell validation, Bash syntax checks, lint, type-check, and unit tests passed without Docker runtime access.
+  Git: pending
+
 - [2026-08-24 15:48 WITA] [REVIEW] [Milestone 0 / Sprint 0]
   GitHub Actions validation passed for Prisma security-remediation pull request #2: lint/type-check, unit tests, Chromium browser E2E, production build, and quality gate.
   Validation: GitHub Actions run 32702942803 passed.

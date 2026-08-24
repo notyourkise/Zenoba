@@ -63,15 +63,16 @@ The Compose project name is `netloka-staging`. Every container, network, and vol
 ## Backup Operations
 
 - A `deploy` user cron entry with `CRON_TZ=Asia/Makassar` invokes the backup script at 03:00 daily.
-- The script writes dumps atomically under the approved backup directory, uses `umask 077`, and retains the most recent seven days.
-- The deploy script invokes the same backup script before every pending migration. No destructive migration proceeds automatically without that pre-migration dump.
+- The script uses `umask 077`, runs `pg_dump -Fc` into a temporary file in the approved backup directory, and renames it to its final timestamped filename only after a successful exit.
+- Failed or incomplete temporary dumps are removed and never treated as valid backups. Local retention is seven days.
+- The deploy script invokes the same backup script before every pending migration. No destructive migration proceeds automatically unless the pre-migration backup succeeds.
 - External R2/S3 synchronization is explicitly deferred and is not simulated with local credentials.
 
 ## Validation
 
-- Local: lint, type-check, unit tests, three-browser E2E, production build, Prisma validation, and migration status remain green.
-- VPS: DNS resolution, Nginx syntax validation, certificate issuance, Compose service health, loopback-only app port, absence of a PostgreSQL published port, internal database verification, and public health endpoint response are checked.
-- Isolation: inspect only Docker resources named `netloka-staging`; never list, stop, recreate, or alter unrelated projects.
+- Local: lint, type-check, unit tests, three-browser E2E, production build, Prisma validation, and migration status remain green before staging deployment.
+- VPS: validate DNS resolution; Nginx configuration syntax; a valid TLS certificate; Docker Compose service health; application publication only on `127.0.0.1:3001`; no PostgreSQL host port; internal application-to-database connectivity; expected migration state; and the successful public health endpoint response.
+- Isolation: all staging Docker resources use the `netloka-staging` namespace or an explicitly approved Netloka staging name. Read-only host or Docker inspection is permitted only for validation or collision detection. Never stop, restart, recreate, remove, prune, rename, or otherwise mutate unrelated containers, networks, volumes, images, databases, or host Nginx virtual hosts; never use broad cleanup commands such as `docker system prune` or `docker volume prune`.
 
 ## Out of Scope
 

@@ -26,17 +26,44 @@ install -m 600 /dev/null /srv/netloka/staging/.env
 chmod 600 /srv/netloka/staging/.env
 ```
 
-The administrator then runs the root-only bootstrap from the checked-out
-repository:
+The administrator must not execute a root bootstrap from the `deploy`-owned
+checkout. Obtain the reviewed commit identifier and SHA-256 values through the
+approved review channel, then copy exactly those two reviewed artifacts into a
+root-owned staging directory before execution. The following procedure has no
+certificate email value; the bootstrap prompts for it later without echoing it.
 
 ```bash
-sudo /srv/netloka/staging/repo/deploy/bootstrap-staging-host.sh
+set -euo pipefail
+
+REVIEWED_COMMIT=<approved-commit>
+REVIEWED_BOOTSTRAP_SHA256=<approved-bootstrap-sha256>
+REVIEWED_NGINX_SHA256=<approved-nginx-sha256>
+
+[[ "$REVIEWED_COMMIT" =~ ^[0-9a-f]{40}$ ]] || { echo "Invalid reviewed commit." >&2; exit 1; }
+[[ "$REVIEWED_BOOTSTRAP_SHA256" =~ ^[0-9a-f]{64}$ ]] || { echo "Invalid bootstrap checksum." >&2; exit 1; }
+[[ "$REVIEWED_NGINX_SHA256" =~ ^[0-9a-f]{64}$ ]] || { echo "Invalid Nginx checksum." >&2; exit 1; }
+git -C /srv/netloka/staging/repo rev-parse --verify "${REVIEWED_COMMIT}^{commit}" >/dev/null
+
+sudo install -d -o root -g root -m 0700 /root/netloka-staging-bootstrap/deploy/nginx
+sudo sh -c 'git -C "$1" show "$2" > "$3"' sh /srv/netloka/staging/repo "$REVIEWED_COMMIT:deploy/bootstrap-staging-host.sh" /root/netloka-staging-bootstrap/deploy/bootstrap-staging-host.sh
+sudo sh -c 'git -C "$1" show "$2" > "$3"' sh /srv/netloka/staging/repo "$REVIEWED_COMMIT:deploy/nginx/staging.netloka.biz.id.conf" /root/netloka-staging-bootstrap/deploy/nginx/staging.netloka.biz.id.conf
+printf '%s  %s\n' "$REVIEWED_BOOTSTRAP_SHA256" /root/netloka-staging-bootstrap/deploy/bootstrap-staging-host.sh | sudo sha256sum -c -
+printf '%s  %s\n' "$REVIEWED_NGINX_SHA256" /root/netloka-staging-bootstrap/deploy/nginx/staging.netloka.biz.id.conf | sudo sha256sum -c -
+sudo chown -R root:root /root/netloka-staging-bootstrap
+sudo chmod 0700 /root/netloka-staging-bootstrap /root/netloka-staging-bootstrap/deploy /root/netloka-staging-bootstrap/deploy/nginx
+sudo chmod 0700 /root/netloka-staging-bootstrap/deploy/bootstrap-staging-host.sh
+sudo chmod 0644 /root/netloka-staging-bootstrap/deploy/nginx/staging.netloka.biz.id.conf
+sudo /root/netloka-staging-bootstrap/deploy/bootstrap-staging-host.sh
 ```
 
 The bootstrap asks for the operational certificate email interactively. Do not
 put that value in this runbook, repository files, shell history, or chat. It
-installs only the dedicated `staging.netloka.biz.id` Nginx site, checks Nginx
-syntax before reloading it, and installs the restricted sudo policy.
+performs all preflight and temporary-file preparation before changing host
+paths, installs only the dedicated `staging.netloka.biz.id` Nginx site, checks
+Nginx syntax before reloading it, and installs the restricted sudo policy. If
+Nginx validation or Certbot fails, it restores a pre-existing approved staging
+site, wrapper, and sudoers file, or removes only the dedicated paths it
+created. It never removes an existing approved staging resource.
 
 After the bootstrap, the `deploy` user may run only these host-maintenance
 commands through sudo:

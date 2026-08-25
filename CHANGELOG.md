@@ -47,7 +47,7 @@ All notable project changes are recorded here.
   - Added Path 2 (IPv4 & Subnetting) and Path 3 (Switching, VLAN & Routing) to curriculum seed (`prisma/seed.ts`).
   - Validation: 17 Vitest test suites (83 tests passed), 12 Playwright E2E browser tests passed, production build succeeded (17 routes).
   Files/areas: `src/features/network-logic/`, `src/features/learning/blocks/components/`, `prisma/seed.ts`, `src/e2e/core-networking.spec.ts`
-  Git: pending
+  Git: `7ab5cad`
 
 - [2026-08-25 16:20 WITA] [SPRINT] [Milestone 4 / Sprint 8]
   Completed Sprint 8 — Switching, VLAN & Routing Fundamentals.
@@ -57,7 +57,7 @@ All notable project changes are recorded here.
   4. Seeded Path 3 curriculum in `prisma/seed.ts`.
   Files/areas: `src/features/network-logic/simulation/`, `src/features/learning/blocks/components/`, `prisma/seed.ts`
   Validation: `npm test` passed, `npm run typecheck` clean.
-  Git: pending
+  Git: `7ab5cad`
 
 - [2026-08-25 16:15 WITA] [SPRINT] [Milestone 4 / Sprint 7]
   Completed Sprint 7 — IPv4 & Subnetting Engine.
@@ -67,7 +67,7 @@ All notable project changes are recorded here.
   4. Seeded Path 2 curriculum in `prisma/seed.ts`.
   Files/areas: `src/features/network-logic/ipv4/`, `src/features/learning/blocks/components/`, `prisma/seed.ts`
   Validation: `npm test` passed, `npm run typecheck` clean.
-  Git: pending
+  Git: `7ab5cad`
 
 - [2026-08-25 16:12 WITA] [MILESTONE] [REVIEW] [Milestone 3: Network Foundations Content]
   Completed Milestone 3 — Network Foundations Content (Sprint 5: Part A & Sprint 6: Part B).

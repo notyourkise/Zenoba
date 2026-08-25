@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { Menu, X, User, LogOut } from "lucide-react";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -363,24 +364,28 @@ export function AppHeader({ user }: AppHeaderProps) {
             ) : (
               <div className="flex items-center gap-4">
                 {/* Button Masuk / Login: Dark Theme = White BG / Black Text; Light Theme = Black BG / White Text */}
-                <Link
-                  href="/sign-in"
-                  className="group relative inline-flex items-center justify-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-gray-300 dark:border-gray-700 bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-100 shadow-sm transition-all duration-200 cursor-pointer"
+                <Button
+                  asChild
+                  className="group px-4 py-1.5 h-auto text-xs font-semibold border border-gray-300 dark:border-gray-700 bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-100 shadow-sm"
                 >
-                  <span className="inline-block transition-transform duration-200 ease-out group-hover:-translate-y-0.5">
-                    Masuk
-                  </span>
-                </Link>
+                  <Link href="/sign-in">
+                    <span className="inline-block transition-transform duration-200 ease-out group-hover:-translate-y-0.5">
+                      Masuk
+                    </span>
+                  </Link>
+                </Button>
 
                 {/* Button Daftar / Register: Dark Theme = Black BG / White Text; Light Theme = White BG / Black Text */}
-                <Link
-                  href="/sign-up"
-                  className="group relative inline-flex items-center justify-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-gray-300 dark:border-gray-700 bg-white text-black hover:bg-gray-100 dark:bg-black dark:text-white dark:hover:bg-gray-900 shadow-sm transition-all duration-200 cursor-pointer"
+                <Button
+                  asChild
+                  className="group px-4 py-1.5 h-auto text-xs font-semibold border border-gray-300 dark:border-gray-700 bg-white text-black hover:bg-gray-100 dark:bg-black dark:text-white dark:hover:bg-gray-900 shadow-sm"
                 >
-                  <span className="inline-block transition-transform duration-200 ease-out group-hover:-translate-y-0.5">
-                    Daftar
-                  </span>
-                </Link>
+                  <Link href="/sign-up">
+                    <span className="inline-block transition-transform duration-200 ease-out group-hover:-translate-y-0.5">
+                      Daftar
+                    </span>
+                  </Link>
+                </Button>
               </div>
             )}
 

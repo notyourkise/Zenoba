@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { ArrowRight } from "lucide-react";
 import { AppHeader } from "@/components/navigation/app-header";
+import { Button } from "@/components/ui/button";
 
 export default async function Home() {
   const user = await getCurrentUser();
@@ -35,20 +36,18 @@ export default async function Home() {
           </p>
 
           {/* Action Buttons */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link
-              href={user ? "/dashboard" : "/sign-up"}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-colors"
-            >
-              {user ? "Buka Dashboard" : "Mulai Belajar Gratis"}
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </Link>
-            <Link
-              href="/sign-in"
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            >
-              Sudah Punya Akun? Masuk
-            </Link>
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Button size="lg" asChild className="w-full sm:w-auto px-6 py-3.5 text-sm font-semibold">
+              <Link href={user ? "/dashboard" : "/sign-up"}>
+                {user ? "Buka Dashboard" : "Mulai Belajar Gratis"}
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
+            </Button>
+            <Button variant="secondary" size="lg" asChild className="w-full sm:w-auto px-6 py-3.5 text-sm font-semibold">
+              <Link href="/sign-in">
+                Sudah Punya Akun? Masuk
+              </Link>
+            </Button>
           </div>
 
           {/* 4 Feature Cards (Icons Removed, Clean Minimalist Layout) */}

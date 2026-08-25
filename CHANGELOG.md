@@ -48,7 +48,7 @@ All notable project changes are recorded here.
   - Database: Added `Lab`, `LabAttempt`, `Challenge`, and `ChallengeAttempt` models to Prisma.
   - Validation: 20 Vitest test suites (101 tests passed), 15 Playwright E2E browser tests passed, production build succeeded (17 routes).
   Files/areas: `prisma/schema.prisma`, `src/features/labs/`, `src/features/challenges/`, `src/app/(app)/labs/`, `src/app/(app)/challenges/`, `src/e2e/labs-challenges.spec.ts`
-  Git: pending
+  Git: `c95a57a`
 
 - [2026-08-25 17:30 WITA] [SPRINT] [Milestone 5 / Sprint 11]
   Completed Sprint 11 — Challenge Engine.
@@ -58,7 +58,7 @@ All notable project changes are recorded here.
   4. Built challenge catalog at `/challenges` and dynamic challenge page at `/challenges/[challengeSlug]`.
   Files/areas: `src/features/challenges/`, `src/app/(app)/challenges/`
   Validation: unit tests passed, typecheck clean, E2E passed.
-  Git: pending
+  Git: `c95a57a`
 
 - [2026-08-25 17:25 WITA] [SPRINT] [Milestone 5 / Sprint 10]
   Completed Sprint 10 — Lab Engine.
@@ -69,7 +69,7 @@ All notable project changes are recorded here.
   5. Built lab catalog at `/labs` and dynamic lab page at `/labs/[labSlug]`.
   Files/areas: `src/features/labs/`, `src/app/(app)/labs/`
   Validation: unit tests passed, typecheck clean, E2E passed.
-  Git: pending
+  Git: `c95a57a`
 
 - [2026-08-25 16:47 WITA] [SPRINT] [Sprint 9: Services, Wireless & Troubleshooting]
   Completed Sprint 9 — Services, Wireless & Troubleshooting.

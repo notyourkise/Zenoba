@@ -1,5 +1,5 @@
 // Netloka - Prisma Schema
-// Updated for Milestone 5: Labs & Challenges Engine (Sprint 10 & 11)
+// Updated for Milestone 6: IT Consultant Mode (Sprint 12, 13, & 14)
 
 generator client {
   provider = "prisma-client"
@@ -25,13 +25,14 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts          Account[]
-  sessions          Session[]
-  progress          UserLessonProgress[]
-  xpLedger          UserXpLedger[]
-  quizAttempts      QuizAttempt[]
-  labAttempts       LabAttempt[]
-  challengeAttempts ChallengeAttempt[]
+  accounts           Account[]
+  sessions           Session[]
+  progress           UserLessonProgress[]
+  xpLedger           UserXpLedger[]
+  quizAttempts       QuizAttempt[]
+  labAttempts        LabAttempt[]
+  challengeAttempts  ChallengeAttempt[]
+  consultantProjects ConsultantProject[]
 
   @@map("users")
 }
@@ -174,8 +175,8 @@ model UserXpLedger {
   id          String   @id @default(cuid())
   userId      String
   amount      Int
-  eventType   String   // LESSON_COMPLETION | QUIZ_PASS | PRACTICE_SOLVED | LAB_COMPLETED | CHALLENGE_SOLVED
-  referenceId String   // e.g. lessonId, quizId, labId, challengeId
+  eventType   String   // LESSON_COMPLETION | QUIZ_PASS | PRACTICE_SOLVED | LAB_COMPLETED | CHALLENGE_SOLVED | CONSULTANT_PROJECT_PASSED
+  referenceId String   // e.g. lessonId, quizId, labId, challengeId, caseId
   createdAt   DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -278,4 +279,50 @@ model ChallengeAttempt {
 
   @@index([userId, challengeId])
   @@map("challenge_attempts")
+}
+
+// ====================
+// IT Consultant Engine Models (Sprint 12, 13, 14)
+// ====================
+
+model ConsultantCase {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  title        String
+  clientName   String
+  clientType   String   // small-office | warnet | medium-office | school | enterprise
+  description  String   @db.Text
+  budget       Int      // in IDR (Rupiah)
+  requirements Json
+  constraints  Json
+  difficulty   String   @default("intermediate") // beginner | intermediate | advanced
+  orderIndex   Int      @default(0)
+  published    Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  projects ConsultantProject[]
+
+  @@map("consultant_cases")
+}
+
+model ConsultantProject {
+  id             String   @id @default(cuid())
+  userId         String
+  caseId         String
+  boqItems       Json
+  topologyData   Json
+  ipPlan         Json
+  vlanPlan       Json
+  compositeScore Json
+  score          Int
+  passed         Boolean
+  feedback       Json
+  submittedAt    DateTime @default(now())
+
+  user User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  case ConsultantCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+
+  @@index([userId, caseId])
+  @@map("consultant_projects")
 }

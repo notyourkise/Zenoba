@@ -5,7 +5,8 @@ export type XpEventType =
   | "QUIZ_PASS"
   | "PRACTICE_SOLVED"
   | "LAB_COMPLETED"
-  | "CHALLENGE_SOLVED";
+  | "CHALLENGE_SOLVED"
+  | "CONSULTANT_PROJECT_PASSED";
 
 export interface AwardXpResult {
   awarded: boolean;

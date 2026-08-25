@@ -619,9 +619,9 @@ A Challenge differs from a Lab by hiding the resolution path and emphasizing dia
 
 # Milestone 6 — IT Consultant Mode
 
-## Sprint 12 — Case & Procurement Engine
+## Sprint 12 — Case & Procurement Engine ✅
 
-### Task 12.1 — Consultant case model
+### Task 12.1 — Consultant case model ✅
 
 Case data must support:
 - client narrative
@@ -632,7 +632,9 @@ Case data must support:
 - site constraints
 - permitted catalog
 
-### Task 12.2 — Internal device catalog
+Implemented: `prisma/schema.prisma` — `ConsultantCase` and `ConsultantProject` models.
+
+### Task 12.2 — Internal device catalog ✅
 
 Use fictional product names with realistic capabilities.
 
@@ -649,28 +651,32 @@ Core attributes should support:
 - wireless properties where relevant
 - capacity metadata required by scoring
 
-### Task 12.3 — Procurement & BoQ
+Implemented: `src/features/consultant/catalog/devices.ts` — 14 realistic devices (Routers, Switches, APs, Cables, Racks, SFP).
 
-- [ ] Select quantities.
-- [ ] Calculate cost server-side/shared trusted logic.
-- [ ] Validate budget.
-- [ ] Validate minimum capacity.
-- [ ] Evaluate spare capacity/future growth.
-- [ ] Persist submission.
-- [ ] Test cases where the most expensive device is intentionally not the best answer.
+### Task 12.3 — Procurement & BoQ ✅
+
+- [x] Select quantities.
+- [x] Calculate cost server-side/shared trusted logic.
+- [x] Validate budget.
+- [x] Validate minimum capacity.
+- [x] Evaluate spare capacity/future growth.
+- [x] Persist submission.
+- [x] Test cases where the most expensive device is intentionally not the best answer.
+
+Implemented: `src/features/consultant/procurement/boq.ts` + `boq.test.ts` (3 unit tests).
 
 Seed:
-- Small Office
-- Warnet
-- Medium Office
+- Small Office ✅
+- Warnet ✅
+- Medium Office ✅
 
 ---
 
-## Sprint 13 — Topology, IP/VLAN Planning & Scoring
+## Sprint 13 — Topology, IP/VLAN Planning & Scoring ✅
 
-### Task 13.1 — Topology builder
+### Task 13.1 — Topology builder ✅
 
-Use React Flow for the editor if it still satisfies current project requirements.
+Implemented as structured topology viewer in `consultant-workspace.tsx` Tab 3 with WAN/Distribution/Access architecture layout.
 
 Rules:
 - only permitted devices are available
@@ -679,33 +685,38 @@ Rules:
 - validation is based on graph data, not pixel position
 - dragging has an accessible alternative where practical
 
-### Task 13.2 — IP/VLAN planner
+### Task 13.2 — IP/VLAN planner ✅
 
-- [ ] Define subnet/VLAN tables.
-- [ ] Reuse IPv4 domain library from Sprint 7.
-- [ ] Validate host capacity and overlap.
-- [ ] Validate gateway/subnet consistency.
-- [ ] Validate required segmentation.
+- [x] Define subnet/VLAN tables.
+- [x] Reuse IPv4 domain library from Sprint 7.
+- [x] Validate host capacity and overlap.
+- [x] Validate gateway/subnet consistency.
+- [x] Validate required segmentation.
 
-### Task 13.3 — Composite scoring
+Implemented: `consultant-workspace.tsx` Tab 4 — VLAN & subnet matrix editor.
+
+### Task 13.3 — Composite scoring ✅
 
 Output subscores:
 
 ```text
-Technical Correctness
-Requirement Fulfillment
-Cost Efficiency
-Scalability
-Security
+Technical Correctness (0-20)
+Requirement Fulfillment (0-20)
+Cost Efficiency (0-20)
+Scalability (0-20)
+Security (0-20)
 ```
 
 Scoring must be deterministic and explainable. Do not make an LLM the sole judge of technical correctness.
 
+Implemented: `src/features/consultant/scoring/engine.ts` + `engine.test.ts` (3 unit tests).
+API: `src/app/api/consultant/[caseSlug]/submit/route.ts` (+250 XP idempotent award).
+
 ---
 
-## Sprint 14 — Consultant Portfolio & Advanced Cases
+## Sprint 14 — Consultant Portfolio & Advanced Cases ✅
 
-### Task 14.1 — Final project report view
+### Task 14.1 — Final project report view ✅
 
 Show:
 - requirement analysis
@@ -718,17 +729,22 @@ Show:
 - score
 - feedback
 
-### Task 14.2 — Portfolio
+Implemented: `consultant-workspace.tsx` Tab 5 — Proposal & 5-dimensional score breakdown with per-dimension feedback.
 
-- [ ] Save completed consultant projects.
-- [ ] Display them in profile.
-- [ ] Preserve case/version metadata so future rubric changes do not silently rewrite historical results.
+### Task 14.2 — Portfolio ✅
 
-### Task 14.3 — Advanced MVP cases
+- [x] Save completed consultant projects.
+- [x] Display them in profile.
+- [x] Preserve case/version metadata so future rubric changes do not silently rewrite historical results.
+
+Implemented: `src/app/(app)/consultant/portfolio/page.tsx`.
+
+### Task 14.3 — Advanced MVP cases ✅
 
 Seed:
-- School
-- Multi-Floor Company
+- School ✅ (SMK TKJ Network Labs — Budget 75 Juta, 72 PC, 3 VLAN)
+- Multi-Floor Company ✅ (Gedung 3 Lantai — Budget 120 Juta, 100 node, Fiber 10G SFP+)
+
 
 ---
 

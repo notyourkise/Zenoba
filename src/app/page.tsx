@@ -28,7 +28,7 @@ export default async function Home() {
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 dark:text-white max-w-4xl mx-auto leading-tight">
             Kuasai Jaringan Komputer Lewat{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400">
+            <span className="text-blue-600 dark:text-blue-400">
               Praktik Interaktif & Simulasi Nyata
             </span>
           </h1>

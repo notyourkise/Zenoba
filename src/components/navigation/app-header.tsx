@@ -216,7 +216,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                         </span>
                         <Link
                           href="/learn"
-                          className="text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+                          className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
                         >
                           Semua Path <ArrowRight className="w-3 h-3" />
                         </Link>
@@ -257,7 +257,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                         </span>
                         <Link
                           href="/labs"
-                          className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
+                          className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
                         >
                           Semua Labs <ArrowRight className="w-3 h-3" />
                         </Link>
@@ -298,7 +298,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                         </span>
                         <Link
                           href="/challenges"
-                          className="text-[11px] font-bold text-rose-600 dark:text-rose-400 hover:underline flex items-center gap-1"
+                          className="text-xs font-semibold text-rose-600 dark:text-rose-400 hover:underline flex items-center gap-1"
                         >
                           Semua Skenario <ArrowRight className="w-3 h-3" />
                         </Link>
@@ -340,7 +340,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                         </div>
                         <Link
                           href="/consultant"
-                          className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"
+                          className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"
                         >
                           Semua Kasus <ArrowRight className="w-3 h-3" />
                         </Link>
@@ -365,7 +365,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                             <div className="font-bold text-xs text-indigo-700 dark:text-indigo-300">
                               Portofolio Proyek Konsultan Saya →
                             </div>
-                            <div className="text-[11px] text-indigo-600/80 dark:text-indigo-400/80">
+                            <div className="text-xs text-indigo-600 dark:text-indigo-400">
                               Lihat riwayat rancangan jaringan dan skor BoQ Anda.
                             </div>
                           </div>
@@ -399,7 +399,7 @@ export function AppHeader({ user }: AppHeaderProps) {
 
                 <button
                   onClick={() => signOut({ callbackUrl: "/sign-in" })}
-                  className="p-2 rounded-lg text-gray-500 hover:text-red-600 hover:bg-red-50 dark:text-gray-400 dark:hover:text-red-400 dark:hover:bg-red-950/30 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="p-2 rounded-lg text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:text-rose-400 dark:hover:text-rose-300 dark:hover:bg-rose-950/40 transition-colors focus:outline-none focus:ring-2 focus:ring-rose-500"
                   title="Keluar"
                   aria-label="Keluar"
                 >
@@ -520,7 +520,7 @@ function ListItem({
                 {Icon && <Icon className="w-3.5 h-3.5 text-blue-500 shrink-0" />}
                 <span>{title}</span>
               </div>
-              <div className={`line-clamp-2 text-[11px] text-gray-500 dark:text-gray-400 ${Icon ? "pl-5" : ""}`}>
+              <div className={`line-clamp-2 text-xs text-gray-500 dark:text-gray-400 ${Icon ? "pl-5" : ""}`}>
                 {children}
               </div>
             </div>

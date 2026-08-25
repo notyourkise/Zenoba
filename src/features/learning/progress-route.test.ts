@@ -82,6 +82,7 @@ describe("POST /api/learning/progress", () => {
       status: "COMPLETED",
       completedAt: new Date(),
       xpAwarded: 50,
+      totalXp: 50,
     });
 
     const req = new Request("http://localhost:3000/api/learning/progress", {

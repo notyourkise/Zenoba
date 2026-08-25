@@ -167,6 +167,7 @@ export async function getLearningPathDetail(
         description: lesson.description,
         orderIndex: lesson.orderIndex,
         xpReward: lesson.xpReward,
+        content: lesson.content,
         status: resolved.status,
         prerequisites: lesson.prerequisites.map((p) => ({
           id: p.prerequisiteId,

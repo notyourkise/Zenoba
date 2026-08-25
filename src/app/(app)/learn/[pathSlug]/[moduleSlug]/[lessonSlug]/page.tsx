@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { getLessonDetail } from "@/features/learning/queries";
 import { startLessonProgress } from "@/features/learning/progress";
 import { LessonActionBar } from "@/features/learning/components/lesson-action-bar";
+import { LessonRenderer } from "@/features/learning/blocks/lesson-renderer";
 import { ArrowLeft, Lock, Award, BookOpen, AlertCircle } from "lucide-react";
 
 interface LessonPageProps {
@@ -132,26 +133,30 @@ export default async function LessonPage({ params }: LessonPageProps) {
 
       {/* Lesson Content Body */}
       <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-8 shadow-sm space-y-6">
-        <div className="prose dark:prose-invert max-w-none text-sm leading-relaxed space-y-4">
-          <div className="p-4 bg-blue-50/60 dark:bg-blue-950/40 rounded-xl border border-blue-100 dark:border-blue-900 flex items-start space-x-3">
-            <BookOpen className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
-            <div className="text-xs text-blue-900 dark:text-blue-200 leading-relaxed">
-              <p className="font-semibold mb-1">Target Pembelajaran</p>
-              <p>
-                Pelajari konsep inti dari <strong>{lesson.title}</strong>, pahami bagaimana data mengalir di dalam arsitektur jaringan, lalu selesaikan evaluasi pengetahuan untuk mendapatkan reward XP.
+        {lesson.content ? (
+          <LessonRenderer content={lesson.content} />
+        ) : (
+          <div className="prose dark:prose-invert max-w-none text-sm leading-relaxed space-y-4">
+            <div className="p-4 bg-blue-50/60 dark:bg-blue-950/40 rounded-xl border border-blue-100 dark:border-blue-900 flex items-start space-x-3">
+              <BookOpen className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+              <div className="text-xs text-blue-900 dark:text-blue-200 leading-relaxed">
+                <p className="font-semibold mb-1">Target Pembelajaran</p>
+                <p>
+                  Pelajari konsep inti dari <strong>{lesson.title}</strong>, pahami bagaimana data mengalir di dalam arsitektur jaringan, lalu selesaikan evaluasi pengetahuan untuk mendapatkan reward XP.
+                </p>
+              </div>
+            </div>
+
+            <div className="py-4 space-y-3">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                Ringkasan Konsep
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                Jaringan komputer adalah sekumpulan perangkat otonom (komputer, server, router, switch) yang saling terhubung melalui media transmisi kabel maupun nirkabel untuk berbagi sumber daya, data, dan layanan komunikasi.
               </p>
             </div>
           </div>
-
-          <div className="py-4 space-y-3">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-              Ringkasan Konsep
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              Jaringan komputer adalah sekumpulan perangkat otonom (komputer, server, router, switch) yang saling terhubung melalui media transmisi kabel maupun nirkabel untuk berbagi sumber daya, data, dan layanan komunikasi.
-            </p>
-          </div>
-        </div>
+        )}
 
         {/* Action Bar (Complete & Navigation) */}
         <LessonActionBar

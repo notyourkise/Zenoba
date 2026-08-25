@@ -20,6 +20,13 @@ vi.mock("@/lib/db/client", () => ({
   },
 }));
 
+vi.mock("@/features/xp/ledger", () => ({
+  awardXp: vi.fn().mockImplementation((userId, amount) =>
+    Promise.resolve({ awarded: true, amount, totalXp: amount, message: "OK" })
+  ),
+  getUserTotalXp: vi.fn().mockResolvedValue(100),
+}));
+
 describe("Progress Service", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -144,6 +151,7 @@ describe("Progress Service", () => {
       const result = await completeLessonProgress("user-1", "lesson-1");
       expect(result.status).toBe("COMPLETED");
       expect(result.xpAwarded).toBe(100);
+      expect(result.totalXp).toBe(100);
     });
 
     it("is idempotent and does not award duplicate XP on repeat completion", async () => {
@@ -194,6 +202,7 @@ describe("Progress Service", () => {
       expect(summary.completedCount).toBe(2);
       expect(summary.inProgressCount).toBe(1);
       expect(summary.completionPercentage).toBe(20);
+      expect(summary.totalXp).toBe(100);
     });
   });
 });

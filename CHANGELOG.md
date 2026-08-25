@@ -40,6 +40,40 @@ All notable project changes are recorded here.
 
 # 2026-08-25
 
+- [2026-08-25 15:48 WITA] [MILESTONE] [REVIEW] [Milestone 2: Learning Engine]
+  Completed Milestone 2 — Learning Engine (Sprint 3: Lesson Block Renderer & Sprint 4: Quiz, Practice & Reward Engine).
+  - Exit Criteria Verified: A lesson can execute the complete Intro → Concept → Visual → Interactive → Knowledge Check → Practice → Summary → XP loop without hardcoded routes.
+  - Reusable block renderer system with 13 typed block variants, fallback handling, and reduced motion.
+  - Deterministic quiz evaluator and interactive quiz player with immediate visual feedback.
+  - Auditable database-enforced idempotent XP ledger.
+  - Full automated suite: 13 Vitest suites (61 tests passed), 9 Playwright E2E browser tests passed, clean typecheck, lint, and Next.js 16 build (16 routes).
+  Files/areas: `src/features/learning/blocks/`, `src/features/quiz/`, `src/features/xp/`, `prisma/schema.prisma`, `prisma/seed.ts`, `src/app/api/learning/quiz/submit/`, `src/e2e/lesson-loop.spec.ts`
+  Validation: `npm run lint`, `npm run typecheck`, `npm test` (61/61 passed), `npm run build` (16 routes), `npx playwright test` (9/9 passed).
+  Git: pending
+
+- [2026-08-25 15:45 WITA] [SPRINT] [Milestone 2 / Sprint 4]
+  Completed Sprint 4 — Quiz, Practice & Reward Engine.
+  1. Extended Prisma schema with `content Json?` on Lesson, `UserXpLedger` (with composite unique index for idempotency), and `QuizAttempt`.
+  2. Implemented pure deterministic quiz evaluation engine (`src/features/quiz/evaluator.ts`) covering single choice, multiple choice, and ordering questions.
+  3. Created interactive `QuizBlockPlayer` client component (`src/features/quiz/components/quiz-block-player.tsx`) and submit API (`/api/learning/quiz/submit/route.ts`).
+  4. Implemented auditable XP ledger service (`src/features/xp/ledger.ts`) and integrated XP display on Dashboard.
+  5. Seeded rich interactive lesson curriculum with quizzes and summaries (`prisma/seed.ts`).
+  6. Added comprehensive unit and integration tests (21 tests in `evaluator.test.ts`, `ledger.test.ts`, `quiz-route.test.ts`, `lesson-loop.spec.ts`).
+  Files/areas: `src/features/quiz/`, `src/features/xp/`, `prisma/schema.prisma`, `prisma/seed.ts`, `src/app/api/learning/quiz/submit/`
+  Validation: `npm test` (61/61 passed), `npx playwright test` (9/9 passed).
+  Git: pending
+
+- [2026-08-25 15:40 WITA] [SPRINT] [Milestone 2 / Sprint 3]
+  Completed Sprint 3 — Lesson Block Renderer.
+  1. Defined versioned lesson content schema with Zod discriminated union for 13 block types (`src/features/learning/blocks/schema.ts`).
+  2. Implemented block components: Heading, Text, Callout, Code, Image, Lottie (reduced motion), Diagram, Summary, Reward, and graceful FallbackBlock.
+  3. Built component registry (`src/features/learning/blocks/registry.tsx`) and `LessonRenderer` (`src/features/learning/blocks/lesson-renderer.tsx`).
+  4. Integrated dynamic block rendering into lesson runner page (`/learn/[pathSlug]/[moduleSlug]/[lessonSlug]`).
+  5. Tested schema validation and error fallback rendering (`schema.test.ts`, `registry.test.tsx`).
+  Files/areas: `src/features/learning/blocks/`, `src/app/(app)/learn/[pathSlug]/[moduleSlug]/[lessonSlug]/`
+  Validation: `npm test` passed, `npm run typecheck` clean.
+  Git: pending
+
 - [2026-08-25 15:00 WITA] [SPRINT] [Milestone 1 / Sprint 2]
   Completed Sprint 2 — Learning Catalog & Progress Model.
   1. Extended Prisma data model with LearningPath, Module, Lesson, LessonPrerequisite, and UserLessonProgress (`prisma/schema.prisma`).

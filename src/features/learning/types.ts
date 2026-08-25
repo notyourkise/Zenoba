@@ -14,6 +14,7 @@ export interface LessonWithStatus {
   description: string;
   orderIndex: number;
   xpReward: number;
+  content?: unknown;
   status: LessonStatus;
   completedAt?: Date | string | null;
   prerequisites: PrerequisiteInfo[];

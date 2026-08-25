@@ -21,6 +21,11 @@ import { SubnetPractice } from "./components/subnet-practice";
 import { ArpVisualizer } from "./components/arp-visualizer";
 import { VlanBuilder } from "./components/vlan-builder";
 import { RoutingTableVisualizer } from "./components/routing-table-visualizer";
+import { DhcpDoraVisualizer } from "./components/dhcp-dora-visualizer";
+import { DnsQueryVisualizer } from "./components/dns-query-visualizer";
+import { NatVisualizer } from "./components/nat-visualizer";
+import { IcmpPingVisualizer } from "./components/icmp-ping-visualizer";
+import { TerminalBlockPlayer } from "./components/terminal-block-player";
 import { QuizBlockPlayer } from "@/features/quiz/components/quiz-block-player";
 import { FallbackBlock } from "./components/fallback-block";
 
@@ -52,6 +57,11 @@ export const BLOCK_COMPONENTS: Record<
   arp_visualizer: ArpVisualizer,
   vlan_builder: VlanBuilder,
   routing_table: RoutingTableVisualizer,
+  dhcp_dora: DhcpDoraVisualizer,
+  dns_query: DnsQueryVisualizer,
+  nat_visualizer: NatVisualizer,
+  icmp_ping: IcmpPingVisualizer,
+  terminal: TerminalBlockPlayer,
 };
 
 export function renderLessonBlock(block: LessonBlock, index?: number): React.ReactNode {

@@ -531,10 +531,10 @@ Create typed primitives:
 
 ### Task 9.1 — Network services visualizers
 
-- DHCP DORA
-- DNS query flow
-- NAT/PAT translation visual
-- ICMP/ping flow
+- [x] DHCP DORA (`dhcp-dora-visualizer.tsx`).
+- [x] DNS query flow (`dns-query-visualizer.tsx`).
+- [x] NAT/PAT translation visual (`nat-visualizer.tsx`).
+- [x] ICMP/ping flow (`icmp-ping-visualizer.tsx`).
 
 ### Task 9.2 — Terminal simulator
 
@@ -551,14 +551,15 @@ Initial command set:
 - `dig`
 - `netstat`
 
-- [ ] Parse only supported syntax.
-- [ ] Return deterministic simulated output.
-- [ ] Reject unsupported commands safely.
-- [ ] Never pass learner input into `exec`, shell, SSH, Docker socket, or host OS commands.
+- [x] Parse only supported syntax (`src/features/network-logic/terminal/terminal-simulator.ts`).
+- [x] Return deterministic simulated output.
+- [x] Reject unsupported commands safely.
+- [x] Never pass learner input into `exec`, shell, SSH, Docker socket, or host OS commands (`terminal-simulator.test.ts`).
+- [x] Build interactive terminal component (`terminal-block-player.tsx`).
 
 ### Task 9.3 — Wireless and troubleshooting content
 
-Author Path 5 and integrate scenario-driven troubleshooting.
+- [x] Author Path 4 (*Network Services*) and Path 5 (*Wireless & Troubleshooting*) in `prisma/seed.ts`.
 
 ---
 

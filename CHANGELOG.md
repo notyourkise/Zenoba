@@ -40,6 +40,16 @@ All notable project changes are recorded here.
 
 # 2026-08-25
 
+- [2026-08-25 16:47 WITA] [SPRINT] [Sprint 9: Services, Wireless & Troubleshooting]
+  Completed Sprint 9 — Services, Wireless & Troubleshooting.
+  1. Built reusable Network Service Visualizers: `DhcpDoraVisualizer` (4-step DORA flow), `DnsQueryVisualizer` (DNS resolution hierarchy), `NatVisualizer` (NAT/PAT port translation table), and `IcmpPingVisualizer` (ICMP echo request/reply simulation).
+  2. Built safe in-browser Terminal Simulator (`src/features/network-logic/terminal/terminal-simulator.ts`) with deterministic execution for `ipconfig` (/all), `ip` (addr/route), `ping`, `arp` (-a), `traceroute`/`tracert`, `route`, `nslookup`/`dig`, `netstat` (-an), `clear`, `help` and 10 unit tests.
+  3. Implemented interactive CLI terminal UI component `TerminalBlockPlayer` (`src/features/learning/blocks/components/terminal-block-player.tsx`).
+  4. Authored Path 4 (Network Services & Security) and Path 5 (Wireless & Troubleshooting) in `prisma/seed.ts`.
+  Files/areas: `src/features/network-logic/terminal/`, `src/features/learning/blocks/components/`, `prisma/seed.ts`
+  Validation: 18 Vitest test suites (93 tests passed), 12 Playwright E2E browser tests passed, production build succeeded (17 routes).
+  Git: pending
+
 - [2026-08-25 16:25 WITA] [MILESTONE] [REVIEW] [Milestone 4: Addressing & Core Networking]
   Completed Milestone 4 — Addressing & Core Networking (Sprint 7: IPv4 & Subnetting Engine & Sprint 8: Switching, VLAN & Routing Fundamentals).
   - Exit Criteria Verified: Deterministic IPv4 calculation, subnetting, VLSM allocation, VLAN broadcast domain isolation, and Longest Prefix Match routing evaluation functioning 100% with rigorous unit tests.

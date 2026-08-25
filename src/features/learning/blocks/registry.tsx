@@ -15,6 +15,12 @@ import { PacketFlow } from "./components/packet-flow";
 import { CableOrderExercise } from "./components/cable-order-exercise";
 import { OSIStack } from "./components/osi-stack";
 import { EncapsulationVisualizer } from "./components/encapsulation-visualizer";
+import { BinaryConverter } from "./components/binary-converter";
+import { SubnetCalculator } from "./components/subnet-calculator";
+import { SubnetPractice } from "./components/subnet-practice";
+import { ArpVisualizer } from "./components/arp-visualizer";
+import { VlanBuilder } from "./components/vlan-builder";
+import { RoutingTableVisualizer } from "./components/routing-table-visualizer";
 import { QuizBlockPlayer } from "@/features/quiz/components/quiz-block-player";
 import { FallbackBlock } from "./components/fallback-block";
 
@@ -40,6 +46,12 @@ export const BLOCK_COMPONENTS: Record<
   cable_order: CableOrderExercise,
   osi_stack: OSIStack,
   encapsulation: EncapsulationVisualizer,
+  binary_converter: BinaryConverter,
+  subnet_calculator: SubnetCalculator,
+  subnet_practice: SubnetPractice,
+  arp_visualizer: ArpVisualizer,
+  vlan_builder: VlanBuilder,
+  routing_table: RoutingTableVisualizer,
 };
 
 export function renderLessonBlock(block: LessonBlock, index?: number): React.ReactNode {

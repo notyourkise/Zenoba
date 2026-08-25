@@ -40,6 +40,35 @@ All notable project changes are recorded here.
 
 # 2026-08-25
 
+- [2026-08-25 16:25 WITA] [MILESTONE] [REVIEW] [Milestone 4: Addressing & Core Networking]
+  Completed Milestone 4 — Addressing & Core Networking (Sprint 7: IPv4 & Subnetting Engine & Sprint 8: Switching, VLAN & Routing Fundamentals).
+  - Exit Criteria Verified: Deterministic IPv4 calculation, subnetting, VLSM allocation, VLAN broadcast domain isolation, and Longest Prefix Match routing evaluation functioning 100% with rigorous unit tests.
+  - Interactive Tools Added: `BinaryConverter`, `SubnetCalculator` (with step-by-step reasoning breakdown), `SubnetPractice` (random challenge generator), `ArpVisualizer`, `VlanBuilder`, and `RoutingTableVisualizer`.
+  - Added Path 2 (IPv4 & Subnetting) and Path 3 (Switching, VLAN & Routing) to curriculum seed (`prisma/seed.ts`).
+  - Validation: 17 Vitest test suites (83 tests passed), 12 Playwright E2E browser tests passed, production build succeeded (17 routes).
+  Files/areas: `src/features/network-logic/`, `src/features/learning/blocks/components/`, `prisma/seed.ts`, `src/e2e/core-networking.spec.ts`
+  Git: pending
+
+- [2026-08-25 16:20 WITA] [SPRINT] [Milestone 4 / Sprint 8]
+  Completed Sprint 8 — Switching, VLAN & Routing Fundamentals.
+  1. Created typed logical simulation primitives in `src/features/network-logic/simulation/topology.ts` (`SimDevice`, `SimInterface`, `SimLink`, `SimRoute`).
+  2. Implemented deterministic `evaluateL2Reachability` (access/trunk VLAN isolation) and `evaluateL3Routing` (Longest Prefix Match & direct vs next-hop forwarding) with 7 unit tests.
+  3. Built interactive UI components: `ArpVisualizer`, `VlanBuilder`, and `RoutingTableVisualizer`.
+  4. Seeded Path 3 curriculum in `prisma/seed.ts`.
+  Files/areas: `src/features/network-logic/simulation/`, `src/features/learning/blocks/components/`, `prisma/seed.ts`
+  Validation: `npm test` passed, `npm run typecheck` clean.
+  Git: pending
+
+- [2026-08-25 16:15 WITA] [SPRINT] [Milestone 4 / Sprint 7]
+  Completed Sprint 7 — IPv4 & Subnetting Engine.
+  1. Built pure deterministic IPv4 library in `src/features/network-logic/ipv4/ipv4.ts` (parsing, CIDR conversions, subnet calculations, binary formatting, and VLSM multi-department allocation).
+  2. Covered library with 10 comprehensive unit tests in `src/features/network-logic/ipv4/ipv4.test.ts`.
+  3. Built interactive tools: `BinaryConverter`, `SubnetCalculator`, `SubnetPractice`.
+  4. Seeded Path 2 curriculum in `prisma/seed.ts`.
+  Files/areas: `src/features/network-logic/ipv4/`, `src/features/learning/blocks/components/`, `prisma/seed.ts`
+  Validation: `npm test` passed, `npm run typecheck` clean.
+  Git: pending
+
 - [2026-08-25 16:12 WITA] [MILESTONE] [REVIEW] [Milestone 3: Network Foundations Content]
   Completed Milestone 3 — Network Foundations Content (Sprint 5: Part A & Sprint 6: Part B).
   - Exit Criteria Verified: Path 1 (Network Foundations) is 100% completable end-to-end across all 8 modules (16 lessons) and includes the final challenge 'First Day as IT Support'.

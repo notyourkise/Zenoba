@@ -52,7 +52,7 @@ All notable project changes are recorded here.
   8. Added 24 new unit and integration tests (total 40 tests across 8 suites in Vitest) and 2 new E2E tests (total 7 tests in Playwright).
   Files/areas: `prisma/schema.prisma`, `prisma/seed.ts`, `src/features/learning/`, `src/app/(app)/learn/`, `src/app/(app)/dashboard/`, `src/app/api/learning/`, `src/e2e/learning-catalog.spec.ts`
   Validation: `npm run lint`, `npm run typecheck`, `npm test` (40/40 passed), `npm run build` (15 routes), and `npx playwright test` (7/7 passed).
-  Git: pending
+  Git: `0ae2eb9`
 
 - [2026-08-25 14:43 WITA] [SPRINT] [Milestone 1 / Sprint 1]
   Completed Sprint 1 — Authentication, User Model & Application Shell.

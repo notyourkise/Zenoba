@@ -30,6 +30,15 @@ export function NavigationMenu({
 }: React.HTMLAttributes<HTMLElement>) {
   const [activeItem, setActiveItem] = React.useState<string | null>(null);
   const navRef = React.useRef<HTMLElement>(null);
+  const closeTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  const handleSetActiveItem = React.useCallback((id: string | null) => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setActiveItem(id);
+  }, []);
 
   React.useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -38,11 +47,14 @@ export function NavigationMenu({
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    };
   }, []);
 
   return (
-    <NavigationMenuContext.Provider value={{ activeItem, setActiveItem }}>
+    <NavigationMenuContext.Provider value={{ activeItem, setActiveItem: handleSetActiveItem }}>
       <nav
         ref={navRef}
         className={cn("relative z-30 flex items-center justify-center", className)}
@@ -60,7 +72,7 @@ export function NavigationMenuList({
 }: React.HTMLAttributes<HTMLUListElement>) {
   return (
     <ul
-      className={cn("flex list-none items-center justify-center gap-1", className)}
+      className={cn("flex list-none items-center justify-center gap-4 sm:gap-6", className)}
       {...props}
     />
   );
@@ -72,12 +84,32 @@ export function NavigationMenuItem({
   ...props
 }: React.LiHTMLAttributes<HTMLLIElement>) {
   const itemId = React.useId();
-  const { activeItem } = React.useContext(NavigationMenuContext);
+  const { activeItem, setActiveItem } = React.useContext(NavigationMenuContext);
   const isOpen = activeItem === itemId;
+  const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    setActiveItem(itemId);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setActiveItem(null);
+    }, 150);
+  };
 
   return (
     <NavigationMenuItemContext.Provider value={{ itemId, isOpen }}>
-      <li className={cn("relative", className)} {...props}>
+      <li
+        className={cn("relative", className)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        {...props}
+      >
         {children}
       </li>
     </NavigationMenuItemContext.Provider>
@@ -85,7 +117,7 @@ export function NavigationMenuItem({
 }
 
 export const navigationMenuTriggerStyle = cva(
-  "inline-flex h-9 items-center justify-center rounded-md px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white focus:outline-none cursor-pointer"
+  "inline-flex h-9 items-center justify-center rounded-md px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 transition-colors hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none cursor-pointer"
 );
 
 export function NavigationMenuTrigger({
@@ -102,7 +134,7 @@ export function NavigationMenuTrigger({
       onClick={() => setActiveItem(isOpen ? null : itemId)}
       className={cn(
         navigationMenuTriggerStyle(),
-        isOpen && "bg-gray-100 dark:bg-gray-800 text-blue-600 dark:text-blue-400 font-semibold",
+        isOpen && "text-blue-600 dark:text-blue-400 font-semibold",
         className
       )}
       aria-expanded={isOpen}
@@ -111,7 +143,7 @@ export function NavigationMenuTrigger({
       <span>{children}</span>
       <ChevronDown
         className={cn(
-          "ml-1 h-3.5 w-3.5 transition-transform duration-200 text-gray-400",
+          "ml-1.5 h-3.5 w-3.5 transition-transform duration-200 text-gray-400",
           isOpen && "rotate-180 text-blue-600 dark:text-blue-400"
         )}
         aria-hidden="true"
@@ -132,7 +164,7 @@ export function NavigationMenuContent({
   return (
     <div
       className={cn(
-        "absolute left-0 top-full z-50 mt-2 min-w-[280px] rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl p-2 transition-all animate-in fade-in-50 zoom-in-95",
+        "absolute left-0 top-full z-50 mt-1 min-w-[340px] rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl p-3 transition-all",
         className
       )}
       {...props}
@@ -160,7 +192,7 @@ export function NavigationMenuLink({
   return (
     <a
       className={cn(
-        "block select-none rounded-lg p-2.5 text-sm font-medium no-underline outline-none transition-colors hover:bg-gray-100 dark:hover:bg-gray-800",
+        "block select-none rounded-lg p-2.5 text-sm font-medium no-underline outline-none transition-colors hover:bg-gray-50 dark:hover:bg-gray-800/60",
         className
       )}
       {...props}

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { Menu, X, User, LogOut } from "lucide-react";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -127,7 +128,7 @@ export function AppHeader({ user }: AppHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   return (
-    <header className="sticky top-0 z-40 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 transition-colors">
+    <header className="sticky top-0 z-40 bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800/80 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* 1. Left Side: Brand Logo */}
@@ -145,10 +146,10 @@ export function AppHeader({ user }: AppHeaderProps) {
             </Link>
           </div>
 
-          {/* 2. Center: Desktop NavigationMenu */}
+          {/* 2. Center: Desktop NavigationMenu with Hover Auto-Open and Spacing */}
           <div className="hidden md:flex items-center justify-center flex-shrink-0">
             <NavigationMenu>
-              <NavigationMenuList className="gap-1">
+              <NavigationMenuList className="gap-6 lg:gap-8">
                 {/* Dashboard */}
                 <NavigationMenuItem>
                   <NavigationMenuLink
@@ -179,11 +180,11 @@ export function AppHeader({ user }: AppHeaderProps) {
                     Learn
                   </NavigationMenuTrigger>
                   <NavigationMenuContent className="w-[380px]">
-                    <div className="p-2">
-                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-1">
+                    <div className="p-2.5">
+                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-2">
                         Kurikulum Jaringan (5 Paths)
                       </div>
-                      <ul className="space-y-1">
+                      <ul className="space-y-2">
                         {learnPaths.map((path) => (
                           <ListItem
                             key={path.title}
@@ -194,7 +195,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                           </ListItem>
                         ))}
                       </ul>
-                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2 pt-2 px-2">
+                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2.5 pt-2 px-2.5">
                         <Link
                           href="/learn"
                           className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline block"
@@ -218,11 +219,11 @@ export function AppHeader({ user }: AppHeaderProps) {
                     Labs
                   </NavigationMenuTrigger>
                   <NavigationMenuContent className="w-[360px]">
-                    <div className="p-2">
-                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-1">
+                    <div className="p-2.5">
+                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-2">
                         Praktikum Interaktif (7 Labs)
                       </div>
-                      <ul className="space-y-1">
+                      <ul className="space-y-2">
                         {labsList.map((lab) => (
                           <ListItem
                             key={lab.title}
@@ -233,7 +234,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                           </ListItem>
                         ))}
                       </ul>
-                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2 pt-2 px-2">
+                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2.5 pt-2 px-2.5">
                         <Link
                           href="/labs"
                           className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline block"
@@ -257,11 +258,11 @@ export function AppHeader({ user }: AppHeaderProps) {
                     Challenges
                   </NavigationMenuTrigger>
                   <NavigationMenuContent className="w-[360px]">
-                    <div className="p-2">
-                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-1">
+                    <div className="p-2.5">
+                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-2">
                         Troubleshooting Kasus Nyata
                       </div>
-                      <ul className="space-y-1">
+                      <ul className="space-y-2">
                         {challengesList.map((ch) => (
                           <ListItem
                             key={ch.title}
@@ -272,7 +273,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                           </ListItem>
                         ))}
                       </ul>
-                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2 pt-2 px-2">
+                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2.5 pt-2 px-2.5">
                         <Link
                           href="/challenges"
                           className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline block"
@@ -296,11 +297,11 @@ export function AppHeader({ user }: AppHeaderProps) {
                     Consultant
                   </NavigationMenuTrigger>
                   <NavigationMenuContent className="w-[380px]">
-                    <div className="p-2">
-                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-1">
+                    <div className="p-2.5">
+                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-2">
                         Studi Kasus Proyek Konsultan TI
                       </div>
-                      <ul className="space-y-1">
+                      <ul className="space-y-2">
                         {consultantCases.map((cs) => (
                           <ListItem
                             key={cs.title}
@@ -311,7 +312,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                           </ListItem>
                         ))}
                       </ul>
-                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2 pt-2 px-2 flex items-center justify-between">
+                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2.5 pt-2 px-2.5 flex items-center justify-between">
                         <Link
                           href="/consultant"
                           className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline"
@@ -332,7 +333,7 @@ export function AppHeader({ user }: AppHeaderProps) {
             </NavigationMenu>
           </div>
 
-          {/* 3. Right Side: User Controls & ModeToggle */}
+          {/* 3. Right Side: User Controls with shadcn Button and Borderless ModeToggle */}
           <div className="flex items-center justify-end flex-1 gap-3">
             <ModeToggle />
 
@@ -362,18 +363,12 @@ export function AppHeader({ user }: AppHeaderProps) {
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                <Link
-                  href="/sign-in"
-                  className="px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                >
-                  Masuk
-                </Link>
-                <Link
-                  href="/sign-up"
-                  className="px-3.5 py-1.5 text-xs font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors shadow-sm"
-                >
-                  Daftar
-                </Link>
+                <Button variant="ghost" size="sm" asChild>
+                  <Link href="/sign-in">Masuk</Link>
+                </Button>
+                <Button variant="default" size="sm" asChild>
+                  <Link href="/sign-up">Daftar</Link>
+                </Button>
               </div>
             )}
 
@@ -391,7 +386,7 @@ export function AppHeader({ user }: AppHeaderProps) {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-3 border-t border-gray-200 dark:border-gray-800 space-y-1">
+          <div className="md:hidden py-3 border-t border-gray-100 dark:border-gray-800 space-y-1">
             <Link
               href="/dashboard"
               onClick={() => setMobileMenuOpen(false)}
@@ -449,7 +444,7 @@ function ListItem({
         render={
           <Link
             href={href}
-            className="block select-none rounded-lg px-2.5 py-2 text-left transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+            className="block select-none rounded-lg px-3 py-2 text-left transition-colors hover:bg-gray-50 dark:hover:bg-gray-800/60"
           >
             <div className="flex flex-col gap-0.5">
               <div className="font-semibold text-xs text-gray-900 dark:text-white leading-snug">

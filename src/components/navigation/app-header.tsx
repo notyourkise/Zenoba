@@ -4,26 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
-import {
-  BookOpen,
-  FlaskConical,
-  Bug,
-  ClipboardList,
-  LayoutDashboard,
-  User,
-  LogOut,
-  Menu,
-  X,
-  Sparkles,
-  ArrowRight,
-  Calculator,
-  Terminal,
-  Network,
-  Radio,
-  Server,
-  ShieldCheck,
-  Zap,
-} from "lucide-react";
+import { Menu, X, User, LogOut } from "lucide-react";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import {
   NavigationMenu,
@@ -49,31 +30,26 @@ const learnPaths = [
     title: "Path 1: Dasar Jaringan & Topologi",
     href: "/learn/path-1-pengenalan-jaringan",
     description: "Konsep LAN/WAN, Model OSI 7 Layer, dan perangkat keras jaringan.",
-    icon: Network,
   },
   {
     title: "Path 2: Protokol Jaringan & TCP/IP",
     href: "/learn/path-2-protokol-tcpip",
     description: "TCP 3-Way Handshake, UDP, dan alur enkapsulasi paket data.",
-    icon: Server,
   },
   {
-    title: "Path 3: IPv4 & Subnetting CIDR / VLSM",
+    title: "Path 3: IPv4 & Subnetting CIDR",
     href: "/learn/path-3-ipv4-subnetting",
-    description: "Kalkulasi host usable, netmask, dan pembagian subnet bertingkat.",
-    icon: Calculator,
+    description: "Kalkulasi host usable, netmask, dan pembagian subnetting VLSM.",
   },
   {
     title: "Path 4: Layanan Jaringan & NAT",
     href: "/learn/path-4-network-services-security",
     description: "DHCP DORA, hierarki DNS resolving, dan translasi NAT/PAT.",
-    icon: ShieldCheck,
   },
   {
     title: "Path 5: Wireless & Troubleshooting",
     href: "/learn/path-5-wireless-troubleshooting",
     description: "Wi-Fi 6, frekuensi 2.4/5GHz, WPA3, dan metodologi pelacakan masalah.",
-    icon: Radio,
   },
 ];
 
@@ -82,25 +58,21 @@ const labsList = [
     title: "Lab 1: Subnetting Calculator",
     href: "/labs/lab-subnetting",
     description: "Hitung alokasi network, broadcast, dan range IP host usable.",
-    icon: Calculator,
   },
   {
     title: "Lab 2: Host IP & Gateway Config",
     href: "/labs/lab-ip-config",
     description: "Simulasi konfigurasi alamat IP workstation dan default gateway.",
-    icon: Server,
   },
   {
     title: "Lab 4: VLAN Builder & Tagging",
     href: "/labs/lab-vlan",
     description: "Segmentasi port access dan trunking IEEE 802.1Q switch.",
-    icon: Network,
   },
   {
     title: "Lab 5: Static Routing & LPM",
     href: "/labs/lab-routing",
     description: "Evaluasi jalur tabel routing dengan Longest Prefix Match.",
-    icon: Zap,
   },
 ];
 
@@ -108,12 +80,12 @@ const challengesList = [
   {
     title: "Kasus 1: Branch Office Offline",
     href: "/challenges/branch-office-offline",
-    description: "Diagnosa dan perbaiki workstation kantor cabang yang gagal ping internet.",
+    description: "Diagnosa workstation kantor cabang yang gagal ping internet.",
   },
   {
     title: "Kasus 2: Inter-VLAN Routing Bug",
     href: "/challenges/inter-vlan-routing-bug",
-    description: "Lacak masalah isolasi dan komunikasi antar divisi HRD & Keuangan.",
+    description: "Lacak masalah isolasi dan komunikasi antar divisi jaringan.",
   },
   {
     title: "Kasus 3: DHCP Scope Exhaustion",
@@ -155,19 +127,19 @@ export function AppHeader({ user }: AppHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-b border-gray-200 dark:border-gray-800 shadow-sm transition-colors">
+    <header className="sticky top-0 z-40 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* 1. Left Side: Brand Logo */}
           <div className="flex items-center justify-start flex-1">
             <Link
               href="/"
-              className="flex items-center gap-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg p-1 hover:opacity-90 transition-opacity"
+              className="flex items-center gap-2.5 focus:outline-none rounded-lg p-1 hover:opacity-90 transition-opacity"
             >
-              <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold shadow-sm shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-base shadow-sm shrink-0">
                 N
               </div>
-              <span className="text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+              <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
                 Netloka
               </span>
             </Link>
@@ -177,7 +149,7 @@ export function AppHeader({ user }: AppHeaderProps) {
           <div className="hidden md:flex items-center justify-center flex-shrink-0">
             <NavigationMenu>
               <NavigationMenuList className="gap-1">
-                {/* Dashboard Direct Link */}
+                {/* Dashboard */}
                 <NavigationMenuItem>
                   <NavigationMenuLink
                     render={
@@ -185,167 +157,150 @@ export function AppHeader({ user }: AppHeaderProps) {
                         href="/dashboard"
                         className={`${navigationMenuTriggerStyle()} ${
                           pathname === "/dashboard"
-                            ? "bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 font-bold"
+                            ? "text-blue-600 dark:text-blue-400 font-semibold"
                             : ""
                         }`}
                       >
-                        <LayoutDashboard className="w-3.5 h-3.5 mr-1.5" />
                         Dashboard
                       </Link>
                     }
                   />
                 </NavigationMenuItem>
 
-                {/* 1. Learn Menu */}
+                {/* 1. Learn */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     className={
                       pathname.startsWith("/learn")
-                        ? "bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 font-bold"
+                        ? "text-blue-600 dark:text-blue-400 font-semibold"
                         : ""
                     }
                   >
-                    <BookOpen className="w-3.5 h-3.5 mr-1.5 text-blue-500" />
                     Learn
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="w-[520px] p-4">
-                      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2 mb-3">
-                        <span className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-                          Kurikulum Jaringan Komputer
-                        </span>
-                        <Link
-                          href="/learn"
-                          className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
-                        >
-                          Semua Path <ArrowRight className="w-3 h-3" />
-                        </Link>
+                  <NavigationMenuContent className="w-[380px]">
+                    <div className="p-2">
+                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-1">
+                        Kurikulum Jaringan (5 Paths)
                       </div>
-                      <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      <ul className="space-y-1">
                         {learnPaths.map((path) => (
                           <ListItem
                             key={path.title}
                             title={path.title}
                             href={path.href}
-                            icon={path.icon}
                           >
                             {path.description}
                           </ListItem>
                         ))}
                       </ul>
+                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2 pt-2 px-2">
+                        <Link
+                          href="/learn"
+                          className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline block"
+                        >
+                          Lihat Seluruh Kurikulum →
+                        </Link>
+                      </div>
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* 2. Labs Menu */}
+                {/* 2. Labs */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     className={
                       pathname.startsWith("/labs")
-                        ? "bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 font-bold"
+                        ? "text-blue-600 dark:text-blue-400 font-semibold"
                         : ""
                     }
                   >
-                    <FlaskConical className="w-3.5 h-3.5 mr-1.5 text-emerald-500" />
                     Labs
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="w-[500px] p-4">
-                      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2 mb-3">
-                        <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                          Interactive Practice Labs (7 Labs)
-                        </span>
-                        <Link
-                          href="/labs"
-                          className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
-                        >
-                          Semua Labs <ArrowRight className="w-3 h-3" />
-                        </Link>
+                  <NavigationMenuContent className="w-[360px]">
+                    <div className="p-2">
+                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-1">
+                        Praktikum Interaktif (7 Labs)
                       </div>
-                      <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      <ul className="space-y-1">
                         {labsList.map((lab) => (
                           <ListItem
                             key={lab.title}
                             title={lab.title}
                             href={lab.href}
-                            icon={lab.icon}
                           >
                             {lab.description}
                           </ListItem>
                         ))}
                       </ul>
+                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2 pt-2 px-2">
+                        <Link
+                          href="/labs"
+                          className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline block"
+                        >
+                          Lihat Seluruh Praktikum →
+                        </Link>
+                      </div>
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* 3. Challenges Menu */}
+                {/* 3. Challenges */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     className={
                       pathname.startsWith("/challenges")
-                        ? "bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 font-bold"
+                        ? "text-blue-600 dark:text-blue-400 font-semibold"
                         : ""
                     }
                   >
-                    <Bug className="w-3.5 h-3.5 mr-1.5 text-rose-500" />
                     Challenges
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="w-[380px] p-4">
-                      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2 mb-3">
-                        <span className="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">
-                          Troubleshooting Challenges
-                        </span>
-                        <Link
-                          href="/challenges"
-                          className="text-xs font-semibold text-rose-600 dark:text-rose-400 hover:underline flex items-center gap-1"
-                        >
-                          Semua Skenario <ArrowRight className="w-3 h-3" />
-                        </Link>
+                  <NavigationMenuContent className="w-[360px]">
+                    <div className="p-2">
+                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-1">
+                        Troubleshooting Kasus Nyata
                       </div>
-                      <ul className="grid grid-cols-1 gap-2">
+                      <ul className="space-y-1">
                         {challengesList.map((ch) => (
                           <ListItem
                             key={ch.title}
                             title={ch.title}
                             href={ch.href}
-                            icon={Terminal}
                           >
                             {ch.description}
                           </ListItem>
                         ))}
                       </ul>
+                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2 pt-2 px-2">
+                        <Link
+                          href="/challenges"
+                          className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline block"
+                        >
+                          Lihat Seluruh Kasus →
+                        </Link>
+                      </div>
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* 4. Consultant Menu */}
+                {/* 4. Consultant */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     className={
                       pathname.startsWith("/consultant")
-                        ? "bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 font-bold"
+                        ? "text-blue-600 dark:text-blue-400 font-semibold"
                         : ""
                     }
                   >
-                    <ClipboardList className="w-3.5 h-3.5 mr-1.5 text-indigo-500" />
                     Consultant
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="w-[520px] p-4">
-                      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2 mb-3">
-                        <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
-                          <Sparkles className="w-3.5 h-3.5" />
-                          <span>IT Consultant Mode</span>
-                        </div>
-                        <Link
-                          href="/consultant"
-                          className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"
-                        >
-                          Semua Kasus <ArrowRight className="w-3 h-3" />
-                        </Link>
+                  <NavigationMenuContent className="w-[380px]">
+                    <div className="p-2">
+                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-1">
+                        Studi Kasus Proyek Konsultan TI
                       </div>
-                      <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
+                      <ul className="space-y-1">
                         {consultantCases.map((cs) => (
                           <ListItem
                             key={cs.title}
@@ -356,19 +311,18 @@ export function AppHeader({ user }: AppHeaderProps) {
                           </ListItem>
                         ))}
                       </ul>
-                      <div className="border-t border-gray-100 dark:border-gray-800 pt-2">
+                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2 pt-2 px-2 flex items-center justify-between">
+                        <Link
+                          href="/consultant"
+                          className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline"
+                        >
+                          Katalog Kasus →
+                        </Link>
                         <Link
                           href="/consultant/portfolio"
-                          className="flex items-center justify-between p-2.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 transition-colors"
+                          className="text-xs font-medium text-gray-600 dark:text-gray-300 hover:underline"
                         >
-                          <div>
-                            <div className="font-bold text-xs text-indigo-700 dark:text-indigo-300">
-                              Portofolio Proyek Konsultan Saya →
-                            </div>
-                            <div className="text-xs text-indigo-600 dark:text-indigo-400">
-                              Lihat riwayat rancangan jaringan dan skor BoQ Anda.
-                            </div>
-                          </div>
+                          Portofolio Saya →
                         </Link>
                       </div>
                     </div>
@@ -386,20 +340,20 @@ export function AppHeader({ user }: AppHeaderProps) {
               <div className="flex items-center gap-2">
                 <Link
                   href="/profile"
-                  className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                   title="Profile"
                 >
                   <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">
                     {user.name ? user.name.slice(0, 2).toUpperCase() : <User className="w-4 h-4" />}
                   </div>
-                  <span className="hidden lg:inline text-xs font-semibold text-gray-700 dark:text-gray-300 max-w-[120px] truncate">
+                  <span className="hidden lg:inline text-xs font-medium text-gray-700 dark:text-gray-300 max-w-[120px] truncate">
                     {user.name || user.email}
                   </span>
                 </Link>
 
                 <button
                   onClick={() => signOut({ callbackUrl: "/sign-in" })}
-                  className="p-2 rounded-lg text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:text-rose-400 dark:hover:text-rose-300 dark:hover:bg-rose-950/40 transition-colors focus:outline-none focus:ring-2 focus:ring-rose-500"
+                  className="p-2 rounded-lg text-gray-500 hover:text-red-600 hover:bg-red-50 dark:text-gray-400 dark:hover:text-red-400 dark:hover:bg-red-950/40 transition-colors"
                   title="Keluar"
                   aria-label="Keluar"
                 >
@@ -410,13 +364,13 @@ export function AppHeader({ user }: AppHeaderProps) {
               <div className="flex items-center gap-2">
                 <Link
                   href="/sign-in"
-                  className="px-3.5 py-2 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  className="px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                 >
                   Masuk
                 </Link>
                 <Link
                   href="/sign-up"
-                  className="px-4 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="px-3.5 py-1.5 text-xs font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors shadow-sm"
                 >
                   Daftar
                 </Link>
@@ -426,15 +380,11 @@ export function AppHeader({ user }: AppHeaderProps) {
             {/* Mobile menu hamburger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="md:hidden p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800"
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileMenuOpen}
             >
-              {mobileMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -445,49 +395,37 @@ export function AppHeader({ user }: AppHeaderProps) {
             <Link
               href="/dashboard"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 gap-2"
+              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
-              <LayoutDashboard className="w-4 h-4 text-blue-500" />
               Dashboard
             </Link>
             <Link
               href="/learn"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 gap-2"
+              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
-              <BookOpen className="w-4 h-4 text-blue-500" />
-              Learn (5 Paths Kurikulum)
+              Learn (5 Paths)
             </Link>
             <Link
               href="/labs"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 gap-2"
+              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
-              <FlaskConical className="w-4 h-4 text-emerald-500" />
-              Labs (7 Praktikum Interaktif)
+              Labs (7 Praktikum)
             </Link>
             <Link
               href="/challenges"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 gap-2"
+              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
-              <Bug className="w-4 h-4 text-rose-500" />
-              Challenges (Troubleshooting Kasus Nyata)
+              Challenges (Troubleshooting)
             </Link>
             <Link
               href="/consultant"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 gap-2"
+              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
-              <ClipboardList className="w-4 h-4 text-indigo-500" />
-              Consultant Mode (5 Kasus Proyek)
-            </Link>
-            <Link
-              href="/consultant/portfolio"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/30 pl-8"
-            >
-              Portofolio Proyek Saya
+              Consultant Mode
             </Link>
           </div>
         )}
@@ -500,12 +438,10 @@ function ListItem({
   title,
   children,
   href,
-  icon: Icon,
   ...props
 }: React.ComponentPropsWithoutRef<"li"> & {
   href: string;
   title: string;
-  icon?: React.ComponentType<{ className?: string }>;
 }) {
   return (
     <li {...props}>
@@ -513,14 +449,13 @@ function ListItem({
         render={
           <Link
             href={href}
-            className="block select-none rounded-lg p-2.5 text-left transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 focus:bg-gray-100 dark:focus:bg-gray-800"
+            className="block select-none rounded-lg px-2.5 py-2 text-left transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
           >
-            <div className="flex flex-col gap-1 text-xs">
-              <div className="flex items-center font-bold text-gray-900 dark:text-white leading-none gap-1.5">
-                {Icon && <Icon className="w-3.5 h-3.5 text-blue-500 shrink-0" />}
-                <span>{title}</span>
+            <div className="flex flex-col gap-0.5">
+              <div className="font-semibold text-xs text-gray-900 dark:text-white leading-snug">
+                {title}
               </div>
-              <div className={`line-clamp-2 text-xs text-gray-500 dark:text-gray-400 ${Icon ? "pl-5" : ""}`}>
+              <div className="text-[11px] text-gray-500 dark:text-gray-400 leading-normal line-clamp-1">
                 {children}
               </div>
             </div>

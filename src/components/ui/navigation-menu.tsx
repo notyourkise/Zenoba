@@ -5,12 +5,22 @@ import { cva } from "class-variance-authority";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const NavigationMenuContext = React.createContext<{
+interface NavigationMenuContextType {
   activeItem: string | null;
   setActiveItem: (id: string | null) => void;
-}>({
+}
+
+const NavigationMenuContext = React.createContext<NavigationMenuContextType>({
   activeItem: null,
   setActiveItem: () => {},
+});
+
+const NavigationMenuItemContext = React.createContext<{
+  itemId: string;
+  isOpen: boolean;
+}>({
+  itemId: "",
+  isOpen: false,
 });
 
 export function NavigationMenu({
@@ -19,11 +29,23 @@ export function NavigationMenu({
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   const [activeItem, setActiveItem] = React.useState<string | null>(null);
+  const navRef = React.useRef<HTMLElement>(null);
+
+  React.useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setActiveItem(null);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <NavigationMenuContext.Provider value={{ activeItem, setActiveItem }}>
       <nav
-        className={cn("relative z-10 flex items-center justify-center", className)}
+        ref={navRef}
+        className={cn("relative z-30 flex items-center justify-center", className)}
         {...props}
       >
         {children}
@@ -38,7 +60,7 @@ export function NavigationMenuList({
 }: React.HTMLAttributes<HTMLUListElement>) {
   return (
     <ul
-      className={cn("flex list-none items-center justify-center gap-1.5", className)}
+      className={cn("flex list-none items-center justify-center gap-1", className)}
       {...props}
     />
   );
@@ -46,13 +68,24 @@ export function NavigationMenuList({
 
 export function NavigationMenuItem({
   className,
+  children,
   ...props
 }: React.LiHTMLAttributes<HTMLLIElement>) {
-  return <li className={cn("relative", className)} {...props} />;
+  const itemId = React.useId();
+  const { activeItem } = React.useContext(NavigationMenuContext);
+  const isOpen = activeItem === itemId;
+
+  return (
+    <NavigationMenuItemContext.Provider value={{ itemId, isOpen }}>
+      <li className={cn("relative", className)} {...props}>
+        {children}
+      </li>
+    </NavigationMenuItemContext.Provider>
+  );
 }
 
 export const navigationMenuTriggerStyle = cva(
-  "inline-flex h-9 items-center justify-center rounded-lg px-3.5 py-2 text-xs font-semibold text-gray-700 dark:text-gray-200 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white focus:bg-gray-100 dark:focus:bg-gray-800 focus:outline-none disabled:pointer-events-none disabled:opacity-50 cursor-pointer"
+  "inline-flex h-9 items-center justify-center rounded-md px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white focus:outline-none cursor-pointer"
 );
 
 export function NavigationMenuTrigger({
@@ -60,26 +93,25 @@ export function NavigationMenuTrigger({
   children,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  const { activeItem, setActiveItem } = React.useContext(NavigationMenuContext);
-  const id = React.useId();
-  const isOpen = activeItem === id;
+  const { setActiveItem } = React.useContext(NavigationMenuContext);
+  const { itemId, isOpen } = React.useContext(NavigationMenuItemContext);
 
   return (
     <button
       type="button"
-      onClick={() => setActiveItem(isOpen ? null : id)}
+      onClick={() => setActiveItem(isOpen ? null : itemId)}
       className={cn(
         navigationMenuTriggerStyle(),
-        isOpen && "bg-gray-100 dark:bg-gray-800 text-blue-600 dark:text-blue-400 font-bold",
+        isOpen && "bg-gray-100 dark:bg-gray-800 text-blue-600 dark:text-blue-400 font-semibold",
         className
       )}
       aria-expanded={isOpen}
       {...props}
     >
-      <span className="flex items-center gap-1.5">{children}</span>
+      <span>{children}</span>
       <ChevronDown
         className={cn(
-          "ml-1 h-3.5 w-3.5 transition-transform duration-200",
+          "ml-1 h-3.5 w-3.5 transition-transform duration-200 text-gray-400",
           isOpen && "rotate-180 text-blue-600 dark:text-blue-400"
         )}
         aria-hidden="true"
@@ -93,26 +125,20 @@ export function NavigationMenuContent({
   children,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
-  const { activeItem, setActiveItem } = React.useContext(NavigationMenuContext);
+  const { isOpen } = React.useContext(NavigationMenuItemContext);
 
-  if (!activeItem) return null;
+  if (!isOpen) return null;
 
   return (
-    <>
-      <div
-        className="fixed inset-0 z-30"
-        onClick={() => setActiveItem(null)}
-      />
-      <div
-        className={cn(
-          "absolute left-1/2 -translate-x-1/2 top-full z-40 mt-2 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-2xl transition-all",
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </div>
-    </>
+    <div
+      className={cn(
+        "absolute left-0 top-full z-50 mt-2 min-w-[280px] rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl p-2 transition-all animate-in fade-in-50 zoom-in-95",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </div>
   );
 }
 
@@ -134,7 +160,7 @@ export function NavigationMenuLink({
   return (
     <a
       className={cn(
-        "block select-none rounded-lg p-2.5 text-xs font-medium no-underline outline-none transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400",
+        "block select-none rounded-lg p-2.5 text-sm font-medium no-underline outline-none transition-colors hover:bg-gray-100 dark:hover:bg-gray-800",
         className
       )}
       {...props}

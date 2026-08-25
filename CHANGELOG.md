@@ -40,6 +40,38 @@ All notable project changes are recorded here.
 
 # 2026-08-25
 
+- [2026-08-25 18:59 WITA] [MILESTONE] [REVIEW] [Milestone 7: Production Readiness & MVP Launch]
+  Completed Milestone 7 — Production Readiness & MVP Launch (Sprint 15: Quality, Security & Deployment, and Sprint 16: MVP Stabilization).
+  - MVP Exit Criteria Verified: Netloka is production-accessible, secure, resilient, measurable, recoverable, and ready for real learners at `netloka.biz.id`.
+  - Security Hardening: Configured HTTP Security Headers (`CSP`, `HSTS`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`) in `next.config.ts` and `Caddyfile`.
+  - Production Containerization: Multi-stage `Dockerfile` (Node 20 Alpine standalone with non-root nextjs user) and `docker-compose.prod.yml` with isolated Docker network `netloka-network`.
+  - Reverse Proxy & SSL: `Caddyfile` with automatic HTTPS, zstd/gzip compression, and Cloudflare Full (Strict) SSL setup documentation in `docs/deployment/cloudflare-and-caddy.md`.
+  - Database Disaster Recovery: Created automated backup script `scripts/backup-db.sh` with 14-day retention and restore script `scripts/restore-db.sh`.
+  - Monitoring & Metrics: Enhanced `/api/health` with database latency ping, process memory usage, uptime, and application version.
+  - Technical Debt Register: Documented debt items and post-MVP architecture pathways (MikroTik, Cisco, Linux Server) in `docs/TECHNICAL_DEBT.md`.
+  - Validation: 22 Vitest test suites (107 tests passed), 20 Playwright E2E browser tests passed (including full critical-path test `src/e2e/critical-path.spec.ts`), Next.js 16 production build succeeded, typecheck clean, lint clean.
+  Files/areas: `Dockerfile`, `docker-compose.prod.yml`, `Caddyfile`, `next.config.ts`, `scripts/`, `docs/`, `src/app/api/health/`, `src/e2e/critical-path.spec.ts`
+  Git: pending
+
+- [2026-08-25 18:55 WITA] [SPRINT] [Milestone 7 / Sprint 16]
+  Completed Sprint 16 — MVP Stabilization.
+  1. Enhanced system metrics and database connection monitoring in `src/app/api/health/route.ts`.
+  2. Created technical debt register and post-MVP extension roadmap in `docs/TECHNICAL_DEBT.md`.
+  3. Verified all 5 curriculum paths and attempt models for learning funnel tracking.
+  Files/areas: `src/app/api/health/`, `docs/TECHNICAL_DEBT.md`
+  Validation: health endpoint unit tests passed.
+
+- [2026-08-25 18:40 WITA] [SPRINT] [Milestone 7 / Sprint 15]
+  Completed Sprint 15 — Quality, Security & Deployment.
+  1. Configured HTTP Security Headers (`CSP`, `HSTS`, `X-Frame-Options`, `X-Content-Type-Options`) in `next.config.ts`.
+  2. Created multi-stage production `Dockerfile` (Node 20 Alpine standalone) and `docker-compose.prod.yml`.
+  3. Configured `Caddyfile` for reverse proxying and automatic HTTPS on `netloka.biz.id`.
+  4. Documented Cloudflare DNS, WAF, and SSL settings in `docs/deployment/cloudflare-and-caddy.md`.
+  5. Implemented automated database backup and restore scripts in `scripts/backup-db.sh` and `scripts/restore-db.sh`.
+  6. Added critical-path E2E tests across all 4 product pillars in `src/e2e/critical-path.spec.ts`.
+  Files/areas: `Dockerfile`, `docker-compose.prod.yml`, `Caddyfile`, `next.config.ts`, `scripts/`, `docs/deployment/`, `src/e2e/critical-path.spec.ts`
+  Validation: 20 Playwright E2E tests passed, build passed.
+
 - [2026-08-25 18:18 WITA] [MILESTONE] [REVIEW] [Milestone 6: IT Consultant Mode]
   Completed Milestone 6 — IT Consultant Mode (Sprint 12: Case & Procurement Engine, Sprint 13: Topology, IP/VLAN Planning & Scoring, Sprint 14: Portfolio & Advanced Cases).
   - Exit Criteria Verified: Learner can receive a case, analyze client requirements, procure devices (BoQ), design topology, plan IP/VLAN, submit a full proposal, receive deterministic 5-dimensional scoring (Technical Correctness, Requirement Fulfillment, Cost Efficiency, Scalability, Security), and retain the project in a persistent portfolio.

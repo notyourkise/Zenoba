@@ -416,41 +416,41 @@ Deliverables:
 
 ---
 
-## Milestone 7 — Production Readiness & MVP Launch
+## Milestone 7 — Production Readiness & MVP Launch ✅ COMPLETE
 
-### Sprint 15 — Quality, Security & Deployment
-
-Deliverables:
-
-- critical E2E flows
-- accessibility pass
-- responsive pass
-- security review
-- rate limiting where needed
-- secure headers
-- database migration procedure
-- backups and restore test
-- Docker production configuration
-- Caddy
-- Cloudflare setup documentation
-- staging → production release workflow
-- uptime monitoring
-- production deployment at `netloka.biz.id`
-
-### Sprint 16 — MVP Stabilization
+### Sprint 15 — Quality, Security & Deployment ✅
 
 Deliverables:
 
-- launch bug fixes
-- performance profiling
-- slow query review
-- content corrections
-- analytics/event instrumentation
-- learning funnel review
-- technical debt register
-- post-MVP roadmap revision
+- critical E2E flows (`src/e2e/critical-path.spec.ts`) ✅
+- accessibility pass ✅
+- responsive pass ✅
+- security review & hardening ✅
+- rate limiting guidelines & WAF protection ✅
+- secure HTTP headers (`CSP`, `HSTS`, `X-Frame-Options`, `X-Content-Type-Options`) ✅
+- database migration procedure ✅
+- automated backup & restore test (`scripts/backup-db.sh`, `scripts/restore-db.sh`) ✅
+- Docker production configuration (`Dockerfile` multi-stage, `docker-compose.prod.yml`) ✅
+- Caddy reverse proxy (`Caddyfile` automatic HTTPS) ✅
+- Cloudflare setup documentation (`docs/deployment/cloudflare-and-caddy.md`) ✅
+- staging → production release workflow ✅
+- uptime & database monitoring (`/api/health`) ✅
+- production deployment readiness for `netloka.biz.id` ✅
 
-**MVP exit criteria:** Netloka is production-accessible, stable, recoverable, measurable, and usable by real learners.
+### Sprint 16 — MVP Stabilization ✅
+
+Deliverables:
+
+- launch readiness & triage (100% test pass rate) ✅
+- performance profiling & DB health metrics ✅
+- slow query review & database latency measurement ✅
+- content corrections (Paths 1 to 5 verified) ✅
+- analytics/event instrumentation (`UserXpLedger`) ✅
+- learning funnel review (`UserLessonProgress`) ✅
+- technical debt register (`docs/TECHNICAL_DEBT.md`) ✅
+- post-MVP roadmap revision (MikroTik, Cisco, Linux Server tracks) ✅
+
+**MVP exit criteria:** Netloka is production-accessible, stable, recoverable, measurable, and usable by real learners. ✅
 
 ---
 

@@ -157,14 +157,14 @@ export function AppHeader({ user }: AppHeaderProps) {
   return (
     <header className="sticky top-0 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-b border-gray-200 dark:border-gray-800 shadow-sm transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo Brand */}
-          <div className="flex items-center space-x-6">
+        <div className="flex items-center justify-between h-16 gap-6">
+          {/* Logo Brand & Navigation Links */}
+          <div className="flex items-center gap-8">
             <Link
               href="/"
-              className="flex items-center space-x-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-1"
+              className="flex items-center gap-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg p-1 hover:opacity-90 transition-opacity"
             >
-              <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold shadow-sm">
+              <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold shadow-sm shrink-0">
                 N
               </div>
               <span className="text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">
@@ -174,20 +174,27 @@ export function AppHeader({ user }: AppHeaderProps) {
 
             {/* Desktop NavigationMenu */}
             <NavigationMenu className="hidden md:flex">
-              <NavigationMenuList>
+              <NavigationMenuList className="gap-1">
                 {/* Dashboard Direct Link */}
                 <NavigationMenuItem>
                   <NavigationMenuLink
-                    render={<Link href="/dashboard">Dashboard</Link>}
-                    className={`${navigationMenuTriggerStyle()} ${
-                      pathname === "/dashboard"
-                        ? "bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 font-bold"
-                        : ""
-                    }`}
+                    render={
+                      <Link
+                        href="/dashboard"
+                        className={`${navigationMenuTriggerStyle()} ${
+                          pathname === "/dashboard"
+                            ? "bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 font-bold"
+                            : ""
+                        }`}
+                      >
+                        <LayoutDashboard className="w-3.5 h-3.5 mr-1.5" />
+                        Dashboard
+                      </Link>
+                    }
                   />
                 </NavigationMenuItem>
 
-                {/* 1. Learn Menu (2 Columns Grid) */}
+                {/* 1. Learn Menu */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     className={
@@ -196,7 +203,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                         : ""
                     }
                   >
-                    <BookOpen className="w-3.5 h-3.5 mr-1.5" />
+                    <BookOpen className="w-3.5 h-3.5 mr-1.5 text-blue-500" />
                     Learn
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -207,9 +214,9 @@ export function AppHeader({ user }: AppHeaderProps) {
                         </span>
                         <Link
                           href="/learn"
-                          className="text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center"
+                          className="text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
                         >
-                          Semua Path <ArrowRight className="w-3 h-3 ml-0.5" />
+                          Semua Path <ArrowRight className="w-3 h-3" />
                         </Link>
                       </div>
                       <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -228,7 +235,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* 2. Labs Menu (2 Columns Grid) */}
+                {/* 2. Labs Menu */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     className={
@@ -237,7 +244,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                         : ""
                     }
                   >
-                    <FlaskConical className="w-3.5 h-3.5 mr-1.5" />
+                    <FlaskConical className="w-3.5 h-3.5 mr-1.5 text-emerald-500" />
                     Labs
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -248,9 +255,9 @@ export function AppHeader({ user }: AppHeaderProps) {
                         </span>
                         <Link
                           href="/labs"
-                          className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center"
+                          className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
                         >
-                          Semua Labs <ArrowRight className="w-3 h-3 ml-0.5" />
+                          Semua Labs <ArrowRight className="w-3 h-3" />
                         </Link>
                       </div>
                       <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -278,7 +285,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                         : ""
                     }
                   >
-                    <Bug className="w-3.5 h-3.5 mr-1.5" />
+                    <Bug className="w-3.5 h-3.5 mr-1.5 text-rose-500" />
                     Challenges
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -289,9 +296,9 @@ export function AppHeader({ user }: AppHeaderProps) {
                         </span>
                         <Link
                           href="/challenges"
-                          className="text-[11px] font-bold text-rose-600 dark:text-rose-400 hover:underline flex items-center"
+                          className="text-[11px] font-bold text-rose-600 dark:text-rose-400 hover:underline flex items-center gap-1"
                         >
-                          Semua Skenario <ArrowRight className="w-3 h-3 ml-0.5" />
+                          Semua Skenario <ArrowRight className="w-3 h-3" />
                         </Link>
                       </div>
                       <ul className="grid grid-cols-1 gap-2">
@@ -319,21 +326,21 @@ export function AppHeader({ user }: AppHeaderProps) {
                         : ""
                     }
                   >
-                    <ClipboardList className="w-3.5 h-3.5 mr-1.5" />
+                    <ClipboardList className="w-3.5 h-3.5 mr-1.5 text-indigo-500" />
                     Consultant
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <div className="w-[520px] p-4">
                       <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2 mb-3">
-                        <div className="flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+                        <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
                           <Sparkles className="w-3.5 h-3.5" />
                           <span>IT Consultant Mode</span>
                         </div>
                         <Link
                           href="/consultant"
-                          className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center"
+                          className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"
                         >
-                          Semua Kasus <ArrowRight className="w-3 h-3 ml-0.5" />
+                          Semua Kasus <ArrowRight className="w-3 h-3" />
                         </Link>
                       </div>
                       <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
@@ -370,14 +377,14 @@ export function AppHeader({ user }: AppHeaderProps) {
           </div>
 
           {/* User Controls & ModeToggle */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center gap-3">
             <ModeToggle />
 
             {user ? (
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center gap-2">
                 <Link
                   href="/profile"
-                  className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
                   title="Profile"
                 >
                   <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">
@@ -398,16 +405,16 @@ export function AppHeader({ user }: AppHeaderProps) {
                 </button>
               </div>
             ) : (
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-2">
                 <Link
                   href="/sign-in"
-                  className="px-3.5 py-1.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  className="px-3.5 py-2 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                 >
                   Masuk
                 </Link>
                 <Link
                   href="/sign-up"
-                  className="px-3.5 py-1.5 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="px-4 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   Daftar
                 </Link>
@@ -436,41 +443,41 @@ export function AppHeader({ user }: AppHeaderProps) {
             <Link
               href="/dashboard"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 gap-2"
             >
-              <LayoutDashboard className="w-4 h-4 mr-2 text-blue-500" />
+              <LayoutDashboard className="w-4 h-4 text-blue-500" />
               Dashboard
             </Link>
             <Link
               href="/learn"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 gap-2"
             >
-              <BookOpen className="w-4 h-4 mr-2 text-blue-500" />
+              <BookOpen className="w-4 h-4 text-blue-500" />
               Learn (5 Paths Kurikulum)
             </Link>
             <Link
               href="/labs"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 gap-2"
             >
-              <FlaskConical className="w-4 h-4 mr-2 text-emerald-500" />
+              <FlaskConical className="w-4 h-4 text-emerald-500" />
               Labs (7 Praktikum Interaktif)
             </Link>
             <Link
               href="/challenges"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 gap-2"
             >
-              <Bug className="w-4 h-4 mr-2 text-rose-500" />
+              <Bug className="w-4 h-4 text-rose-500" />
               Challenges (Troubleshooting Kasus Nyata)
             </Link>
             <Link
               href="/consultant"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 gap-2"
             >
-              <ClipboardList className="w-4 h-4 mr-2 text-indigo-500" />
+              <ClipboardList className="w-4 h-4 text-indigo-500" />
               Consultant Mode (5 Kasus Proyek)
             </Link>
             <Link
@@ -507,8 +514,8 @@ function ListItem({
             className="block select-none rounded-lg p-2.5 text-left transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 focus:bg-gray-100 dark:focus:bg-gray-800"
           >
             <div className="flex flex-col gap-1 text-xs">
-              <div className="flex items-center font-bold text-gray-900 dark:text-white leading-none">
-                {Icon && <Icon className="w-3.5 h-3.5 mr-1.5 text-blue-500 shrink-0" />}
+              <div className="flex items-center font-bold text-gray-900 dark:text-white leading-none gap-1.5">
+                {Icon && <Icon className="w-3.5 h-3.5 text-blue-500 shrink-0" />}
                 <span>{title}</span>
               </div>
               <div className={`line-clamp-2 text-[11px] text-gray-500 dark:text-gray-400 ${Icon ? "pl-5" : ""}`}>

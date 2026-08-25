@@ -23,7 +23,7 @@ export function NavigationMenu({
   return (
     <NavigationMenuContext.Provider value={{ activeItem, setActiveItem }}>
       <nav
-        className={cn("relative z-10 flex max-w-max flex-1 items-center justify-center", className)}
+        className={cn("relative z-10 flex items-center justify-center", className)}
         {...props}
       >
         {children}
@@ -38,7 +38,7 @@ export function NavigationMenuList({
 }: React.HTMLAttributes<HTMLUListElement>) {
   return (
     <ul
-      className={cn("group flex flex-1 list-none items-center justify-center space-x-1", className)}
+      className={cn("flex list-none items-center justify-center gap-1.5", className)}
       {...props}
     />
   );
@@ -52,7 +52,7 @@ export function NavigationMenuItem({
 }
 
 export const navigationMenuTriggerStyle = cva(
-  "group inline-flex h-9 w-max items-center justify-center rounded-lg bg-background px-3.5 py-2 text-xs font-semibold transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white focus:bg-gray-100 dark:focus:bg-gray-800 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:data-[state=open]:bg-gray-800/50"
+  "inline-flex h-9 items-center justify-center rounded-lg px-3.5 py-2 text-xs font-semibold text-gray-700 dark:text-gray-200 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white focus:bg-gray-100 dark:focus:bg-gray-800 focus:outline-none disabled:pointer-events-none disabled:opacity-50 cursor-pointer"
 );
 
 export function NavigationMenuTrigger({
@@ -68,15 +68,19 @@ export function NavigationMenuTrigger({
     <button
       type="button"
       onClick={() => setActiveItem(isOpen ? null : id)}
-      className={cn(navigationMenuTriggerStyle(), "group", className)}
+      className={cn(
+        navigationMenuTriggerStyle(),
+        isOpen && "bg-gray-100 dark:bg-gray-800 text-blue-600 dark:text-blue-400 font-bold",
+        className
+      )}
       aria-expanded={isOpen}
       {...props}
     >
-      {children}
+      <span className="flex items-center gap-1.5">{children}</span>
       <ChevronDown
         className={cn(
-          "relative top-[1px] ml-1 h-3.5 w-3.5 transition duration-200 group-hover:translate-y-[1px]",
-          isOpen && "rotate-180"
+          "ml-1 h-3.5 w-3.5 transition-transform duration-200",
+          isOpen && "rotate-180 text-blue-600 dark:text-blue-400"
         )}
         aria-hidden="true"
       />
@@ -101,7 +105,7 @@ export function NavigationMenuContent({
       />
       <div
         className={cn(
-          "absolute left-0 top-full z-40 mt-2 w-auto min-w-[280px] rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-3 text-gray-900 dark:text-gray-100 shadow-xl transition-all",
+          "absolute left-0 top-full z-40 mt-2 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-2xl transition-all",
           className
         )}
         {...props}
@@ -130,29 +134,12 @@ export function NavigationMenuLink({
   return (
     <a
       className={cn(
-        "block select-none rounded-lg p-2.5 text-xs font-medium leading-none no-underline outline-none transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 focus:bg-gray-100 dark:focus:bg-gray-800",
+        "block select-none rounded-lg p-2.5 text-xs font-medium no-underline outline-none transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400",
         className
       )}
       {...props}
     >
       {children}
     </a>
-  );
-}
-
-export function NavigationMenuIndicator({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={cn(
-        "top-full z-[1] flex h-1.5 items-end justify-center overflow-hidden",
-        className
-      )}
-      {...props}
-    >
-      <div className="relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm bg-border shadow-md" />
-    </div>
   );
 }

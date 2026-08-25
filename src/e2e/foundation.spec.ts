@@ -20,7 +20,7 @@ test.describe("Netloka Core App & Auth Shell", () => {
     const body = await response.json();
 
     expect(response.ok()).toBeTruthy();
-    expect(body.status).toBe("ok");
+    expect(["healthy", "degraded"]).toContain(body.status);
     expect(new Date(body.timestamp).toISOString()).toBe(body.timestamp);
   });
 

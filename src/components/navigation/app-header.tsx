@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
@@ -22,6 +22,7 @@ import {
   Radio,
   Server,
   ShieldCheck,
+  Zap,
 } from "lucide-react";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import {
@@ -43,19 +44,125 @@ interface AppHeaderProps {
   } | null;
 }
 
+const learnPaths = [
+  {
+    title: "Path 1: Dasar Jaringan & Topologi",
+    href: "/learn/path-1-pengenalan-jaringan",
+    description: "Konsep LAN/WAN, Model OSI 7 Layer, dan perangkat keras jaringan.",
+    icon: Network,
+  },
+  {
+    title: "Path 2: Protokol Jaringan & TCP/IP",
+    href: "/learn/path-2-protokol-tcpip",
+    description: "TCP 3-Way Handshake, UDP, dan alur enkapsulasi paket data.",
+    icon: Server,
+  },
+  {
+    title: "Path 3: IPv4 & Subnetting CIDR / VLSM",
+    href: "/learn/path-3-ipv4-subnetting",
+    description: "Kalkulasi host usable, netmask, dan pembagian subnet bertingkat.",
+    icon: Calculator,
+  },
+  {
+    title: "Path 4: Layanan Jaringan & NAT",
+    href: "/learn/path-4-network-services-security",
+    description: "DHCP DORA, hierarki DNS resolving, dan translasi NAT/PAT.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Path 5: Wireless & Troubleshooting",
+    href: "/learn/path-5-wireless-troubleshooting",
+    description: "Wi-Fi 6, frekuensi 2.4/5GHz, WPA3, dan metodologi pelacakan masalah.",
+    icon: Radio,
+  },
+];
+
+const labsList = [
+  {
+    title: "Lab 1: Subnetting Calculator",
+    href: "/labs/lab-subnetting",
+    description: "Hitung alokasi network, broadcast, dan range IP host usable.",
+    icon: Calculator,
+  },
+  {
+    title: "Lab 2: Host IP & Gateway Config",
+    href: "/labs/lab-ip-config",
+    description: "Simulasi konfigurasi alamat IP workstation dan default gateway.",
+    icon: Server,
+  },
+  {
+    title: "Lab 4: VLAN Builder & Tagging",
+    href: "/labs/lab-vlan",
+    description: "Segmentasi port access dan trunking IEEE 802.1Q switch.",
+    icon: Network,
+  },
+  {
+    title: "Lab 5: Static Routing & LPM",
+    href: "/labs/lab-routing",
+    description: "Evaluasi jalur tabel routing dengan Longest Prefix Match.",
+    icon: Zap,
+  },
+];
+
+const challengesList = [
+  {
+    title: "Kasus 1: Branch Office Offline",
+    href: "/challenges/branch-office-offline",
+    description: "Diagnosa dan perbaiki workstation kantor cabang yang gagal ping internet.",
+  },
+  {
+    title: "Kasus 2: Inter-VLAN Routing Bug",
+    href: "/challenges/inter-vlan-routing-bug",
+    description: "Lacak masalah isolasi dan komunikasi antar divisi HRD & Keuangan.",
+  },
+  {
+    title: "Kasus 3: DHCP Scope Exhaustion",
+    href: "/challenges/dhcp-scope-exhaustion",
+    description: "Atasi masalah kehabisan alokasi pool IP address pada server DHCP.",
+  },
+];
+
+const consultantCases = [
+  {
+    title: "1. Kantor Notaris & PPAT (SOHO)",
+    href: "/consultant/small-office-notaris",
+    description: "Budget 15 Juta • 12 PC Klien, Router & Wi-Fi Access Point.",
+  },
+  {
+    title: "2. Warnet & Esports Gaming Center",
+    href: "/consultant/warnet-gaming-center",
+    description: "Budget 25 Juta • 30 PC Gaming, Dual-WAN Load Balance.",
+  },
+  {
+    title: "3. Kantor Logistik & Gudang",
+    href: "/consultant/medium-office-logistics",
+    description: "Budget 50 Juta • 40 PC, Segmentasi 3 VLAN & Wi-Fi Gudang.",
+  },
+  {
+    title: "4. Laboratorium Komputer SMK TKJ",
+    href: "/consultant/smk-tkj-school-lab",
+    description: "Budget 75 Juta • 2 Lab @ 36 PC, Server Sekolah & VLAN Guru.",
+  },
+  {
+    title: "5. Gedung Korporat Multi-Lantai",
+    href: "/consultant/multi-floor-corporate",
+    description: "Budget 120 Juta • 100 Node, Backbone Fiber Optic 10G SFP+.",
+  },
+];
+
 export function AppHeader({ user }: AppHeaderProps) {
   const pathname = usePathname();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-b border-gray-200 dark:border-gray-800 shadow-sm transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+          {/* Logo Brand */}
           <div className="flex items-center space-x-6">
             <Link
               href="/"
-              className="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-1"
+              className="flex items-center space-x-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-1"
             >
               <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold shadow-sm">
                 N
@@ -68,22 +175,19 @@ export function AppHeader({ user }: AppHeaderProps) {
             {/* Desktop NavigationMenu */}
             <NavigationMenu className="hidden md:flex">
               <NavigationMenuList>
-                {/* 1. Dashboard Link */}
+                {/* Dashboard Direct Link */}
                 <NavigationMenuItem>
                   <NavigationMenuLink
-                    render={<Link href="/dashboard" />}
+                    render={<Link href="/dashboard">Dashboard</Link>}
                     className={`${navigationMenuTriggerStyle()} ${
                       pathname === "/dashboard"
                         ? "bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 font-bold"
                         : ""
                     }`}
-                  >
-                    <LayoutDashboard className="w-3.5 h-3.5 mr-1.5" />
-                    Dashboard
-                  </NavigationMenuLink>
+                  />
                 </NavigationMenuItem>
 
-                {/* 2. Learn Dropdown Menu */}
+                {/* 1. Learn Menu (2 Columns Grid) */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     className={
@@ -95,74 +199,36 @@ export function AppHeader({ user }: AppHeaderProps) {
                     <BookOpen className="w-3.5 h-3.5 mr-1.5" />
                     Learn
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent className="w-[420px] p-4 space-y-2">
-                    <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
-                      <span className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-                        Kurikulum Jaringan (5 Paths)
-                      </span>
-                      <Link
-                        href="/learn"
-                        className="text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                      >
-                        Buka Katalog <ArrowRight className="w-3 h-3 ml-0.5" />
-                      </Link>
-                    </div>
-                    <div className="grid grid-cols-1 gap-1">
-                      <Link
-                        href="/learn/path-1-pengenalan-jaringan"
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
-                      >
-                        <div className="flex items-center text-xs font-bold text-gray-900 dark:text-white">
-                          <Network className="w-3.5 h-3.5 mr-1.5 text-blue-500" />
-                          Path 1: Dasar Jaringan & Topologi
-                        </div>
-                        <p className="text-[11px] text-gray-500 pl-5">Konsep LAN/WAN, Model OSI 7 Layer & Hardware</p>
-                      </Link>
-                      <Link
-                        href="/learn/path-2-protokol-tcpip"
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
-                      >
-                        <div className="flex items-center text-xs font-bold text-gray-900 dark:text-white">
-                          <Server className="w-3.5 h-3.5 mr-1.5 text-emerald-500" />
-                          Path 2: Protokol Jaringan & TCP/IP
-                        </div>
-                        <p className="text-[11px] text-gray-500 pl-5">TCP 3-Way Handshake, UDP, dan Alur Paket Enkapsulasi</p>
-                      </Link>
-                      <Link
-                        href="/learn/path-3-ipv4-subnetting"
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
-                      >
-                        <div className="flex items-center text-xs font-bold text-gray-900 dark:text-white">
-                          <Calculator className="w-3.5 h-3.5 mr-1.5 text-amber-500" />
-                          Path 3: IPv4 & Subnetting CIDR / VLSM
-                        </div>
-                        <p className="text-[11px] text-gray-500 pl-5">Kalkulasi Host Usable, Netmask, dan Desain Subnet</p>
-                      </Link>
-                      <Link
-                        href="/learn/path-4-network-services-security"
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
-                      >
-                        <div className="flex items-center text-xs font-bold text-gray-900 dark:text-white">
-                          <ShieldCheck className="w-3.5 h-3.5 mr-1.5 text-indigo-500" />
-                          Path 4: Network Services (DHCP, DNS, NAT)
-                        </div>
-                        <p className="text-[11px] text-gray-500 pl-5">DHCP DORA, DNS Hierarchy Resolving, dan PAT Translation</p>
-                      </Link>
-                      <Link
-                        href="/learn/path-5-wireless-troubleshooting"
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
-                      >
-                        <div className="flex items-center text-xs font-bold text-gray-900 dark:text-white">
-                          <Radio className="w-3.5 h-3.5 mr-1.5 text-purple-500" />
-                          Path 5: Wireless Network & Troubleshooting
-                        </div>
-                        <p className="text-[11px] text-gray-500 pl-5">Wi-Fi 6, 2.4/5GHz, WPA3, dan Metodologi Troubleshooting</p>
-                      </Link>
+                  <NavigationMenuContent>
+                    <div className="w-[520px] p-4">
+                      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2 mb-3">
+                        <span className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+                          Kurikulum Jaringan Komputer
+                        </span>
+                        <Link
+                          href="/learn"
+                          className="text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center"
+                        >
+                          Semua Path <ArrowRight className="w-3 h-3 ml-0.5" />
+                        </Link>
+                      </div>
+                      <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        {learnPaths.map((path) => (
+                          <ListItem
+                            key={path.title}
+                            title={path.title}
+                            href={path.href}
+                            icon={path.icon}
+                          >
+                            {path.description}
+                          </ListItem>
+                        ))}
+                      </ul>
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* 3. Labs Dropdown Menu */}
+                {/* 2. Labs Menu (2 Columns Grid) */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     className={
@@ -174,52 +240,36 @@ export function AppHeader({ user }: AppHeaderProps) {
                     <FlaskConical className="w-3.5 h-3.5 mr-1.5" />
                     Labs
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent className="w-[380px] p-4 space-y-2">
-                    <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
-                      <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                        Interactive Practice Labs (7 Labs)
-                      </span>
-                      <Link
-                        href="/labs"
-                        className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center"
-                      >
-                        Semua Labs <ArrowRight className="w-3 h-3 ml-0.5" />
-                      </Link>
-                    </div>
-                    <div className="grid grid-cols-1 gap-1">
-                      <Link
-                        href="/labs/lab-subnetting"
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
-                      >
-                        <div className="font-bold text-xs text-gray-900 dark:text-white">Lab 1: Subnetting CIDR Calculator</div>
-                        <p className="text-[11px] text-gray-500">Hitung Network, Broadcast, & Usable IP Host</p>
-                      </Link>
-                      <Link
-                        href="/labs/lab-ip-config"
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
-                      >
-                        <div className="font-bold text-xs text-gray-900 dark:text-white">Lab 2: Host IP & Gateway Configuration</div>
-                        <p className="text-[11px] text-gray-500">Konfigurasi alamat IP workstation & default route</p>
-                      </Link>
-                      <Link
-                        href="/labs/lab-vlan"
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
-                      >
-                        <div className="font-bold text-xs text-gray-900 dark:text-white">Lab 4: VLAN Builder & Port Tagging</div>
-                        <p className="text-[11px] text-gray-500">Segmentasi Access & Trunk 802.1Q switch port</p>
-                      </Link>
-                      <Link
-                        href="/labs/lab-routing"
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
-                      >
-                        <div className="font-bold text-xs text-gray-900 dark:text-white">Lab 5: Static Routing Table & LPM</div>
-                        <p className="text-[11px] text-gray-500">Evaluasi tabel routing & Longest Prefix Match</p>
-                      </Link>
+                  <NavigationMenuContent>
+                    <div className="w-[500px] p-4">
+                      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2 mb-3">
+                        <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                          Interactive Practice Labs (7 Labs)
+                        </span>
+                        <Link
+                          href="/labs"
+                          className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center"
+                        >
+                          Semua Labs <ArrowRight className="w-3 h-3 ml-0.5" />
+                        </Link>
+                      </div>
+                      <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        {labsList.map((lab) => (
+                          <ListItem
+                            key={lab.title}
+                            title={lab.title}
+                            href={lab.href}
+                            icon={lab.icon}
+                          >
+                            {lab.description}
+                          </ListItem>
+                        ))}
+                      </ul>
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* 4. Challenges Dropdown Menu */}
+                {/* 3. Challenges Menu */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     className={
@@ -231,54 +281,36 @@ export function AppHeader({ user }: AppHeaderProps) {
                     <Bug className="w-3.5 h-3.5 mr-1.5" />
                     Challenges
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent className="w-[380px] p-4 space-y-2">
-                    <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
-                      <span className="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">
-                        Troubleshooting Challenges
-                      </span>
-                      <Link
-                        href="/challenges"
-                        className="text-[11px] font-bold text-rose-600 dark:text-rose-400 hover:underline flex items-center"
-                      >
-                        Katalog Skenario <ArrowRight className="w-3 h-3 ml-0.5" />
-                      </Link>
-                    </div>
-                    <div className="grid grid-cols-1 gap-1">
-                      <Link
-                        href="/challenges/branch-office-offline"
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
-                      >
-                        <div className="font-bold text-xs text-gray-900 dark:text-white flex items-center">
-                          <Terminal className="w-3 h-3 mr-1 text-rose-500" />
-                          Kasus 1: Branch Office Offline
-                        </div>
-                        <p className="text-[11px] text-gray-500 pl-4">Diagnosa workstation gagal ping internet & gateway</p>
-                      </Link>
-                      <Link
-                        href="/challenges/inter-vlan-routing-bug"
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
-                      >
-                        <div className="font-bold text-xs text-gray-900 dark:text-white flex items-center">
-                          <Terminal className="w-3 h-3 mr-1 text-rose-500" />
-                          Kasus 2: Inter-VLAN Routing Bug
-                        </div>
-                        <p className="text-[11px] text-gray-500 pl-4">Isolasi traffic antar divisi HRD & Keuangan gagal</p>
-                      </Link>
-                      <Link
-                        href="/challenges/dhcp-scope-exhaustion"
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
-                      >
-                        <div className="font-bold text-xs text-gray-900 dark:text-white flex items-center">
-                          <Terminal className="w-3 h-3 mr-1 text-rose-500" />
-                          Kasus 3: DHCP Scope Exhaustion
-                        </div>
-                        <p className="text-[11px] text-gray-500 pl-4">Klien baru tidak mendapatkan alokasi IP DHCP</p>
-                      </Link>
+                  <NavigationMenuContent>
+                    <div className="w-[380px] p-4">
+                      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2 mb-3">
+                        <span className="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">
+                          Troubleshooting Challenges
+                        </span>
+                        <Link
+                          href="/challenges"
+                          className="text-[11px] font-bold text-rose-600 dark:text-rose-400 hover:underline flex items-center"
+                        >
+                          Semua Skenario <ArrowRight className="w-3 h-3 ml-0.5" />
+                        </Link>
+                      </div>
+                      <ul className="grid grid-cols-1 gap-2">
+                        {challengesList.map((ch) => (
+                          <ListItem
+                            key={ch.title}
+                            title={ch.title}
+                            href={ch.href}
+                            icon={Terminal}
+                          >
+                            {ch.description}
+                          </ListItem>
+                        ))}
+                      </ul>
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* 5. Consultant Dropdown Menu */}
+                {/* 4. Consultant Menu */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     className={
@@ -290,48 +322,46 @@ export function AppHeader({ user }: AppHeaderProps) {
                     <ClipboardList className="w-3.5 h-3.5 mr-1.5" />
                     Consultant
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent className="w-[360px] p-4 space-y-2">
-                    <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
-                      <div className="flex items-center space-x-1 text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
-                        <Sparkles className="w-3.5 h-3.5" />
-                        <span>IT Consultant Mode</span>
+                  <NavigationMenuContent>
+                    <div className="w-[520px] p-4">
+                      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2 mb-3">
+                        <div className="flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+                          <Sparkles className="w-3.5 h-3.5" />
+                          <span>IT Consultant Mode</span>
+                        </div>
+                        <Link
+                          href="/consultant"
+                          className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center"
+                        >
+                          Semua Kasus <ArrowRight className="w-3 h-3 ml-0.5" />
+                        </Link>
                       </div>
-                      <Link
-                        href="/consultant"
-                        className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center"
-                      >
-                        Semua Kasus <ArrowRight className="w-3 h-3 ml-0.5" />
-                      </Link>
-                    </div>
-                    <div className="grid grid-cols-1 gap-1">
-                      <Link
-                        href="/consultant/small-office-notaris"
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
-                      >
-                        <div className="font-bold text-xs text-gray-900 dark:text-white">1. Kantor Notaris & PPAT (SOHO)</div>
-                        <p className="text-[11px] text-gray-500">Budget 15 Juta • 12 PC & Wi-Fi Client</p>
-                      </Link>
-                      <Link
-                        href="/consultant/smk-tkj-school-lab"
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
-                      >
-                        <div className="font-bold text-xs text-gray-900 dark:text-white">4. Lab Komputer SMK TKJ</div>
-                        <p className="text-[11px] text-gray-500">Budget 75 Juta • 72 PC Lab & VLAN Sekolah</p>
-                      </Link>
-                      <Link
-                        href="/consultant/multi-floor-corporate"
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
-                      >
-                        <div className="font-bold text-xs text-gray-900 dark:text-white">5. Gedung Korporat Multi-Lantai</div>
-                        <p className="text-[11px] text-gray-500">Budget 120 Juta • 10G SFP+ Backbone Fiber</p>
-                      </Link>
-                      <Link
-                        href="/consultant/portfolio"
-                        className="p-2.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/40 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors block mt-1"
-                      >
-                        <div className="font-bold text-xs text-indigo-700 dark:text-indigo-300">Portofolio Proyek Saya →</div>
-                        <p className="text-[11px] text-indigo-600/80 dark:text-indigo-400/80">Lihat skor & status proposal rancangan</p>
-                      </Link>
+                      <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
+                        {consultantCases.map((cs) => (
+                          <ListItem
+                            key={cs.title}
+                            title={cs.title}
+                            href={cs.href}
+                          >
+                            {cs.description}
+                          </ListItem>
+                        ))}
+                      </ul>
+                      <div className="border-t border-gray-100 dark:border-gray-800 pt-2">
+                        <Link
+                          href="/consultant/portfolio"
+                          className="flex items-center justify-between p-2.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 transition-colors"
+                        >
+                          <div>
+                            <div className="font-bold text-xs text-indigo-700 dark:text-indigo-300">
+                              Portofolio Proyek Konsultan Saya →
+                            </div>
+                            <div className="text-[11px] text-indigo-600/80 dark:text-indigo-400/80">
+                              Lihat riwayat rancangan jaringan dan skor BoQ Anda.
+                            </div>
+                          </div>
+                        </Link>
+                      </div>
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
@@ -454,5 +484,40 @@ export function AppHeader({ user }: AppHeaderProps) {
         )}
       </div>
     </header>
+  );
+}
+
+function ListItem({
+  title,
+  children,
+  href,
+  icon: Icon,
+  ...props
+}: React.ComponentPropsWithoutRef<"li"> & {
+  href: string;
+  title: string;
+  icon?: React.ComponentType<{ className?: string }>;
+}) {
+  return (
+    <li {...props}>
+      <NavigationMenuLink
+        render={
+          <Link
+            href={href}
+            className="block select-none rounded-lg p-2.5 text-left transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 focus:bg-gray-100 dark:focus:bg-gray-800"
+          >
+            <div className="flex flex-col gap-1 text-xs">
+              <div className="flex items-center font-bold text-gray-900 dark:text-white leading-none">
+                {Icon && <Icon className="w-3.5 h-3.5 mr-1.5 text-blue-500 shrink-0" />}
+                <span>{title}</span>
+              </div>
+              <div className={`line-clamp-2 text-[11px] text-gray-500 dark:text-gray-400 ${Icon ? "pl-5" : ""}`}>
+                {children}
+              </div>
+            </div>
+          </Link>
+        }
+      />
+    </li>
   );
 }

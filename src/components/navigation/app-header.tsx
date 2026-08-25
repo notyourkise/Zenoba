@@ -168,7 +168,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                   />
                 </NavigationMenuItem>
 
-                {/* 2. Belajar (2 Columns shadcn Dropdown) */}
+                {/* 2. Belajar (2 Columns Dropdown) */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger isActive={pathname.startsWith("/learn")}>
                     Belajar
@@ -281,8 +281,8 @@ export function AppHeader({ user }: AppHeaderProps) {
             </NavigationMenu>
           </div>
 
-          {/* 3. Right: Theme Toggle & Animated Vertical Text Slide Buttons */}
-          <div className="flex items-center justify-end flex-1 gap-3 sm:gap-4">
+          {/* 3. Right: Theme Toggle & Vertical Text Slide Auth Buttons */}
+          <div className="flex items-center justify-end flex-1 gap-4 sm:gap-5">
             <ModeToggle />
 
             {user ? (
@@ -310,25 +310,31 @@ export function AppHeader({ user }: AppHeaderProps) {
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-2.5">
-                {/* Secondary Button: Masuk with Vertical Text Slide */}
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                {/* Secondary Button: Masuk (Height 40px, padding-x 16px, radius 5px, 1px neutral border) */}
                 <Button
                   variant="outline"
                   asChild
-                  className="group h-10 px-5 rounded-md text-sm font-medium border border-gray-300 dark:border-gray-700 bg-transparent text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-150 overflow-hidden"
+                  className="group h-[40px] px-4 rounded-[5px] text-sm font-medium border border-gray-300 dark:border-gray-700 bg-transparent text-gray-900 dark:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06] hover:border-gray-400 dark:hover:border-gray-500 transition-colors duration-150 overflow-hidden cursor-pointer"
                 >
                   <Link href="/sign-in">
-                    <SlidingButtonLabel text="Masuk" />
+                    <SlidingButtonLabel
+                      text="Masuk"
+                      className="text-gray-900 dark:text-white font-medium"
+                    />
                   </Link>
                 </Button>
 
-                {/* Primary CTA: Mulai Gratis with Vertical Text Slide */}
+                {/* Primary CTA: Mulai Gratis (Height 40px, padding-x 18px, radius 5px, solid white with solid black text in dark mode) */}
                 <Button
                   asChild
-                  className="group h-10 px-5 rounded-md text-sm font-semibold bg-gray-900 text-white hover:bg-black dark:bg-white dark:text-black dark:hover:bg-gray-100 shadow-sm border border-transparent transition-all duration-150 overflow-hidden"
+                  className="group h-[40px] px-[18px] rounded-[5px] text-sm font-medium bg-gray-950 text-white hover:bg-gray-800 dark:bg-white dark:text-[#0a0a0a] dark:hover:bg-[#f1f1f1] shadow-sm border border-transparent transition-colors duration-150 overflow-hidden cursor-pointer"
                 >
                   <Link href="/sign-up">
-                    <SlidingButtonLabel text="Mulai Gratis" />
+                    <SlidingButtonLabel
+                      text="Mulai Gratis"
+                      className="text-white dark:text-[#0a0a0a] font-medium"
+                    />
                   </Link>
                 </Button>
               </div>
@@ -406,11 +412,11 @@ export function AppHeader({ user }: AppHeaderProps) {
             </Link>
 
             {!user && (
-              <div className="pt-3 mt-2 border-t border-gray-100 dark:border-gray-800 flex flex-col gap-2">
+              <div className="pt-3 mt-2 border-t border-gray-100 dark:border-gray-800 flex flex-col gap-2.5">
                 <Button
                   variant="outline"
                   asChild
-                  className="w-full h-10 rounded-md justify-center text-sm font-medium"
+                  className="w-full h-[40px] rounded-[5px] justify-center text-sm font-medium border-gray-300 dark:border-gray-700 bg-transparent text-gray-900 dark:text-white"
                 >
                   <Link href="/sign-in" onClick={() => setMobileMenuOpen(false)}>
                     Masuk
@@ -418,7 +424,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                 </Button>
                 <Button
                   asChild
-                  className="w-full h-10 rounded-md justify-center text-sm font-semibold bg-gray-900 text-white dark:bg-white dark:text-black"
+                  className="w-full h-[40px] rounded-[5px] justify-center text-sm font-medium bg-gray-950 text-white dark:bg-white dark:text-[#0a0a0a] border border-transparent shadow-sm"
                 >
                   <Link href="/sign-up" onClick={() => setMobileMenuOpen(false)}>
                     Mulai Gratis
@@ -433,12 +439,22 @@ export function AppHeader({ user }: AppHeaderProps) {
   );
 }
 
-function SlidingButtonLabel({ text }: { text: string }) {
+function SlidingButtonLabel({
+  text,
+  className,
+}: {
+  text: string;
+  className?: string;
+}) {
   return (
-    <span className="relative inline-block h-5 overflow-hidden">
-      <span className="flex flex-col transition-transform duration-250 ease-in-out group-hover:-translate-y-1/2">
-        <span className="h-5 flex items-center justify-center">{text}</span>
-        <span className="h-5 flex items-center justify-center">{text}</span>
+    <span className="relative inline-block h-5 overflow-hidden select-none">
+      <span className="flex flex-col transition-transform duration-[250ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1/2 will-change-transform">
+        <span className={`h-5 flex items-center justify-center ${className || ""}`}>
+          {text}
+        </span>
+        <span className={`h-5 flex items-center justify-center ${className || ""}`}>
+          {text}
+        </span>
       </span>
     </span>
   );

@@ -405,13 +405,13 @@ Each component must:
 
 ### Task 5.2 — Author Part A content
 
-- [ ] Create all required modules/lessons in seed/content source.
-- [ ] Keep one primary concept per lesson.
-- [ ] Target roughly 5–12 minutes per lesson.
-- [ ] Add knowledge checks.
-- [ ] Add relevant interactions.
-- [ ] Run content schema validation.
-- [ ] Complete editorial/technical review.
+- [x] Create all required modules/lessons in seed/content source (`prisma/seed.ts` Modules 1-4).
+- [x] Keep one primary concept per lesson.
+- [x] Target roughly 5–12 minutes per lesson.
+- [x] Add knowledge checks (`QuizBlockPlayer`).
+- [x] Add relevant interactions (`TopologyExplorer`, `DeviceCard`, `PacketFlow`).
+- [x] Run content schema validation (`schema.test.ts`).
+- [x] Complete editorial/technical review.
 
 ---
 
@@ -426,10 +426,10 @@ Each component must:
 
 ### Task 6.1 — Additional reusable components
 
-- `DeviceExplorer`
-- `CableOrderExercise`
-- `OSIStack`
-- `EncapsulationVisualizer`
+- `DeviceExplorer` (`device-card.tsx`)
+- `CableOrderExercise` (`cable-order-exercise.tsx`)
+- `OSIStack` (`osi-stack.tsx`)
+- `EncapsulationVisualizer` (`encapsulation-visualizer.tsx`)
 
 ### Task 6.2 — Author Part B content
 
@@ -448,13 +448,13 @@ Include:
 
 ### Task 6.3 — Final challenge: First Day as IT Support
 
-- [ ] Define scenario and expected solution.
-- [ ] Validate selected inventory.
-- [ ] Validate basic topology.
-- [ ] Add simple troubleshooting questions.
-- [ ] Store attempt/result.
-- [ ] Award completion once.
-- [ ] E2E test the Path 1 completion flow.
+- [x] Define scenario and expected solution (`src/features/challenges/support-challenge.ts`).
+- [x] Validate selected inventory.
+- [x] Validate basic topology.
+- [x] Add simple troubleshooting questions.
+- [x] Store attempt/result (`/api/challenges/submit`).
+- [x] Award completion once (via `awardXp` +100 XP).
+- [x] E2E test the Path 1 completion flow (`src/e2e/network-foundations.spec.ts`).
 
 ---
 

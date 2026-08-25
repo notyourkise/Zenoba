@@ -40,6 +40,34 @@ All notable project changes are recorded here.
 
 # 2026-08-25
 
+- [2026-08-25 16:12 WITA] [MILESTONE] [REVIEW] [Milestone 3: Network Foundations Content]
+  Completed Milestone 3 — Network Foundations Content (Sprint 5: Part A & Sprint 6: Part B).
+  - Exit Criteria Verified: Path 1 (Network Foundations) is 100% completable end-to-end across all 8 modules (16 lessons) and includes the final challenge 'First Day as IT Support'.
+  - Added modular interactive components: `TopologyExplorer`, `DeviceCard`, `PacketFlow`, `CableOrderExercise` (T568A/T568B pinout), `OSIStack` (7 Layer OSI & TCP/IP), `EncapsulationVisualizer`.
+  - Implemented Final Capstone Challenge with deterministic evaluation engine (`support-challenge.ts`) and reward endpoint (`/api/challenges/submit`).
+  - Validation: 15 Vitest test suites (66 tests passed), 11 Playwright E2E browser tests passed, production build succeeded (17 routes).
+  Files/areas: `src/features/learning/blocks/components/`, `src/features/challenges/`, `prisma/seed.ts`, `src/app/(app)/challenges/`, `src/e2e/network-foundations.spec.ts`
+  Git: `2028ca9`
+
+- [2026-08-25 16:05 WITA] [SPRINT] [Milestone 3 / Sprint 6]
+  Completed Sprint 6 — Network Foundations Part B & Final Challenge.
+  1. Built interactive components: `CableOrderExercise` (T568A/T568B color pinout reordering), `OSIStack`, `EncapsulationVisualizer`.
+  2. Authored Modules 5 to 8 content in `prisma/seed.ts` (Network Devices, Physical Media & Cabling, How Data Travels, OSI & TCP/IP Foundations).
+  3. Implemented Capstone Challenge: First Day as IT Support with evaluator, unit tests, and API handler.
+  4. Added E2E tests in `src/e2e/network-foundations.spec.ts`.
+  Files/areas: `src/features/challenges/`, `src/features/learning/blocks/components/`, `src/app/(app)/challenges/`, `src/app/api/challenges/submit/`
+  Validation: `npm test` (66/66 passed), `npx playwright test` (11/11 passed).
+  Git: `2028ca9`
+
+- [2026-08-25 15:55 WITA] [SPRINT] [Milestone 3 / Sprint 5]
+  Completed Sprint 5 — Network Foundations Part A.
+  1. Built reusable interaction primitives: `TopologyExplorer`, `DeviceCard`, `PacketFlow`.
+  2. Authored Modules 1 to 4 content in `prisma/seed.ts` (Welcome to Networking, Types of Networks, Client/Server & Communication, Network Topology).
+  3. Registered components in `BLOCK_COMPONENTS` registry.
+  Files/areas: `src/features/learning/blocks/components/`, `src/features/learning/blocks/registry.tsx`, `prisma/seed.ts`
+  Validation: `npm test` passed, `npm run typecheck` clean.
+  Git: `2028ca9`
+
 - [2026-08-25 15:48 WITA] [MILESTONE] [REVIEW] [Milestone 2: Learning Engine]
   Completed Milestone 2 — Learning Engine (Sprint 3: Lesson Block Renderer & Sprint 4: Quiz, Practice & Reward Engine).
   - Exit Criteria Verified: A lesson can execute the complete Intro → Concept → Visual → Interactive → Knowledge Check → Practice → Summary → XP loop without hardcoded routes.

@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { Menu, X, User, LogOut } from "lucide-react";
 import { ModeToggle } from "@/components/ui/mode-toggle";
-import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -146,7 +145,7 @@ export function AppHeader({ user }: AppHeaderProps) {
             </Link>
           </div>
 
-          {/* 2. Center: Desktop NavigationMenu with Hover Auto-Open and Spacing */}
+          {/* 2. Center: Desktop NavigationMenu */}
           <div className="hidden md:flex items-center justify-center flex-shrink-0">
             <NavigationMenu>
               <NavigationMenuList className="gap-6 lg:gap-8">
@@ -333,12 +332,12 @@ export function AppHeader({ user }: AppHeaderProps) {
             </NavigationMenu>
           </div>
 
-          {/* 3. Right Side: User Controls with shadcn Button and Borderless ModeToggle */}
-          <div className="flex items-center justify-end flex-1 gap-3">
+          {/* 3. Right Side: Shifted Left with Generous Spacing, Animated Lift Buttons, and Colors */}
+          <div className="flex items-center justify-end flex-1 gap-5 pr-2 sm:pr-4">
             <ModeToggle />
 
             {user ? (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <Link
                   href="/profile"
                   className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -362,13 +361,26 @@ export function AppHeader({ user }: AppHeaderProps) {
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-2">
-                <Button variant="ghost" size="sm" asChild>
-                  <Link href="/sign-in">Masuk</Link>
-                </Button>
-                <Button variant="default" size="sm" asChild>
-                  <Link href="/sign-up">Daftar</Link>
-                </Button>
+              <div className="flex items-center gap-4">
+                {/* Button Masuk / Login: Dark Theme = White BG / Black Text; Light Theme = Black BG / White Text */}
+                <Link
+                  href="/sign-in"
+                  className="group relative inline-flex items-center justify-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-gray-300 dark:border-gray-700 bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-100 shadow-sm transition-all duration-200 cursor-pointer"
+                >
+                  <span className="inline-block transition-transform duration-200 ease-out group-hover:-translate-y-0.5">
+                    Masuk
+                  </span>
+                </Link>
+
+                {/* Button Daftar / Register: Dark Theme = Black BG / White Text; Light Theme = White BG / Black Text */}
+                <Link
+                  href="/sign-up"
+                  className="group relative inline-flex items-center justify-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-gray-300 dark:border-gray-700 bg-white text-black hover:bg-gray-100 dark:bg-black dark:text-white dark:hover:bg-gray-900 shadow-sm transition-all duration-200 cursor-pointer"
+                >
+                  <span className="inline-block transition-transform duration-200 ease-out group-hover:-translate-y-0.5">
+                    Daftar
+                  </span>
+                </Link>
               </div>
             )}
 

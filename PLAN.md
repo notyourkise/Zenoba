@@ -582,22 +582,22 @@ A Lab contains:
 
 ### Task 10.1 — Lab persistence and attempts
 
-- [ ] Define lab/attempt schema.
-- [ ] Support start/reset/retry/submit.
-- [ ] Store final evaluation.
-- [ ] Prevent XP abuse through repeated submission.
-- [ ] Test.
+- [x] Define lab/attempt schema (`prisma/schema.prisma` `Lab` & `LabAttempt`).
+- [x] Support start/reset/retry/submit (`/api/labs/[labSlug]/submit` and `src/features/labs/components/lab-runner.tsx`).
+- [x] Store final evaluation.
+- [x] Prevent XP abuse through repeated submission (`awardXp` with `UserXpLedger` idempotency).
+- [x] Test (`src/features/labs/evaluator.test.ts`).
 
 ### Task 10.2 — Initial labs
 
 Ship representative labs for:
-- subnetting
-- IP configuration
-- packet flow
-- VLAN
-- routing
-- DHCP/DNS
-- troubleshooting
+- [x] subnetting (`subnetting-calculator`).
+- [x] IP configuration (`ip-configuration`).
+- [x] packet flow.
+- [x] VLAN (`vlan-segmentation`).
+- [x] routing (`static-routing`).
+- [x] DHCP/DNS (`dhcp-dns-setup`).
+- [x] troubleshooting (`troubleshooting`).
 
 ---
 
@@ -607,13 +607,13 @@ Ship representative labs for:
 
 A Challenge differs from a Lab by hiding the resolution path and emphasizing diagnosis.
 
-- [ ] Define scenario evidence.
-- [ ] Support multiple diagnostic actions.
-- [ ] Track attempt actions required for scoring where configured.
-- [ ] Reveal explanation only under configured completion/abandon rules.
-- [ ] Add difficulty.
-- [ ] Seed beginner/intermediate challenges.
-- [ ] E2E test one complete challenge.
+- [x] Define scenario evidence (`src/features/challenges/components/challenge-runner.tsx`).
+- [x] Support multiple diagnostic actions (In-browser terminal simulator sandbox).
+- [x] Track attempt actions required for scoring where configured (`src/features/challenges/engine.ts`).
+- [x] Reveal explanation only under configured completion/abandon rules.
+- [x] Add difficulty (`intermediate`).
+- [x] Seed beginner/intermediate challenges (`branch-office-down`, `inter-vlan-routing-bug`, `dhcp-pool-exhausted`).
+- [x] E2E test one complete challenge (`src/e2e/labs-challenges.spec.ts`).
 
 ---
 

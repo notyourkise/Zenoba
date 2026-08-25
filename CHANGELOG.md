@@ -40,6 +40,37 @@ All notable project changes are recorded here.
 
 # 2026-08-25
 
+- [2026-08-25 17:35 WITA] [MILESTONE] [REVIEW] [Milestone 5: Labs & Challenges Engine]
+  Completed Milestone 5 — Labs & Challenges (Sprint 10: Lab Engine & Sprint 11: Challenge Engine).
+  - Exit Criteria Verified: Hands-on interactive practice labs with persistent attempt tracking and real-world diagnostic troubleshooting challenges functioning with deterministic evaluation and anti-abuse idempotent XP rewards (+100 XP per Lab, +150 XP per Challenge).
+  - Lab Engine (Sprint 10): 7 initial labs (Subnetting, IP Config, Packet Flow, VLAN, Routing, DHCP/DNS, Troubleshooting) with instructions, workbench, and reset/retry.
+  - Challenge Engine (Sprint 11): 3 real-world multi-step scenario challenges (Branch Office Offline, Inter-VLAN Routing Bug, DHCP Scope Exhaustion) with CLI sandbox and hypothesis submission.
+  - Database: Added `Lab`, `LabAttempt`, `Challenge`, and `ChallengeAttempt` models to Prisma.
+  - Validation: 20 Vitest test suites (101 tests passed), 15 Playwright E2E browser tests passed, production build succeeded (17 routes).
+  Files/areas: `prisma/schema.prisma`, `src/features/labs/`, `src/features/challenges/`, `src/app/(app)/labs/`, `src/app/(app)/challenges/`, `src/e2e/labs-challenges.spec.ts`
+  Git: pending
+
+- [2026-08-25 17:30 WITA] [SPRINT] [Milestone 5 / Sprint 11]
+  Completed Sprint 11 — Challenge Engine.
+  1. Implemented pure challenge diagnostic evaluator `evaluateChallengeDiagnosis` in `src/features/challenges/engine.ts` with 3 unit tests.
+  2. Built interactive challenge runner `ChallengeRunner` (`src/features/challenges/components/challenge-runner.tsx`) with built-in CLI diagnostic terminal workbench.
+  3. Created API submit route `/api/challenges/[challengeSlug]/submit` awarding +150 XP into `UserXpLedger`.
+  4. Built challenge catalog at `/challenges` and dynamic challenge page at `/challenges/[challengeSlug]`.
+  Files/areas: `src/features/challenges/`, `src/app/(app)/challenges/`
+  Validation: unit tests passed, typecheck clean, E2E passed.
+  Git: pending
+
+- [2026-08-25 17:25 WITA] [SPRINT] [Milestone 5 / Sprint 10]
+  Completed Sprint 10 — Lab Engine.
+  1. Defined `Lab` and `LabAttempt` schema in `prisma/schema.prisma`.
+  2. Implemented pure deterministic lab evaluator `evaluateLabSubmission` in `src/features/labs/evaluator.ts` with 5 unit tests.
+  3. Built interactive lab runner `LabRunner` (`src/features/labs/components/lab-runner.tsx`) with workbench, step-by-step instructions, and instant criteria evaluation.
+  4. Created API submit route `/api/labs/[labSlug]/submit` awarding +100 XP into `UserXpLedger`.
+  5. Built lab catalog at `/labs` and dynamic lab page at `/labs/[labSlug]`.
+  Files/areas: `src/features/labs/`, `src/app/(app)/labs/`
+  Validation: unit tests passed, typecheck clean, E2E passed.
+  Git: pending
+
 - [2026-08-25 16:47 WITA] [SPRINT] [Sprint 9: Services, Wireless & Troubleshooting]
   Completed Sprint 9 — Services, Wireless & Troubleshooting.
   1. Built reusable Network Service Visualizers: `DhcpDoraVisualizer` (4-step DORA flow), `DnsQueryVisualizer` (DNS resolution hierarchy), `NatVisualizer` (NAT/PAT port translation table), and `IcmpPingVisualizer` (ICMP echo request/reply simulation).

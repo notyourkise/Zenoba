@@ -149,7 +149,7 @@ export function AppHeader({ user }: AppHeaderProps) {
           {/* 2. Center: Desktop 2-Column Floating Navigation Menu */}
           <div className="hidden md:flex items-center justify-center flex-shrink-0">
             <NavigationMenu>
-              <NavigationMenuList className="gap-2 lg:gap-3.5">
+              <NavigationMenuList className="gap-6 lg:gap-8">
                 {/* 1. Dashboard */}
                 <NavigationMenuItem>
                   <NavigationMenuLink
@@ -310,12 +310,12 @@ export function AppHeader({ user }: AppHeaderProps) {
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-3">
-                {/* Secondary Button: Masuk (min-w-[96px], 42px height, 11px rounded-xl, outline-dark variant) */}
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                {/* Secondary Button: Masuk (Compact 36px height, 80px min-width) */}
                 <Button
                   variant="outline-dark"
                   asChild
-                  className="group h-[42px] min-w-[96px] px-4 rounded-xl text-sm font-semibold overflow-hidden cursor-pointer"
+                  className="group h-9 min-w-[80px] px-3.5 rounded-lg text-xs font-semibold overflow-hidden cursor-pointer"
                 >
                   <Link href="/sign-in">
                     <SlidingButtonLabel
@@ -325,11 +325,11 @@ export function AppHeader({ user }: AppHeaderProps) {
                   </Link>
                 </Button>
 
-                {/* Primary CTA: Mulai Gratis (min-w-[144px], 42px height, 11px rounded-xl, solid-light variant) */}
+                {/* Primary CTA: Mulai Gratis (Compact 36px height, 116px min-width) */}
                 <Button
                   variant="solid-light"
                   asChild
-                  className="group h-[42px] min-w-[144px] px-5 rounded-xl text-sm font-semibold overflow-hidden cursor-pointer"
+                  className="group h-9 min-w-[116px] px-4 rounded-lg text-xs font-semibold overflow-hidden cursor-pointer"
                 >
                   <Link href="/sign-up">
                     <SlidingButtonLabel
@@ -449,12 +449,12 @@ function SlidingButtonLabel({
   className?: string;
 }) {
   return (
-    <span className="relative inline-block h-5 overflow-hidden select-none">
+    <span className="relative inline-block h-4 overflow-hidden select-none">
       <span className="flex flex-col transition-transform duration-[250ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1/2 will-change-transform">
-        <span className={`h-5 flex items-center justify-center ${className || ""}`}>
+        <span className={`h-4 flex items-center justify-center leading-none ${className || ""}`}>
           {text}
         </span>
-        <span className={`h-5 flex items-center justify-center ${className || ""}`}>
+        <span className={`h-4 flex items-center justify-center leading-none ${className || ""}`}>
           {text}
         </span>
       </span>

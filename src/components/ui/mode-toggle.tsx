@@ -18,7 +18,7 @@ export function ModeToggle() {
 
   if (!mounted) {
     return (
-      <div className="w-10 h-10 rounded-lg flex items-center justify-center text-gray-400">
+      <div className="w-9 h-9 rounded-lg flex items-center justify-center text-gray-400">
         <Sun className="h-4 w-4" />
       </div>
     );
@@ -30,7 +30,7 @@ export function ModeToggle() {
     <button
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="w-10 h-10 rounded-lg flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none cursor-pointer"
+      className="w-9 h-9 rounded-lg flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none cursor-pointer"
       aria-label="Toggle theme"
       title={isDark ? "Ganti ke Mode Terang" : "Ganti ke Mode Gelap"}
     >

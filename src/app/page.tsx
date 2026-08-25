@@ -8,6 +8,7 @@ import {
   ArrowRight,
   Zap,
 } from "lucide-react";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 
 export default async function Home() {
   const user = await getCurrentUser();
@@ -26,7 +27,8 @@ export default async function Home() {
             </span>
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3">
+            <ModeToggle />
             {user ? (
               <Link
                 href="/dashboard"

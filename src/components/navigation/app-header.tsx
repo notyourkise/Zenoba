@@ -15,6 +15,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 
 interface AppHeaderProps {
   user: {
@@ -86,6 +87,8 @@ export function AppHeader({ user }: AppHeaderProps) {
 
           {/* User Controls */}
           <div className="flex items-center space-x-3">
+            <ModeToggle />
+
             {user ? (
               <div className="flex items-center space-x-3">
                 <Link

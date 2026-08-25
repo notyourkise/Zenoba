@@ -8,54 +8,15 @@ import {
   ArrowRight,
   Zap,
 } from "lucide-react";
-import { ModeToggle } from "@/components/ui/mode-toggle";
+import { AppHeader } from "@/components/navigation/app-header";
 
 export default async function Home() {
   const user = await getCurrentUser();
 
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100">
-      {/* Header */}
-      <header className="border-b border-gray-100 dark:border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold">
-              N
-            </div>
-            <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Netloka
-            </span>
-          </div>
-
-          <div className="flex items-center space-x-3">
-            <ModeToggle />
-            {user ? (
-              <Link
-                href="/dashboard"
-                className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-sm"
-              >
-                Buka Dashboard
-                <ArrowRight className="ml-1.5 w-4 h-4" />
-              </Link>
-            ) : (
-              <>
-                <Link
-                  href="/sign-in"
-                  className="px-3.5 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-                >
-                  Masuk
-                </Link>
-                <Link
-                  href="/sign-up"
-                  className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-sm"
-                >
-                  Daftar Sekarang
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
-      </header>
+      {/* Unified AppHeader Navigation Menu */}
+      <AppHeader user={user} />
 
       {/* Hero Section */}
       <main className="flex-1">

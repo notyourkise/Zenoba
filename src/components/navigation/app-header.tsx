@@ -16,6 +16,12 @@ import {
   X,
   Sparkles,
   ArrowRight,
+  Calculator,
+  Terminal,
+  Network,
+  Radio,
+  Server,
+  ShieldCheck,
 } from "lucide-react";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import {
@@ -48,7 +54,7 @@ export function AppHeader({ user }: AppHeaderProps) {
           {/* Logo */}
           <div className="flex items-center space-x-6">
             <Link
-              href="/dashboard"
+              href="/"
               className="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-1"
             >
               <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold shadow-sm">
@@ -62,7 +68,7 @@ export function AppHeader({ user }: AppHeaderProps) {
             {/* Desktop NavigationMenu */}
             <NavigationMenu className="hidden md:flex">
               <NavigationMenuList>
-                {/* Dashboard Link */}
+                {/* 1. Dashboard Link */}
                 <NavigationMenuItem>
                   <NavigationMenuLink
                     render={<Link href="/dashboard" />}
@@ -77,7 +83,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                   </NavigationMenuLink>
                 </NavigationMenuItem>
 
-                {/* Learn Menu with Rich Dropdown */}
+                {/* 2. Learn Dropdown Menu */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     className={
@@ -89,16 +95,16 @@ export function AppHeader({ user }: AppHeaderProps) {
                     <BookOpen className="w-3.5 h-3.5 mr-1.5" />
                     Learn
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent className="w-[360px] p-4 space-y-2">
+                  <NavigationMenuContent className="w-[420px] p-4 space-y-2">
                     <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
                       <span className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
                         Kurikulum Jaringan (5 Paths)
                       </span>
                       <Link
                         href="/learn"
-                        className="text-[11px] font-bold text-gray-500 hover:text-blue-600 flex items-center"
+                        className="text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center"
                       >
-                        Semua Path <ArrowRight className="w-3 h-3 ml-0.5" />
+                        Buka Katalog <ArrowRight className="w-3 h-3 ml-0.5" />
                       </Link>
                     </div>
                     <div className="grid grid-cols-1 gap-1">
@@ -106,58 +112,173 @@ export function AppHeader({ user }: AppHeaderProps) {
                         href="/learn/path-1-pengenalan-jaringan"
                         className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
                       >
-                        <div className="font-bold text-xs text-gray-900 dark:text-white">Path 1: Dasar Jaringan & Topologi</div>
-                        <p className="text-[11px] text-gray-500">Konsep LAN/WAN, OSI Model & Hardware</p>
+                        <div className="flex items-center text-xs font-bold text-gray-900 dark:text-white">
+                          <Network className="w-3.5 h-3.5 mr-1.5 text-blue-500" />
+                          Path 1: Dasar Jaringan & Topologi
+                        </div>
+                        <p className="text-[11px] text-gray-500 pl-5">Konsep LAN/WAN, Model OSI 7 Layer & Hardware</p>
+                      </Link>
+                      <Link
+                        href="/learn/path-2-protokol-tcpip"
+                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
+                      >
+                        <div className="flex items-center text-xs font-bold text-gray-900 dark:text-white">
+                          <Server className="w-3.5 h-3.5 mr-1.5 text-emerald-500" />
+                          Path 2: Protokol Jaringan & TCP/IP
+                        </div>
+                        <p className="text-[11px] text-gray-500 pl-5">TCP 3-Way Handshake, UDP, dan Alur Paket Enkapsulasi</p>
                       </Link>
                       <Link
                         href="/learn/path-3-ipv4-subnetting"
                         className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
                       >
-                        <div className="font-bold text-xs text-gray-900 dark:text-white">Path 3: IPv4 & Subnetting CIDR</div>
-                        <p className="text-[11px] text-gray-500">Kalkulasi Host, Netmask, dan VLSM</p>
+                        <div className="flex items-center text-xs font-bold text-gray-900 dark:text-white">
+                          <Calculator className="w-3.5 h-3.5 mr-1.5 text-amber-500" />
+                          Path 3: IPv4 & Subnetting CIDR / VLSM
+                        </div>
+                        <p className="text-[11px] text-gray-500 pl-5">Kalkulasi Host Usable, Netmask, dan Desain Subnet</p>
                       </Link>
                       <Link
                         href="/learn/path-4-network-services-security"
                         className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
                       >
-                        <div className="font-bold text-xs text-gray-900 dark:text-white">Path 4: Layanan Jaringan & NAT</div>
-                        <p className="text-[11px] text-gray-500">DHCP DORA, DNS Hierarchy, dan PAT</p>
+                        <div className="flex items-center text-xs font-bold text-gray-900 dark:text-white">
+                          <ShieldCheck className="w-3.5 h-3.5 mr-1.5 text-indigo-500" />
+                          Path 4: Network Services (DHCP, DNS, NAT)
+                        </div>
+                        <p className="text-[11px] text-gray-500 pl-5">DHCP DORA, DNS Hierarchy Resolving, dan PAT Translation</p>
+                      </Link>
+                      <Link
+                        href="/learn/path-5-wireless-troubleshooting"
+                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
+                      >
+                        <div className="flex items-center text-xs font-bold text-gray-900 dark:text-white">
+                          <Radio className="w-3.5 h-3.5 mr-1.5 text-purple-500" />
+                          Path 5: Wireless Network & Troubleshooting
+                        </div>
+                        <p className="text-[11px] text-gray-500 pl-5">Wi-Fi 6, 2.4/5GHz, WPA3, dan Metodologi Troubleshooting</p>
                       </Link>
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* Labs Link */}
+                {/* 3. Labs Dropdown Menu */}
                 <NavigationMenuItem>
-                  <NavigationMenuLink
-                    render={<Link href="/labs" />}
-                    className={`${navigationMenuTriggerStyle()} ${
+                  <NavigationMenuTrigger
+                    className={
                       pathname.startsWith("/labs")
                         ? "bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 font-bold"
                         : ""
-                    }`}
+                    }
                   >
                     <FlaskConical className="w-3.5 h-3.5 mr-1.5" />
                     Labs
-                  </NavigationMenuLink>
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent className="w-[380px] p-4 space-y-2">
+                    <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
+                      <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                        Interactive Practice Labs (7 Labs)
+                      </span>
+                      <Link
+                        href="/labs"
+                        className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center"
+                      >
+                        Semua Labs <ArrowRight className="w-3 h-3 ml-0.5" />
+                      </Link>
+                    </div>
+                    <div className="grid grid-cols-1 gap-1">
+                      <Link
+                        href="/labs/lab-subnetting"
+                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
+                      >
+                        <div className="font-bold text-xs text-gray-900 dark:text-white">Lab 1: Subnetting CIDR Calculator</div>
+                        <p className="text-[11px] text-gray-500">Hitung Network, Broadcast, & Usable IP Host</p>
+                      </Link>
+                      <Link
+                        href="/labs/lab-ip-config"
+                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
+                      >
+                        <div className="font-bold text-xs text-gray-900 dark:text-white">Lab 2: Host IP & Gateway Configuration</div>
+                        <p className="text-[11px] text-gray-500">Konfigurasi alamat IP workstation & default route</p>
+                      </Link>
+                      <Link
+                        href="/labs/lab-vlan"
+                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
+                      >
+                        <div className="font-bold text-xs text-gray-900 dark:text-white">Lab 4: VLAN Builder & Port Tagging</div>
+                        <p className="text-[11px] text-gray-500">Segmentasi Access & Trunk 802.1Q switch port</p>
+                      </Link>
+                      <Link
+                        href="/labs/lab-routing"
+                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
+                      >
+                        <div className="font-bold text-xs text-gray-900 dark:text-white">Lab 5: Static Routing Table & LPM</div>
+                        <p className="text-[11px] text-gray-500">Evaluasi tabel routing & Longest Prefix Match</p>
+                      </Link>
+                    </div>
+                  </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* Challenges Link */}
+                {/* 4. Challenges Dropdown Menu */}
                 <NavigationMenuItem>
-                  <NavigationMenuLink
-                    render={<Link href="/challenges" />}
-                    className={`${navigationMenuTriggerStyle()} ${
+                  <NavigationMenuTrigger
+                    className={
                       pathname.startsWith("/challenges")
                         ? "bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 font-bold"
                         : ""
-                    }`}
+                    }
                   >
                     <Bug className="w-3.5 h-3.5 mr-1.5" />
                     Challenges
-                  </NavigationMenuLink>
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent className="w-[380px] p-4 space-y-2">
+                    <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
+                      <span className="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">
+                        Troubleshooting Challenges
+                      </span>
+                      <Link
+                        href="/challenges"
+                        className="text-[11px] font-bold text-rose-600 dark:text-rose-400 hover:underline flex items-center"
+                      >
+                        Katalog Skenario <ArrowRight className="w-3 h-3 ml-0.5" />
+                      </Link>
+                    </div>
+                    <div className="grid grid-cols-1 gap-1">
+                      <Link
+                        href="/challenges/branch-office-offline"
+                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
+                      >
+                        <div className="font-bold text-xs text-gray-900 dark:text-white flex items-center">
+                          <Terminal className="w-3 h-3 mr-1 text-rose-500" />
+                          Kasus 1: Branch Office Offline
+                        </div>
+                        <p className="text-[11px] text-gray-500 pl-4">Diagnosa workstation gagal ping internet & gateway</p>
+                      </Link>
+                      <Link
+                        href="/challenges/inter-vlan-routing-bug"
+                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
+                      >
+                        <div className="font-bold text-xs text-gray-900 dark:text-white flex items-center">
+                          <Terminal className="w-3 h-3 mr-1 text-rose-500" />
+                          Kasus 2: Inter-VLAN Routing Bug
+                        </div>
+                        <p className="text-[11px] text-gray-500 pl-4">Isolasi traffic antar divisi HRD & Keuangan gagal</p>
+                      </Link>
+                      <Link
+                        href="/challenges/dhcp-scope-exhaustion"
+                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
+                      >
+                        <div className="font-bold text-xs text-gray-900 dark:text-white flex items-center">
+                          <Terminal className="w-3 h-3 mr-1 text-rose-500" />
+                          Kasus 3: DHCP Scope Exhaustion
+                        </div>
+                        <p className="text-[11px] text-gray-500 pl-4">Klien baru tidak mendapatkan alokasi IP DHCP</p>
+                      </Link>
+                    </div>
+                  </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* Consultant Menu with Dropdown */}
+                {/* 5. Consultant Dropdown Menu */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     className={
@@ -169,25 +290,49 @@ export function AppHeader({ user }: AppHeaderProps) {
                     <ClipboardList className="w-3.5 h-3.5 mr-1.5" />
                     Consultant
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent className="w-[320px] p-4 space-y-2">
-                    <div className="flex items-center space-x-1 text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 border-b border-gray-100 dark:border-gray-800 pb-2">
-                      <Sparkles className="w-3.5 h-3.5" />
-                      <span>IT Consultant Mode</span>
+                  <NavigationMenuContent className="w-[360px] p-4 space-y-2">
+                    <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
+                      <div className="flex items-center space-x-1 text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>IT Consultant Mode</span>
+                      </div>
+                      <Link
+                        href="/consultant"
+                        className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center"
+                      >
+                        Semua Kasus <ArrowRight className="w-3 h-3 ml-0.5" />
+                      </Link>
                     </div>
-                    <Link
-                      href="/consultant"
-                      className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
-                    >
-                      <div className="font-bold text-xs text-gray-900 dark:text-white">Katalog Studi Kasus Klien</div>
-                      <p className="text-[11px] text-gray-500">5 Kasus Proyek Nyata (Small Office - Enterprise)</p>
-                    </Link>
-                    <Link
-                      href="/consultant/portfolio"
-                      className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block border-t border-gray-100 dark:border-gray-800 pt-2"
-                    >
-                      <div className="font-bold text-xs text-indigo-600 dark:text-indigo-400">Portofolio Proyek Saya →</div>
-                      <p className="text-[11px] text-gray-500">Riwayat proposal dan skor rancangan jaringan</p>
-                    </Link>
+                    <div className="grid grid-cols-1 gap-1">
+                      <Link
+                        href="/consultant/small-office-notaris"
+                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
+                      >
+                        <div className="font-bold text-xs text-gray-900 dark:text-white">1. Kantor Notaris & PPAT (SOHO)</div>
+                        <p className="text-[11px] text-gray-500">Budget 15 Juta • 12 PC & Wi-Fi Client</p>
+                      </Link>
+                      <Link
+                        href="/consultant/smk-tkj-school-lab"
+                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
+                      >
+                        <div className="font-bold text-xs text-gray-900 dark:text-white">4. Lab Komputer SMK TKJ</div>
+                        <p className="text-[11px] text-gray-500">Budget 75 Juta • 72 PC Lab & VLAN Sekolah</p>
+                      </Link>
+                      <Link
+                        href="/consultant/multi-floor-corporate"
+                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors block"
+                      >
+                        <div className="font-bold text-xs text-gray-900 dark:text-white">5. Gedung Korporat Multi-Lantai</div>
+                        <p className="text-[11px] text-gray-500">Budget 120 Juta • 10G SFP+ Backbone Fiber</p>
+                      </Link>
+                      <Link
+                        href="/consultant/portfolio"
+                        className="p-2.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/40 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors block mt-1"
+                      >
+                        <div className="font-bold text-xs text-indigo-700 dark:text-indigo-300">Portofolio Proyek Saya →</div>
+                        <p className="text-[11px] text-indigo-600/80 dark:text-indigo-400/80">Lihat skor & status proposal rancangan</p>
+                      </Link>
+                    </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
               </NavigationMenuList>
@@ -205,10 +350,10 @@ export function AppHeader({ user }: AppHeaderProps) {
                   className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
                   title="Profile"
                 >
-                  <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-gray-300 font-medium text-xs">
+                  <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">
                     {user.name ? user.name.slice(0, 2).toUpperCase() : <User className="w-4 h-4" />}
                   </div>
-                  <span className="hidden lg:inline text-xs font-medium text-gray-700 dark:text-gray-300 max-w-[120px] truncate">
+                  <span className="hidden lg:inline text-xs font-semibold text-gray-700 dark:text-gray-300 max-w-[120px] truncate">
                     {user.name || user.email}
                   </span>
                 </Link>
@@ -216,19 +361,27 @@ export function AppHeader({ user }: AppHeaderProps) {
                 <button
                   onClick={() => signOut({ callbackUrl: "/sign-in" })}
                   className="p-2 rounded-lg text-gray-500 hover:text-red-600 hover:bg-red-50 dark:text-gray-400 dark:hover:text-red-400 dark:hover:bg-red-950/30 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
-                  title="Sign Out"
-                  aria-label="Sign Out"
+                  title="Keluar"
+                  aria-label="Keluar"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
               </div>
             ) : (
-              <Link
-                href="/sign-in"
-                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                Sign In
-              </Link>
+              <div className="flex items-center space-x-2">
+                <Link
+                  href="/sign-in"
+                  className="px-3.5 py-1.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                >
+                  Masuk
+                </Link>
+                <Link
+                  href="/sign-up"
+                  className="px-3.5 py-1.5 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  Daftar
+                </Link>
+              </div>
             )}
 
             {/* Mobile menu hamburger */}
@@ -255,7 +408,7 @@ export function AppHeader({ user }: AppHeaderProps) {
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
-              <LayoutDashboard className="w-4 h-4 mr-2" />
+              <LayoutDashboard className="w-4 h-4 mr-2 text-blue-500" />
               Dashboard
             </Link>
             <Link
@@ -263,32 +416,39 @@ export function AppHeader({ user }: AppHeaderProps) {
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
-              <BookOpen className="w-4 h-4 mr-2" />
-              Learn (5 Paths)
+              <BookOpen className="w-4 h-4 mr-2 text-blue-500" />
+              Learn (5 Paths Kurikulum)
             </Link>
             <Link
               href="/labs"
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
-              <FlaskConical className="w-4 h-4 mr-2" />
-              Labs (7 Praktikum)
+              <FlaskConical className="w-4 h-4 mr-2 text-emerald-500" />
+              Labs (7 Praktikum Interaktif)
             </Link>
             <Link
               href="/challenges"
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
-              <Bug className="w-4 h-4 mr-2" />
-              Challenges (Troubleshooting)
+              <Bug className="w-4 h-4 mr-2 text-rose-500" />
+              Challenges (Troubleshooting Kasus Nyata)
             </Link>
             <Link
               href="/consultant"
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
-              <ClipboardList className="w-4 h-4 mr-2" />
-              Consultant Mode
+              <ClipboardList className="w-4 h-4 mr-2 text-indigo-500" />
+              Consultant Mode (5 Kasus Proyek)
+            </Link>
+            <Link
+              href="/consultant/portfolio"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/30 pl-8"
+            >
+              Portofolio Proyek Saya
             </Link>
           </div>
         )}

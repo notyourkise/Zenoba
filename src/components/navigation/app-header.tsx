@@ -310,30 +310,31 @@ export function AppHeader({ user }: AppHeaderProps) {
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-3 sm:gap-3.5">
-                {/* Secondary Button: Masuk (Spacious 42px height, 24px padding-x, 6px radius) */}
+              <div className="flex items-center gap-3">
+                {/* Secondary Button: Masuk (min-w-[96px], 42px height, 11px rounded-xl, outline-dark variant) */}
                 <Button
-                  variant="outline"
+                  variant="outline-dark"
                   asChild
-                  className="group h-[42px] px-6 rounded-[6px] text-sm font-medium border border-gray-300 dark:border-gray-700 bg-transparent text-gray-900 dark:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06] hover:border-gray-400 dark:hover:border-gray-500 transition-colors duration-150 overflow-hidden cursor-pointer"
+                  className="group h-[42px] min-w-[96px] px-4 rounded-xl text-sm font-semibold overflow-hidden cursor-pointer"
                 >
                   <Link href="/sign-in">
                     <SlidingButtonLabel
                       text="Masuk"
-                      className="text-gray-900 dark:text-white font-medium"
+                      className="text-gray-900 dark:text-white font-semibold"
                     />
                   </Link>
                 </Button>
 
-                {/* Primary CTA: Mulai Gratis (Spacious 42px height, 28px padding-x, 6px radius) */}
+                {/* Primary CTA: Mulai Gratis (min-w-[144px], 42px height, 11px rounded-xl, solid-light variant) */}
                 <Button
+                  variant="solid-light"
                   asChild
-                  className="group h-[42px] px-7 rounded-[6px] text-sm font-medium bg-gray-950 text-white hover:bg-gray-800 dark:bg-white dark:text-[#0a0a0a] dark:hover:bg-[#f1f1f1] shadow-sm border border-transparent transition-colors duration-150 overflow-hidden cursor-pointer"
+                  className="group h-[42px] min-w-[144px] px-5 rounded-xl text-sm font-semibold overflow-hidden cursor-pointer"
                 >
                   <Link href="/sign-up">
                     <SlidingButtonLabel
                       text="Mulai Gratis"
-                      className="text-white dark:text-[#0a0a0a] font-medium"
+                      className="text-white dark:text-[#0a0a0a] font-semibold"
                     />
                   </Link>
                 </Button>
@@ -414,17 +415,18 @@ export function AppHeader({ user }: AppHeaderProps) {
             {!user && (
               <div className="pt-3 mt-2 border-t border-gray-100 dark:border-gray-800 flex flex-col gap-2.5">
                 <Button
-                  variant="outline"
+                  variant="outline-dark"
                   asChild
-                  className="w-full h-[40px] rounded-[5px] justify-center text-sm font-medium border-gray-300 dark:border-gray-700 bg-transparent text-gray-900 dark:text-white"
+                  className="w-full h-[42px] rounded-xl justify-center text-sm font-semibold"
                 >
                   <Link href="/sign-in" onClick={() => setMobileMenuOpen(false)}>
                     Masuk
                   </Link>
                 </Button>
                 <Button
+                  variant="solid-light"
                   asChild
-                  className="w-full h-[40px] rounded-[5px] justify-center text-sm font-medium bg-gray-950 text-white dark:bg-white dark:text-[#0a0a0a] border border-transparent shadow-sm"
+                  className="w-full h-[42px] rounded-xl justify-center text-sm font-semibold"
                 >
                   <Link href="/sign-up" onClick={() => setMobileMenuOpen(false)}>
                     Mulai Gratis

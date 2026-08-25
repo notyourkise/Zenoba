@@ -1,8 +1,32 @@
 name: netloka
+
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: netloka-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://netloka:netloka_dev_password@postgresql:5432/netloka?schema=public
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: netloka-secure-local-auth-secret-key-2026
+      AUTH_SECRET: netloka-secure-local-auth-secret-key-2026
+      PORT: 3000
+      HOSTNAME: "0.0.0.0"
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    networks:
+      - netloka-network
+
   postgresql:
     image: postgres:16-alpine
     container_name: netloka-postgres
+    restart: unless-stopped
     environment:
       POSTGRES_USER: netloka
       POSTGRES_PASSWORD: netloka_dev_password
@@ -16,6 +40,12 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - netloka-network
+
+networks:
+  netloka-network:
+    driver: bridge
 
 volumes:
   postgresql_data:

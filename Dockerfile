@@ -20,6 +20,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV DATABASE_URL="postgresql://netloka:placeholder@localhost:5432/netloka?schema=public"
+ENV NEXTAUTH_SECRET="netloka-secure-dummy-build-secret-key-32-characters"
+ENV AUTH_SECRET="netloka-secure-dummy-build-secret-key-32-characters"
 RUN npx prisma generate
 RUN npm run build
 
@@ -40,6 +43,7 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+COPY --from=builder --chown=nextjs:nodejs /app/src/generated ./src/generated
 
 USER nextjs
 

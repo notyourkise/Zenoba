@@ -128,16 +128,16 @@ export function AppHeader({ user }: AppHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   return (
-    <header className="sticky top-0 z-40 bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800/80 transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* 1. Left Side: Brand Logo */}
+    <header className="sticky top-0 z-40 bg-white/95 dark:bg-gray-950/95 backdrop-blur-sm border-b border-gray-200/80 dark:border-gray-800 transition-colors">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8">
+        <div className="flex items-center justify-between h-[68px]">
+          {/* 1. Left Side: Brand Logo (40x40px, Blue Primary Mark) */}
           <div className="flex items-center justify-start flex-1">
             <Link
               href="/"
-              className="flex items-center gap-2.5 focus:outline-none rounded-lg p-1 hover:opacity-90 transition-opacity"
+              className="flex items-center gap-3 focus:outline-none rounded-lg p-1 hover:opacity-90 transition-opacity"
             >
-              <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-base shadow-sm shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-sm shrink-0">
                 N
               </div>
               <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -146,11 +146,11 @@ export function AppHeader({ user }: AppHeaderProps) {
             </Link>
           </div>
 
-          {/* 2. Center: Desktop NavigationMenu */}
+          {/* 2. Center: Desktop NavigationMenu with Active States & Bahasa Indonesia */}
           <div className="hidden md:flex items-center justify-center flex-shrink-0">
             <NavigationMenu>
-              <NavigationMenuList className="gap-6 lg:gap-8">
-                {/* Dashboard */}
+              <NavigationMenuList className="gap-1 lg:gap-2">
+                {/* 1. Dashboard */}
                 <NavigationMenuItem>
                   <NavigationMenuLink
                     render={
@@ -158,7 +158,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                         href="/dashboard"
                         className={`${navigationMenuTriggerStyle()} ${
                           pathname === "/dashboard"
-                            ? "text-blue-600 dark:text-blue-400 font-semibold"
+                            ? "text-blue-600 dark:text-blue-400 font-semibold bg-blue-50/60 dark:bg-blue-950/40"
                             : ""
                         }`}
                       >
@@ -168,23 +168,19 @@ export function AppHeader({ user }: AppHeaderProps) {
                   />
                 </NavigationMenuItem>
 
-                {/* 1. Learn */}
+                {/* 2. Belajar */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
-                    className={
-                      pathname.startsWith("/learn")
-                        ? "text-blue-600 dark:text-blue-400 font-semibold"
-                        : ""
-                    }
+                    isActive={pathname.startsWith("/learn")}
                   >
-                    Learn
+                    Belajar
                   </NavigationMenuTrigger>
                   <NavigationMenuContent className="w-[380px]">
-                    <div className="p-2.5">
-                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-2">
-                        Kurikulum Jaringan (5 Paths)
+                    <div className="p-2">
+                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-1.5">
+                        Kurikulum Belajar (5 Paths)
                       </div>
-                      <ul className="space-y-2">
+                      <ul className="space-y-1">
                         {learnPaths.map((path) => (
                           <ListItem
                             key={path.title}
@@ -195,7 +191,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                           </ListItem>
                         ))}
                       </ul>
-                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2.5 pt-2 px-2.5">
+                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2 pt-2 px-2">
                         <Link
                           href="/learn"
                           className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline block"
@@ -207,23 +203,19 @@ export function AppHeader({ user }: AppHeaderProps) {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* 2. Labs */}
+                {/* 3. Labs */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
-                    className={
-                      pathname.startsWith("/labs")
-                        ? "text-blue-600 dark:text-blue-400 font-semibold"
-                        : ""
-                    }
+                    isActive={pathname.startsWith("/labs")}
                   >
                     Labs
                   </NavigationMenuTrigger>
                   <NavigationMenuContent className="w-[360px]">
-                    <div className="p-2.5">
-                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-2">
+                    <div className="p-2">
+                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-1.5">
                         Praktikum Interaktif (7 Labs)
                       </div>
-                      <ul className="space-y-2">
+                      <ul className="space-y-1">
                         {labsList.map((lab) => (
                           <ListItem
                             key={lab.title}
@@ -234,7 +226,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                           </ListItem>
                         ))}
                       </ul>
-                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2.5 pt-2 px-2.5">
+                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2 pt-2 px-2">
                         <Link
                           href="/labs"
                           className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline block"
@@ -246,23 +238,19 @@ export function AppHeader({ user }: AppHeaderProps) {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* 3. Challenges */}
+                {/* 4. Challenges */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
-                    className={
-                      pathname.startsWith("/challenges")
-                        ? "text-blue-600 dark:text-blue-400 font-semibold"
-                        : ""
-                    }
+                    isActive={pathname.startsWith("/challenges")}
                   >
                     Challenges
                   </NavigationMenuTrigger>
                   <NavigationMenuContent className="w-[360px]">
-                    <div className="p-2.5">
-                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-2">
-                        Troubleshooting Kasus Nyata
+                    <div className="p-2">
+                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-1.5">
+                        Tantangan Kasus Nyata (3 Kasus)
                       </div>
-                      <ul className="space-y-2">
+                      <ul className="space-y-1">
                         {challengesList.map((ch) => (
                           <ListItem
                             key={ch.title}
@@ -273,35 +261,31 @@ export function AppHeader({ user }: AppHeaderProps) {
                           </ListItem>
                         ))}
                       </ul>
-                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2.5 pt-2 px-2.5">
+                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2 pt-2 px-2">
                         <Link
                           href="/challenges"
                           className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline block"
                         >
-                          Lihat Seluruh Kasus →
+                          Lihat Seluruh Tantangan →
                         </Link>
                       </div>
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* 4. Consultant */}
+                {/* 5. Konsultasi */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
-                    className={
-                      pathname.startsWith("/consultant")
-                        ? "text-blue-600 dark:text-blue-400 font-semibold"
-                        : ""
-                    }
+                    isActive={pathname.startsWith("/consultant")}
                   >
-                    Consultant
+                    Konsultasi
                   </NavigationMenuTrigger>
                   <NavigationMenuContent className="w-[380px]">
-                    <div className="p-2.5">
-                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-2">
-                        Studi Kasus Proyek Konsultan TI
+                    <div className="p-2">
+                      <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800 mb-1.5">
+                        Studi Kasus Konsultasi TI
                       </div>
-                      <ul className="space-y-2">
+                      <ul className="space-y-1">
                         {consultantCases.map((cs) => (
                           <ListItem
                             key={cs.title}
@@ -312,7 +296,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                           </ListItem>
                         ))}
                       </ul>
-                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2.5 pt-2 px-2.5 flex items-center justify-between">
+                      <div className="border-t border-gray-100 dark:border-gray-800 mt-2 pt-2 px-2 flex items-center justify-between">
                         <Link
                           href="/consultant"
                           className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline"
@@ -323,7 +307,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                           href="/consultant/portfolio"
                           className="text-xs font-medium text-gray-600 dark:text-gray-300 hover:underline"
                         >
-                          Portofolio Saya →
+                          Portofolio Proyek →
                         </Link>
                       </div>
                     </div>
@@ -333,15 +317,15 @@ export function AppHeader({ user }: AppHeaderProps) {
             </NavigationMenu>
           </div>
 
-          {/* 3. Right Side: Shifted Left with Generous Spacing, Animated Lift Buttons, and Colors */}
-          <div className="flex items-center justify-end flex-1 gap-5 pr-2 sm:pr-4">
+          {/* 3. Right Side: Theme Toggle & Prominent Auth CTA [ Masuk ] [ Mulai Gratis ] */}
+          <div className="flex items-center justify-end flex-1 gap-3 sm:gap-4">
             <ModeToggle />
 
             {user ? (
               <div className="flex items-center gap-3">
                 <Link
                   href="/profile"
-                  className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  className="flex items-center gap-2.5 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                   title="Profile"
                 >
                   <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">
@@ -362,28 +346,26 @@ export function AppHeader({ user }: AppHeaderProps) {
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-4">
-                {/* Button Masuk / Login: Light = Black BG / White Text; Dark = White BG / Black Text */}
+              <div className="flex items-center gap-2.5">
+                {/* Secondary Button: Masuk */}
                 <Button
+                  variant="outline"
                   asChild
-                  className="group px-4 py-2 h-auto text-xs font-bold rounded-lg border-2 border-black bg-black text-white hover:bg-neutral-800 hover:text-white dark:border-white dark:bg-white dark:text-black dark:hover:bg-neutral-100 dark:hover:text-black shadow-sm transition-all duration-200"
+                  className="h-10 px-4 sm:px-5 rounded-lg text-sm font-medium border-gray-300 dark:border-gray-700 bg-transparent text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-150"
                 >
                   <Link href="/sign-in">
-                    <span className="inline-block text-white dark:text-black font-bold transition-transform duration-200 ease-out group-hover:-translate-y-0.5">
-                      Masuk
-                    </span>
+                    Masuk
                   </Link>
                 </Button>
 
-                {/* Button Daftar / Register: Light = White BG / Black Text; Dark = Black BG / White Text */}
+                {/* Primary CTA: Mulai Gratis */}
                 <Button
+                  variant="default"
                   asChild
-                  className="group px-4 py-2 h-auto text-xs font-bold rounded-lg border-2 border-black bg-white text-black hover:bg-neutral-100 hover:text-black dark:border-white dark:bg-black dark:text-white dark:hover:bg-neutral-900 dark:hover:text-white shadow-sm transition-all duration-200"
+                  className="h-10 px-4 sm:px-5 rounded-lg text-sm font-semibold bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white shadow-sm shadow-blue-500/20 hover:shadow-md hover:shadow-blue-500/25 border-transparent transition-all duration-150"
                 >
                   <Link href="/sign-up">
-                    <span className="inline-block text-black dark:text-white font-bold transition-transform duration-200 ease-out group-hover:-translate-y-0.5">
-                      Daftar
-                    </span>
+                    Mulai Gratis
                   </Link>
                 </Button>
               </div>
@@ -403,42 +385,85 @@ export function AppHeader({ user }: AppHeaderProps) {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-3 border-t border-gray-100 dark:border-gray-800 space-y-1">
+          <div className="md:hidden py-4 border-t border-gray-200 dark:border-gray-800 space-y-1 animate-in fade-in-50">
             <Link
               href="/dashboard"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className={`flex items-center px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                pathname === "/dashboard"
+                  ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 font-semibold"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              }`}
             >
               Dashboard
             </Link>
             <Link
               href="/learn"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className={`flex items-center px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                pathname.startsWith("/learn")
+                  ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 font-semibold"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              }`}
             >
-              Learn (5 Paths)
+              Belajar (5 Paths)
             </Link>
             <Link
               href="/labs"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className={`flex items-center px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                pathname.startsWith("/labs")
+                  ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 font-semibold"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              }`}
             >
               Labs (7 Praktikum)
             </Link>
             <Link
               href="/challenges"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className={`flex items-center px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                pathname.startsWith("/challenges")
+                  ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 font-semibold"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              }`}
             >
-              Challenges (Troubleshooting)
+              Challenges (3 Kasus)
             </Link>
             <Link
               href="/consultant"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className={`flex items-center px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                pathname.startsWith("/consultant")
+                  ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 font-semibold"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              }`}
             >
-              Consultant Mode
+              Konsultasi Proyek
             </Link>
+
+            {!user && (
+              <div className="pt-3 mt-2 border-t border-gray-100 dark:border-gray-800 flex flex-col gap-2">
+                <Button
+                  variant="outline"
+                  asChild
+                  className="w-full h-10 rounded-lg justify-center text-sm font-medium"
+                >
+                  <Link href="/sign-in" onClick={() => setMobileMenuOpen(false)}>
+                    Masuk
+                  </Link>
+                </Button>
+                <Button
+                  variant="default"
+                  asChild
+                  className="w-full h-10 rounded-lg justify-center text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  <Link href="/sign-up" onClick={() => setMobileMenuOpen(false)}>
+                    Mulai Gratis
+                  </Link>
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </div>

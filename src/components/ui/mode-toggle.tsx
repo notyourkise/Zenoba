@@ -18,7 +18,7 @@ export function ModeToggle() {
 
   if (!mounted) {
     return (
-      <div className="w-9 h-9 flex items-center justify-center text-gray-400">
+      <div className="w-10 h-10 rounded-lg flex items-center justify-center text-gray-400">
         <Sun className="h-4 w-4" />
       </div>
     );
@@ -30,14 +30,14 @@ export function ModeToggle() {
     <button
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none cursor-pointer"
+      className="w-10 h-10 rounded-lg flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none cursor-pointer"
       aria-label="Toggle theme"
-      title={isDark ? "Ganti ke Light Mode" : "Ganti ke Dark Mode"}
+      title={isDark ? "Ganti ke Mode Terang" : "Ganti ke Mode Gelap"}
     >
       {isDark ? (
-        <Sun className="h-4 w-4 text-amber-400 transition-transform duration-200 hover:rotate-45" />
+        <Sun className="h-4 w-4 transition-transform duration-200 hover:rotate-45" />
       ) : (
-        <Moon className="h-4 w-4 text-gray-700 transition-transform duration-200 hover:-rotate-12" />
+        <Moon className="h-4 w-4 transition-transform duration-200 hover:-rotate-12" />
       )}
     </button>
   );

@@ -72,7 +72,7 @@ export function NavigationMenuList({
 }: React.HTMLAttributes<HTMLUListElement>) {
   return (
     <ul
-      className={cn("flex list-none items-center justify-center gap-4 sm:gap-6", className)}
+      className={cn("flex list-none items-center justify-center gap-1 sm:gap-2 lg:gap-3", className)}
       {...props}
     />
   );
@@ -117,14 +117,15 @@ export function NavigationMenuItem({
 }
 
 export const navigationMenuTriggerStyle = cva(
-  "inline-flex h-9 items-center justify-center rounded-md px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 transition-colors hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none cursor-pointer"
+  "inline-flex h-9 items-center justify-center rounded-lg px-3.5 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 transition-colors duration-150 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-gray-800/80 focus:outline-none cursor-pointer select-none"
 );
 
 export function NavigationMenuTrigger({
   className,
   children,
+  isActive = false,
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & { isActive?: boolean }) {
   const { setActiveItem } = React.useContext(NavigationMenuContext);
   const { itemId, isOpen } = React.useContext(NavigationMenuItemContext);
 
@@ -134,7 +135,8 @@ export function NavigationMenuTrigger({
       onClick={() => setActiveItem(isOpen ? null : itemId)}
       className={cn(
         navigationMenuTriggerStyle(),
-        isOpen && "text-blue-600 dark:text-blue-400 font-semibold",
+        isActive && "text-blue-600 dark:text-blue-400 font-semibold",
+        isOpen && "text-blue-600 dark:text-blue-400 bg-gray-100/80 dark:bg-gray-800/80",
         className
       )}
       aria-expanded={isOpen}
@@ -143,7 +145,7 @@ export function NavigationMenuTrigger({
       <span>{children}</span>
       <ChevronDown
         className={cn(
-          "ml-1.5 h-3.5 w-3.5 transition-transform duration-200 text-gray-400",
+          "ml-1 h-3 w-3 text-gray-400 dark:text-gray-500 transition-transform duration-200",
           isOpen && "rotate-180 text-blue-600 dark:text-blue-400"
         )}
         aria-hidden="true"
@@ -164,7 +166,7 @@ export function NavigationMenuContent({
   return (
     <div
       className={cn(
-        "absolute left-0 top-full z-50 mt-1 min-w-[340px] rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl p-3 transition-all",
+        "absolute left-0 top-full z-50 mt-1 min-w-[340px] rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl p-2.5 transition-all animate-in fade-in-50 zoom-in-95",
         className
       )}
       {...props}
@@ -192,7 +194,7 @@ export function NavigationMenuLink({
   return (
     <a
       className={cn(
-        "block select-none rounded-lg p-2.5 text-sm font-medium no-underline outline-none transition-colors hover:bg-gray-50 dark:hover:bg-gray-800/60",
+        "block select-none rounded-lg p-2 text-sm font-medium no-underline outline-none transition-colors hover:bg-gray-50 dark:hover:bg-gray-800/60",
         className
       )}
       {...props}

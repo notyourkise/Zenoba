@@ -1,5 +1,5 @@
 // Netloka - Prisma Schema
-// Updated for Sprint 2: Learning Catalog & Progress Model
+// Updated for Milestone 2: Learning Engine (Sprint 3 & 4)
 
 generator client {
   provider = "prisma-client"
@@ -25,9 +25,11 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts Account[]
-  sessions Session[]
-  progress UserLessonProgress[]
+  accounts     Account[]
+  sessions     Session[]
+  progress     UserLessonProgress[]
+  xpLedger     UserXpLedger[]
+  quizAttempts QuizAttempt[]
 
   @@map("users")
 }
@@ -118,6 +120,7 @@ model Lesson {
   description String   @db.Text
   orderIndex  Int      @default(0)
   xpReward    Int      @default(50)
+  content     Json?
   published   Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -126,6 +129,7 @@ model Lesson {
   prerequisites LessonPrerequisite[] @relation("LessonToPrerequisites")
   requiredFor   LessonPrerequisite[] @relation("PrerequisiteToLesson")
   userProgress  UserLessonProgress[]
+  quizAttempts  QuizAttempt[]
 
   @@unique([moduleId, slug])
   @@map("lessons")
@@ -158,4 +162,40 @@ model UserLessonProgress {
 
   @@unique([userId, lessonId])
   @@map("user_lesson_progress")
+}
+
+// ====================
+// Quiz & Reward Engine Models
+// ====================
+
+model UserXpLedger {
+  id          String   @id @default(cuid())
+  userId      String
+  amount      Int
+  eventType   String   // LESSON_COMPLETION | QUIZ_PASS | PRACTICE_SOLVED
+  referenceId String   // e.g. lessonId, quizId
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, eventType, referenceId])
+  @@index([userId])
+  @@map("user_xp_ledger")
+}
+
+model QuizAttempt {
+  id        String   @id @default(cuid())
+  userId    String
+  lessonId  String
+  quizId    String
+  score     Int
+  passed    Boolean
+  answers   Json
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@index([userId, lessonId])
+  @@map("quiz_attempts")
 }

@@ -5,7 +5,7 @@ import {
   BookOpen,
   FlaskConical,
   Bug,
-  ClipboardList,
+  Award,
   ArrowRight,
   TrendingUp,
 } from "lucide-react";
@@ -16,7 +16,7 @@ export default async function DashboardPage() {
 
   const progressSummary = user?.id
     ? await getUserProgressSummary(user.id)
-    : { totalLessons: 0, completedCount: 0, inProgressCount: 0, completionPercentage: 0 };
+    : { totalLessons: 0, completedCount: 0, inProgressCount: 0, completionPercentage: 0, totalXp: 0 };
 
   const paths = await getLearningPathsWithProgress(user?.id);
   const activePath = paths[0] || null;
@@ -47,16 +47,16 @@ export default async function DashboardPage() {
           icon={<TrendingUp className="h-5 w-5" />}
         />
         <StatCard
+          title="Total XP Diperoleh"
+          value={`${progressSummary.totalXp} XP`}
+          subtext="Buku Besar Terverifikasi"
+          icon={<Award className="h-5 w-5" />}
+        />
+        <StatCard
           title="Practice Labs"
           value="0"
           subtext="Mulai di Milestone 5"
           icon={<FlaskConical className="h-5 w-5" />}
-        />
-        <StatCard
-          title="Consultant Project"
-          value="0"
-          subtext="Mulai di Milestone 6"
-          icon={<ClipboardList className="h-5 w-5" />}
         />
       </div>
 

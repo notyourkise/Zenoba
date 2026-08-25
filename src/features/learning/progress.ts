@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db/client";
 import { resolveLessonStatus } from "./prerequisites";
 import { LessonStatus } from "./types";
+import { awardXp, getUserTotalXp } from "@/features/xp/ledger";
 
 /**
  * Starts a lesson for a user, marking it as IN_PROGRESS if prerequisites are met.
@@ -100,6 +101,7 @@ export async function completeLessonProgress(
   status: LessonStatus;
   completedAt: Date;
   xpAwarded: number;
+  totalXp: number;
 }> {
   const lesson = await prisma.lesson.findUnique({
     where: { id: lessonId },
@@ -119,7 +121,6 @@ export async function completeLessonProgress(
   });
 
   const isFirstCompletion = existing?.status !== "COMPLETED";
-
   const completedAt = existing?.completedAt || new Date();
 
   const progress = await prisma.userLessonProgress.upsert({
@@ -141,11 +142,26 @@ export async function completeLessonProgress(
     },
   });
 
+  // Award XP via auditable idempotent ledger
+  let xpAwarded = 0;
+  if (isFirstCompletion && lesson.xpReward > 0) {
+    const xpResult = await awardXp(
+      userId,
+      lesson.xpReward,
+      "LESSON_COMPLETION",
+      lessonId
+    );
+    xpAwarded = xpResult.awarded ? xpResult.amount : 0;
+  }
+
+  const totalXp = await getUserTotalXp(userId);
+
   return {
     id: progress.id,
     status: "COMPLETED",
     completedAt,
-    xpAwarded: isFirstCompletion ? lesson.xpReward : 0,
+    xpAwarded,
+    totalXp,
   };
 }
 
@@ -153,13 +169,14 @@ export async function completeLessonProgress(
  * Gets aggregated learning progress statistics for a user.
  */
 export async function getUserProgressSummary(userId: string) {
-  const [totalPublishedLessons, userProgressList] = await Promise.all([
+  const [totalPublishedLessons, userProgressList, totalXp] = await Promise.all([
     prisma.lesson.count({
       where: { published: true },
     }),
     prisma.userLessonProgress.findMany({
       where: { userId },
     }),
+    getUserTotalXp(userId),
   ]);
 
   const completedCount = userProgressList.filter(
@@ -180,5 +197,6 @@ export async function getUserProgressSummary(userId: string) {
     completedCount,
     inProgressCount,
     completionPercentage: Math.min(100, Math.max(0, percentage)),
+    totalXp,
   };
 }

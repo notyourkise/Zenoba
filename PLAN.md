@@ -313,29 +313,29 @@ reward
 - Create: `src/features/learning/blocks/registry.ts`
 - Test: block schema validation
 
-- [ ] Define a versioned lesson-content schema.
-- [ ] Reject unknown block types.
-- [ ] Validate required fields per block.
-- [ ] Ensure malformed content produces an author-visible validation error, not a learner crash.
-- [ ] Commit.
+- [x] Define a versioned lesson-content schema (`src/features/learning/blocks/schema.ts`).
+- [x] Reject unknown block types (`schema.test.ts`).
+- [x] Validate required fields per block.
+- [x] Ensure malformed content produces an author-visible validation error, not a learner crash (`fallback-block.tsx`).
+- [x] Commit.
 
 ### Task 3.2 — Renderer registry
 
-- [ ] Write renderer tests for known/unknown blocks.
-- [ ] Implement registry mapping block type → component.
-- [ ] Add generic error fallback for invalid persisted content.
-- [ ] Add reduced-motion support for motion blocks.
-- [ ] Commit.
+- [x] Write renderer tests for known/unknown blocks (`src/features/learning/blocks/registry.test.tsx`).
+- [x] Implement registry mapping block type → component (`src/features/learning/blocks/registry.tsx`).
+- [x] Add generic error fallback for invalid persisted content (`fallback-block.tsx`).
+- [x] Add reduced-motion support for motion blocks (`lottie-block.tsx`).
+- [x] Commit.
 
 ### Task 3.3 — Lesson runtime
 
-- [ ] Render ordered lesson blocks from persisted/seeded content.
-- [ ] Track lesson start.
-- [ ] Add previous/next lesson controls.
-- [ ] Add explicit completion action where assessment requirements allow it.
-- [ ] Prevent accidental duplicate completion rewards.
-- [ ] Test full lesson render.
-- [ ] Commit.
+- [x] Render ordered lesson blocks from persisted/seeded content (`LessonRenderer`).
+- [x] Track lesson start (`startLessonProgress`).
+- [x] Add previous/next lesson controls (`LessonActionBar`).
+- [x] Add explicit completion action where assessment requirements allow it.
+- [x] Prevent accidental duplicate completion rewards (`UserXpLedger` idempotency).
+- [x] Test full lesson render.
+- [x] Commit.
 
 ---
 
@@ -348,28 +348,28 @@ Supported MVP question forms:
 - multiple choice
 - ordered list/categorization when a lesson explicitly needs it
 
-- [ ] Define quiz schema.
-- [ ] Define answer evaluation as deterministic server/shared-domain logic.
-- [ ] Store attempts.
-- [ ] Provide explanation after submission according to content configuration.
-- [ ] Test exact scoring and repeat attempts.
-- [ ] Commit.
+- [x] Define quiz schema (`src/features/quiz/schema.ts`).
+- [x] Define answer evaluation as deterministic server/shared-domain logic (`src/features/quiz/evaluator.ts`).
+- [x] Store attempts (`QuizAttempt` model and `/api/learning/quiz/submit`).
+- [x] Provide explanation after submission according to content configuration.
+- [x] Test exact scoring and repeat attempts (`src/features/quiz/evaluator.test.ts`, `quiz-route.test.ts`).
+- [x] Commit.
 
 ### Task 4.2 — XP and completion rewards
 
-- [ ] Define XP event types.
-- [ ] Make XP awarding idempotent for one-time lesson completion.
-- [ ] Store an auditable XP ledger rather than only a mutable total.
-- [ ] Derive/display total XP.
-- [ ] Test duplicate request resistance.
-- [ ] Commit.
+- [x] Define XP event types (`src/features/xp/ledger.ts`).
+- [x] Make XP awarding idempotent for one-time lesson completion (`UserXpLedger`).
+- [x] Store an auditable XP ledger rather than only a mutable total.
+- [x] Derive/display total XP (`getUserTotalXp` & Dashboard stat card).
+- [x] Test duplicate request resistance (`src/features/xp/ledger.test.ts`).
+- [x] Commit.
 
 ### Task 4.3 — Complete lesson loop
 
-- [ ] Seed one representative lesson containing concept text, visual, interaction placeholder, quiz, practice, summary, and reward.
-- [ ] E2E test the complete lesson journey.
-- [ ] Verify completion unlocks the next lesson.
-- [ ] Commit.
+- [x] Seed one representative lesson containing concept text, visual, interaction placeholder, quiz, practice, summary, and reward (`prisma/seed.ts`).
+- [x] E2E test the complete lesson journey (`src/e2e/lesson-loop.spec.ts`).
+- [x] Verify completion unlocks the next lesson.
+- [x] Commit.
 
 **Milestone 2 acceptance test:** One learner can complete a fully block-driven lesson and receive persistent progress/XP without lesson-specific route code.
 

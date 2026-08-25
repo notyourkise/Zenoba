@@ -105,7 +105,7 @@ export function NavigationMenuContent({
       />
       <div
         className={cn(
-          "absolute left-0 top-full z-40 mt-2 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-2xl transition-all",
+          "absolute left-1/2 -translate-x-1/2 top-full z-40 mt-2 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-2xl transition-all",
           className
         )}
         {...props}

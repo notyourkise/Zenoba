@@ -157,9 +157,9 @@ export function AppHeader({ user }: AppHeaderProps) {
   return (
     <header className="sticky top-0 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-b border-gray-200 dark:border-gray-800 shadow-sm transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 gap-6">
-          {/* Logo Brand & Navigation Links */}
-          <div className="flex items-center gap-8">
+        <div className="flex items-center justify-between h-16">
+          {/* 1. Left Side: Brand Logo */}
+          <div className="flex items-center justify-start flex-1">
             <Link
               href="/"
               className="flex items-center gap-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg p-1 hover:opacity-90 transition-opacity"
@@ -171,9 +171,11 @@ export function AppHeader({ user }: AppHeaderProps) {
                 Netloka
               </span>
             </Link>
+          </div>
 
-            {/* Desktop NavigationMenu */}
-            <NavigationMenu className="hidden md:flex">
+          {/* 2. Center: Desktop NavigationMenu */}
+          <div className="hidden md:flex items-center justify-center flex-shrink-0">
+            <NavigationMenu>
               <NavigationMenuList className="gap-1">
                 {/* Dashboard Direct Link */}
                 <NavigationMenuItem>
@@ -376,8 +378,8 @@ export function AppHeader({ user }: AppHeaderProps) {
             </NavigationMenu>
           </div>
 
-          {/* User Controls & ModeToggle */}
-          <div className="flex items-center gap-3">
+          {/* 3. Right Side: User Controls & ModeToggle */}
+          <div className="flex items-center justify-end flex-1 gap-3">
             <ModeToggle />
 
             {user ? (

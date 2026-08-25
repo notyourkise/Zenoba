@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1
 # Multi-Stage Production Dockerfile for Netloka
 
 # Stage 1: Base Dependencies

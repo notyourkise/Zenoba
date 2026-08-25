@@ -79,7 +79,7 @@ export function NavigationMenuList({
 }: React.HTMLAttributes<HTMLUListElement>) {
   return (
     <ul
-      className={cn("flex list-none items-center justify-center gap-1 sm:gap-2", className)}
+      className={cn("flex list-none items-center justify-center gap-2 sm:gap-3 lg:gap-4", className)}
       {...props}
     />
   );
@@ -124,7 +124,7 @@ export function NavigationMenuItem({
 }
 
 export const navigationMenuTriggerStyle = cva(
-  "inline-flex h-9 items-center justify-center rounded-md px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 transition-colors duration-150 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 focus:outline-none cursor-pointer select-none"
+  "inline-flex h-10 items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 transition-colors duration-150 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 focus:outline-none cursor-pointer select-none"
 );
 
 export function NavigationMenuTrigger({

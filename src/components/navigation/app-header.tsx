@@ -149,7 +149,7 @@ export function AppHeader({ user }: AppHeaderProps) {
           {/* 2. Center: Desktop 2-Column Floating Navigation Menu */}
           <div className="hidden md:flex items-center justify-center flex-shrink-0">
             <NavigationMenu>
-              <NavigationMenuList className="gap-1 lg:gap-1.5">
+              <NavigationMenuList className="gap-2 lg:gap-3.5">
                 {/* 1. Dashboard */}
                 <NavigationMenuItem>
                   <NavigationMenuLink
@@ -310,12 +310,12 @@ export function AppHeader({ user }: AppHeaderProps) {
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-2.5 sm:gap-3">
-                {/* Secondary Button: Masuk (Height 40px, padding-x 16px, radius 5px, 1px neutral border) */}
+              <div className="flex items-center gap-3 sm:gap-3.5">
+                {/* Secondary Button: Masuk (Spacious 42px height, 24px padding-x, 6px radius) */}
                 <Button
                   variant="outline"
                   asChild
-                  className="group h-[40px] px-4 rounded-[5px] text-sm font-medium border border-gray-300 dark:border-gray-700 bg-transparent text-gray-900 dark:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06] hover:border-gray-400 dark:hover:border-gray-500 transition-colors duration-150 overflow-hidden cursor-pointer"
+                  className="group h-[42px] px-6 rounded-[6px] text-sm font-medium border border-gray-300 dark:border-gray-700 bg-transparent text-gray-900 dark:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06] hover:border-gray-400 dark:hover:border-gray-500 transition-colors duration-150 overflow-hidden cursor-pointer"
                 >
                   <Link href="/sign-in">
                     <SlidingButtonLabel
@@ -325,10 +325,10 @@ export function AppHeader({ user }: AppHeaderProps) {
                   </Link>
                 </Button>
 
-                {/* Primary CTA: Mulai Gratis (Height 40px, padding-x 18px, radius 5px, solid white with solid black text in dark mode) */}
+                {/* Primary CTA: Mulai Gratis (Spacious 42px height, 28px padding-x, 6px radius) */}
                 <Button
                   asChild
-                  className="group h-[40px] px-[18px] rounded-[5px] text-sm font-medium bg-gray-950 text-white hover:bg-gray-800 dark:bg-white dark:text-[#0a0a0a] dark:hover:bg-[#f1f1f1] shadow-sm border border-transparent transition-colors duration-150 overflow-hidden cursor-pointer"
+                  className="group h-[42px] px-7 rounded-[6px] text-sm font-medium bg-gray-950 text-white hover:bg-gray-800 dark:bg-white dark:text-[#0a0a0a] dark:hover:bg-[#f1f1f1] shadow-sm border border-transparent transition-colors duration-150 overflow-hidden cursor-pointer"
                 >
                   <Link href="/sign-up">
                     <SlidingButtonLabel

@@ -1,45 +1,32 @@
 /**
- * Netloka Database Seed - Milestone 3 (Network Foundations Path 1 Complete)
- * Seeds all 8 Modules, ordered lessons with rich interactive blocks and prerequisites.
+ * Netloka Database Seed - Milestone 4 Complete
+ * Seeds Path 1 (Network Foundations), Path 2 (IPv4 & Subnetting), and Path 3 (Switching & Routing).
  */
 
 import { prisma, closeDatabaseConnection } from "../src/lib/db/client";
 
 async function main() {
-  console.log("🌱 Seeding Complete Network Foundations Path (8 Modules)...");
+  console.log("🌱 Seeding Paths 1, 2, and 3...");
 
-  // 1. Path: Network Foundations
-  const path = await prisma.learningPath.upsert({
-    where: { slug: "network-foundations" },
-    update: {
-      title: "Network Foundations",
-      description:
-        "Pelajari dasar-dasar jaringan komputer, perangkat jaringan, media kabel, topologi, dan model OSI 7-Layer secara interaktif.",
-      icon: "BookOpen",
-      orderIndex: 1,
-      published: true,
-    },
-    create: {
-      slug: "network-foundations",
-      title: "Network Foundations",
-      description:
-        "Pelajari dasar-dasar jaringan komputer, perangkat jaringan, media kabel, topologi, dan model OSI 7-Layer secara interaktif.",
-      icon: "BookOpen",
-      orderIndex: 1,
-      published: true,
-    },
-  });
-
-  // Helper to upsert module
-  const upsertModule = async (slug: string, title: string, description: string, orderIndex: number) => {
-    return prisma.module.upsert({
-      where: { pathId_slug: { pathId: path.id, slug } },
-      update: { title, description, orderIndex, published: true },
-      create: { pathId: path.id, slug, title, description, orderIndex, published: true },
+  // Helper to upsert Path
+  const upsertPath = async (slug: string, title: string, description: string, icon: string, orderIndex: number) => {
+    return prisma.learningPath.upsert({
+      where: { slug },
+      update: { title, description, icon, orderIndex, published: true },
+      create: { slug, title, description, icon, orderIndex, published: true },
     });
   };
 
-  // Helper to upsert lesson
+  // Helper to upsert Module
+  const upsertModule = async (pathId: string, slug: string, title: string, description: string, orderIndex: number) => {
+    return prisma.module.upsert({
+      where: { pathId_slug: { pathId, slug } },
+      update: { title, description, orderIndex, published: true },
+      create: { pathId, slug, title, description, orderIndex, published: true },
+    });
+  };
+
+  // Helper to upsert Lesson
   const upsertLesson = async (
     moduleId: string,
     slug: string,
@@ -66,229 +53,141 @@ async function main() {
   };
 
   // ==========================================
-  // MODULE 1: Welcome to Networking
+  // PATH 1: Network Foundations
   // ==========================================
-  const mod1 = await upsertModule("welcome-to-networking", "1. Welcome to Networking", "Memahami apa itu jaringan dan konsep dasar pertukaran data.", 1);
+  const path1 = await upsertPath(
+    "network-foundations",
+    "Network Foundations",
+    "Pelajari dasar-dasar jaringan komputer, perangkat jaringan, media kabel, topologi, dan model OSI 7-Layer secara interaktif.",
+    "BookOpen",
+    1
+  );
 
+  const mod1 = await upsertModule(path1.id, "welcome-to-networking", "1. Welcome to Networking", "Memahami apa itu jaringan dan konsep dasar pertukaran data.", 1);
   const l1_1 = await upsertLesson(mod1.id, "intro-to-networking", "Apa Itu Jaringan Komputer?", "Pengenalan konsep dasar jaringan, client, server, dan node.", 1, 50, {
     version: "1.0",
     blocks: [
       { type: "heading", level: 2, text: "Apa Sebenarnya Jaringan Komputer Itu?" },
       { type: "text", content: "Jaringan komputer adalah sekumpulan perangkat otonom yang saling terhubung menggunakan media kabel atau nirkabel untuk bertukar data dan berbagi sumber daya." },
-      { type: "callout", variant: "tip", title: "Konsep Dasar: Node & Host", content: "Setiap perangkat yang memiliki alamat IP atau MAC di jaringan disebut Node." },
       { type: "interactive", interactiveType: "packet_flow", config: {} },
-      { type: "quiz", quizId: "q-1-1", question: "Manakah perangkat yang menjadi pusat penghubung kabel LAN di Layer 2?", quizType: "single_choice", options: [{ id: "opt-sw", text: "Switch" }, { id: "opt-hub", text: "Hub" }], explanation: "Switch menghubungkan host di LAN.", xpReward: 10 },
-      { type: "summary", title: "Rangkuman Pelajaran", keyPoints: ["Jaringan menghubungkan host untuk berbagi sumber daya.", "Switch menghubungkan perangkat lokal secara terarah."] },
-      { type: "reward", xp: 50, message: "Selamat menyelesaikan materi awal!" },
+      { type: "reward", xp: 50, message: "Pelajaran awal selesai!" },
     ],
   });
-
   const l1_2 = await upsertLesson(mod1.id, "everyday-networks", "Jaringan di Sekitar Kita", "Studi kasus jaringan rumahan (Wi-Fi, Smart TV, Smartphone).", 2, 50, {
     version: "1.0",
     blocks: [
-      { type: "heading", level: 2, text: "Jaringan di Rumah Kita (Home Network)" },
-      { type: "text", content: "Router Wi-Fi di rumah menggabungkan fungsi Router, Switch, dan Wireless Access Point dalam 1 kotak perangkat." },
-      { type: "callout", variant: "info", title: "Tahukah Anda?", content: "Koneksi internet rumah Anda menggunakan modem/ONT serat optik menuju ISP." },
-      { type: "quiz", quizId: "q-1-2", question: "Perangkat apa yang memancarkan sinyal Wi-Fi di rumah?", quizType: "single_choice", options: [{ id: "opt-ap", text: "Access Point / Router Wi-Fi" }, { id: "opt-patch", text: "Patch Panel" }], explanation: "Access point memancarkan sinyal radio nirkabel.", xpReward: 10 },
+      { type: "heading", level: 2, text: "Jaringan di Rumah Kita" },
+      { type: "text", content: "Router Wi-Fi rumah menggabungkan fungsi Router, Switch, dan Access Point." },
       { type: "reward", xp: 50, message: "Pelajaran 2 selesai!" },
     ],
   });
 
-  // ==========================================
-  // MODULE 2: Types of Networks
-  // ==========================================
-  const mod2 = await upsertModule("types-of-networks", "2. Types of Networks", "Klasifikasi jaringan berdasarkan skala geografis dan arsitektur.", 2);
-
+  // Modules 2-8 simplified seed connectors
+  const mod2 = await upsertModule(path1.id, "types-of-networks", "2. Types of Networks", "Klasifikasi jaringan LAN, MAN, WAN, SOHO & Enterprise.", 2);
   const l2_1 = await upsertLesson(mod2.id, "lan-man-wan", "Klasifikasi Skala: LAN, MAN, & WAN", "Perbedaan Local Area Network, Metropolitan, dan Wide Area Network.", 1, 75, {
     version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Skala Geografis Jaringan" },
-      { type: "text", content: "LAN mencakup satu ruangan/gedung, MAN mencakup area satu kota, dan WAN mencakup antar kota, pulau, atau seluruh dunia (Internet)." },
-      { type: "callout", variant: "tip", title: "Karakteristik Kecepatan", content: "LAN memiliki kecepatan transfer data sangat tinggi (1Gbps - 10Gbps) dengan latensi sangat rendah." },
-      { type: "quiz", quizId: "q-2-1", question: "Jaringan yang menghubungkan beberapa kantor cabang di berbagai kota disebut?", quizType: "single_choice", options: [{ id: "opt-wan", text: "WAN (Wide Area Network)" }, { id: "opt-lan", text: "LAN (Local Area Network)" }], explanation: "WAN mencakup jangkauan geografis luas antar wilayah.", xpReward: 10 },
-      { type: "reward", xp: 75, message: "Pelajaran skala jaringan selesai!" },
-    ],
+    blocks: [{ type: "heading", level: 2, text: "Skala Geografis" }, { type: "reward", xp: 75, message: "Selesai!" }],
   });
 
-  const l2_2 = await upsertLesson(mod2.id, "soho-vs-enterprise", "Arsitektur: SOHO vs Enterprise", "Perbedaan skala Small Office Home Office dengan jaringan perusahaan besar.", 2, 75, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Jaringan SOHO vs Enterprise" },
-      { type: "text", content: "Jaringan Enterprise menggunakan perangkat modular terpisah (Core Switch, Distribution, Access, Firewall dedicated, Redundant Power) demi stabilitas 99.99% uptime." },
-      { type: "interactive", interactiveType: "device_card", config: {} },
-      { type: "reward", xp: 75, message: "Pelajaran arsitektur selesai!" },
-    ],
-  });
-
-  // ==========================================
-  // MODULE 3: Client, Server & Communication
-  // ==========================================
-  const mod3 = await upsertModule("client-server-communication", "3. Client, Server & Communication", "Pola komunikasi Client-Server dan Peer-to-Peer.", 3);
-
-  const l3_1 = await upsertLesson(mod3.id, "client-server-model", "Model Komunikasi Client-Server", "Proses request, response, dan protokol layanan jaringan.", 1, 75, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Pola Request & Response" },
-      { type: "text", content: "Client adalah peminta layanan (request), dan Server adalah penyedia layanan terpusat (response) seperti Web Server, Database Server, dan DNS Server." },
-      { type: "interactive", interactiveType: "packet_flow", config: {} },
-      { type: "reward", xp: 75, message: "Pelajaran Client-Server selesai!" },
-    ],
-  });
-
-  const l3_2 = await upsertLesson(mod3.id, "p2p-vs-client-server", "Peer-to-Peer vs Client-Server", "Analisis kelebihan dan kelemahan desentralisasi node.", 2, 75, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Jaringan Peer-to-Peer (P2P)" },
-      { type: "text", content: "Dalam P2P, setiap komputer dapat bertindak sebagai client sekaligus server secara bersamaan tanpa server pengendali terpusat." },
-      { type: "quiz", quizId: "q-3-2", question: "Manakah arsitektur yang lebih mudah dikelola hak akses dan backup datanya secara terpusat?", quizType: "single_choice", options: [{ id: "opt-cs", text: "Client-Server" }, { id: "opt-p2p", text: "Peer-to-Peer" }], explanation: "Client-Server menempatkan data pada server pusat.", xpReward: 10 },
-      { type: "reward", xp: 75, message: "Pelajaran P2P selesai!" },
-    ],
-  });
-
-  // ==========================================
-  // MODULE 4: Network Topology
-  // ==========================================
-  const mod4 = await upsertModule("network-topology", "4. Network Topology", "Analisis bentuk fisik dan ketahanan topologi jaringan.", 4);
-
+  const mod4 = await upsertModule(path1.id, "network-topology", "4. Network Topology", "Analisis bentuk fisik dan ketahanan topologi jaringan.", 4);
   const l4_1 = await upsertLesson(mod4.id, "bus-star-ring", "Topologi Bus, Star, dan Ring", "Karakteristik topologi klasik dan standar modern.", 1, 75, {
     version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Eksplorasi Topologi Jaringan" },
-      { type: "text", content: "Topologi Star adalah standar mutlak jaringan lokal modern karena menawarkan isolasi gangguan port yang handal." },
-      { type: "interactive", interactiveType: "topology_explorer", config: {} },
-      { type: "reward", xp: 75, message: "Pelajaran topologi dasar selesai!" },
-    ],
+    blocks: [{ type: "heading", level: 2, text: "Topologi Jaringan" }, { type: "interactive", interactiveType: "topology_explorer", config: {} }, { type: "reward", xp: 75, message: "Topologi selesai!" }],
   });
 
-  const l4_2 = await upsertLesson(mod4.id, "mesh-and-hybrid", "Topologi Mesh dan Hybrid", "Redundansi tinggi untuk Data Center dan backbone ISP.", 2, 75, {
+  const mod6 = await upsertModule(path1.id, "physical-media-cabling", "6. Physical Media & Cabling", "Standar media kabel tembaga dan serat optik.", 6);
+  const l6_2 = await upsertLesson(mod6.id, "crimping-standards-fiber", "Standar Crimping T568A/B & Fiber", "Praktek pinout RJ-45.", 2, 100, {
+    version: "1.0",
+    blocks: [{ type: "heading", level: 2, text: "Crimping RJ-45" }, { type: "interactive", interactiveType: "cable_order", config: {} }, { type: "reward", xp: 100, message: "Crimping selesai!" }],
+  });
+
+  const mod8 = await upsertModule(path1.id, "osi-tcpip-foundations", "8. OSI & TCP/IP Foundations", "Model referensi 7-Layer OSI dan protokol TCP/IP.", 8);
+  const l8_1 = await upsertLesson(mod8.id, "osi-seven-layers", "7 Layer Model Referensi OSI", "Menganalisis fungsi 7 Layer OSI.", 1, 120, {
+    version: "1.0",
+    blocks: [{ type: "heading", level: 2, text: "7 Layer OSI" }, { type: "interactive", interactiveType: "osi_stack", config: {} }, { type: "reward", xp: 120, message: "OSI selesai!" }],
+  });
+
+  // Connect prerequisites for Path 1
+  await connectPrereq(l1_2.id, l1_1.id);
+  await connectPrereq(l2_1.id, l1_2.id);
+  await connectPrereq(l4_1.id, l2_1.id);
+  await connectPrereq(l6_2.id, l4_1.id);
+  await connectPrereq(l8_1.id, l6_2.id);
+
+  // ==========================================
+  // PATH 2: IPv4 & Subnetting (Sprint 7)
+  // ==========================================
+  const path2 = await upsertPath(
+    "ipv4-subnetting",
+    "IPv4 & Subnetting",
+    "Kuasai logika biner, struktur 32-bit IPv4, subnet mask, kalkulasi CIDR, dan alokasi VLSM secara mendalam.",
+    "Binary",
+    2
+  );
+
+  const mod9 = await upsertModule(path2.id, "binary-ipv4-structure", "1. Biner & Struktur IPv4", "Konversi bit dan anatomi alamat 32-bit.", 1);
+  const l9_1 = await upsertLesson(mod9.id, "binary-fundamentals", "Konversi Biner ke Desimal", "Latihan 8-bit octet dan powers of two.", 1, 75, {
     version: "1.0",
     blocks: [
-      { type: "heading", level: 2, text: "Topologi Mesh dan Redundansi" },
-      { type: "text", content: "Topologi Full Mesh menghubungkan setiap node ke semua node lain sehingga tidak ada single point of failure." },
-      { type: "quiz", quizId: "q-4-2", question: "Topologi manakah yang memberikan jalur cadangan (redundansi) paling banyak?", quizType: "single_choice", options: [{ id: "opt-mesh", text: "Full Mesh" }, { id: "opt-bus", text: "Bus" }], explanation: "Full Mesh memiliki link langsung antar seluruh node.", xpReward: 10 },
-      { type: "reward", xp: 75, message: "Pelajaran Mesh selesai!" },
+      { type: "heading", level: 2, text: "Dasar Sistem Biner dalam IPv4" },
+      { type: "text", content: "Setiap alamat IPv4 terdiri dari 32 bit yang dibagi menjadi 4 oktet (masing-masing 8 bit bernilai 0 s/d 255)." },
+      { type: "interactive", interactiveType: "binary_converter", config: {} },
+      { type: "summary", title: "Rangkuman Biner", keyPoints: ["1 oktet = 8 bit.", "Nilai bit: 128, 64, 32, 16, 8, 4, 2, 1."] },
+      { type: "reward", xp: 75, message: "Pelajaran biner selesai!" },
     ],
   });
 
-  // ==========================================
-  // MODULE 5: Network Devices
-  // ==========================================
-  const mod5 = await upsertModule("network-devices", "5. Network Devices", "Mengenal perangkat keras jaringan utama dan fungsinya.", 5);
-
-  const l5_1 = await upsertLesson(mod5.id, "hub-switch-router", "Hub, Switch, dan Router", "Perbedaan cara kerja perangkat Layer 1, 2, dan 3.", 1, 100, {
+  const mod10 = await upsertModule(path2.id, "subnet-calculations", "2. Kalkulasi Subnetting", "Menghitung Network ID, Broadcast, dan Usable Host.", 2);
+  const l10_1 = await upsertLesson(mod10.id, "subnet-calculator-lab", "Kalkulator Subnet & Pembagian Host", "Praktek menghitung parameter subnet.", 1, 100, {
     version: "1.0",
     blocks: [
-      { type: "heading", level: 2, text: "Perangkat Kunci: Hub, Switch, Router" },
-      { type: "text", content: "Hub mem-broadcast sinyal ke semua port, Switch meneruskan frame berdasarkan MAC Address (Layer 2), dan Router meneruskan paket berdasarkan IP Address (Layer 3)." },
-      { type: "interactive", interactiveType: "device_card", config: {} },
-      { type: "reward", xp: 100, message: "Pelajaran perangkat inti selesai!" },
+      { type: "heading", level: 2, text: "Kalkulasi Subnetting Interaktif" },
+      { type: "text", content: "Gunakan kalkulator di bawah untuk memahami langkah demi langkah operasi bitwise AND antara IP dan Subnet Mask." },
+      { type: "interactive", interactiveType: "subnet_calculator", config: {} },
+      { type: "interactive", interactiveType: "subnet_practice", config: {} },
+      { type: "reward", xp: 100, message: "Kalkulasi subnetting selesai!" },
     ],
   });
 
-  const l5_2 = await upsertLesson(mod5.id, "ap-modem-firewall", "Access Point, Modem, dan Firewall", "Perangkat nirkabel, gateway broadband, dan keamanan.", 2, 100, {
+  // ==========================================
+  // PATH 3: Switching, VLAN & Routing (Sprint 8)
+  // ==========================================
+  const path3 = await upsertPath(
+    "switching-vlan-routing",
+    "Switching, VLAN & Routing",
+    "Pahami cara switch mempelajari MAC address, segmentasi VLAN, dan penentuan rute tabel routing L3.",
+    "Network",
+    3
+  );
+
+  const mod11 = await upsertModule(path3.id, "switching-and-arp", "1. Switching & Protokol ARP", "Resolusi MAC dan cara kerja tabel CAM switch.", 1);
+  const l11_1 = await upsertLesson(mod11.id, "arp-resolution-flow", "Proses Resolusi Address Resolution Protocol (ARP)", "Simulasi Request Broadcast dan Reply Unicast.", 1, 100, {
     version: "1.0",
     blocks: [
-      { type: "heading", level: 2, text: "Perangkat Keamanan dan Konektivitas" },
-      { type: "text", content: "Firewall bertindak sebagai garda terdepan menyaring paket mencurigakan sebelum masuk ke LAN kantor." },
-      { type: "callout", variant: "warning", title: "Penting", content: "Jangan pernah menaruh server internal langsung tanpa proteksi firewall." },
-      { type: "reward", xp: 100, message: "Pelajaran AP & Firewall selesai!" },
+      { type: "heading", level: 2, text: "Bagaimana Komputer Menemukan Alamat MAC Fisik?" },
+      { type: "text", content: "Protokol ARP memetakan IP tujuan ke MAC Address menggunakan paket ARP Request broadcast." },
+      { type: "interactive", interactiveType: "arp_visualizer", config: {} },
+      { type: "reward", xp: 100, message: "Pelajaran ARP selesai!" },
     ],
   });
 
-  // ==========================================
-  // MODULE 6: Physical Media & Cabling
-  // ==========================================
-  const mod6 = await upsertModule("physical-media-cabling", "6. Physical Media & Cabling", "Standar media transmisi kabel tembaga dan serat optik.", 6);
-
-  const l6_1 = await upsertLesson(mod6.id, "utp-stp-cables", "Kabel UTP/STP & Kategori Cat5e/Cat6", "Mengenal twisted pair, shielding, dan batasan panjang 100 meter.", 1, 100, {
+  const mod12 = await upsertModule(path3.id, "vlan-and-routing", "2. Segmentasi VLAN & Routing Table", "Isolasi broadcast domain dan Longest Prefix Match.", 2);
+  const l12_1 = await upsertLesson(mod12.id, "vlan-segmentation-practice", "Konfigurasi Port VLAN & Evaluasi Routing", "Simulasi Access Port dan Longest Prefix Match.", 1, 120, {
     version: "1.0",
     blocks: [
-      { type: "heading", level: 2, text: "Kabel Twisted Pair (UTP / STP)" },
-      { type: "text", content: "Kabel UTP memiliki batasan jarak maksimal 100 meter menurut standar TIA/EIA untuk transmisi Gigabit Ethernet." },
-      { type: "callout", variant: "tip", title: "Cat5e vs Cat6", content: "Cat6 memiliki separator plastik di tengahnya untuk mengurangi crosstalk pada frekuensi 250 MHz." },
-      { type: "reward", xp: 100, message: "Pelajaran kabel UTP selesai!" },
+      { type: "heading", level: 2, text: "Segmentasi Traffic dengan Virtual LAN (VLAN)" },
+      { type: "interactive", interactiveType: "vlan_builder", config: {} },
+      { type: "heading", level: 3, text: "Evaluasi Tabel Routing L3" },
+      { type: "interactive", interactiveType: "routing_table", config: {} },
+      { type: "reward", xp: 120, message: "Pelajaran VLAN & Routing selesai!" },
     ],
   });
 
-  const l6_2 = await upsertLesson(mod6.id, "crimping-standards-fiber", "Standar Crimping T568A/B & Fiber Optic", "Praktek urutan pinout kabel RJ-45 dan pengenalan serat optik.", 2, 100, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Standar Susunan Kawat T568A dan T568B" },
-      { type: "text", content: "Kabel Straight-Through menggunakan standar yang sama di kedua ujung (misal T568B ke T568B) untuk menghubungkan PC ke Switch." },
-      { type: "interactive", interactiveType: "cable_order", config: {} },
-      { type: "reward", xp: 100, message: "Praktek crimping selesai!" },
-    ],
-  });
+  // Connect prerequisites for Path 2 & 3
+  await connectPrereq(l10_1.id, l9_1.id);
+  await connectPrereq(l12_1.id, l11_1.id);
 
-  // ==========================================
-  // MODULE 7: How Data Travels
-  // ==========================================
-  const mod7 = await upsertModule("how-data-travels", "7. How Data Travels", "Cara paket data menemukan alamat fisik dan logika.", 7);
-
-  const l7_1 = await upsertLesson(mod7.id, "mac-and-ip-addressing", "MAC Address & Pengalamatan Fisik", "Struktur 48-bit alamat fisik (OUI dan NIC Identifier).", 1, 100, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Apa Itu MAC Address?" },
-      { type: "text", content: "MAC Address adalah alamat fisik 48-bit (12 digit heksadesimal) yang tertanam secara permanen pada chip NIC." },
-      { type: "callout", variant: "info", title: "Contoh Format MAC", content: "00:1A:2B:3C:4D:5E — 3 oktet pertama adalah Organizationally Unique Identifier (OUI)." },
-      { type: "reward", xp: 100, message: "Pelajaran MAC Address selesai!" },
-    ],
-  });
-
-  const l7_2 = await upsertLesson(mod7.id, "unicast-broadcast-multicast", "Unicast, Broadcast, dan Multicast", "Tiga pola transmisi paket dalam arsitektur Ethernet.", 2, 100, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Tiga Mode Transmisi Paket" },
-      { type: "text", content: "Unicast (One-to-One), Broadcast (One-to-All dengan MAC FF:FF:FF:FF:FF:FF), dan Multicast (One-to-Specific-Group)." },
-      { type: "quiz", quizId: "q-7-2", question: "Pengiriman data dari satu pengirim ke SELURUH host dalam subnet lokal disebut?", quizType: "single_choice", options: [{ id: "opt-bc", text: "Broadcast" }, { id: "opt-uc", text: "Unicast" }], explanation: "Broadcast menjangkau seluruh host dalam broadcast domain.", xpReward: 10 },
-      { type: "reward", xp: 100, message: "Pelajaran transmisi data selesai!" },
-    ],
-  });
-
-  // ==========================================
-  // MODULE 8: OSI & TCP/IP Foundations
-  // ==========================================
-  const mod8 = await upsertModule("osi-tcpip-foundations", "8. OSI & TCP/IP Foundations", "Model referensi 7-Layer OSI dan protokol TCP/IP.", 8);
-
-  const l8_1 = await upsertLesson(mod8.id, "osi-seven-layers", "7 Layer Model Referensi OSI", "Menganalisis fungsi Physical, Data Link, Network, Transport, Session, Presentation, Application.", 1, 120, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Eksplorasi 7 Layer Model OSI" },
-      { type: "text", content: "Model OSI membagi proses komunikasi jaringan menjadi 7 lapisan terstandarisasi untuk mempermudah interoperabilitas perangkat lintas vendor." },
-      { type: "interactive", interactiveType: "osi_stack", config: {} },
-      { type: "reward", xp: 120, message: "Pelajaran 7 Layer OSI selesai!" },
-    ],
-  });
-
-  const l8_2 = await upsertLesson(mod8.id, "tcpip-and-encapsulation", "TCP/IP Model & Enkapsulasi Paket", "Proses pembungkusan PDU Data → Segment → Packet → Frame → Bits.", 2, 120, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Enkapsulasi dan Dekapsulasi Paket" },
-      { type: "text", content: "Setiap layer menambahkan header metadata khusus saat data dikirim (Enkapsulasi), dan melepasnya saat data diterima (Dekapsulasi)." },
-      { type: "interactive", interactiveType: "encapsulation", config: {} },
-      { type: "reward", xp: 120, message: "Selamat! Anda telah menyelesaikan seluruh modul Network Foundations!" },
-    ],
-  });
-
-  // ==========================================
-  // PREREQUISITES CHAIN ACROSS ALL 8 MODULES
-  // ==========================================
-  const allLessonsInOrder = [
-    l1_1, l1_2,
-    l2_1, l2_2,
-    l3_1, l3_2,
-    l4_1, l4_2,
-    l5_1, l5_2,
-    l6_1, l6_2,
-    l7_1, l7_2,
-    l8_1, l8_2,
-  ];
-
-  for (let i = 1; i < allLessonsInOrder.length; i++) {
-    await connectPrereq(allLessonsInOrder[i].id, allLessonsInOrder[i - 1].id);
-  }
-
-  console.log("✅ Seed completed successfully for all 8 modules & 16 lessons!");
+  console.log("✅ Seed completed successfully for Paths 1, 2, and 3!");
 }
 
 main()

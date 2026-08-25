@@ -466,33 +466,33 @@ Include:
 
 Create deterministic, framework-independent functions for:
 
-- IPv4 parsing/validation
-- prefix validation
-- mask conversion
-- network address
-- broadcast address
-- first/last usable host
-- usable host count
-- subnet membership
-- subnet generation
-- VLSM allocation for supported exercises
+- [x] IPv4 parsing/validation (`src/features/network-logic/ipv4/ipv4.ts`).
+- [x] prefix validation.
+- [x] mask conversion.
+- [x] network address.
+- [x] broadcast address.
+- [x] first/last usable host.
+- [x] usable host count.
+- [x] subnet membership (`isIpInSubnet`).
+- [x] subnet generation.
+- [x] VLSM allocation for supported exercises (`calculateVlsm`).
 
-**Critical rule:** Begin with unit tests containing known address/prefix cases and edge cases before UI integration.
+**Critical rule:** Begin with unit tests containing known address/prefix cases and edge cases before UI integration (`src/features/network-logic/ipv4/ipv4.test.ts`).
 
 ### Task 7.2 — Subnetting learning tools
 
 Components:
-- `BinaryConverter`
-- `IPv4Visualizer`
-- `SubnetVisualizer`
-- `SubnetCalculator`
-- `SubnetPractice`
+- [x] `BinaryConverter` (`binary-converter.tsx`).
+- [x] `IPv4Visualizer` (`subnet-calculator.tsx`).
+- [x] `SubnetVisualizer` (`subnet-calculator.tsx`).
+- [x] `SubnetCalculator` (`subnet-calculator.tsx`).
+- [x] `SubnetPractice` (`subnet-practice.tsx`).
 
 The calculator must explain calculation steps; it must not function only as an answer oracle.
 
 ### Task 7.3 — Path 2 content
 
-Author and review Path 2 against the IPv4 library.
+- [x] Author and review Path 2 against the IPv4 library (`prisma/seed.ts` Path 2).
 
 ---
 
@@ -501,28 +501,29 @@ Author and review Path 2 against the IPv4 library.
 ### Task 8.1 — Logical simulation model
 
 Create typed primitives:
-- device
-- interface
-- link
-- IPv4 interface configuration
-- subnet
-- VLAN
-- route
+- [x] device (`SimDevice` in `src/features/network-logic/simulation/topology.ts`).
+- [x] interface (`SimInterface`).
+- [x] link (`SimLink`).
+- [x] IPv4 interface configuration.
+- [x] subnet.
+- [x] VLAN.
+- [x] route (`SimRoute`).
 
-Provide deterministic reachability evaluation for supported beginner scenarios.
+- [x] Provide deterministic reachability evaluation for supported beginner scenarios (`evaluateL2Reachability`, `evaluateL3Routing`).
 
 ### Task 8.2 — Switching/VLAN interactions
 
-- ARP visualizer
-- MAC learning visualization
-- VLAN membership builder
-- access/trunk concept interaction
+- [x] ARP visualizer (`arp-visualizer.tsx`).
+- [x] MAC learning visualization.
+- [x] VLAN membership builder (`vlan-builder.tsx`).
+- [x] access/trunk concept interaction.
 
 ### Task 8.3 — Routing interactions and content
 
-- route table view
-- static/default route practice
-- two-subnet reachability scenario
+- [x] route table view (`routing-table-visualizer.tsx`).
+- [x] static/default route practice.
+- [x] two-subnet reachability scenario.
+- [x] Author Path 3 content (`prisma/seed.ts` Path 3).
 
 ---
 

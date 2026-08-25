@@ -531,10 +531,10 @@ Create typed primitives:
 
 ### Task 9.1 — Network services visualizers
 
-- DHCP DORA
-- DNS query flow
-- NAT/PAT translation visual
-- ICMP/ping flow
+- [x] DHCP DORA (`dhcp-dora-visualizer.tsx`).
+- [x] DNS query flow (`dns-query-visualizer.tsx`).
+- [x] NAT/PAT translation visual (`nat-visualizer.tsx`).
+- [x] ICMP/ping flow (`icmp-ping-visualizer.tsx`).
 
 ### Task 9.2 — Terminal simulator
 
@@ -551,14 +551,15 @@ Initial command set:
 - `dig`
 - `netstat`
 
-- [ ] Parse only supported syntax.
-- [ ] Return deterministic simulated output.
-- [ ] Reject unsupported commands safely.
-- [ ] Never pass learner input into `exec`, shell, SSH, Docker socket, or host OS commands.
+- [x] Parse only supported syntax (`src/features/network-logic/terminal/terminal-simulator.ts`).
+- [x] Return deterministic simulated output.
+- [x] Reject unsupported commands safely.
+- [x] Never pass learner input into `exec`, shell, SSH, Docker socket, or host OS commands (`terminal-simulator.test.ts`).
+- [x] Build interactive terminal component (`terminal-block-player.tsx`).
 
 ### Task 9.3 — Wireless and troubleshooting content
 
-Author Path 5 and integrate scenario-driven troubleshooting.
+- [x] Author Path 4 (*Network Services*) and Path 5 (*Wireless & Troubleshooting*) in `prisma/seed.ts`.
 
 ---
 
@@ -581,22 +582,22 @@ A Lab contains:
 
 ### Task 10.1 — Lab persistence and attempts
 
-- [ ] Define lab/attempt schema.
-- [ ] Support start/reset/retry/submit.
-- [ ] Store final evaluation.
-- [ ] Prevent XP abuse through repeated submission.
-- [ ] Test.
+- [x] Define lab/attempt schema (`prisma/schema.prisma` `Lab` & `LabAttempt`).
+- [x] Support start/reset/retry/submit (`/api/labs/[labSlug]/submit` and `src/features/labs/components/lab-runner.tsx`).
+- [x] Store final evaluation.
+- [x] Prevent XP abuse through repeated submission (`awardXp` with `UserXpLedger` idempotency).
+- [x] Test (`src/features/labs/evaluator.test.ts`).
 
 ### Task 10.2 — Initial labs
 
 Ship representative labs for:
-- subnetting
-- IP configuration
-- packet flow
-- VLAN
-- routing
-- DHCP/DNS
-- troubleshooting
+- [x] subnetting (`subnetting-calculator`).
+- [x] IP configuration (`ip-configuration`).
+- [x] packet flow.
+- [x] VLAN (`vlan-segmentation`).
+- [x] routing (`static-routing`).
+- [x] DHCP/DNS (`dhcp-dns-setup`).
+- [x] troubleshooting (`troubleshooting`).
 
 ---
 
@@ -606,13 +607,13 @@ Ship representative labs for:
 
 A Challenge differs from a Lab by hiding the resolution path and emphasizing diagnosis.
 
-- [ ] Define scenario evidence.
-- [ ] Support multiple diagnostic actions.
-- [ ] Track attempt actions required for scoring where configured.
-- [ ] Reveal explanation only under configured completion/abandon rules.
-- [ ] Add difficulty.
-- [ ] Seed beginner/intermediate challenges.
-- [ ] E2E test one complete challenge.
+- [x] Define scenario evidence (`src/features/challenges/components/challenge-runner.tsx`).
+- [x] Support multiple diagnostic actions (In-browser terminal simulator sandbox).
+- [x] Track attempt actions required for scoring where configured (`src/features/challenges/engine.ts`).
+- [x] Reveal explanation only under configured completion/abandon rules.
+- [x] Add difficulty (`intermediate`).
+- [x] Seed beginner/intermediate challenges (`branch-office-down`, `inter-vlan-routing-bug`, `dhcp-pool-exhausted`).
+- [x] E2E test one complete challenge (`src/e2e/labs-challenges.spec.ts`).
 
 ---
 

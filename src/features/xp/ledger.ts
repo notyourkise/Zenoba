@@ -4,6 +4,7 @@ export type XpEventType =
   | "LESSON_COMPLETION"
   | "QUIZ_PASS"
   | "PRACTICE_SOLVED"
+  | "LAB_COMPLETED"
   | "CHALLENGE_SOLVED";
 
 export interface AwardXpResult {

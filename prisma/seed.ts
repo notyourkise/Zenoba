@@ -1,12 +1,12 @@
 /**
- * Netloka Database Seed - Milestone 4 Complete
- * Seeds Path 1 (Network Foundations), Path 2 (IPv4 & Subnetting), and Path 3 (Switching & Routing).
+ * Netloka Database Seed - Complete Paths 1 to 5
+ * Seeds Path 1 (Foundations), Path 2 (IPv4), Path 3 (Switching/Routing), Path 4 (Services), and Path 5 (Wireless/Troubleshooting).
  */
 
 import { prisma, closeDatabaseConnection } from "../src/lib/db/client";
 
 async function main() {
-  console.log("🌱 Seeding Paths 1, 2, and 3...");
+  console.log("🌱 Seeding Paths 1 to 5 (Full Curriculum)...");
 
   // Helper to upsert Path
   const upsertPath = async (slug: string, title: string, description: string, icon: string, orderIndex: number) => {
@@ -82,7 +82,6 @@ async function main() {
     ],
   });
 
-  // Modules 2-8 simplified seed connectors
   const mod2 = await upsertModule(path1.id, "types-of-networks", "2. Types of Networks", "Klasifikasi jaringan LAN, MAN, WAN, SOHO & Enterprise.", 2);
   const l2_1 = await upsertLesson(mod2.id, "lan-man-wan", "Klasifikasi Skala: LAN, MAN, & WAN", "Perbedaan Local Area Network, Metropolitan, dan Wide Area Network.", 1, 75, {
     version: "1.0",
@@ -107,7 +106,6 @@ async function main() {
     blocks: [{ type: "heading", level: 2, text: "7 Layer OSI" }, { type: "interactive", interactiveType: "osi_stack", config: {} }, { type: "reward", xp: 120, message: "OSI selesai!" }],
   });
 
-  // Connect prerequisites for Path 1
   await connectPrereq(l1_2.id, l1_1.id);
   await connectPrereq(l2_1.id, l1_2.id);
   await connectPrereq(l4_1.id, l2_1.id);
@@ -115,7 +113,7 @@ async function main() {
   await connectPrereq(l8_1.id, l6_2.id);
 
   // ==========================================
-  // PATH 2: IPv4 & Subnetting (Sprint 7)
+  // PATH 2: IPv4 & Subnetting
   // ==========================================
   const path2 = await upsertPath(
     "ipv4-subnetting",
@@ -130,9 +128,7 @@ async function main() {
     version: "1.0",
     blocks: [
       { type: "heading", level: 2, text: "Dasar Sistem Biner dalam IPv4" },
-      { type: "text", content: "Setiap alamat IPv4 terdiri dari 32 bit yang dibagi menjadi 4 oktet (masing-masing 8 bit bernilai 0 s/d 255)." },
       { type: "interactive", interactiveType: "binary_converter", config: {} },
-      { type: "summary", title: "Rangkuman Biner", keyPoints: ["1 oktet = 8 bit.", "Nilai bit: 128, 64, 32, 16, 8, 4, 2, 1."] },
       { type: "reward", xp: 75, message: "Pelajaran biner selesai!" },
     ],
   });
@@ -142,15 +138,16 @@ async function main() {
     version: "1.0",
     blocks: [
       { type: "heading", level: 2, text: "Kalkulasi Subnetting Interaktif" },
-      { type: "text", content: "Gunakan kalkulator di bawah untuk memahami langkah demi langkah operasi bitwise AND antara IP dan Subnet Mask." },
       { type: "interactive", interactiveType: "subnet_calculator", config: {} },
       { type: "interactive", interactiveType: "subnet_practice", config: {} },
       { type: "reward", xp: 100, message: "Kalkulasi subnetting selesai!" },
     ],
   });
 
+  await connectPrereq(l10_1.id, l9_1.id);
+
   // ==========================================
-  // PATH 3: Switching, VLAN & Routing (Sprint 8)
+  // PATH 3: Switching, VLAN & Routing
   // ==========================================
   const path3 = await upsertPath(
     "switching-vlan-routing",
@@ -164,8 +161,7 @@ async function main() {
   const l11_1 = await upsertLesson(mod11.id, "arp-resolution-flow", "Proses Resolusi Address Resolution Protocol (ARP)", "Simulasi Request Broadcast dan Reply Unicast.", 1, 100, {
     version: "1.0",
     blocks: [
-      { type: "heading", level: 2, text: "Bagaimana Komputer Menemukan Alamat MAC Fisik?" },
-      { type: "text", content: "Protokol ARP memetakan IP tujuan ke MAC Address menggunakan paket ARP Request broadcast." },
+      { type: "heading", level: 2, text: "Proses Resolusi ARP" },
       { type: "interactive", interactiveType: "arp_visualizer", config: {} },
       { type: "reward", xp: 100, message: "Pelajaran ARP selesai!" },
     ],
@@ -175,19 +171,98 @@ async function main() {
   const l12_1 = await upsertLesson(mod12.id, "vlan-segmentation-practice", "Konfigurasi Port VLAN & Evaluasi Routing", "Simulasi Access Port dan Longest Prefix Match.", 1, 120, {
     version: "1.0",
     blocks: [
-      { type: "heading", level: 2, text: "Segmentasi Traffic dengan Virtual LAN (VLAN)" },
+      { type: "heading", level: 2, text: "Virtual LAN (VLAN)" },
       { type: "interactive", interactiveType: "vlan_builder", config: {} },
-      { type: "heading", level: 3, text: "Evaluasi Tabel Routing L3" },
+      { type: "heading", level: 3, text: "Tabel Routing L3" },
       { type: "interactive", interactiveType: "routing_table", config: {} },
       { type: "reward", xp: 120, message: "Pelajaran VLAN & Routing selesai!" },
     ],
   });
 
-  // Connect prerequisites for Path 2 & 3
-  await connectPrereq(l10_1.id, l9_1.id);
   await connectPrereq(l12_1.id, l11_1.id);
 
-  console.log("✅ Seed completed successfully for Paths 1, 2, and 3!");
+  // ==========================================
+  // PATH 4: Network Services (Sprint 9)
+  // ==========================================
+  const path4 = await upsertPath(
+    "network-services",
+    "Network Services & Security",
+    "Pelajari protokol esensial: DHCP, DNS, NAT/PAT, HTTP/HTTPS, dan manajemen port jaringan.",
+    "Server",
+    4
+  );
+
+  const mod13 = await upsertModule(path4.id, "dhcp-and-dns-services", "1. Layanan DHCP & DNS", "Otomatisasi pengalamatan IP dan resolusi nama domain.", 1);
+  const l13_1 = await upsertLesson(mod13.id, "dhcp-dora-process", "Proses 4-Tahap DHCP (DORA)", "Discover, Offer, Request, dan Acknowledge.", 1, 100, {
+    version: "1.0",
+    blocks: [
+      { type: "heading", level: 2, text: "Alur Kerja Protokol DHCP (DORA)" },
+      { type: "text", content: "DHCP memungkinkan klien mendapatkan konfigurasi IP, subnet mask, default gateway, dan DNS server secara otomatis saat terhubung ke jaringan." },
+      { type: "interactive", interactiveType: "dhcp_dora", config: {} },
+      { type: "reward", xp: 100, message: "Pelajaran DHCP selesai!" },
+    ],
+  });
+
+  const l13_2 = await upsertLesson(mod13.id, "dns-query-resolution", "Hirarki Resolusi Domain DNS", "Root Server, TLD Server, dan Authoritative Record.", 2, 100, {
+    version: "1.0",
+    blocks: [
+      { type: "heading", level: 2, text: "Bagaimana DNS Menerjemahkan Nama Domain?" },
+      { type: "text", content: "DNS adalah buku telepon internet yang memetakan nama domain ramah manusia ke alamat IP server." },
+      { type: "interactive", interactiveType: "dns_query", config: {} },
+      { type: "reward", xp: 100, message: "Pelajaran DNS selesai!" },
+    ],
+  });
+
+  const mod14 = await upsertModule(path4.id, "nat-pat-security", "2. NAT/PAT & Port Security", "Translasi IP privat ke publik dan pemetaan port.", 2);
+  const l14_1 = await upsertLesson(mod14.id, "nat-pat-translation", "Network Address Translation (NAT/PAT)", "Inside Local ke Inside Global port forwarding.", 1, 100, {
+    version: "1.0",
+    blocks: [
+      { type: "heading", level: 2, text: "Translasi Alamat Jaringan (NAT/PAT)" },
+      { type: "interactive", interactiveType: "nat_visualizer", config: {} },
+      { type: "reward", xp: 100, message: "Pelajaran NAT/PAT selesai!" },
+    ],
+  });
+
+  await connectPrereq(l13_2.id, l13_1.id);
+  await connectPrereq(l14_1.id, l13_2.id);
+
+  // ==========================================
+  // PATH 5: Wireless & Troubleshooting (Sprint 9)
+  // ==========================================
+  const path5 = await upsertPath(
+    "wireless-troubleshooting",
+    "Wireless & Troubleshooting",
+    "Pelajari teknologi nirkabel Wi-Fi 6, frekuensi 2.4/5/6 GHz, keamanan WPA3, dan diagnostik CLI.",
+    "Wifi",
+    5
+  );
+
+  const mod15 = await upsertModule(path5.id, "wireless-technologies", "1. Teknologi Wi-Fi & Nirkabel", "Frekuensi gelombang radio, kanal, dan enkripsi.", 1);
+  const l15_1 = await upsertLesson(mod15.id, "wifi-bands-and-security", "Frekuensi 2.4GHz vs 5GHz & WPA3", "Interferensi kanal dan standar keamanan nirkabel.", 1, 100, {
+    version: "1.0",
+    blocks: [
+      { type: "heading", level: 2, text: "Karakteristik Frekuensi Wi-Fi" },
+      { type: "text", content: "Frekuensi 2.4 GHz memiliki jangkauan lebih jauh namun rentan interferensi, sedangkan 5 GHz & 6 GHz menawarkan bandwidth jauh lebih tinggi dengan jangkauan lebih pendek." },
+      { type: "callout", variant: "tip", title: "Keamanan Nirkabel", content: "Gunakan standar WPA3 atau WPA2-Enterprise untuk perlindungan dari serangan brute-force." },
+      { type: "reward", xp: 100, message: "Pelajaran nirkabel selesai!" },
+    ],
+  });
+
+  const mod16 = await upsertModule(path5.id, "cli-troubleshooting-tools", "2. Diagnostik Jaringan & CLI", "Praktik perintah diagnostik jaringan langsung.", 2);
+  const l16_1 = await upsertLesson(mod16.id, "terminal-diagnostics-lab", "Simulasi Perintah Diagnostik Jaringan", "Eksplorasi perintah ipconfig, ping, arp, tracert, nslookup, dan netstat.", 1, 150, {
+    version: "1.0",
+    blocks: [
+      { type: "heading", level: 2, text: "Terminal Diagnostik Interaktif" },
+      { type: "text", content: "Jalankan perintah diagnostik jaringan di bawah ini untuk memeriksa konfigurasi adapter, tabel ARP, dan konektivitas ICMP." },
+      { type: "interactive", interactiveType: "terminal", config: {} },
+      { type: "interactive", interactiveType: "icmp_ping", config: {} },
+      { type: "reward", xp: 150, message: "Selamat! Anda telah menguasai diagnostik jaringan dasar!" },
+    ],
+  });
+
+  await connectPrereq(l16_1.id, l15_1.id);
+
+  console.log("✅ Seed completed successfully for all 5 Paths (1 to 5)!");
 }
 
 main()

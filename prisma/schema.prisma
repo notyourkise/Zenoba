@@ -1,5 +1,5 @@
 // Netloka - Prisma Schema
-// Updated for Milestone 2: Learning Engine (Sprint 3 & 4)
+// Updated for Milestone 5: Labs & Challenges Engine (Sprint 10 & 11)
 
 generator client {
   provider = "prisma-client"
@@ -25,11 +25,13 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts     Account[]
-  sessions     Session[]
-  progress     UserLessonProgress[]
-  xpLedger     UserXpLedger[]
-  quizAttempts QuizAttempt[]
+  accounts          Account[]
+  sessions          Session[]
+  progress          UserLessonProgress[]
+  xpLedger          UserXpLedger[]
+  quizAttempts      QuizAttempt[]
+  labAttempts       LabAttempt[]
+  challengeAttempts ChallengeAttempt[]
 
   @@map("users")
 }
@@ -172,8 +174,8 @@ model UserXpLedger {
   id          String   @id @default(cuid())
   userId      String
   amount      Int
-  eventType   String   // LESSON_COMPLETION | QUIZ_PASS | PRACTICE_SOLVED
-  referenceId String   // e.g. lessonId, quizId
+  eventType   String   // LESSON_COMPLETION | QUIZ_PASS | PRACTICE_SOLVED | LAB_COMPLETED | CHALLENGE_SOLVED
+  referenceId String   // e.g. lessonId, quizId, labId, challengeId
   createdAt   DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -198,4 +200,82 @@ model QuizAttempt {
 
   @@index([userId, lessonId])
   @@map("quiz_attempts")
+}
+
+// ====================
+// Lab Engine Models (Sprint 10)
+// ====================
+
+model Lab {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  title           String
+  description     String   @db.Text
+  category        String   // subnetting | ip-config | packet-flow | vlan | routing | dhcp-dns | troubleshooting
+  difficulty      String   @default("beginner") // beginner | intermediate | advanced
+  initialConfig   Json
+  successCriteria Json
+  xpReward        Int      @default(100)
+  orderIndex      Int      @default(0)
+  published       Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  attempts LabAttempt[]
+
+  @@map("labs")
+}
+
+model LabAttempt {
+  id          String   @id @default(cuid())
+  userId      String
+  labId       String
+  score       Int
+  passed      Boolean
+  state       Json
+  submittedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lab  Lab  @relation(fields: [labId], references: [id], onDelete: Cascade)
+
+  @@index([userId, labId])
+  @@map("lab_attempts")
+}
+
+// ====================
+// Challenge Engine Models (Sprint 11)
+// ====================
+
+model Challenge {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String   @db.Text
+  scenario    Json
+  difficulty  String   @default("intermediate") // beginner | intermediate | advanced
+  xpReward    Int      @default(150)
+  orderIndex  Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  attempts ChallengeAttempt[]
+
+  @@map("challenges")
+}
+
+model ChallengeAttempt {
+  id          String   @id @default(cuid())
+  userId      String
+  challengeId String
+  score       Int
+  passed      Boolean
+  answers     Json
+  submittedAt DateTime @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenge Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  @@index([userId, challengeId])
+  @@map("challenge_attempts")
 }

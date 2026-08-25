@@ -1,0 +1,184 @@
+import { prisma } from "@/lib/db/client";
+import { resolveLessonStatus } from "./prerequisites";
+import { LessonStatus } from "./types";
+
+/**
+ * Starts a lesson for a user, marking it as IN_PROGRESS if prerequisites are met.
+ */
+export async function startLessonProgress(
+  userId: string,
+  lessonId: string
+): Promise<{
+  id: string;
+  status: LessonStatus;
+}> {
+  // Fetch lesson prerequisites
+  const lesson = await prisma.lesson.findUnique({
+    where: { id: lessonId },
+    include: {
+      prerequisites: {
+        include: {
+          prerequisite: {
+            include: {
+              module: true,
+            },
+          },
+        },
+      },
+      userProgress: {
+        where: { userId },
+      },
+    },
+  });
+
+  if (!lesson) {
+    throw new Error("Lesson not found");
+  }
+
+  // Get user's completed lessons
+  const completedProgress = await prisma.userLessonProgress.findMany({
+    where: {
+      userId,
+      status: "COMPLETED",
+    },
+    select: { lessonId: true },
+  });
+
+  const completedSet = new Set(completedProgress.map((p) => p.lessonId));
+  const currentStatus = (lesson.userProgress[0]?.status as LessonStatus) || null;
+
+  // Check status using prerequisite domain logic
+  const resolved = resolveLessonStatus(
+    lesson.prerequisites,
+    completedSet,
+    currentStatus
+  );
+
+  if (resolved.status === "LOCKED") {
+    throw new Error("Cannot start a locked lesson. Prerequisite required.");
+  }
+
+  if (resolved.status === "COMPLETED") {
+    return {
+      id: lesson.userProgress[0]?.id || "",
+      status: "COMPLETED",
+    };
+  }
+
+  // Upsert progress to IN_PROGRESS
+  const progress = await prisma.userLessonProgress.upsert({
+    where: {
+      userId_lessonId: {
+        userId,
+        lessonId,
+      },
+    },
+    update: {
+      status: "IN_PROGRESS",
+    },
+    create: {
+      userId,
+      lessonId,
+      status: "IN_PROGRESS",
+    },
+  });
+
+  return {
+    id: progress.id,
+    status: progress.status as LessonStatus,
+  };
+}
+
+/**
+ * Completes a lesson for a user (Idempotent).
+ */
+export async function completeLessonProgress(
+  userId: string,
+  lessonId: string
+): Promise<{
+  id: string;
+  status: LessonStatus;
+  completedAt: Date;
+  xpAwarded: number;
+}> {
+  const lesson = await prisma.lesson.findUnique({
+    where: { id: lessonId },
+  });
+
+  if (!lesson) {
+    throw new Error("Lesson not found");
+  }
+
+  const existing = await prisma.userLessonProgress.findUnique({
+    where: {
+      userId_lessonId: {
+        userId,
+        lessonId,
+      },
+    },
+  });
+
+  const isFirstCompletion = existing?.status !== "COMPLETED";
+
+  const completedAt = existing?.completedAt || new Date();
+
+  const progress = await prisma.userLessonProgress.upsert({
+    where: {
+      userId_lessonId: {
+        userId,
+        lessonId,
+      },
+    },
+    update: {
+      status: "COMPLETED",
+      completedAt,
+    },
+    create: {
+      userId,
+      lessonId,
+      status: "COMPLETED",
+      completedAt,
+    },
+  });
+
+  return {
+    id: progress.id,
+    status: "COMPLETED",
+    completedAt,
+    xpAwarded: isFirstCompletion ? lesson.xpReward : 0,
+  };
+}
+
+/**
+ * Gets aggregated learning progress statistics for a user.
+ */
+export async function getUserProgressSummary(userId: string) {
+  const [totalPublishedLessons, userProgressList] = await Promise.all([
+    prisma.lesson.count({
+      where: { published: true },
+    }),
+    prisma.userLessonProgress.findMany({
+      where: { userId },
+    }),
+  ]);
+
+  const completedCount = userProgressList.filter(
+    (p) => p.status === "COMPLETED"
+  ).length;
+
+  const inProgressCount = userProgressList.filter(
+    (p) => p.status === "IN_PROGRESS"
+  ).length;
+
+  const percentage =
+    totalPublishedLessons > 0
+      ? Math.round((completedCount / totalPublishedLessons) * 100)
+      : 0;
+
+  return {
+    totalLessons: totalPublishedLessons,
+    completedCount,
+    inProgressCount,
+    completionPercentage: Math.min(100, Math.max(0, percentage)),
+  };
+}

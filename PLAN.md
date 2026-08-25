@@ -244,13 +244,13 @@ Minimum status semantics:
 - Create: `src/features/learning/queries.ts`
 - Create tests for ordering/prerequisites
 
-- [ ] Write tests for path/module/lesson ordering.
-- [ ] Write tests for prerequisite resolution.
-- [ ] Implement schema and migration.
-- [ ] Seed a small Network Foundations sample.
-- [ ] Implement typed catalog queries.
-- [ ] Verify deterministic ordering.
-- [ ] Commit.
+- [x] Write tests for path/module/lesson ordering (`src/features/learning/queries.test.ts`).
+- [x] Write tests for prerequisite resolution (`src/features/learning/prerequisites.test.ts`).
+- [x] Implement schema and migration (`prisma/schema.prisma` with LearningPath, Module, Lesson, LessonPrerequisite, UserLessonProgress).
+- [x] Seed a small Network Foundations sample (`prisma/seed.ts`).
+- [x] Implement typed catalog queries (`src/features/learning/queries.ts`).
+- [x] Verify deterministic ordering.
+- [x] Commit.
 
 ### Task 2.2 — Learn catalog UI
 
@@ -259,13 +259,13 @@ Minimum status semantics:
 - Create learning path/module cards
 - Test catalog rendering
 
-- [ ] Render paths.
-- [ ] Render module progress.
-- [ ] Render lesson status clearly.
-- [ ] Prevent locked lesson navigation.
-- [ ] Show prerequisite explanation for locked lessons.
-- [ ] Test mobile layout and keyboard navigation.
-- [ ] Commit.
+- [x] Render paths (`src/app/(app)/learn/page.tsx`).
+- [x] Render module progress (`src/app/(app)/learn/[pathSlug]/page.tsx`).
+- [x] Render lesson status clearly (LOCKED, AVAILABLE, IN_PROGRESS, COMPLETED badges).
+- [x] Prevent locked lesson navigation (barrier view with return action).
+- [x] Show prerequisite explanation for locked lessons (`unmetPrerequisites` list with links).
+- [x] Test mobile layout and keyboard navigation.
+- [x] Commit.
 
 ### Task 2.3 — Persistent progress
 
@@ -273,12 +273,12 @@ Minimum status semantics:
 - Consumes: authenticated user ID, lesson ID
 - Produces: completion state and aggregate module/path progress
 
-- [ ] Write tests for first-open transition `AVAILABLE → IN_PROGRESS`.
-- [ ] Write tests for completion idempotency.
-- [ ] Write tests for unlocking dependent lessons.
-- [ ] Implement progress service.
-- [ ] Display aggregate progress on dashboard.
-- [ ] Commit.
+- [x] Write tests for first-open transition `AVAILABLE → IN_PROGRESS` (`src/features/learning/progress.test.ts`).
+- [x] Write tests for completion idempotency (`completeLessonProgress` tests).
+- [x] Write tests for unlocking dependent lessons (`prerequisites.test.ts`).
+- [x] Implement progress service (`src/features/learning/progress.ts` and `/api/learning/progress`).
+- [x] Display aggregate progress on dashboard (`src/app/(app)/dashboard/page.tsx`).
+- [x] Commit.
 
 **Sprint 2 acceptance test:** Seeded learning content is visible, locked content respects prerequisites, and progress survives sign-out/sign-in.
 

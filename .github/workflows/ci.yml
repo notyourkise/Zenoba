@@ -9,6 +9,9 @@ on:
 env:
   NODE_VERSION: "20.19.0"
   DATABASE_URL: "postgresql://netloka:netloka_ci_password@127.0.0.1:5432/netloka?schema=public"
+  AUTH_SECRET: "netloka_ci_auth_secret_minimum_32_characters_long_for_test"
+  NEXTAUTH_SECRET: "netloka_ci_auth_secret_minimum_32_characters_long_for_test"
+  NEXTAUTH_URL: "http://localhost:3000"
 
 jobs:
   lint-and-typecheck:
@@ -94,6 +97,11 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run browser E2E tests
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+          AUTH_SECRET: ${{ env.AUTH_SECRET }}
+          NEXTAUTH_SECRET: ${{ env.NEXTAUTH_SECRET }}
+          NEXTAUTH_URL: ${{ env.NEXTAUTH_URL }}
         run: npm run test:e2e -- --project=chromium
 
   build:
@@ -118,6 +126,11 @@ jobs:
         run: npm run db:generate
 
       - name: Build Next.js application
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+          AUTH_SECRET: ${{ env.AUTH_SECRET }}
+          NEXTAUTH_SECRET: ${{ env.NEXTAUTH_SECRET }}
+          NEXTAUTH_URL: ${{ env.NEXTAUTH_URL }}
         run: npm run build
       
       - name: Verify production build output

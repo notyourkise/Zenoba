@@ -179,28 +179,28 @@ Before changing code, compare the current stable versions and Next.js compatibil
 - Modify: `prisma/schema.prisma`
 - Create tests for protected route/session behavior
 
-- [ ] Write the decision record with one selected option and rejected alternative.
-- [ ] Write a failing protected-route test.
-- [ ] Add auth schema/migration.
-- [ ] Implement sign-up/sign-in/sign-out.
-- [ ] Protect app routes.
-- [ ] Verify unauthenticated and authenticated flows.
-- [ ] Commit authentication integration.
+- [x] Write the decision record with one selected option and rejected alternative (`docs/decisions/0001-authentication.md`).
+- [x] Write a failing protected-route test (`src/features/auth/auth-route.test.ts`).
+- [x] Add auth schema/migration (`prisma/schema.prisma` with NextAuth models).
+- [x] Implement sign-up/sign-in/sign-out (`/api/auth/register`, `/sign-in`, `/sign-up`, PBKDF2 password hashing).
+- [x] Protect app routes (`src/middleware.ts` guarding `/dashboard`, `/learn`, `/labs`, `/challenges`, `/consultant`, `/profile`).
+- [x] Verify unauthenticated and authenticated flows (Vitest integration tests + Playwright E2E).
+- [x] Commit authentication integration.
 
 ### Task 1.2 — Application shell
 
 **Files:**
 - Create: `src/app/(app)/layout.tsx`
-- Create navigation components under `src/components/`
+- Create navigation components under `src/components/navigation/`
 - Create: dashboard/Learn/Labs/Challenges/Consultant route placeholders with real navigation behavior
 - Test: navigation E2E
 
-- [ ] Build responsive navigation for Dashboard, Learn, Labs, Challenges, Consultant, and Profile.
-- [ ] Ensure each navigation item has a functional route.
-- [ ] Add keyboard-visible focus states and semantic navigation landmarks.
-- [ ] Add mobile navigation behavior.
-- [ ] Add E2E test proving an authenticated user can navigate primary areas.
-- [ ] Run full checks and commit.
+- [x] Build responsive navigation for Dashboard, Learn, Labs, Challenges, Consultant, and Profile.
+- [x] Ensure each navigation item has a functional route.
+- [x] Add keyboard-visible focus states and semantic navigation landmarks.
+- [x] Add mobile navigation behavior.
+- [x] Add E2E test proving an authenticated user can navigate primary areas (`src/e2e/foundation.spec.ts`).
+- [x] Run full checks and commit.
 
 ### Task 1.3 — User profile
 
@@ -210,11 +210,11 @@ Before changing code, compare the current stable versions and Next.js compatibil
 - Create: profile route
 - Test: profile read/update validation
 
-- [ ] Define allowed profile fields only.
-- [ ] Validate profile updates server-side.
-- [ ] Prevent clients from mutating privileged/internal fields.
-- [ ] Add tests for valid and invalid updates.
-- [ ] Commit.
+- [x] Define allowed profile fields only (`src/app/api/user/profile/route.ts`).
+- [x] Validate profile updates server-side (Zod schema with non-empty trimmed name).
+- [x] Prevent clients from mutating privileged/internal fields.
+- [x] Add tests for valid and invalid updates (`src/features/profile/profile-route.test.ts`).
+- [x] Commit.
 
 **Sprint 1 acceptance test:** A user can create an account, sign in, navigate the protected app, update allowed profile data, sign out, and cannot access protected content afterward.
 

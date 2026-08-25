@@ -1,0 +1,47 @@
+import { NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
+import type { NextRequest } from "next/server";
+
+export async function middleware(request: NextRequest) {
+  const secret = process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET;
+  const token = await getToken({ req: request, secret });
+  const { pathname } = request.nextUrl;
+
+  const protectedPrefixes = [
+    "/dashboard",
+    "/learn",
+    "/labs",
+    "/challenges",
+    "/consultant",
+    "/profile",
+  ];
+
+  const isProtected = protectedPrefixes.some((prefix) =>
+    pathname.startsWith(prefix)
+  );
+
+  if (isProtected && !token) {
+    const signInUrl = new URL("/sign-in", request.url);
+    signInUrl.searchParams.set("callbackUrl", pathname);
+    return NextResponse.redirect(signInUrl);
+  }
+
+  if (token && (pathname === "/sign-in" || pathname === "/sign-up")) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: [
+    "/dashboard/:path*",
+    "/learn/:path*",
+    "/labs/:path*",
+    "/challenges/:path*",
+    "/consultant/:path*",
+    "/profile/:path*",
+    "/sign-in",
+    "/sign-up",
+  ],
+};

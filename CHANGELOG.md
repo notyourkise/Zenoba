@@ -49,7 +49,7 @@ All notable project changes are recorded here.
   - Full automated suite: 13 Vitest suites (61 tests passed), 9 Playwright E2E browser tests passed, clean typecheck, lint, and Next.js 16 build (16 routes).
   Files/areas: `src/features/learning/blocks/`, `src/features/quiz/`, `src/features/xp/`, `prisma/schema.prisma`, `prisma/seed.ts`, `src/app/api/learning/quiz/submit/`, `src/e2e/lesson-loop.spec.ts`
   Validation: `npm run lint`, `npm run typecheck`, `npm test` (61/61 passed), `npm run build` (16 routes), `npx playwright test` (9/9 passed).
-  Git: pending
+  Git: `b77ad5f`
 
 - [2026-08-25 15:45 WITA] [SPRINT] [Milestone 2 / Sprint 4]
   Completed Sprint 4 — Quiz, Practice & Reward Engine.
@@ -61,7 +61,7 @@ All notable project changes are recorded here.
   6. Added comprehensive unit and integration tests (21 tests in `evaluator.test.ts`, `ledger.test.ts`, `quiz-route.test.ts`, `lesson-loop.spec.ts`).
   Files/areas: `src/features/quiz/`, `src/features/xp/`, `prisma/schema.prisma`, `prisma/seed.ts`, `src/app/api/learning/quiz/submit/`
   Validation: `npm test` (61/61 passed), `npx playwright test` (9/9 passed).
-  Git: pending
+  Git: `b77ad5f`
 
 - [2026-08-25 15:40 WITA] [SPRINT] [Milestone 2 / Sprint 3]
   Completed Sprint 3 — Lesson Block Renderer.
@@ -72,7 +72,7 @@ All notable project changes are recorded here.
   5. Tested schema validation and error fallback rendering (`schema.test.ts`, `registry.test.tsx`).
   Files/areas: `src/features/learning/blocks/`, `src/app/(app)/learn/[pathSlug]/[moduleSlug]/[lessonSlug]/`
   Validation: `npm test` passed, `npm run typecheck` clean.
-  Git: pending
+  Git: `b77ad5f`
 
 - [2026-08-25 15:00 WITA] [SPRINT] [Milestone 1 / Sprint 2]
   Completed Sprint 2 — Learning Catalog & Progress Model.

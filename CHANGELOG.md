@@ -40,6 +40,46 @@ All notable project changes are recorded here.
 
 # 2026-08-25
 
+- [2026-08-25 18:18 WITA] [MILESTONE] [REVIEW] [Milestone 6: IT Consultant Mode]
+  Completed Milestone 6 — IT Consultant Mode (Sprint 12: Case & Procurement Engine, Sprint 13: Topology, IP/VLAN Planning & Scoring, Sprint 14: Portfolio & Advanced Cases).
+  - Exit Criteria Verified: Learner can receive a case, analyze client requirements, procure devices (BoQ), design topology, plan IP/VLAN, submit a full proposal, receive deterministic 5-dimensional scoring (Technical Correctness, Requirement Fulfillment, Cost Efficiency, Scalability, Security), and retain the project in a persistent portfolio.
+  - Database: Added `ConsultantCase` and `ConsultantProject` models to Prisma schema.
+  - XP: Added `CONSULTANT_PROJECT_PASSED` (+250 XP) to `XpEventType` with idempotent award via `UserXpLedger`.
+  - 5 Seeded Cases: Small Office Notaris (15M), Warnet Gaming Center (25M), Medium Office Logistics (50M), SMK TKJ School Lab (75M), Multi-Floor Corporate Enterprise (120M).
+  - 14 Realistic Device Catalog: Routers (3), Switches (4), Access Points (2), Cables/Rack/SFP (5).
+  - Validation: 22 Vitest test suites (107 tests passed), 17 Playwright E2E browser tests passed, production build succeeded (20 routes), typecheck clean, lint clean.
+  Files/areas: `prisma/schema.prisma`, `src/features/consultant/`, `src/app/(app)/consultant/`, `src/app/api/consultant/`, `src/features/xp/ledger.ts`, `src/e2e/consultant-mode.spec.ts`
+  Git: pending
+
+- [2026-08-25 18:15 WITA] [SPRINT] [Milestone 6 / Sprint 14]
+  Completed Sprint 14 — Consultant Portfolio & Advanced Cases.
+  1. Built interactive ConsultantWorkspace 5-tab component (Brief → BoQ → Topology → IP/VLAN → Proposal & Score).
+  2. Created consultant catalog at `/consultant` with 5 case cards.
+  3. Created dynamic case workspace at `/consultant/[caseSlug]` with full proposal submission flow.
+  4. Created user portfolio at `/consultant/portfolio` showing all submitted projects with scores and status.
+  5. Seeded 2 advanced cases: SMK TKJ School Lab (75M, 72 PC, 3 VLAN) and Multi-Floor Corporate (120M, 100 node, Fiber 10G SFP+).
+  Files/areas: `src/features/consultant/components/consultant-workspace.tsx`, `src/app/(app)/consultant/`
+  Validation: build passed, E2E passed.
+
+- [2026-08-25 18:10 WITA] [SPRINT] [Milestone 6 / Sprint 13]
+  Completed Sprint 13 — Topology, IP/VLAN Planning & Scoring.
+  1. Implemented pure deterministic 5-dimensional scoring engine in `src/features/consultant/scoring/engine.ts` with 3 unit tests.
+  2. Scoring dimensions: Technical Correctness (0-20), Requirement Fulfillment (0-20), Cost Efficiency (0-20), Scalability (0-20), Security (0-20). Pass threshold ≥70/100.
+  3. Created consultant submit API at `/api/consultant/[caseSlug]/submit` awarding +250 XP.
+  4. Built topology architecture viewer and VLAN/IP subnet matrix editor in workspace UI.
+  Files/areas: `src/features/consultant/scoring/`, `src/app/api/consultant/`
+  Validation: unit tests passed, typecheck clean.
+
+- [2026-08-25 18:06 WITA] [SPRINT] [Milestone 6 / Sprint 12]
+  Completed Sprint 12 — Case & Procurement Engine.
+  1. Added `ConsultantCase` and `ConsultantProject` models to Prisma schema with full JSON fields for BoQ, topology, IP plan, VLAN plan, and composite score.
+  2. Created realistic fictional device catalog (14 devices) in `src/features/consultant/catalog/devices.ts`.
+  3. Implemented pure BoQ calculator and budget validator in `src/features/consultant/procurement/boq.ts` with 3 unit tests.
+  4. Seeded 5 consultant cases: Small Office (15M), Warnet (25M), Medium Office (50M), SMK TKJ (75M), Multi-Floor (120M).
+  Files/areas: `prisma/schema.prisma`, `src/features/consultant/catalog/`, `src/features/consultant/procurement/`
+  Validation: unit tests passed, Prisma generate clean.
+
+
 - [2026-08-25 17:35 WITA] [MILESTONE] [REVIEW] [Milestone 5: Labs & Challenges Engine]
   Completed Milestone 5 — Labs & Challenges (Sprint 10: Lab Engine & Sprint 11: Challenge Engine).
   - Exit Criteria Verified: Hands-on interactive practice labs with persistent attempt tracking and real-world diagnostic troubleshooting challenges functioning with deterministic evaluation and anti-abuse idempotent XP rewards (+100 XP per Lab, +150 XP per Challenge).

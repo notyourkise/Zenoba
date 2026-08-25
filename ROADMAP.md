@@ -355,11 +355,11 @@ Deliverables:
 
 ---
 
-## Milestone 6 — IT Consultant Mode
+## Milestone 6 — IT Consultant Mode ✅ COMPLETE
 
 **Goal:** Deliver Netloka's flagship case-based network planning experience.
 
-### Sprint 12 — Consultant Case & Procurement Engine
+### Sprint 12 — Consultant Case & Procurement Engine ✅
 
 Deliverables:
 
@@ -376,15 +376,15 @@ Deliverables:
 
 Initial cases:
 
-1. Small Office
-2. Warnet
-3. Medium Office
+1. Small Office ✅
+2. Warnet ✅
+3. Medium Office ✅
 
-### Sprint 13 — Topology, IP/VLAN Planning & Scoring
+### Sprint 13 — Topology, IP/VLAN Planning & Scoring ✅
 
 Deliverables:
 
-- React Flow topology builder
+- Topology builder (structured architecture viewer)
 - controlled device inventory
 - connection rules
 - IP plan editor
@@ -392,14 +392,14 @@ Deliverables:
 - topology validation
 - segmentation checks
 - composite scoring:
-  - technical correctness
-  - requirement fulfillment
-  - cost efficiency
-  - scalability
-  - security
+  - technical correctness (0-20)
+  - requirement fulfillment (0-20)
+  - cost efficiency (0-20)
+  - scalability (0-20)
+  - security (0-20)
 - actionable feedback
 
-### Sprint 14 — Consultant Portfolio & Advanced Cases
+### Sprint 14 — Consultant Portfolio & Advanced Cases ✅
 
 Deliverables:
 
@@ -407,12 +407,12 @@ Deliverables:
 - final proposal/result view
 - saved consultant project
 - user portfolio entry
-- School case
-- Multi-Floor Company case
+- School case ✅ (SMK TKJ Network Labs)
+- Multi-Floor Company case ✅ (Gedung 3 Lantai Enterprise)
 - consultant progression
 - printable/export-ready result structure, with actual export implementation deferred unless needed for launch
 
-**Milestone exit criteria:** A learner can receive a case, analyze it, procure devices, design a network, submit a solution, receive multidimensional scoring, and retain the project.
+**Milestone exit criteria:** A learner can receive a case, analyze it, procure devices, design a network, submit a solution, receive multidimensional scoring, and retain the project. ✅
 
 ---
 

@@ -363,25 +363,25 @@ export function AppHeader({ user }: AppHeaderProps) {
               </div>
             ) : (
               <div className="flex items-center gap-4">
-                {/* Button Masuk / Login: Dark Theme = White BG / Black Text; Light Theme = Black BG / White Text */}
+                {/* Button Masuk / Login: Light = Black BG / White Text; Dark = White BG / Black Text */}
                 <Button
                   asChild
-                  className="group px-4 py-1.5 h-auto text-xs font-semibold border border-gray-300 dark:border-gray-700 bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-100 shadow-sm"
+                  className="group px-4 py-2 h-auto text-xs font-bold rounded-lg border-2 border-black bg-black text-white hover:bg-neutral-800 hover:text-white dark:border-white dark:bg-white dark:text-black dark:hover:bg-neutral-100 dark:hover:text-black shadow-sm transition-all duration-200"
                 >
                   <Link href="/sign-in">
-                    <span className="inline-block transition-transform duration-200 ease-out group-hover:-translate-y-0.5">
+                    <span className="inline-block text-white dark:text-black font-bold transition-transform duration-200 ease-out group-hover:-translate-y-0.5">
                       Masuk
                     </span>
                   </Link>
                 </Button>
 
-                {/* Button Daftar / Register: Dark Theme = Black BG / White Text; Light Theme = White BG / Black Text */}
+                {/* Button Daftar / Register: Light = White BG / Black Text; Dark = Black BG / White Text */}
                 <Button
                   asChild
-                  className="group px-4 py-1.5 h-auto text-xs font-semibold border border-gray-300 dark:border-gray-700 bg-white text-black hover:bg-gray-100 dark:bg-black dark:text-white dark:hover:bg-gray-900 shadow-sm"
+                  className="group px-4 py-2 h-auto text-xs font-bold rounded-lg border-2 border-black bg-white text-black hover:bg-neutral-100 hover:text-black dark:border-white dark:bg-black dark:text-white dark:hover:bg-neutral-900 dark:hover:text-white shadow-sm transition-all duration-200"
                 >
                   <Link href="/sign-up">
-                    <span className="inline-block transition-transform duration-200 ease-out group-hover:-translate-y-0.5">
+                    <span className="inline-block text-black dark:text-white font-bold transition-transform duration-200 ease-out group-hover:-translate-y-0.5">
                       Daftar
                     </span>
                   </Link>

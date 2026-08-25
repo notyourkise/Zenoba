@@ -48,7 +48,7 @@ All notable project changes are recorded here.
   4. Authored Path 4 (Network Services & Security) and Path 5 (Wireless & Troubleshooting) in `prisma/seed.ts`.
   Files/areas: `src/features/network-logic/terminal/`, `src/features/learning/blocks/components/`, `prisma/seed.ts`
   Validation: 18 Vitest test suites (93 tests passed), 12 Playwright E2E browser tests passed, production build succeeded (17 routes).
-  Git: pending
+  Git: `6925d3a`
 
 - [2026-08-25 16:25 WITA] [MILESTONE] [REVIEW] [Milestone 4: Addressing & Core Networking]
   Completed Milestone 4 — Addressing & Core Networking (Sprint 7: IPv4 & Subnetting Engine & Sprint 8: Switching, VLAN & Routing Fundamentals).

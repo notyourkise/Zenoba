@@ -8,11 +8,53 @@ test.describe("Netloka Core App & Auth Shell", () => {
 
     await expect(page.getByText("Netloka").first()).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: /Kuasai Jaringan Komputer/i })
+      page.getByRole("heading", { name: /Kuasai IT Infrastructure/i })
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: /Mulai Belajar Gratis/i })
+      page.getByRole("link", { name: "Jelajahi", exact: true })
     ).toBeVisible();
+  });
+
+  test("renders the IT Infrastructure Journey with celestial checkpoints", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    await expect(
+      page.getByRole("heading", { name: "IT Infrastructure Journey" })
+    ).toBeVisible();
+
+    for (const destination of [
+      "Mercury",
+      "Venus",
+      "Mars",
+      "Jupiter",
+      "Saturn",
+      "Polaris",
+    ]) {
+      await expect(
+        page.getByText(destination, { exact: true }).first()
+      ).toBeVisible();
+    }
+
+    await expect(
+      page.getByRole("link", { name: "Lihat jalur belajar" })
+    ).toHaveAttribute("href", "/learn");
+  });
+
+  test("keeps the Netloka brand clear of the desktop viewport edge", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const brand = page.getByRole("link", { name: "Netloka Home" });
+    await expect(brand).toBeVisible();
+
+    const xPosition = await brand.evaluate(
+      (element) => element.getBoundingClientRect().x
+    );
+
+    expect(xPosition).toBe(32);
   });
 
   test("serves the health endpoint", async ({ request }) => {

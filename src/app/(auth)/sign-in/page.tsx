@@ -43,15 +43,15 @@ export default function SignInPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
       <div className="w-full max-w-md p-8 space-y-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
         <div className="text-center">
-          <Link href="/" className="inline-block mb-4">
-            <span className="text-2xl font-black text-blue-600 dark:text-blue-400 tracking-tight">
-              Netloka
+          <Link href="/" className="inline-block mb-4 focus:outline-none">
+            <span className="font-brand text-3xl font-bold tracking-wide text-black dark:text-white">
+              NETLOKA
             </span>
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-2xl font-bold text-black dark:text-white">
             Sign In
           </h1>
-          <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+          <p className="mt-1 text-sm text-black dark:text-white">
             Welcome back to your networking learning journey
           </p>
         </div>
@@ -69,7 +69,7 @@ export default function SignInPage() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              className="block text-sm font-medium text-black dark:text-white mb-1"
             >
               Email
             </label>
@@ -79,7 +79,7 @@ export default function SignInPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 dark:bg-gray-700 dark:text-white text-sm"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 dark:bg-gray-700 text-black dark:text-white text-sm"
               placeholder="you@example.com"
             />
           </div>
@@ -87,7 +87,7 @@ export default function SignInPage() {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              className="block text-sm font-medium text-black dark:text-white mb-1"
             >
               Password
             </label>
@@ -97,7 +97,7 @@ export default function SignInPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 dark:bg-gray-700 dark:text-white text-sm"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 dark:bg-gray-700 text-black dark:text-white text-sm"
               placeholder="••••••••"
             />
           </div>
@@ -115,11 +115,11 @@ export default function SignInPage() {
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+        <p className="text-center text-sm text-black dark:text-white">
           Don&apos;t have an account?{" "}
           <Link
             href="/sign-up"
-            className="text-blue-600 hover:text-blue-500 font-semibold"
+            className="text-blue-600 hover:text-blue-500 font-semibold underline"
           >
             Sign up
           </Link>

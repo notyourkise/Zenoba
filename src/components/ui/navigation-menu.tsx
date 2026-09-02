@@ -124,7 +124,7 @@ export function NavigationMenuItem({
 }
 
 export const navigationMenuTriggerStyle = cva(
-  "inline-flex h-9 items-center justify-center rounded-md px-3 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-400 transition-colors duration-150 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 focus:outline-none cursor-pointer select-none"
+  "inline-flex h-9 items-center justify-center rounded-md px-3 py-1.5 text-sm font-medium text-black dark:text-white transition-colors duration-150 hover:bg-gray-100/70 dark:hover:bg-gray-800/60 focus:outline-none cursor-pointer select-none"
 );
 
 export function NavigationMenuTrigger({
@@ -152,7 +152,7 @@ export function NavigationMenuTrigger({
       <span>{children}</span>
       <ChevronDown
         className={cn(
-          "ml-1.5 h-3 w-3 text-gray-400 dark:text-gray-500 transition-transform duration-200",
+          "ml-1.5 h-3 w-3 text-black dark:text-white transition-transform duration-200",
           isOpen && "rotate-180 text-blue-600 dark:text-blue-400"
         )}
         aria-hidden="true"
@@ -173,7 +173,7 @@ export function NavigationMenuContent({
   return (
     <div
       className={cn(
-        "absolute left-1/2 -translate-x-1/2 top-full z-50 mt-2 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-2xl p-4 transition-all duration-200 animate-in fade-in-50 zoom-in-95",
+        "absolute left-1/2 -translate-x-1/2 top-full z-50 mt-2 rounded-xl border border-slate-800 bg-[#070b14] text-white shadow-2xl p-3.5 transition-all duration-200 animate-in fade-in-50 zoom-in-95",
         className
       )}
       {...props}

@@ -8,22 +8,24 @@ web
 
 ## Users
 
-Siswa SMK jurusan TKJ (Teknik Komputer dan Jaringan), pemula yang baru mempelajari networking, dan pembelajar/calon network engineer yang sedang mempersiapkan diri untuk uji kompetensi kejuruan (UKK) serta sertifikasi praktis jaringan (CCNA/MTCNA).
+Siswa SMK bidang teknologi informasi, mahasiswa, pemula IT infrastructure, serta pembelajar yang mempersiapkan diri untuk peran network engineer, system administrator, cloud/DevOps, cybersecurity, dan teknisi infrastruktur lapangan.
 
 ## Product Purpose
 
-Netloka adalah platform pembelajaran jaringan komputer interaktif yang mengajarkan konsep fondasi hingga tingkat lanjutan melalui interaksi deterministik dan penalaran studi kasus nyata, bukan sekadar bahan bacaan teoritis pasif.
+Netloka adalah platform pembelajaran IT infrastructure interaktif yang mengajarkan jaringan, server, Linux, cloud, cybersecurity, dan infrastruktur lapangan melalui interaksi deterministik serta penalaran studi kasus nyata, bukan sekadar bahan bacaan teoritis pasif.
 
 Alur belajar:
 `Learn → Interact → Practice → Challenge → Consultant Project`
 
 ## Positioning
 
-Satu-satunya platform edukasi jaringan berbahasa Indonesia yang menggabungkan:
-1. Pembelajaran konsep micro-learning dengan blok diagram interaktif.
-2. 7 Practice Labs mandiri dengan evaluasi deterministik (Subnetting, IP Config, VLAN 802.1Q, Routing LPM, Packet Flow, DHCP/DNS, Terminal CLI).
-3. Troubleshooting skenario kasus nyata di mana pengguna mendiagnosa dan memperbaiki kerusakan jaringan.
-4. Mode Konsultan TI lengkap dengan perancangan Bill of Quantities (BoQ), kalkulasi budget, evaluasi kapasitas port/bandwidth, perancangan IP/VLAN, dan penilaian otomatis berbasis rubrik 5 dimensi.
+Platform edukasi IT infrastructure berbahasa Indonesia yang menyatukan:
+1. Pembelajaran micro-learning lintas domain melalui blok interaktif yang reusable.
+2. Practice Labs mandiri dengan evaluasi deterministik, dimulai dari fondasi networking.
+3. Challenges berbasis skenario nyata untuk melatih diagnosis tanpa langkah penyelesaian yang diarahkan.
+4. Consultant Projects untuk analisis kebutuhan, BoQ, budgeting, capacity planning, desain teknis, dokumentasi, dan penilaian multidimensi.
+
+Networking merupakan learning domain pertama yang sudah tersedia. Server & Linux, Cybersecurity, Cloud & DevOps, CCTV & Surveillance, Fiber Optic, serta VoIP & PABX ditampilkan sebagai arah pengembangan dan harus diberi status `Soon` sampai implementasinya benar-benar tersedia.
 
 ## Operating Context
 
@@ -34,14 +36,14 @@ Satu-satunya platform edukasi jaringan berbahasa Indonesia yang menggabungkan:
 
 - **Arsitektur:** Modular monolith berbasis Next.js 16 (Turbopack), React 19, Tailwind CSS v4, Prisma ORM, dan PostgreSQL 16.
 - **Simulated Terminal Safety:** Semua perintah terminal/CLI dijalankan melalui pure deterministic parser di memori (tidak pernah dieksekusi ke host shell atau SSH).
-- **Theming:** Dukungan Dark Mode dan Light Mode terintegrasi penuh melalui `next-themes` dan class-based dark variant Tailwind v4.
+- **Theming:** Antarmuka saat ini menggunakan dark theme kosmik yang dikunci secara konsisten melalui `next-themes` dan class-based dark variant Tailwind v4.
 - **Autentikasi & Gamifikasi:** Manajemen akun dengan NextAuth, pencatatan progres per modul, perolehan XP transaksional, dan sertifikat/portofolio proyek konsultan.
 
 ## Brand Commitments
 
 - **Nama Brand:** Netloka
 - **Domain:** `netloka.biz.id`
-- **Palet Utama:** Netloka Blue (`#2563eb`), Slate/Gray dark surface, Emerald untuk status aktif/lulus, Rose untuk error/troubleshooting, Indigo untuk Mode Konsultan.
+- **Palet Utama:** kanvas hitam kosmik, putih untuk hierarki utama, sky blue untuk aksi dan state aktif, amber untuk status `Soon`, Emerald untuk status lulus, serta Rose untuk error/troubleshooting.
 - **Tipografi:** Modern geometric sans-serif dengan hierarki visual yang jelas, font monospaced untuk konfigurasi CLI dan tabel routing.
 
 ## Evidence on Hand

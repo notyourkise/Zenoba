@@ -150,8 +150,8 @@ Boundary rule: place code by domain responsibility under `src/features/*`; keep 
 - [x] Run production build enforcement via GitHub Actions.
 - [x] Document local setup commands in `README.md` with comprehensive contributor onboarding guide.
 - [x] Record Sprint 0 work in `CHANGELOG.md` with WITA timestamps and detailed validation notes.
-- [ ] Review Sprint 0 diff against `ROADMAP.md` and this plan (pending manual review before merge).
-- [ ] Push branch and create/update PR if using a PR workflow.
+- [x] Review Sprint 0 diff against `ROADMAP.md` and this plan.
+- [x] Push branch and complete the established PR workflow (historical PR validation is recorded in `CHANGELOG.md`).
 
 **Sprint 0 acceptance test:** A new contributor can clone the repository, create the documented environment file, start PostgreSQL, install dependencies, run tests, and build successfully.
 
@@ -748,9 +748,9 @@ Seed:
 
 ---
 
-# Milestone 7 — Production Readiness & MVP Launch ✅ COMPLETE
+# Milestone 7 — Production Readiness & MVP Launch 🚧 ACTIVE
 
-## Sprint 15 — Quality, Security & Deployment ✅
+## Sprint 15 — Quality, Security & Deployment 🚧 IN PROGRESS
 
 ### Required verification
 
@@ -760,7 +760,9 @@ Seed:
 - [x] Review authorization on all write operations (server-side user ownership verification).
 - [x] Review input validation (Zod schemas on all API boundaries).
 - [x] Review rate-sensitive endpoints (/api/auth/register, /api/labs/submit, /api/challenges/submit, /api/consultant/submit).
-- [x] Verify security headers (`CSP`, `HSTS`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff` in `next.config.ts` and `Caddyfile`).
+- [x] Verify implemented security headers (`HSTS`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, and `Permissions-Policy` in `next.config.ts` and `Caddyfile`).
+- [ ] Design, implement, and verify a Content Security Policy compatible with the current Next.js application and required assets.
+- [ ] Activate and verify Cloudflare WAF rules on the real staging/production zone.
 - [x] Verify secrets are absent from repository/history (.env excluded, safe .env.example provided).
 - [x] Verify production database is not publicly exposed (isolated Docker bridge network `netloka-network`).
 - [x] Test database backup (`scripts/backup-db.sh`).
@@ -770,11 +772,15 @@ Seed:
 - [x] Document Cloudflare DNS/proxy settings (`docs/deployment/cloudflare-and-caddy.md`).
 - [x] Deploy staging & production readiness documentation.
 - [x] Run smoke tests & critical-path tests (20 Playwright E2E tests passed).
-- [x] Deploy production readiness to `netloka.biz.id`.
+- [x] Prepare production deployment configuration and runbook for `netloka.biz.id`.
+- [ ] Configure and deploy the staging environment using real target infrastructure.
+- [ ] Run staging smoke tests, critical-path E2E, migration, backup, and restore verification.
+- [ ] Deploy production to `netloka.biz.id`.
+- [ ] Run post-deploy health, security-header, migration, and critical-path smoke verification.
 
 ---
 
-## Sprint 16 — MVP Stabilization ✅
+## Sprint 16 — MVP Stabilization & Feature Refinement 🚧 ACTIVE
 
 - [x] Triage launch issues by severity (Quality gate passed 100%).
 - [x] Fix critical/high issues before feature work.
@@ -785,6 +791,14 @@ Seed:
 - [x] Create technical debt register (`docs/TECHNICAL_DEBT.md`).
 - [x] Update `ROADMAP.md` using observed usage.
 - [x] Decide which post-MVP path deserves the next milestone (Documented MikroTik, Cisco, Linux Server tracks in `docs/TECHNICAL_DEBT.md`).
+- [x] Reframe the primary navbar around `Learn`, `Labs`, `Challenges`, and `Consultant` as cross-domain IT infrastructure product areas.
+- [x] Replace networking-only dropdown copy with a data-driven catalog that distinguishes available routes from noninteractive `Soon` domains.
+- [x] Align desktop and mobile navbar terminology and add focused tests for active links, disabled future domains, and mobile roadmap visibility.
+- [x] Finalize the active landing page, dashboard, navigation, authentication UI, and cosmic visual refinements currently present in the working tree.
+- [x] Review responsive behavior, keyboard navigation, reduced motion, and accessibility for the active UI diff.
+- [x] Run the complete lint, type-check, unit/integration, E2E, and production-build gates against the finalized feature diff.
+- [ ] Review the final implementation diff and resolve all Critical/High findings before staging deployment.
+- [ ] Synchronize roadmap, plan, README, and changelog with verified staging and production results.
 
 ---
 

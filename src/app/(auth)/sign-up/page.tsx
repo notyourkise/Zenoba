@@ -60,12 +60,19 @@ export default function SignUpPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
       <div className="w-full max-w-md p-8 space-y-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-        <h1 className="text-3xl font-bold text-center text-gray-900 dark:text-white">
-          Create Account
-        </h1>
-        <p className="text-center text-gray-600 dark:text-gray-400">
-          Start your networking learning journey
-        </p>
+        <div className="text-center">
+          <Link href="/" className="inline-block mb-4 focus:outline-none">
+            <span className="font-brand text-3xl font-bold tracking-wide text-black dark:text-white">
+              NETLOKA
+            </span>
+          </Link>
+          <h1 className="text-3xl font-bold text-black dark:text-white">
+            Create Account
+          </h1>
+          <p className="mt-1 text-sm text-black dark:text-white">
+            Start your networking learning journey
+          </p>
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
@@ -77,7 +84,7 @@ export default function SignUpPage() {
           <div>
             <label
               htmlFor="name"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              className="block text-sm font-medium text-black dark:text-white mb-2"
             >
               Name (optional)
             </label>
@@ -86,7 +93,7 @@ export default function SignUpPage() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 dark:bg-gray-700 dark:text-white"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 dark:bg-gray-700 text-black dark:text-white"
               placeholder="Your name"
             />
           </div>
@@ -94,7 +101,7 @@ export default function SignUpPage() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              className="block text-sm font-medium text-black dark:text-white mb-2"
             >
               Email
             </label>
@@ -104,7 +111,7 @@ export default function SignUpPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 dark:bg-gray-700 dark:text-white"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 dark:bg-gray-700 text-black dark:text-white"
               placeholder="you@example.com"
             />
           </div>
@@ -112,7 +119,7 @@ export default function SignUpPage() {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              className="block text-sm font-medium text-black dark:text-white mb-2"
             >
               Password
             </label>
@@ -122,10 +129,10 @@ export default function SignUpPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 dark:bg-gray-700 dark:text-white"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 dark:bg-gray-700 text-black dark:text-white"
               placeholder="••••••••"
             />
-            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+            <p className="mt-1 text-xs text-black dark:text-white">
               Minimum 8 characters
             </p>
           </div>
@@ -133,7 +140,7 @@ export default function SignUpPage() {
           <div>
             <label
               htmlFor="confirmPassword"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              className="block text-sm font-medium text-black dark:text-white mb-2"
             >
               Confirm Password
             </label>
@@ -143,7 +150,7 @@ export default function SignUpPage() {
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 dark:bg-gray-700 dark:text-white"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 dark:bg-gray-700 text-black dark:text-white"
               placeholder="••••••••"
             />
           </div>
@@ -153,7 +160,7 @@ export default function SignUpPage() {
             disabled={loading}
             className={`w-full py-3 px-4 rounded-md font-medium transition-colors ${
               loading
-                ? "bg-gray-400 cursor-not-allowed"
+                ? "bg-gray-400 cursor-not-allowed text-white"
                 : "bg-green-600 hover:bg-green-700 text-white"
             }`}
           >
@@ -161,11 +168,11 @@ export default function SignUpPage() {
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+        <p className="text-center text-sm text-black dark:text-white">
           Already have an account?{" "}
           <Link
             href="/sign-in"
-            className="text-blue-600 hover:text-blue-700 font-medium"
+            className="text-blue-600 hover:text-blue-700 font-medium underline"
           >
             Sign in
           </Link>

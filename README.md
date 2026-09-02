@@ -6,13 +6,15 @@
 
 **Domain:** `netloka.biz.id`  
 **Architecture:** Modular monolith (Next.js + TypeScript + PostgreSQL)  
+**Development status:** Milestones 0–6 implemented; Milestone 7 active; not yet deployed to staging or production
+
 **Timezone:** WITA / GMT+8
 
 ---
 
 ## 🎯 Purpose
 
-Netloka is an interactive networking learning platform for SMK TKJ students, networking beginners, and learners preparing for practical network/sysadmin work. 
+Netloka is an interactive IT infrastructure learning platform for SMK TKJ students, beginners, and learners preparing for practical network, sysadmin, security, cloud, and field-infrastructure work. Networking is the first available learning domain, while future domains remain clearly labeled as upcoming work.
 
 **Core experience:** Learn → Interact → Practice → Challenge → Consultant Project
 
@@ -27,12 +29,13 @@ Netloka is an interactive networking learning platform for SMK TKJ students, net
 
 ## 🛠️ Tech Stack
 
-- **Framework:** Next.js 16.x + TypeScript 5.x
-- **Styling:** Tailwind CSS 4.x + shadcn/ui
-- **Database:** PostgreSQL 16.x + Prisma ORM
+- **Framework:** Next.js 16.3.x + React 19.2.x + TypeScript 5.x
+- **Styling:** Tailwind CSS 4.x with reusable local shadcn-style primitives
+- **Database:** PostgreSQL 16.x + Prisma ORM 7.x
+- **Authentication:** NextAuth.js 4.x with credentials/JWT sessions and Prisma integration
 - **Testing:** Vitest (unit/integration) + Playwright (E2E)
 - **Linting:** ESLint + Prettier
-- **Deployment:** Docker on VPS → Caddy reverse proxy → Cloudflare
+- **Deployment target:** Docker on VPS → Caddy reverse proxy → Cloudflare; configuration exists, deployment is pending
 
 ---
 
@@ -158,12 +161,18 @@ netloka/
 │   │   └── page.tsx      # Home page
 │   ├── components/       # Reusable UI components
 │   │   ├── ui/           # shadcn/ui primitives
-│   │   └── learning/     # Learning-specific components
+│   │   ├── navigation/   # Application and marketing navigation
+│   │   ├── marketing/    # Interactive landing-page sections
+│   │   └── effects/      # Shared visual effects
 │   ├── features/         # Domain-focused feature modules
 │   │   ├── auth/         # Authentication
 │   │   ├── learning/     # Learning engine
-│   │   ├── progress/     # Progress tracking
-│   │   └── ...
+│   │   ├── network-logic/# IPv4, topology, and terminal simulation
+│   │   ├── quiz/         # Quiz validation and scoring
+│   │   ├── xp/           # Idempotent XP ledger
+│   │   ├── labs/         # Deterministic lab engine
+│   │   ├── challenges/   # Troubleshooting challenge engine
+│   │   └── consultant/   # Procurement, planning, and scoring
 │   ├── lib/              # Shared utilities
 │   │   ├── db/client.ts  # Prisma singleton
 │   │   └── env/server.ts # Environment validation
@@ -235,14 +244,14 @@ Use `.env.example` with safe placeholders instead.
 
 | Milestone | Focus Area | Status |
 |-----------|------------|--------|
-| M0 | Project Foundation | ✅ In Progress |
-| M1 | Core Product Shell | 📋 Planned |
-| M2 | Learning Engine | 📋 Planned |
-| M3 | Network Foundations | 📋 Planned |
-| M4 | Addressing & Core Networking | 📋 Planned |
-| M5 | Labs & Challenges | 📋 Planned |
-| M6 | IT Consultant Mode | 📋 Planned |
-| M7 | Production Launch | 📋 Planned |
+| M0 | Project Foundation | ✅ Complete |
+| M1 | Core Product Shell | ✅ Complete |
+| M2 | Learning Engine | ✅ Complete |
+| M3 | Network Foundations | ✅ Complete |
+| M4 | Addressing & Core Networking | ✅ Complete |
+| M5 | Labs & Challenges | ✅ Complete |
+| M6 | IT Consultant Mode | ✅ Complete |
+| M7 | Production Readiness & MVP Launch | 🚧 Active — feature stabilization and deployment pending |
 
 See [ROADMAP.md](ROADMAP.md) for detailed milestones and sprints.
 

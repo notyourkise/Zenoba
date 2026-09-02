@@ -1,6 +1,6 @@
 ---
 name: Netloka
-description: Interactive networking learning platform for SMK TKJ, beginners, and sysadmin aspirants.
+description: Interactive IT infrastructure learning platform for students, beginners, and aspiring practitioners.
 colors:
   primary: "#2563eb"
   primary-hover: "#1d4ed8"
@@ -74,7 +74,7 @@ components:
 
 ## Overview
 
-Netloka menggunakan gaya visual modern, berorientasi teknis namun tetap ramah (*approachable*) bagi siswa SMK TKJ dan pemula networking. Desain mengutamakan kejelasan hierarki data, keterbacaan kode/diagram konfigurasi, dan feedback visual deterministik.
+Netloka menggunakan gaya visual modern, berorientasi IT infrastructure namun tetap ramah bagi siswa, pemula, dan calon praktisi. Desain mengutamakan kejelasan hierarki data, keterbacaan kode/diagram konfigurasi, dan feedback visual deterministik tanpa membatasi identitas produk pada networking saja.
 
 ## Colors
 
@@ -108,8 +108,10 @@ Palet warna Netloka dirancang untuk mendukung dual-theme (Light & Dark) dengan k
 - **Spacing:** Menggunakan Tailwind v4 Flex `gap-*` standar (`gap-1.5`, `gap-3`, `gap-4`, `gap-6`, `gap-8`) untuk memastikan konsistensi ritme vertikal dan horizontal.
 - **Navbar Layout:** 3-zona simetris:
   - Kiri: Brand Logo
-  - Tengah: Navigation Menu Dropdown
-  - Kanan: User Controls & Dark Mode Toggle
+  - Tengah: `Learn`, `Labs`, `Challenges`, dan `Consultant` dengan katalog domain IT infrastructure
+  - Kanan: User Controls atau tombol autentikasi
+
+Domain yang belum tersedia ditampilkan sebagai item noninteraktif dengan label `Soon`. Jangan membuat tautan atau route placeholder untuk domain tersebut.
 
 ## Elevation & Depth
 
@@ -129,7 +131,7 @@ Palet warna Netloka dirancang untuk mendukung dual-theme (Light & Dark) dengan k
 ## Components
 
 - **NavigationMenu:** Menu berbasis dropdown dengan panel tengah `left-1/2 -translate-x-1/2`.
-- **ModeToggle:** Switch tema instan Light/Dark/System dengan icon Lucide.
+- **Catalog Status:** Label teks `Soon` berwarna amber; status tidak boleh disampaikan hanya melalui warna.
 - **Terminal Simulator:** Console bernuansa dark mode (`bg-gray-950 text-emerald-400 font-mono`) dengan prompt `netloka>`.
 - **Interactive Quiz & Lab Evaluator:** Panel pilihan ganda/input CIDR dengan indikator feedback instan (hijau untuk benar, merah untuk salah beserta penjelasannya).
 

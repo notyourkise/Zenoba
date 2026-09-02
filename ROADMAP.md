@@ -2,17 +2,17 @@
 
 > **Project:** Netloka  
 > **Domain:** `netloka.biz.id`  
-> **Product:** Interactive networking learning platform  
-> **Primary audience:** SMK TKJ students, networking beginners, and learners preparing for network/sysadmin work  
+> **Product:** Interactive IT infrastructure learning platform
+> **Primary audience:** SMK TKJ students, beginners, and learners preparing for practical network, sysadmin, security, cloud, and field-infrastructure work
 > **Core experience:** Learn → Interact → Practice → Challenge → Consultant Project  
-> **Status:** Milestone 0 foundation and security remediation complete; deployment tasks pending target configuration
+> **Status:** Milestones 0–6 complete; Milestone 7 active; feature stabilization and staging/production deployment pending
 > **Timezone for project logs:** WITA / GMT+8
 
 ---
 
 ## 1. Product Direction
 
-Netloka is not intended to be a conventional LMS consisting mainly of long-form reading and video. The product should teach networking through short lessons, reusable interactive visualizations, practice labs, troubleshooting scenarios, and project-based simulations.
+Netloka is not intended to be a conventional LMS consisting mainly of long-form reading and video. The product should teach IT infrastructure through short lessons, reusable interactive visualizations, practice labs, troubleshooting scenarios, and project-based simulations. Networking is the first implemented domain and the complete MVP curriculum; future domains remain out of MVP scope until the roadmap intentionally activates them.
 
 The MVP must establish four core product areas:
 
@@ -46,17 +46,17 @@ These are intentionally **out of MVP scope**, but the architecture must not prev
 
 # 2. Technical Baseline
 
-Initial architecture:
+Current architecture:
 
-- **Web framework:** Next.js + TypeScript
-- **Styling:** Tailwind CSS
-- **UI components:** shadcn/ui + Lucide
+- **Web framework:** Next.js 16 + React 19 + TypeScript 5
+- **Styling:** Tailwind CSS 4
+- **UI components:** reusable local primitives following shadcn/ui patterns, plus Lucide where a functional icon is justified
 - **Database:** PostgreSQL
-- **ORM:** Prisma
-- **Authentication:** Better Auth or Auth.js, selected during Sprint 1 after compatibility review
-- **Interactive diagrams:** React Flow where node/edge editing is needed
-- **Animation:** self-hosted Lottie assets plus CSS/SVG/JavaScript interactions
-- **Deployment:** Docker on VPS
+- **ORM:** Prisma 7 with the PostgreSQL driver adapter
+- **Authentication:** NextAuth.js 4 with credentials, JWT sessions, and Prisma adapter integration
+- **Interactive diagrams:** deterministic React, CSS, and SVG components
+- **Animation:** CSS/SVG/JavaScript interactions with reduced-motion support; self-hosted Lottie blocks remain supported by the lesson schema
+- **Deployment target:** Docker on VPS; production deployment has not yet been performed
 - **Reverse proxy:** Caddy
 - **DNS / edge:** Cloudflare
 - **Object storage:** Cloudflare R2 later when user-generated or larger assets justify it
@@ -71,11 +71,11 @@ Architecture principle:
 
 # 3. Milestones & Sprints
 
-## Milestone 0 — Project Foundation
+## Milestone 0 — Project Foundation ✅ COMPLETE
 
 **Goal:** Establish a reproducible, testable, deployable project skeleton and development workflow.
 
-### Sprint 0 — Repository & Environment Bootstrap
+### Sprint 0 — Repository & Environment Bootstrap ✅
 
 Deliverables:
 
@@ -96,11 +96,11 @@ Deliverables:
 
 ---
 
-## Milestone 1 — Core Product Shell
+## Milestone 1 — Core Product Shell ✅ COMPLETE
 
 **Goal:** A user can authenticate, enter Netloka, navigate the application, and own persistent learning progress.
 
-### Sprint 1 — Authentication, User Model & Application Shell
+### Sprint 1 — Authentication, User Model & Application Shell ✅
 
 Deliverables:
 
@@ -113,7 +113,7 @@ Deliverables:
 - database-backed user model
 - basic accessibility and error states
 
-### Sprint 2 — Learning Catalog & Progress Model
+### Sprint 2 — Learning Catalog & Progress Model ✅
 
 Deliverables:
 
@@ -129,11 +129,11 @@ Deliverables:
 
 ---
 
-## Milestone 2 — Learning Engine
+## Milestone 2 — Learning Engine ✅ COMPLETE
 
 **Goal:** Netloka can render reusable, interactive lessons without hardcoding every lesson as a custom page.
 
-### Sprint 3 — Lesson Block Renderer
+### Sprint 3 — Lesson Block Renderer ✅
 
 Initial block types:
 
@@ -161,7 +161,7 @@ Deliverables:
 - invalid block fallback
 - content validation
 
-### Sprint 4 — Quiz, Practice & Reward Engine
+### Sprint 4 — Quiz, Practice & Reward Engine ✅
 
 Deliverables:
 
@@ -179,11 +179,11 @@ Deliverables:
 
 ---
 
-## Milestone 3 — Network Foundations Content
+## Milestone 3 — Network Foundations Content ✅ COMPLETE
 
 **Goal:** Release the first complete beginner learning path and validate Netloka's interactive teaching model.
 
-### Sprint 5 — Network Foundations Part A
+### Sprint 5 — Network Foundations Part A ✅
 
 Modules:
 
@@ -200,7 +200,7 @@ Primary reusable interactions:
 - scenario selection
 - request/response packet flow
 
-### Sprint 6 — Network Foundations Part B
+### Sprint 6 — Network Foundations Part B ✅
 
 Modules:
 
@@ -225,11 +225,11 @@ Final challenge:
 
 ---
 
-## Milestone 4 — Addressing & Core Networking
+## Milestone 4 — Addressing & Core Networking ✅ COMPLETE
 
 **Goal:** Build the networking logic that later powers Labs, Challenges, and Consultant Mode.
 
-### Sprint 7 — IPv4 & Subnetting Engine
+### Sprint 7 — IPv4 & Subnetting Engine ✅
 
 Learning content:
 
@@ -255,7 +255,7 @@ Reusable tools:
 - subnet calculator
 - subnet practice generator
 
-### Sprint 8 — Switching, VLAN & Routing Fundamentals
+### Sprint 8 — Switching, VLAN & Routing Fundamentals ✅
 
 Learning content:
 
@@ -281,7 +281,7 @@ Reusable logical simulation primitives:
 - VLAN membership
 - reachability evaluator
 
-### Sprint 9 — Network Services, Wireless & Troubleshooting
+### Sprint 9 — Network Services, Wireless & Troubleshooting ✅
 
 Learning content:
 
@@ -313,11 +313,11 @@ Reusable interactions:
 
 ---
 
-## Milestone 5 — Labs & Challenges
+## Milestone 5 — Labs & Challenges ✅ COMPLETE
 
 **Goal:** Turn reusable learning interactions into independent practice experiences.
 
-### Sprint 10 — Lab Engine
+### Sprint 10 — Lab Engine ✅
 
 Deliverables:
 
@@ -338,7 +338,7 @@ Deliverables:
   - DHCP/DNS
   - ping/troubleshooting
 
-### Sprint 11 — Challenge Engine
+### Sprint 11 — Challenge Engine ✅
 
 Deliverables:
 
@@ -416,9 +416,9 @@ Deliverables:
 
 ---
 
-## Milestone 7 — Production Readiness & MVP Launch ✅ COMPLETE
+## Milestone 7 — Production Readiness & MVP Launch 🚧 ACTIVE
 
-### Sprint 15 — Quality, Security & Deployment ✅
+### Sprint 15 — Quality, Security & Deployment 🚧 IN PROGRESS
 
 Deliverables:
 
@@ -426,22 +426,26 @@ Deliverables:
 - accessibility pass ✅
 - responsive pass ✅
 - security review & hardening ✅
-- rate limiting guidelines & WAF protection ✅
-- secure HTTP headers (`CSP`, `HSTS`, `X-Frame-Options`, `X-Content-Type-Options`) ✅
+- rate-sensitive endpoint review and WAF guidance documented ✅
+- implemented secure HTTP headers (`HSTS`, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`) ✅
+- Content Security Policy design and implementation ⏳
+- Cloudflare WAF activation and verification on the deployed environment ⏳
 - database migration procedure ✅
 - automated backup & restore test (`scripts/backup-db.sh`, `scripts/restore-db.sh`) ✅
 - Docker production configuration (`Dockerfile` multi-stage, `docker-compose.prod.yml`) ✅
 - Caddy reverse proxy (`Caddyfile` automatic HTTPS) ✅
 - Cloudflare setup documentation (`docs/deployment/cloudflare-and-caddy.md`) ✅
-- staging → production release workflow ✅
+- staging → production release workflow documented ✅
 - uptime & database monitoring (`/api/health`) ✅
-- production deployment readiness for `netloka.biz.id` ✅
+- production deployment configuration for `netloka.biz.id` ✅
+- staging deployment and environment verification ⏳
+- production deployment and post-deploy smoke verification ⏳
 
-### Sprint 16 — MVP Stabilization ✅
+### Sprint 16 — MVP Stabilization & Feature Refinement 🚧 ACTIVE
 
 Deliverables:
 
-- launch readiness & triage (100% test pass rate) ✅
+- previously completed quality-gate baseline ✅
 - performance profiling & DB health metrics ✅
 - slow query review & database latency measurement ✅
 - content corrections (Paths 1 to 5 verified) ✅
@@ -449,8 +453,11 @@ Deliverables:
 - learning funnel review (`UserLessonProgress`) ✅
 - technical debt register (`docs/TECHNICAL_DEBT.md`) ✅
 - post-MVP roadmap revision (MikroTik, Cisco, Linux Server tracks) ✅
+- landing page, dashboard, navigation, and authentication UI refinement 🚧
+- responsive, accessibility, regression, and final-diff review for the active UI work ⏳
+- staging validation before production launch ⏳
 
-**MVP exit criteria:** Netloka is production-accessible, stable, recoverable, measurable, and usable by real learners. ✅
+**MVP exit criteria:** Netloka must be deployed to staging and production, pass post-deploy smoke and critical-path verification, and be stable, recoverable, measurable, and usable by real learners. Not yet satisfied.
 
 ---
 

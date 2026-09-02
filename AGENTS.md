@@ -10,7 +10,7 @@ The instructions apply to the entire repository unless a more specific `AGENTS.m
 
 **Project:** Netloka  
 **Domain:** `netloka.biz.id`  
-**Purpose:** Interactive networking learning platform for SMK TKJ learners, networking beginners, and learners preparing for practical network/sysadmin work.
+**Purpose:** Interactive IT infrastructure learning platform for SMK TKJ learners, beginners, and learners preparing for practical network, sysadmin, security, cloud, and field-infrastructure work. Networking is the first available learning domain; future domains remain roadmap-scoped until activated.
 
 Core product areas:
 
@@ -206,6 +206,12 @@ Future paths currently include:
 - Network Security
 
 The present architecture should remain extensible for them without implementing them now.
+
+## 5.6 Visual icon policy
+
+Do not introduce decorative icons, emoji, icon-only embellishments, or icons inside cards, badges, and CTA labels unless the user explicitly requests them.
+
+Icons may be used only when they communicate a necessary interactive control that text alone cannot convey, or when the user has explicitly requested the visual icon. Functional icons must have an accessible name when they are not accompanied by visible text.
 
 ---
 

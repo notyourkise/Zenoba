@@ -1,6 +1,6 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-03 12:26 WITA**. This is a development snapshot, not a live status feed. Follow [AGENTS.md](../AGENTS.md), then verify Git, files, PRs, and checks before acting. Do not require the previous chat to understand this file.
+Last updated: **2026-09-03 15:25 WITA**. This is a development snapshot, not a live status feed. Follow [AGENTS.md](../AGENTS.md), then verify Git, files, PRs, and checks before acting. Do not require the previous chat to understand this file.
 
 ## 1. Product and active work
 
@@ -9,7 +9,7 @@ Last updated: **2026-09-03 12:26 WITA**. This is a development snapshot, not a l
 - Other navbar domains remain noninteractive **Soon** entries. Keep established English product terms; do not implement future domains without approved scope.
 - [ROADMAP.md](../ROADMAP.md) records Milestones 0–6 complete. **Milestone 7 is active**, Sprint 16 covers stabilization/feature refinement; Sprint 15 security/environment/deployment gates remain open.
 - Current phase is **feature development**, not deployment. Staging and production have not been deployed/verified. Configuration files and CI builds are not evidence of a live deployment.
-- Current approved task: improve agent workflow/context continuity in `AGENTS.md`, add this handoff, and record it in `CHANGELOG.md`. No application behavior change, deployment, or removal of old branches is included.
+- Current task: Profile Dropdown Menu & Account Modal with sidebar navigation, photo upload, editable headline, device-local flame streak, and CLI/settings controls.
 
 ## 2. Git and delivery checkpoint
 
@@ -18,14 +18,11 @@ Verified on 2026-09-03:
 | Item | Last verified state |
 | --- | --- |
 | Repository | [notyourkise/NetLoka](https://github.com/notyourkise/NetLoka) |
-| Main checkout | `C:/laragon/www/netloka`, branch `codex/agent-workflow-handoff` (switched per user instruction) |
-| Main / origin/main | `5f9903d0774a383bb37a544865882672b14be266` (local refs matched) |
+| Main checkout | `C:/laragon/www/netloka`, branch `codex/profile-dropdown-menu` |
+| Main / origin/main | `5f9903d0774a383bb37a544865882672b14be266` |
 | Last feature PR | [#15 — feat: add Terms and Privacy Policy pages with auth modal links](https://github.com/notyourkise/NetLoka/pull/15) |
-| PR #15 state | `MERGED` into `main` by the user, 2026-09-03 13:00 WITA |
-| PR #15 head | `1325803797a3c8b8eee2cdd2cb09b38cc34792ee` |
-| PR #15 merge commit | `5f9903d0774a383bb37a544865882672b14be266`; main was pulled after merge |
-| Current docs branch | `codex/agent-workflow-handoff`, rebased onto `5f9903d` |
-| Current docs delivery | Prepared for PR via GitHub CLI per user request; awaiting CI and review |
+| Current task branch | `codex/profile-dropdown-menu` |
+| Current task delivery | Prepared for PR via GitHub CLI per user request; awaiting CI and review |
 
 Retained worktrees (not cleanup targets for this documentation task):
 

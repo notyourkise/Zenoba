@@ -4,6 +4,11 @@ import { AppHeader } from "./app-header";
 
 vi.mock("next/navigation", () => ({
   usePathname: () => "/",
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    refresh: vi.fn(),
+  }),
 }));
 
 vi.mock("next-themes", () => ({
@@ -152,11 +157,11 @@ describe("AppHeader profile dropdown", () => {
     expect(screen.getByRole("menu")).toBeVisible();
     expect(screen.getByText("dev@netloka.biz.id")).toBeInTheDocument();
 
-    const profileLink = screen.getByRole("menuitem", { name: /Profile/i });
-    expect(profileLink).toHaveAttribute("href", "/profile");
+    const profileItem = screen.getByRole("menuitem", { name: /Profile/i });
+    expect(profileItem).toBeInTheDocument();
 
-    const settingsLink = screen.getByRole("menuitem", { name: /Pengaturan/i });
-    expect(settingsLink).toHaveAttribute("href", "/settings");
+    const settingsItem = screen.getByRole("menuitem", { name: /Pengaturan/i });
+    expect(settingsItem).toBeInTheDocument();
 
     const supportLink = screen.getByRole("menuitem", { name: /Bantuan/i });
     expect(supportLink).toHaveAttribute("href", "/#faq");
@@ -164,8 +169,19 @@ describe("AppHeader profile dropdown", () => {
     const logoutItem = screen.getByRole("menuitem", { name: /Keluar/i });
     expect(logoutItem).toBeInTheDocument();
 
-    // Close on escape
-    fireEvent.keyDown(document, { key: "Escape" });
-    expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+    // Click Profile item to open Account Modal
+    fireEvent.click(profileItem);
+    expect(screen.getByRole("dialog", { name: "Modal Akun" })).toBeVisible();
+    expect(screen.getByText("Profil Pengguna")).toBeVisible();
+
+    // Switch to Pengaturan tab inside modal
+    fireEvent.click(screen.getByRole("button", { name: "Pengaturan" }));
+    expect(screen.getByText("Pengaturan Keamanan & Preferensi")).toBeVisible();
+    expect(screen.getByLabelText("Password Baru")).toBeVisible();
+    expect(screen.getByLabelText("Konfirmasi Password Baru")).toBeVisible();
+
+    // Close modal via X button
+    fireEvent.click(screen.getByRole("button", { name: "Tutup modal" }));
+    expect(screen.queryByRole("dialog", { name: "Modal Akun" })).not.toBeInTheDocument();
   });
 });

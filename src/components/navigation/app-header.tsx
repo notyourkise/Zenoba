@@ -17,6 +17,10 @@ import {
   DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
 import {
+  AccountModal,
+  type AccountTab,
+} from "@/components/navigation/account-modal/account-modal";
+import {
   NavigationMenu,
   NavigationMenuList,
   NavigationMenuItem,
@@ -224,6 +228,8 @@ export function AppHeader({ user }: AppHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [isTransparent, setIsTransparent] = React.useState(false);
   const [isHovered, setIsHovered] = React.useState(false);
+  const [accountModalOpen, setAccountModalOpen] = React.useState(false);
+  const [accountModalTab, setAccountModalTab] = React.useState<AccountTab>("profile");
   const lastScrollYRef = React.useRef(0);
 
   React.useEffect(() => {
@@ -382,17 +388,25 @@ export function AppHeader({ user }: AppHeaderProps) {
                         </p>
                       </div>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem asChild>
-                        <Link href="/profile" className="flex items-center justify-between">
-                          <span>Profile</span>
-                          <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                        </Link>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          setAccountModalTab("profile");
+                          setAccountModalOpen(true);
+                        }}
+                        className="flex items-center justify-between"
+                      >
+                        <span>Profile</span>
+                        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                       </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link href="/settings" className="flex items-center justify-between">
-                          <span>Pengaturan</span>
-                          <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                        </Link>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          setAccountModalTab("settings");
+                          setAccountModalOpen(true);
+                        }}
+                        className="flex items-center justify-between"
+                      >
+                        <span>Pengaturan</span>
+                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem asChild>
@@ -526,6 +540,13 @@ export function AppHeader({ user }: AppHeaderProps) {
       </header>
       {/* Invisible placeholder to preserve layout flow */}
       <div className="h-[72px] pointer-events-none" aria-hidden="true" />
+      <AccountModal
+        key={`${accountModalOpen}-${accountModalTab}`}
+        isOpen={accountModalOpen}
+        onClose={() => setAccountModalOpen(false)}
+        initialTab={accountModalTab}
+        user={user}
+      />
     </>
   );
 }

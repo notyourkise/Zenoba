@@ -84,6 +84,7 @@ Introduce `src/features/commerce/` as a focused domain module. Commerce is inten
 | `Order` | immutable public reference; user id; state (`PENDING`/`PAID`/`EXPIRED`/`CANCELLED`); provider; total amount snapshot; currency; expiry; timestamps | An order belongs to one user. Only a successful payment transition can create entitlement. Final states cannot regress. |
 | `OrderLine` | order id; package/course identifiers and title snapshot; amount snapshot; quantity fixed to one | Historical display never changes if catalog title or price changes later. |
 | `PaymentAttempt` | order id; provider transaction/event identifiers; provider status; raw-provider metadata reduced to safe necessary fields; timestamps | Provider event id is unique. Replayed events are idempotent. No secret/card/QR payload is retained unnecessarily. |
+| `PaymentEvent` | payment-attempt id; unique provider event id; normalized event type; received/processed timestamps; minimal safe metadata | A delivery is recorded before its state effect. The same provider event can be processed only once, while later events for the same attempt remain auditable. |
 | `Entitlement` | user id; course id; source order nullable for free grants; source type (`FREE`/`PURCHASE`/`ADMIN`); state (`ACTIVE`/`REVOKED`); granted timestamp | One active entitlement per user/course. A paid Combo creates one entitlement per contained course transactionally. Networking access is resolved as free; persisting it is optional but must not make it purchasable. |
 
 The exact Prisma names and database constraints must be verified against the current schema during implementation. A migration is mandatory and must be reviewed with generated client changes. Catalog and price data are created by a deterministic seed/config source; no CMS/admin API is included in Sprint 17.
@@ -142,7 +143,7 @@ Phase 2 adds `MidtransGateway`, one Dynamic QRIS per server-created order, priva
 
 ### Milestone 8 — Premium Course & Payment Activation
 
-**Goal:** Safely sell the first real premium learning content only when business, legal, product, and provider prerequisites are independently true.**
+**Goal:** Safely sell the first real premium learning content only when business, legal, product, and provider prerequisites are independently true.
 
 Entry gates:
 

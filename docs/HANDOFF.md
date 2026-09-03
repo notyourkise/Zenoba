@@ -1,6 +1,6 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-03 23:44 WITA**. This is a development snapshot, not a live status feed. Follow [AGENTS.md](../AGENTS.md), then verify Git, files, PRs, and checks before acting. Do not require the previous chat to understand this file.
+Last updated: **2026-09-03 23:58 WITA**. This is a development snapshot, not a live status feed. Follow [AGENTS.md](../AGENTS.md), then verify Git, files, PRs, and checks before acting. Do not require the previous chat to understand this file.
 
 ## 1. Product and active work
 
@@ -9,7 +9,7 @@ Last updated: **2026-09-03 23:44 WITA**. This is a development snapshot, not a l
 - Other navbar domains remain noninteractive **Soon** entries. Keep established English product terms; do not implement future domains without approved scope.
 - [ROADMAP.md](../ROADMAP.md) records Milestones 0–6 complete. **Milestone 7 is active**, Sprint 16 covers stabilization/feature refinement; Sprint 15 security/environment/deployment gates remain open.
 - Current phase is **feature development**, not deployment. Staging and production have not been deployed/verified. Configuration files and CI builds are not evidence of a live deployment.
-- Current planning task: Member Workspace & Course Commerce Foundation. The owner approved the architecture/design but no application implementation has started. The next agent must review the written spec, obtain/record owner approval of that document, then create the task-by-task implementation plan before code.
+- Current planning task: Member Workspace & Course Commerce Foundation. The owner approved the architecture/design and task-by-task plan, but no application implementation has started. The next agent must read the approved spec and execution plan, re-verify live state, then begin the plan only in a fresh isolated implementation worktree.
 
 ## 2. Git and delivery checkpoint
 
@@ -22,7 +22,7 @@ Verified on 2026-09-03:
 | Main / origin/main | `3a735da181339bd98b0c6218389b3d83debd67bf` (observed synchronized after PR #17 merge) |
 | Last feature PR | [#17 — profile dropdown menu, account modal, avatar upload, and flame streak](https://github.com/notyourkise/NetLoka/pull/17), merged; re-verify live PR/CI facts before relying on this snapshot |
 | Current planning branch/worktree | `codex/course-commerce-plan` at `C:/laragon/www/netloka/.worktrees/codex-course-commerce-plan`, based on `3a735da` |
-| Current task PR | None. Documentation is local and uncommitted at this checkpoint. |
+| Current task PR | None. Planning documentation has local commits on `codex/course-commerce-plan`; verify the current revision before relying on this snapshot. |
 
 Retained worktrees (not cleanup targets for this planning task):
 
@@ -84,7 +84,7 @@ Example flows to retrace before related changes:
 
 ### Current planning checkpoint
 
-- Owner-approved design: `docs/superpowers/specs/2026-09-03-member-workspace-course-commerce-design.md`. It defines the protected member workspace, hybrid lifetime catalog, course/package/order/entitlement boundaries, non-production sandbox lifecycle, locked public-UI boundary, Sprint 17 workstreams, and Milestone 8 activation gates.
+- Owner-approved design: `docs/superpowers/specs/2026-09-03-member-workspace-course-commerce-design.md` and task-by-task plan: `docs/superpowers/plans/2026-09-03-member-workspace-course-commerce.md`. They define the protected member workspace, hybrid lifetime catalog, course/package/order/entitlement boundaries, non-production sandbox lifecycle, locked public-UI boundary, Sprint 17 workstreams, task order, test gates, and Milestone 8 activation gates.
 - `ROADMAP.md` and `PLAN.md` now contain the planned Sprint 17 workstreams. This is planning, not implementation: no application source, Prisma migration, lockfile, CI configuration, credential, live payment, deployment, or PR has been created.
 - Isolated planning worktree was clean at creation and based on `3a735da`. `npm ci` could not complete because Windows reported `EPERM` while unlinking the checkout's `lightningcss` native binary. Therefore no fresh baseline test is claimed for this planning task. Investigate a clean dependency setup before an implementation agent uses test results as evidence.
 - Historical audit and application-test observations below are retained as history only. Rerun relevant checks on the actual implementation branch and never expose a development test server publicly.
@@ -110,7 +110,7 @@ Documentation nuance: ROADMAP keeps aggregate UI/final-readiness review open, wh
 ## 7. Resume here
 
 1. Verify live Git/worktree/PR/CI state and reconcile this snapshot before any change. Do not edit `main`, delete unrelated worktrees, or rely on the historical profile/auth results as fresh evidence.
-2. Review the approved commerce design and Sprint 17 section in `PLAN.md`. Ask Abangku to review the committed design document; after written-spec approval, create a detailed task-by-task implementation plan before code.
+2. Review the approved commerce design, task-by-task execution plan, and Sprint 17 section in `PLAN.md`. Do not expand the scope or begin Milestone 8 payment activation.
 3. Before implementation, resolve the `npm ci` file-lock blocker in a clean isolated workspace and establish fresh test evidence. If it recurs, report it rather than proceeding with unverified baseline assumptions.
-4. Start only the approved Sprint 17 scope on a dedicated worktree. Preserve public landing/auth UI exactly. Implement one workstream at a time with TDD and server-side authorization; use non-production fixtures only for sandbox payment.
+4. Start only the approved Sprint 17 scope on a dedicated implementation worktree. Preserve public landing/auth UI exactly. Implement one task at a time with TDD and server-side authorization; use non-production fixtures only for sandbox payment.
 5. Publish only after local review/verification. Use `gh` for PR and CI evidence; Abangku owns review and merge. After a confirmed merge, fast-forward main and perform only explicitly authorized, verified local cleanup.

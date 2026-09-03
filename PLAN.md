@@ -811,7 +811,7 @@ Seed:
 ## Sprint 17 — Member Workspace & Commerce Foundation 🗓️ PLANNED
 
 **Approved design:** `docs/superpowers/specs/2026-09-03-member-workspace-course-commerce-design.md`
-**Implementation status:** no code, schema, payment credential, or public UI change has started. The written design requires owner review before a task-by-task implementation plan is authored.
+**Implementation status:** no code, schema, payment credential, or public UI change has started. The owner approved the written design; the task-by-task execution plan is `docs/superpowers/plans/2026-09-03-member-workspace-course-commerce.md`.
 
 ### Scope and non-negotiable boundaries
 

@@ -40,6 +40,10 @@ All notable project changes are recorded here.
 
 # 2026-09-03
 
+- [2026-09-03 13:15 WITA] [DOCS] [Milestone 7 / Sprint 16 / Agent Workflow PR Handoff]
+  Prepared the user-requested pull request for agent workflow instructions, all-job CI verification gates, and handoff documentation on branch `codex/agent-workflow-handoff`. Rebased cleanly onto main commit `5f9903d` (PR #15). Verification: documentation review, links, and diff whitespace passed; all 5 CI jobs will be monitored via GitHub CLI. Delivery ready for repository owner review and merge.
+  Git: pending; branch `codex/agent-workflow-handoff`; base `main` verified at `5f9903d`
+
 - [2026-09-03 12:58 WITA] [DOCS] [Milestone 7 / Sprint 16 / Legal Pages PR Handoff]
   Prepared the owner-requested pull request for the Terms/Privacy feature only; unrelated agent-workflow documentation remains in its separate worktree. Fresh pre-commit verification passed ESLint, TypeScript, all 35 Vitest suites/163 tests, and the production build. Earlier 96/96 three-browser results and visual review apply to the same application code. The existing five-job GitHub Actions workflow will provide PR verification; CI results and the PR URL will be recorded in the GitHub handoff. No live OAuth, SMTP, migration, deployment, or legal-compliance claim is made. Human review and merge remain with the owner.
   Git: pending; branch `codex/auth-legal-pages`; base `main` verified at `33b7caa`

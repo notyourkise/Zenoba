@@ -18,19 +18,19 @@ Verified on 2026-09-03:
 | Item | Last verified state |
 | --- | --- |
 | Repository | [notyourkise/NetLoka](https://github.com/notyourkise/NetLoka) |
-| Main checkout | `C:/laragon/www/netloka`, branch `main`, clean at task start |
-| Main / origin/main | `33b7caa07fa2f930a0d9e259adbf1166836a252d` (local refs matched) |
-| Last feature PR | [#14 — feat(auth): add landing-page modal, Google readiness, and password recovery](https://github.com/notyourkise/NetLoka/pull/14) |
-| PR #14 state | `MERGED` into `main` by the user, 2026-09-03 12:06 WITA |
-| PR #14 head | `48df6c2e42fa8a1eaabf517f9003481c2dbf5380` |
-| PR #14 merge commit | `33b7caa07fa2f930a0d9e259adbf1166836a252d`; main was pulled after merge |
-| Current docs branch | `codex/agent-workflow-handoff`, based on that main commit |
-| Current docs worktree | `C:/laragon/www/netloka/.worktrees/codex-agent-workflow-handoff` |
-| Current docs delivery | Locally verified documentation edits; no commit, push, or PR yet. Awaiting user direction on publication. |
+| Main checkout | `C:/laragon/www/netloka`, branch `codex/agent-workflow-handoff` (switched per user instruction) |
+| Main / origin/main | `5f9903d0774a383bb37a544865882672b14be266` (local refs matched) |
+| Last feature PR | [#15 — feat: add Terms and Privacy Policy pages with auth modal links](https://github.com/notyourkise/NetLoka/pull/15) |
+| PR #15 state | `MERGED` into `main` by the user, 2026-09-03 13:00 WITA |
+| PR #15 head | `1325803797a3c8b8eee2cdd2cb09b38cc34792ee` |
+| PR #15 merge commit | `5f9903d0774a383bb37a544865882672b14be266`; main was pulled after merge |
+| Current docs branch | `codex/agent-workflow-handoff`, rebased onto `5f9903d` |
+| Current docs delivery | Prepared for PR via GitHub CLI per user request; awaiting CI and review |
 
 Retained worktrees (not cleanup targets for this documentation task):
 
-- `.worktrees/codex-auth-modal-password-reset` → branch `codex/auth-modal-password-reset`, last observed at `48df6c2`. PR merged, but the previous instruction only requested pulling main; cleanup remains unperformed. Recheck local changes and authorization before removing it.
+- `.worktrees/codex-auth-legal-pages` → branch `codex/auth-legal-pages`, last observed at `1325803`. PR #15 merged; cleanup unperformed.
+- `.worktrees/codex-auth-modal-password-reset` → branch `codex/auth-modal-password-reset`, last observed at `48df6c2`. PR #14 merged; cleanup unperformed.
 - `.worktrees/codex-fix-m0-sprint-0` → branch `docs/staging-progress`, last observed at `8460136`. Unrelated work; do not delete or repurpose it.
 
 Paths are local checkout hints, not portable requirements. Rediscover worktrees on another machine. After this docs PR eventually merges, do not resume this task merely because the snapshot still names its former branch.

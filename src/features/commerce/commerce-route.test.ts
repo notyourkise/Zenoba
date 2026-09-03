@@ -16,7 +16,7 @@ vi.mock("@/lib/db/client", () => ({
   },
 }));
 vi.mock("@/features/commerce/orders", async () => {
-  const actual = await vi.importActual<any>("@/features/commerce/orders");
+  const actual = await vi.importActual<Record<string, unknown>>("@/features/commerce/orders");
   return {
     ...actual,
     createPendingOrder: vi.fn(),
@@ -130,7 +130,7 @@ describe("commerce API routes", () => {
         id: "ord-1",
         reference: "ORD-123",
         userId: "user-other", // Different user
-      } as any);
+      } as never);
 
       const req = new Request("http://localhost:3000/api/commerce/orders/ORD-123");
       const res = await getOrderHandler(req, { params: Promise.resolve({ reference: "ORD-123" }) });
@@ -151,7 +151,7 @@ describe("commerce API routes", () => {
         currency: "IDR",
         package: { title: "MikroTik Package" },
         lines: [],
-      } as any);
+      } as never);
 
       const req = new Request("http://localhost:3000/api/commerce/orders/ORD-123");
       const res = await getOrderHandler(req, { params: Promise.resolve({ reference: "ORD-123" }) });

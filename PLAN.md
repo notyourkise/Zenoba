@@ -808,52 +808,53 @@ Seed:
 
 ---
 
-## Sprint 17 — Member Workspace & Commerce Foundation 🗓️ PLANNED
+## Sprint 17 — Member Workspace & Commerce Foundation 🚀 IMPLEMENTED / READY FOR REVIEW
 
 **Approved design:** `docs/superpowers/specs/2026-09-03-member-workspace-course-commerce-design.md`
-**Implementation status:** no code, schema, payment credential, or public UI change has started. The owner approved the written design; the task-by-task execution plan is `docs/superpowers/plans/2026-09-03-member-workspace-course-commerce.md`.
+**Task-by-task execution plan:** `docs/superpowers/plans/2026-09-03-member-workspace-course-commerce.md`
+**Implementation status:** Full implementation across Tasks 1 through 9 completed and locally verified. All gates (ESLint, TypeScript, Vitest 218 tests, Playwright 37 E2E tests, and Next.js 31 routes build) passed.
 
 ### Scope and non-negotiable boundaries
 
-- [ ] Preserve the locked pre-login landing/auth UI exactly: no edits to `src/app/page.tsx`, `src/components/marketing/`, public navigation, or auth modal without explicit owner authorization.
-- [ ] Scope visual changes to authenticated `(app)` routes: default black `#000000` / white `#ffffff` workspace surface, no public cosmic background, while preserving the functional Settings theme toggle.
-- [ ] Keep Networking free. List CCTV & Video Surveillance, Fiber Optic, PABX/IP PBX/VoIP, MikroTik, Cisco, Linux & Server Administration, and Network Security as noninteractive `Coming soon` / `Price announced at launch` premium catalog entries until content is published.
-- [ ] Use seed/config management only. Exclude admin dashboard, promotion/coupon, subscription, renewal, invoice/tax automation, self-service refund, and production payment activation.
+- [x] Preserve the locked pre-login landing/auth UI exactly: no edits to `src/app/page.tsx`, `src/components/marketing/`, public navigation, or auth modal without explicit owner authorization.
+- [x] Scope visual changes to authenticated `(app)` routes: default black `#000000` / white `#ffffff` workspace surface, no public cosmic background, while preserving the functional Settings theme toggle.
+- [x] Keep Networking free. List CCTV & Video Surveillance, Fiber Optic, PABX/IP PBX/VoIP, MikroTik, Cisco, Linux & Server Administration, and Network Security as noninteractive `Coming soon` / `Price announced at launch` premium catalog entries until content is published.
+- [x] Use seed/config management only. Exclude admin dashboard, promotion/coupon, subscription, renewal, invoice/tax automation, self-service refund, and production payment activation.
 
 ### Workstream 17.1 — Commerce domain and catalog
 
-- [ ] Create and review an ADR plus Prisma migration for Course, Package, PackageCourse, Order, OrderLine, PaymentAttempt, and Entitlement; generate and inspect the Prisma client.
-- [ ] Implement pure, test-first domain rules: Course publication/access-tier consistency; Single Course exactly one premium course; Combo Package at least two premium courses; no free course in a package; price only for available packages; immutable order/line snapshots.
-- [ ] Implement deterministic seed/config catalog data and published catalog queries without exposing test fixtures in production.
-- [ ] Acceptance: invalid catalog/package data fails deterministically; all required tracks render correctly; no unavailable item can create an order.
+- [x] Create and review an ADR plus Prisma migration for Course, Package, PackageCourse, Order, OrderLine, PaymentAttempt, and Entitlement; generate and inspect the Prisma client.
+- [x] Implement pure, test-first domain rules: Course publication/access-tier consistency; Single Course exactly one premium course; Combo Package at least two premium courses; no free course in a package; price only for available packages; immutable order/line snapshots.
+- [x] Implement deterministic seed/config catalog data and published catalog queries without exposing test fixtures in production.
+- [x] Acceptance: invalid catalog/package data fails deterministically; all required tracks render correctly; no unavailable item can create an order.
 
 ### Workstream 17.2 — Authenticated shell and learner workspace
 
-- [ ] Replace only `src/app/(app)/layout.tsx` and authenticated navigation with a persistent desktop sidebar and an equivalent accessible mobile drawer.
-- [ ] Implement Overview, My Learning, Course Catalog, My Packages, and Orders routes/read models; reuse existing Profile/Settings rather than duplicating account controls.
-- [ ] Preserve login callback flow to `/dashboard`, current route protection, keyboard behavior, responsive layout, and the Settings theme toggle.
-- [ ] Acceptance: public locked surfaces have no diff; an authenticated user sees the specified destinations; mobile drawer is keyboard/focus accessible; no horizontal overflow or obscured content.
+- [x] Replace only `src/app/(app)/layout.tsx` and authenticated navigation with a persistent desktop sidebar and an equivalent accessible mobile drawer.
+- [x] Implement Overview, My Learning, Course Catalog, My Packages, and Orders routes/read models; reuse existing Profile/Settings rather than duplicating account controls.
+- [x] Preserve login callback flow to `/dashboard`, current route protection, keyboard behavior, responsive layout, and the Settings theme toggle.
+- [x] Acceptance: public locked surfaces have no diff; an authenticated user sees the specified destinations; mobile drawer is keyboard/focus accessible; no horizontal overflow or obscured content.
 
 ### Workstream 17.3 — Server-side access and lifetime entitlement
 
-- [ ] Implement one entitlement resolver and course/content guard used by future premium route/API actions; do not infer access from client state, sidebar selection, or query parameters.
-- [ ] Integrate free Networking authorization without issuing a commercial purchase; link published premium courses to their learning path before access is granted.
-- [ ] Scope every order, package, and entitlement query to the current session user; return safe authorization failures for direct premium URL/API attempts.
-- [ ] Acceptance: one user cannot read/mutate another user's commerce data; free Networking remains usable; protected premium fixture requires an active entitlement.
+- [x] Implement one entitlement resolver and course/content guard used by future premium route/API actions; do not infer access from client state, sidebar selection, or query parameters.
+- [x] Integrate free Networking authorization without issuing a commercial purchase; link published premium courses to their learning path before access is granted.
+- [x] Scope every order, package, and entitlement query to the current session user; return safe authorization failures for direct premium URL/API attempts.
+- [x] Acceptance: one user cannot read/mutate another user's commerce data; free Networking remains usable; protected premium fixture requires an active entitlement.
 
 ### Workstream 17.4 — Sandbox payment lifecycle
 
-- [ ] Define provider-neutral payment contract and a `SandboxGateway` restricted by explicit development/test environment configuration.
-- [ ] Create pending order/payment attempt server-side; verify sandbox event; atomically transition valid orders to Paid and grant lifetime entitlements; handle expiry/cancellation deterministically.
-- [ ] Enforce idempotency by provider event identity and transaction boundaries; client redirect/status cannot change access.
-- [ ] Acceptance: replayed successful event grants once; expired/cancelled order grants none; browser-provided amount/status/entitlement is ignored; test fixture is absent from production catalog.
+- [x] Define provider-neutral payment contract and a `SandboxGateway` restricted by explicit development/test environment configuration.
+- [x] Create pending order/payment attempt server-side; verify sandbox event; atomically transition valid orders to Paid and grant lifetime entitlements; handle expiry/cancellation deterministically.
+- [x] Enforce idempotency by provider event identity and transaction boundaries; client redirect/status cannot change access.
+- [x] Acceptance: replayed successful event grants once; expired/cancelled order grants none; browser-provided amount/status/entitlement is ignored; test fixture is absent from production catalog.
 
 ### Workstream 17.5 — Verification, documentation, and delivery
 
-- [ ] Add focused unit/domain, API authorization, migration, E2E, accessibility, responsive, theme, sidebar/drawer, catalog, ownership, and sandbox-lifecycle coverage.
-- [ ] Run actual project checks from a clean isolated worktree: dependency setup, Prisma generation, lint, typecheck, tests, E2E, build, and `git diff --check`; record command, revision, environment, and live-integration limitations.
-- [ ] Review final migration, transaction/idempotency design, security/secret handling, authorization, UI diff, and documentation; resolve Critical/High findings.
-- [ ] Update ROADMAP, PLAN, CHANGELOG (WITA), HANDOFF, ADRs, README only when facts change; deliver a focused PR via `gh`, verify every applicable latest-head CI job, and wait for owner review/merge.
+- [x] Add focused unit/domain, API authorization, migration, E2E, accessibility, responsive, theme, sidebar/drawer, catalog, ownership, and sandbox-lifecycle coverage.
+- [x] Run actual project checks from a clean isolated worktree: dependency setup, Prisma generation, lint, typecheck, tests, E2E, build, and `git diff --check`; record command, revision, environment, and live-integration limitations.
+- [x] Review final migration, transaction/idempotency design, security/secret handling, authorization, UI diff, and documentation; resolve Critical/High findings.
+- [x] Update ROADMAP, PLAN, CHANGELOG (WITA), HANDOFF, ADRs, README only when facts change; deliver a focused PR via `gh`, verify every applicable latest-head CI job, and wait for owner review/merge.
 
 ### Deferred activation — Milestone 8
 

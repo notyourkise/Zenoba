@@ -23,7 +23,7 @@ describe("entitlements", () => {
 
       const access = await resolveCourseAccess(
         { userId: "user-1", courseId: "c-free" },
-        mockPrisma as any,
+        mockPrisma as never,
       );
       expect(access).toBe("FREE");
       expect(mockPrisma.entitlement.findUnique).not.toHaveBeenCalled();
@@ -46,7 +46,7 @@ describe("entitlements", () => {
 
       const access = await resolveCourseAccess(
         { userId: "user-1", courseId: "c-prem" },
-        mockPrisma as any,
+        mockPrisma as never,
       );
       expect(access).toBe("ENTITLED");
     });
@@ -66,7 +66,7 @@ describe("entitlements", () => {
 
       const access = await resolveCourseAccess(
         { userId: "user-1", courseId: "c-prem" },
-        mockPrisma as any,
+        mockPrisma as never,
       );
       expect(access).toBe("DENIED");
     });
@@ -95,7 +95,7 @@ describe("entitlements", () => {
         },
       };
 
-      const learning = await getMyLearning("user-1", mockPrisma as any);
+      const learning = await getMyLearning("user-1", mockPrisma as never);
       expect(learning.courses).toHaveLength(2);
       expect(learning.courses.map((c) => c.slug)).toEqual(["networking", "mikrotik"]);
     });
@@ -111,7 +111,7 @@ describe("entitlements", () => {
           }),
         },
       };
-      await getMyPackages("user-1", mockPrisma as any);
+      await getMyPackages("user-1", mockPrisma as never);
       expect(mockPrisma.entitlement.findMany).toHaveBeenCalled();
     });
 
@@ -124,7 +124,7 @@ describe("entitlements", () => {
           }),
         },
       };
-      await getMyOrders("user-1", mockPrisma as any);
+      await getMyOrders("user-1", mockPrisma as never);
       expect(mockPrisma.order.findMany).toHaveBeenCalled();
     });
   });

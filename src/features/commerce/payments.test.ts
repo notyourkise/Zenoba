@@ -4,7 +4,7 @@ import { recordVerifiedPaymentEvent } from "./payments";
 describe("payments", () => {
   describe("recordVerifiedPaymentEvent", () => {
     it("transitions PENDING order to PAID and grants entitlements for all courses in package", async () => {
-      let createdEntitlements: any[] = [];
+      const createdEntitlements: unknown[] = [];
       const mockOrder = {
         id: "ord-1",
         reference: "ORD-TEST-123",
@@ -55,7 +55,7 @@ describe("payments", () => {
           orderReference: "ORD-TEST-123",
           status: "SUCCESS",
         },
-        mockPrisma as any,
+        mockPrisma as never,
       );
 
       expect(result.processed).toBe(true);
@@ -83,7 +83,7 @@ describe("payments", () => {
           orderReference: "ORD-TEST-123",
           status: "SUCCESS",
         },
-        mockPrisma as any,
+        mockPrisma as never,
       );
 
       expect(result.processed).toBe(false);
@@ -116,7 +116,7 @@ describe("payments", () => {
           orderReference: "ORD-TEST-123",
           status: "SUCCESS",
         },
-        mockPrisma as any,
+        mockPrisma as never,
       );
 
       expect(result.processed).toBe(false);

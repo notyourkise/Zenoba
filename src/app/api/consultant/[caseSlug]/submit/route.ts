@@ -4,7 +4,7 @@ import { evaluateConsultantProject, ConsultantCaseRequirements } from "@/feature
 import { awardXp } from "@/features/xp/ledger";
 import { prisma } from "@/lib/db/client";
 
-export const CONSULTANT_CASES_MAP: Record<string, ConsultantCaseRequirements> = {
+const CONSULTANT_CASES_MAP: Record<string, ConsultantCaseRequirements> = {
   "small-office-notaris": {
     clientName: "Kantor Notaris & PPAT H. Suryadi, S.H.",
     clientType: "small-office",

@@ -38,6 +38,25 @@ All notable project changes are recorded here.
 
 ---
 
+# 2026-09-04
+
+- [2026-09-04 01:26 WITA] [ADDED] [Milestone 7 / Sprint 17 / Member Workspace & Course Commerce Foundation]
+  Implemented full Member Workspace and Course Commerce Foundation across Tasks 1 through 9:
+  1. ADR 0004 & pure catalog rules (`catalog-rules.ts`, `types.ts`, `catalog-rules.test.ts`).
+  2. Prisma persistence models (`Course`, `Package`, `PackageCourse`, `Order`, `OrderLine`, `PaymentAttempt`, `PaymentEvent`, `Entitlement`) and deterministic catalog seed (`commerce-seed.ts`, `catalog-seed.test.ts`).
+  3. Authoritative catalog, entitlement, and owner-isolated read models (`catalog.ts`, `entitlements.ts`, `access.ts`, matching tests).
+  4. Server-authoritative order creation and idempotent payment event state machine (`orders.ts`, `payments.ts`, `sandbox-gateway.ts`, matching tests).
+  5. Protected commerce API routes (`/api/commerce/orders`, `/api/commerce/orders/[reference]`, `/api/commerce/sandbox/events`) with fail-closed production protection.
+  6. Authenticated learner workspace shell (`LearnerWorkspaceShell`, `LearnerSidebar`, `LearnerMobileDrawer`) with high-contrast UI, theme preference enablement, and overlay modal routes (`/profile`, `/settings`).
+  7. Member workspace routes with passive catalog (`/dashboard`, `/my-learning`, `/catalog`, `/my-packages`, `/orders`) without decorative icons or active checkout affordances for coming-soon courses.
+  8. Server-side entitlement guards on learning path queries and progress mutations (`queries.ts`, `progress.ts`, `/api/learning/progress`).
+  9. Comprehensive Playwright E2E coverage (`src/e2e/member-workspace.spec.ts`), ESLint clean (0 errors, 0 warnings), typecheck clean (0 errors), Vitest 218 tests passing (46 suites), Next.js production build passing across 31 static and dynamic routes.
+  Validation: `npm run lint`, `npm run typecheck`, `npm test` (218 passed), `npm run build` (31 routes compiled successfully), `npm run test:e2e -- --project=chromium` (37 passed).
+  Files/areas: `docs/decisions/0004-member-workspace-course-commerce.md`, `prisma/schema.prisma`, `prisma/commerce-seed.ts`, `src/features/commerce/`, `src/components/navigation/`, `src/app/(app)/`, `src/e2e/member-workspace.spec.ts`.
+  Git: branch `codex/course-commerce-plan`, base `3a735da`
+
+---
+
 # 2026-09-03
 
 - [2026-09-03 23:59 WITA] [DOCS] [Milestone 7 / Sprint 17 / Member Workspace & Course Commerce Foundation]

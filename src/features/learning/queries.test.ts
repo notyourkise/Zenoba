@@ -192,6 +192,7 @@ describe("Learning Queries", () => {
           id: "c-cctv",
           accessTier: "PREMIUM",
         },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any);
 
       vi.mocked(prisma.entitlement.findUnique).mockResolvedValueOnce(null);

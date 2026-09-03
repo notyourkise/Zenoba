@@ -53,7 +53,7 @@ describe("getCatalogForLearner", () => {
       },
     };
 
-    const catalog = await getCatalogForLearner("user-1", mockPrisma as any);
+    const catalog = await getCatalogForLearner("user-1", mockPrisma as never);
 
     expect(catalog.courses).toHaveLength(2);
     const freeCourse = catalog.courses.find((c) => c.slug === "networking");

@@ -217,7 +217,7 @@ export const INITIAL_PACKAGES: SeedPackageDef[] = [
 
 export async function seedCommerceCatalog(prisma: PrismaClient): Promise<void> {
   // 1. Seed Courses with rule validation
-  const seededCoursesBySlug = new Map<string, any>();
+  const seededCoursesBySlug = new Map<string, { id: string }>();
 
   for (const courseDef of INITIAL_COURSES) {
     validateCourseAvailability({
@@ -253,7 +253,12 @@ export async function seedCommerceCatalog(prisma: PrismaClient): Promise<void> {
 
   // Link networking course to existing Network Foundations path if present
   try {
-    const networkingPath = await (prisma as any).learningPath?.findUnique?.({
+    const prismaWithPaths = prisma as unknown as {
+      learningPath?: {
+        findUnique?: (args: { where: { slug: string } }) => Promise<{ id: string } | null>;
+      };
+    };
+    const networkingPath = await prismaWithPaths.learningPath?.findUnique?.({
       where: { slug: "network-foundations" },
     });
     if (networkingPath) {

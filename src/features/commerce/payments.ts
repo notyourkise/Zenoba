@@ -99,7 +99,7 @@ export async function recordVerifiedPaymentEvent(
           providerEventId: input.providerEventId,
           eventType: input.status,
           processedAt: now,
-          payloadSummary: (input.rawPayload as any) || undefined,
+          payloadSummary: (input.rawPayload as object) || undefined,
         },
       });
     }

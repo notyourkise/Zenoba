@@ -20,7 +20,7 @@ describe("requireLearningPathAccess", () => {
     await expect(
       requireLearningPathAccess(
         { userId: "user-1", pathSlug: "network-foundations" },
-        mockPrisma as any,
+        mockPrisma as never,
       ),
     ).resolves.toBeUndefined();
   });
@@ -39,7 +39,7 @@ describe("requireLearningPathAccess", () => {
     await expect(
       requireLearningPathAccess(
         { userId: "user-1", pathSlug: "ip-addressing" },
-        mockPrisma as any,
+        mockPrisma as never,
       ),
     ).resolves.toBeUndefined();
   });
@@ -68,7 +68,7 @@ describe("requireLearningPathAccess", () => {
     await expect(
       requireLearningPathAccess(
         { userId: "user-1", pathSlug: "cctv-course" },
-        mockPrisma as any,
+        mockPrisma as never,
       ),
     ).resolves.toBeUndefined();
   });
@@ -94,7 +94,7 @@ describe("requireLearningPathAccess", () => {
     await expect(
       requireLearningPathAccess(
         { userId: "user-1", pathSlug: "cctv-course" },
-        mockPrisma as any,
+        mockPrisma as never,
       ),
     ).rejects.toMatchObject({
       code: "COURSE_ACCESS_DENIED",

@@ -58,7 +58,7 @@ describe("catalog-seed", () => {
       },
     };
 
-    await seedCommerceCatalog(mockPrisma as any);
+    await seedCommerceCatalog(mockPrisma as never);
 
     expect(mockPrisma.course.upsert).toHaveBeenCalledTimes(INITIAL_COURSES.length);
     expect(mockPrisma.package.upsert).toHaveBeenCalledTimes(INITIAL_PACKAGES.length);

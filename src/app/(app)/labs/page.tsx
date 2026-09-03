@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Award, ArrowRight, Shield, Network, Terminal, Activity } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth";
 
-export const INITIAL_LABS = [
+const INITIAL_LABS = [
   {
     slug: "subnetting-calculator",
     title: "1. Subnetting & CIDR Calculation Lab",

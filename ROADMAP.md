@@ -461,9 +461,9 @@ Deliverables:
 - responsive, accessibility, regression, and final-diff review for the active UI work ⏳
 - staging validation before production launch ⏳
 
-### Sprint 17 — Member Workspace & Commerce Foundation 🗓️ PLANNED
+### Sprint 17 — Member Workspace & Commerce Foundation 🚀 IMPLEMENTED / READY FOR REVIEW
 
-**Goal:** Make the post-login experience a distinct learner workspace and establish a server-authoritative course catalog, package, order, sandbox payment, and lifetime-entitlement foundation. This sprint is planning-approved but not yet implemented. It does not activate live payments or change the locked public landing/auth experience.
+**Goal:** Make the post-login experience a distinct learner workspace and establish a server-authoritative course catalog, package, order, sandbox payment, and lifetime-entitlement foundation. This sprint is fully implemented and locally verified across all 9 tasks. It does not activate live payments or change the locked public landing/auth experience.
 
 Deliverables:
 

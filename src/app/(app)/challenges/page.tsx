@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Bug, ArrowRight, ShieldAlert, WifiOff, Network, Server } from "lucide-react";
 import { SupportChallengePlayer } from "@/features/challenges/components/support-challenge-player";
 
-export const REAL_WORLD_CHALLENGES = [
+const REAL_WORLD_CHALLENGES = [
   {
     slug: "branch-office-down",
     title: "1. Kantor Cabang Offline Total",

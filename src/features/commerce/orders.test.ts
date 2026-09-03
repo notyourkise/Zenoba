@@ -50,7 +50,7 @@ describe("orders", () => {
 
       const result = await createPendingOrder(
         { userId: "user-1", packageSlug: "mikrotik-available" },
-        mockPrisma as any,
+        mockPrisma as never,
       );
 
       expect(result.state).toBe("PENDING");
@@ -74,7 +74,7 @@ describe("orders", () => {
       await expect(
         createPendingOrder(
           { userId: "user-1", packageSlug: "cctv-course" },
-          mockPrisma as any,
+          mockPrisma as never,
         ),
       ).rejects.toThrow(/Package is not available for purchase/i);
     });
@@ -89,7 +89,7 @@ describe("orders", () => {
       await expect(
         createPendingOrder(
           { userId: "user-1", packageSlug: "unknown-package" },
-          mockPrisma as any,
+          mockPrisma as never,
         ),
       ).rejects.toThrow(/Package not found/i);
     });

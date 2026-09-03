@@ -29,11 +29,6 @@ export function LearnerMobileDrawer({
   const [isOpen, setIsOpen] = React.useState(false);
   const pathname = usePathname();
 
-  // Close drawer on path change
-  React.useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
-
   // Prevent body scroll when drawer is open
   React.useEffect(() => {
     if (isOpen) {

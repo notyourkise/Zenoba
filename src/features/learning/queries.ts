@@ -9,10 +9,7 @@ import {
   LessonWithStatus,
   ModuleWithLessons,
 } from "./types";
-import {
-  requireLearningPathAccess,
-  CourseAccessDeniedError,
-} from "@/features/commerce/access";
+import { CourseAccessDeniedError } from "@/features/commerce/access";
 
 /**
  * Get all published learning paths with user progress.

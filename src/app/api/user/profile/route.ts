@@ -16,10 +16,33 @@ const profileUpdateSchema = z
       .max(2000000, "Ukuran gambar terlalu besar")
       .nullable()
       .optional(),
+    headline: z
+      .string()
+      .max(120, "Headline maksimal 120 karakter")
+      .trim()
+      .optional(),
+    streakCount: z
+      .number()
+      .int()
+      .min(0)
+      .optional(),
+    lastStreakDate: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/, "Format tanggal tidak valid")
+      .nullable()
+      .optional(),
   })
-  .refine((data) => data.name !== undefined || data.image !== undefined, {
-    message: "Setidaknya nama atau foto profil harus diisi",
-  });
+  .refine(
+    (data) =>
+      data.name !== undefined ||
+      data.image !== undefined ||
+      data.headline !== undefined ||
+      data.streakCount !== undefined ||
+      data.lastStreakDate !== undefined,
+    {
+      message: "Setidaknya satu field harus diisi",
+    }
+  );
 
 export async function POST(request: Request) {
   try {
@@ -40,12 +63,27 @@ export async function POST(request: Request) {
       );
     }
 
-    const updateData: { name?: string; image?: string | null } = {};
+    const updateData: {
+      name?: string;
+      image?: string | null;
+      headline?: string;
+      streakCount?: number;
+      lastStreakDate?: string | null;
+    } = {};
     if (result.data.name !== undefined) {
       updateData.name = result.data.name;
     }
     if (result.data.image !== undefined) {
       updateData.image = result.data.image;
+    }
+    if (result.data.headline !== undefined) {
+      updateData.headline = result.data.headline;
+    }
+    if (result.data.streakCount !== undefined) {
+      updateData.streakCount = result.data.streakCount;
+    }
+    if (result.data.lastStreakDate !== undefined) {
+      updateData.lastStreakDate = result.data.lastStreakDate;
     }
 
     // Update allowed fields only (never mutate role, emailVerified, or id from client)
@@ -58,6 +96,9 @@ export async function POST(request: Request) {
         email: true,
         role: true,
         image: true,
+        headline: true,
+        streakCount: true,
+        lastStreakDate: true,
         updatedAt: true,
       },
     });
@@ -91,6 +132,9 @@ export async function GET() {
         email: true,
         emailVerified: true,
         image: true,
+        headline: true,
+        streakCount: true,
+        lastStreakDate: true,
         role: true,
         createdAt: true,
         updatedAt: true,

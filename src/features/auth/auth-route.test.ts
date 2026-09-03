@@ -63,6 +63,9 @@ describe("POST /api/auth/register", () => {
       role: "LEARNER",
       createdAt: new Date(),
       updatedAt: new Date(),
+      headline: null,
+      streakCount: 1,
+      lastStreakDate: null,
     });
 
     const req = new Request("http://localhost:3000/api/auth/register", {

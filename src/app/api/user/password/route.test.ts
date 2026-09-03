@@ -95,6 +95,9 @@ describe("POST /api/user/password", () => {
       updatedAt: new Date(),
       emailVerified: null,
       image: null,
+      headline: null,
+      streakCount: 1,
+      lastStreakDate: null,
     });
 
     const request = new Request("http://localhost:3000/api/user/password", {

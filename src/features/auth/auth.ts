@@ -54,6 +54,10 @@ export function buildAuthProviders(
           email: user.email,
           name: user.name,
           role: user.role,
+          image: user.image,
+          headline: user.headline,
+          streakCount: user.streakCount,
+          lastStreakDate: user.lastStreakDate,
         };
       },
     }),
@@ -86,6 +90,10 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        token.picture = user.image;
+        token.headline = user.headline;
+        token.streakCount = user.streakCount;
+        token.lastStreakDate = user.lastStreakDate;
       }
       return token;
     },
@@ -93,6 +101,12 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
+        session.user.headline = token.headline as string | null;
+        session.user.streakCount = typeof token.streakCount === "number" ? token.streakCount : 1;
+        session.user.lastStreakDate = token.lastStreakDate as string | null;
+        if (token.picture) {
+          session.user.image = token.picture as string;
+        }
       }
       return session;
     },

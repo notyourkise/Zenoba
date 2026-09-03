@@ -36,6 +36,9 @@ interface AppHeaderProps {
     email?: string | null;
     role?: string | null;
     image?: string | null;
+    headline?: string | null;
+    streakCount?: number;
+    lastStreakDate?: string | null;
   } | null;
 }
 

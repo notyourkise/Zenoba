@@ -174,6 +174,17 @@ describe("AppHeader profile dropdown", () => {
     expect(screen.getByRole("dialog", { name: "Modal Akun" })).toBeVisible();
     expect(screen.getByText("Profil Pengguna")).toBeVisible();
 
+    // Verify editable headline displays Developer for dev user and no streak text
+    expect(screen.getByText("Developer")).toBeVisible();
+    expect(screen.queryByText(/1 Hari Streak/i)).not.toBeInTheDocument();
+
+    // Verify flame button exists and can be clicked to claim
+    const flameButton = screen.getByRole("button", { name: /Klaim api harian/i });
+    expect(flameButton).toBeVisible();
+    expect(flameButton).toHaveTextContent("🔥");
+    fireEvent.click(flameButton);
+    expect(flameButton).toBeDisabled();
+
     // Switch to Pengaturan tab inside modal
     fireEvent.click(screen.getByRole("button", { name: "Pengaturan" }));
     expect(screen.getByText("Pengaturan Akun & Preferensi")).toBeVisible();

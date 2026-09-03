@@ -20,7 +20,36 @@ interface AccountModalProps {
     email?: string | null;
     role?: string | null;
     image?: string | null;
+    headline?: string | null;
+    streakCount?: number;
+    lastStreakDate?: string | null;
   } | null;
+}
+
+function getDeviceLocalDate(): string {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function getYesterdayDeviceDate(): string {
+  const d = new Date();
+  d.setDate(d.getDate() - 1);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function getTimeUntilMidnight(): { hours: number; minutes: number } {
+  const now = new Date();
+  const tomorrowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+  const diffMs = Math.max(0, tomorrowMidnight.getTime() - now.getTime());
+  const hours = Math.floor(diffMs / (1000 * 60 * 60));
+  const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+  return { hours, minutes };
 }
 
 export function AccountModal({
@@ -34,6 +63,103 @@ export function AccountModal({
   const [avatar, setAvatar] = React.useState<string | null>(user?.image || null);
   const [uploading, setUploading] = React.useState(false);
   const [uploadError, setUploadError] = React.useState<string | null>(null);
+
+  // Headline state & handlers
+  const initialHeadline =
+    user?.headline ||
+    (user?.role === "ADMIN" || user?.email === "dev@netloka.biz.id"
+      ? "Developer"
+      : "Siswa SMK TKJ - IT Infrastructure");
+  const [headline, setHeadline] = React.useState(initialHeadline);
+  const [isEditingHeadline, setIsEditingHeadline] = React.useState(false);
+  const [headlineInput, setHeadlineInput] = React.useState(initialHeadline);
+  const [headlineSaving, setHeadlineSaving] = React.useState(false);
+  const [headlineError, setHeadlineError] = React.useState<string | null>(null);
+
+  // Flame (Api) state
+  const [flameData, setFlameData] = React.useState<{ count: number; lastClaimDate: string | null }>(() => {
+    const today = getDeviceLocalDate();
+    const yesterday = getYesterdayDeviceDate();
+    if (typeof window === "undefined") {
+      return { count: user?.streakCount ?? 1, lastClaimDate: user?.lastStreakDate ?? null };
+    }
+    try {
+      const saved = localStorage.getItem("netloka_flame_streak");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const count = typeof parsed.count === "number" ? parsed.count : 1;
+        const lastDate = parsed.lastClaimDate || null;
+        if (lastDate && lastDate !== today && lastDate !== yesterday) {
+          return { count: 0, lastClaimDate: lastDate };
+        }
+        return { count, lastClaimDate: lastDate };
+      }
+    } catch {}
+    const serverCount = user?.streakCount ?? 1;
+    const serverDate = user?.lastStreakDate ?? null;
+    if (serverDate && serverDate !== today && serverDate !== yesterday) {
+      return { count: 0, lastClaimDate: serverDate };
+    }
+    return { count: serverCount, lastClaimDate: serverDate };
+  });
+
+  const [midnightCountdown, setMidnightCountdown] = React.useState(getTimeUntilMidnight());
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setMidnightCountdown(getTimeUntilMidnight());
+    }, 15000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleSaveHeadline = async () => {
+    const trimmed = headlineInput.trim();
+    if (!trimmed) return;
+    setHeadlineSaving(true);
+    setHeadlineError(null);
+    try {
+      const res = await fetch("/api/user/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ headline: trimmed }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Gagal memperbarui status");
+      setHeadline(trimmed);
+      setIsEditingHeadline(false);
+      router.refresh();
+    } catch (err) {
+      setHeadlineError(err instanceof Error ? err.message : "Gagal menyimpan");
+    } finally {
+      setHeadlineSaving(false);
+    }
+  };
+
+  const handleClaimFlame = async () => {
+    const today = getDeviceLocalDate();
+    if (flameData.lastClaimDate === today) return;
+
+    const yesterday = getYesterdayDeviceDate();
+    const isConsecutive = flameData.lastClaimDate === yesterday;
+    const nextCount = isConsecutive
+      ? flameData.count + 1
+      : (flameData.count > 0 && !flameData.lastClaimDate ? flameData.count + 1 : 1);
+
+    const updated = { count: nextCount, lastClaimDate: today };
+    setFlameData(updated);
+
+    try {
+      localStorage.setItem("netloka_flame_streak", JSON.stringify(updated));
+      await fetch("/api/user/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ streakCount: nextCount, lastStreakDate: today }),
+      });
+      router.refresh();
+    } catch {
+      // Local state remains updated
+    }
+  };
 
   // CLI Preferences state
   const [cliPrompt, setCliPrompt] = React.useState(() => {
@@ -262,6 +388,7 @@ export function AccountModal({
     : "NL";
 
   const memberCode = user.id ? `#NL-${user.id.slice(-4).toUpperCase()}` : "#NL-TKJ";
+  const hasClaimedToday = flameData.lastClaimDate === getDeviceLocalDate();
 
   return (
     <div
@@ -374,14 +501,59 @@ export function AccountModal({
                     <p className="truncate text-xs text-gray-500 dark:text-slate-400">
                       {user.email}
                     </p>
-                    <div className="flex items-center gap-2 pt-0.5">
+                    <div className="flex items-center gap-2 pt-0.5 flex-wrap">
                       <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-semibold text-blue-700 dark:bg-blue-950/60 dark:text-blue-300">
                         {user.role || "LEARNER"}
                       </span>
-                      <span className="text-[11px] text-gray-500 dark:text-slate-400">
-                        Siswa SMK TKJ - IT Infrastructure
-                      </span>
+                      {!isEditingHeadline ? (
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[11px] font-medium text-gray-600 dark:text-slate-300">
+                            {headline}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setHeadlineInput(headline);
+                              setIsEditingHeadline(true);
+                            }}
+                            className="text-[10px] font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 hover:underline cursor-pointer"
+                          >
+                            Ubah
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-1.5">
+                          <input
+                            type="text"
+                            value={headlineInput}
+                            onChange={(e) => setHeadlineInput(e.target.value)}
+                            maxLength={100}
+                            placeholder="Contoh: Developer"
+                            className="h-6 px-2 text-[11px] rounded border border-gray-300 dark:border-white/20 bg-white dark:bg-white/[0.04] text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500"
+                          />
+                          <button
+                            type="button"
+                            disabled={headlineSaving}
+                            onClick={handleSaveHeadline}
+                            className="h-6 px-2 rounded bg-blue-600 text-white text-[10px] font-semibold hover:bg-blue-700 transition disabled:opacity-50 cursor-pointer"
+                          >
+                            {headlineSaving ? "..." : "Simpan"}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setIsEditingHeadline(false)}
+                            className="h-6 px-1.5 text-[10px] text-gray-500 hover:text-gray-700 dark:text-slate-400 dark:hover:text-white cursor-pointer"
+                          >
+                            Batal
+                          </button>
+                        </div>
+                      )}
                     </div>
+                    {headlineError && (
+                      <p className="text-[10px] text-rose-600 dark:text-rose-400">
+                        {headlineError}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -437,9 +609,43 @@ export function AccountModal({
                       Cable Puller (Beginner)
                     </h4>
                   </div>
-                  <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2.5 py-1 text-xs font-semibold text-amber-600 dark:text-amber-400 border border-amber-500/20">
-                    1 Hari Streak
-                  </span>
+                  {/* Flame Button (Api) - 1x per hari, reset 00:00 waktu device */}
+                  <div className="flex flex-col items-end gap-1">
+                    <button
+                      type="button"
+                      aria-label="Klaim api harian"
+                      onClick={handleClaimFlame}
+                      disabled={hasClaimedToday}
+                      title={
+                        hasClaimedToday
+                          ? `Sudah diklaim hari ini. Reset pukul 00:00 (${midnightCountdown.hours}j ${midnightCountdown.minutes}m)`
+                          : "Klik untuk klaim api harian (+1)"
+                      }
+                      className={cn(
+                        "group inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold transition-all select-none cursor-pointer",
+                        hasClaimedToday
+                          ? "bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 opacity-90 cursor-default"
+                          : "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md shadow-orange-500/25 hover:from-amber-600 hover:to-orange-600 hover:scale-105 active:scale-95 animate-pulse",
+                      )}
+                    >
+                      <span className="text-sm transition-transform group-hover:scale-125">
+                        🔥
+                      </span>
+                      <span className="font-extrabold text-sm">
+                        {flameData.count}
+                      </span>
+                      {!hasClaimedToday && (
+                        <span className="rounded bg-white/25 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider">
+                          Klaim
+                        </span>
+                      )}
+                    </button>
+                    <span className="text-[10px] text-gray-400 dark:text-slate-500">
+                      {hasClaimedToday
+                        ? `Reset 00:00 (${midnightCountdown.hours}j ${midnightCountdown.minutes}m)`
+                        : "Klik api untuk klaim (1x sehari)"}
+                    </span>
+                  </div>
                 </div>
 
                 <div>
@@ -705,10 +911,10 @@ export function AccountModal({
                 <div className="flex items-center justify-between pt-2 border-t border-gray-200/60 dark:border-white/5">
                   <div>
                     <p className="text-xs font-semibold text-gray-900 dark:text-white">
-                      Pengingat Streak Harian
+                      Pengingat Api Harian
                     </p>
                     <p className="text-[11px] text-gray-500 dark:text-slate-400">
-                      Notifikasi pengingat belajar agar streak harian Anda tidak hilang.
+                      Notifikasi pengingat belajar agar api konsistensi harian Anda tetap menyala.
                     </p>
                   </div>
                   <button

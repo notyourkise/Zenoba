@@ -5,9 +5,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { cn } from "@/lib/utils";
-import { Menu, X, User, LogOut } from "lucide-react";
+import { Menu, X, User, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SlidingButtonLabel } from "@/components/ui/sliding-button-label";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+} from "@/components/ui/dropdown-menu";
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -344,31 +352,65 @@ export function AppHeader({ user }: AppHeaderProps) {
             <div className="flex items-center justify-end flex-1 gap-4 sm:gap-5">
               {user ? (
                 <div className="flex items-center gap-3">
-                  <Link
-                    href="/profile"
-                    className="flex items-center gap-2.5 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                    title="Profile"
-                  >
-                    <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">
-                      {user.name ? (
-                        user.name.slice(0, 2).toUpperCase()
-                      ) : (
-                        <User className="w-4 h-4" />
-                      )}
-                    </div>
-                    <span className="hidden lg:inline text-xs font-medium text-gray-700 dark:text-gray-300 max-w-[120px] truncate">
-                      {user.name || user.email}
-                    </span>
-                  </Link>
-
-                  <button
-                    onClick={() => signOut({ callbackUrl: "/?auth=sign-in" })}
-                    className="p-2 rounded-lg text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:text-rose-400 dark:hover:text-rose-300 dark:hover:bg-rose-950/40 transition-colors"
-                    title="Keluar"
-                    aria-label="Keluar"
-                  >
-                    <LogOut className="w-4 h-4" />
-                  </button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button
+                        type="button"
+                        className="flex items-center gap-2 p-1.5 pl-2 rounded-xl border border-transparent hover:border-gray-200 dark:hover:border-white/15 hover:bg-gray-100 dark:hover:bg-white/[0.06] transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                        aria-label="Menu akun"
+                      >
+                        <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-sm ring-2 ring-blue-500/20">
+                          {user.name ? (
+                            user.name.slice(0, 2).toUpperCase()
+                          ) : (
+                            <User className="w-4 h-4" />
+                          )}
+                        </div>
+                        <span className="hidden sm:inline text-xs font-semibold text-gray-700 dark:text-gray-200 max-w-[120px] truncate">
+                          {user.name || user.email?.split("@")[0]}
+                        </span>
+                        <ChevronDown className="w-3.5 h-3.5 text-gray-500 dark:text-slate-400 transition-transform duration-200" />
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-56">
+                      <div className="px-2.5 py-2">
+                        <p className="text-xs font-semibold text-gray-900 dark:text-white truncate">
+                          {user.name || "Akun Netloka"}
+                        </p>
+                        <p className="text-[11px] text-gray-500 dark:text-slate-400 truncate">
+                          {user.email}
+                        </p>
+                      </div>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <Link href="/profile" className="flex items-center justify-between">
+                          <span>Profile</span>
+                          <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/profile#settings" className="flex items-center justify-between">
+                          <span>Pengaturan</span>
+                          <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <Link href="/#faq" className="flex items-center justify-between">
+                          <span>Bantuan</span>
+                          <DropdownMenuShortcut>⌘H</DropdownMenuShortcut>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        onClick={() => signOut({ callbackUrl: "/?auth=sign-in" })}
+                        className="text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-950/40"
+                      >
+                        <span>Keluar</span>
+                        <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               ) : (
                 <div className="flex items-center gap-2.5">

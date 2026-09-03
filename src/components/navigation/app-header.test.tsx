@@ -125,3 +125,47 @@ describe("AppHeader IT infrastructure navigation", () => {
     expect(roadmap).toHaveTextContent("VoIP & PABX");
   });
 });
+
+describe("AppHeader profile dropdown", () => {
+  test("opens dropdown with profile, settings, support, and logout", () => {
+    render(
+      <AppHeader
+        user={{
+          id: "usr_123",
+          name: "Dev Netloka",
+          email: "dev@netloka.biz.id",
+          role: "ADMIN",
+        }}
+      />,
+    );
+
+    const trigger = screen.getByRole("button", { name: "Menu akun" });
+    expect(trigger).toBeInTheDocument();
+    expect(screen.getByText("Dev Netloka")).toBeInTheDocument();
+
+    // Dropdown initially closed
+    expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+
+    // Click trigger to open
+    fireEvent.click(trigger);
+
+    expect(screen.getByRole("menu")).toBeVisible();
+    expect(screen.getByText("dev@netloka.biz.id")).toBeInTheDocument();
+
+    const profileLink = screen.getByRole("menuitem", { name: /Profile/i });
+    expect(profileLink).toHaveAttribute("href", "/profile");
+
+    const settingsLink = screen.getByRole("menuitem", { name: /Pengaturan/i });
+    expect(settingsLink).toHaveAttribute("href", "/profile#settings");
+
+    const supportLink = screen.getByRole("menuitem", { name: /Bantuan/i });
+    expect(supportLink).toHaveAttribute("href", "/#faq");
+
+    const logoutItem = screen.getByRole("menuitem", { name: /Keluar/i });
+    expect(logoutItem).toBeInTheDocument();
+
+    // Close on escape
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+  });
+});

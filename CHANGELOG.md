@@ -40,11 +40,15 @@ All notable project changes are recorded here.
 
 # 2026-09-03
 
+- [2026-09-03 23:59 WITA] [DOCS] [Milestone 7 / Sprint 17 / Member Workspace & Course Commerce Foundation]
+  Recorded the implementation-plan documentation checkpoint in local commit `638b42c` (`docs: detail sprint 17 commerce execution plan`). No application implementation, remote push, PR, CI run, payment activation, or deployment accompanied this commit.
+  Validation: `git diff --check` passed; the plan was checked for all nine task headings and for prohibited vague planning markers.
+
 - [2026-09-03 23:58 WITA] [DOCS] [Milestone 7 / Sprint 17 / Member Workspace & Course Commerce Foundation]
   Expanded the owner-approved commerce design into a task-by-task execution plan. The plan defines the ADR, pure package rules, Prisma model/migration constraints including payment-event idempotency, deterministic coming-soon catalog seed, owner-scoped read models, fail-closed sandbox APIs, authenticated workspace shell/theme repair, passive catalog pages, premium learning-path guard, and the required test/PR/CI sequence. It explicitly preserves the locked public UI, free Networking, no active premium checkout, and deferred Milestone 8 Midtrans/Dynamic QRIS activation.
   Validation: implementation-plan self-review against the approved design, current source boundaries, Prisma schema, test patterns, theme provider, and CI workflow. No application code, migration, dependency, credential, payment activation, deployment, or PR was created.
   Files/areas: `docs/superpowers/plans/2026-09-03-member-workspace-course-commerce.md`, `docs/superpowers/specs/2026-09-03-member-workspace-course-commerce-design.md`, `PLAN.md`, `docs/HANDOFF.md`
-  Git: pending; local branch `codex/course-commerce-plan`, base `3a735da`
+  Git: `638b42c`; local branch `codex/course-commerce-plan`, base `3a735da`
 
 - [2026-09-03 23:44 WITA] [DOCS] [Milestone 7 / Sprint 17 / Member Workspace & Course Commerce Foundation]
   Recorded the owner-approved architectural design for a distinct post-login learner workspace and future hybrid lifetime course commerce. The design preserves the locked public landing/auth UI; makes Networking free; defines seven premium tracks as noninteractive Coming soon entries until content is published; defines Single Course and premium-only Combo Package rules; establishes seed/config catalog management, server-authoritative entitlements, a non-production sandbox payment lifecycle, and Dynamic QRIS/Midtrans as a separately gated activation phase. Added Sprint 17 planned workstreams and Milestone 8 provider/product activation gates, plus an explicit agent workflow, test strategy, authorization, security, and delivery requirements.

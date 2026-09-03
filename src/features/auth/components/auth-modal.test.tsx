@@ -56,7 +56,7 @@ describe("AuthModal", () => {
     );
 
     expect(screen.getByRole("dialog", { name: "Create your Netloka account" })).toBeVisible();
-    expect(screen.getByLabelText("Name (optional)")).toBeVisible();
+    expect(screen.queryByLabelText("Name (optional)")).not.toBeInTheDocument();
     expect(screen.getByLabelText("Confirm password")).toBeVisible();
     expect(screen.getByRole("link", { name: "Sign in" })).toHaveAttribute(
       "href",

@@ -41,7 +41,6 @@ export function AuthModal({
 }: AuthModalProps) {
   const router = useRouter();
   const dialogRef = useRef<HTMLDivElement>(null);
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -137,7 +136,7 @@ export function AuthModal({
       const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, name: name || undefined }),
+        body: JSON.stringify({ email, password }),
       });
       const body = (await response.json()) as { error?: string };
       if (!response.ok) {
@@ -215,19 +214,6 @@ export function AuthModal({
           onSubmit={isSignIn ? handleCredentialsSignIn : handleRegistration}
           className="mt-6 space-y-4"
         >
-          {!isSignIn && (
-            <Field label="Name (optional)" id="auth-name">
-              <input
-                id="auth-name"
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                autoComplete="name"
-                maxLength={100}
-                className={inputClasses}
-              />
-            </Field>
-          )}
-
           <Field label="Email" id="auth-email">
             <input
               id="auth-email"
@@ -324,7 +310,7 @@ export function AuthModal({
             target="_blank"
             rel="noopener noreferrer"
             aria-describedby="auth-legal-tab-notice"
-            className="text-white! underline! underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="text-white no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
           >
             Terms
           </Link>{" "}
@@ -334,11 +320,11 @@ export function AuthModal({
             target="_blank"
             rel="noopener noreferrer"
             aria-describedby="auth-legal-tab-notice"
-            className="text-white! underline! underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="text-white no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
           >
             Privacy Policy
           </Link>.
-          <span id="auth-legal-tab-notice" className="block">
+          <span id="auth-legal-tab-notice" className="sr-only">
             Each document opens in a new tab.
           </span>
         </p>
@@ -347,7 +333,7 @@ export function AuthModal({
           {isSignIn ? "New to Netloka?" : "Already have an account?"}{" "}
           <Link
             href={authHref(isSignIn ? "sign-up" : "sign-in", callbackUrl)}
-            className="font-semibold text-white underline decoration-white/35 underline-offset-4 hover:decoration-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+            className="font-semibold text-white underline! underline-offset-4 decoration-white hover:text-sky-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
           >
             {isSignIn ? "Create account" : "Sign in"}
           </Link>

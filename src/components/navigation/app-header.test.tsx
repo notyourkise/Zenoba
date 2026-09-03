@@ -4,6 +4,11 @@ import { AppHeader } from "./app-header";
 
 vi.mock("next/navigation", () => ({
   usePathname: () => "/",
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    refresh: vi.fn(),
+  }),
 }));
 
 vi.mock("next-themes", () => ({
@@ -123,5 +128,71 @@ describe("AppHeader IT infrastructure navigation", () => {
     expect(roadmap).toHaveTextContent("CCTV & Surveillance");
     expect(roadmap).toHaveTextContent("Fiber Optic");
     expect(roadmap).toHaveTextContent("VoIP & PABX");
+  });
+});
+
+describe("AppHeader profile dropdown", () => {
+  test("opens dropdown with profile, settings, support, and logout", () => {
+    render(
+      <AppHeader
+        user={{
+          id: "usr_123",
+          name: "Dev Netloka",
+          email: "dev@netloka.biz.id",
+          role: "ADMIN",
+        }}
+      />,
+    );
+
+    const trigger = screen.getByRole("button", { name: "Menu akun" });
+    expect(trigger).toBeInTheDocument();
+    expect(screen.getByText("Dev Netloka")).toBeInTheDocument();
+
+    // Dropdown initially closed
+    expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+
+    // Click trigger to open
+    fireEvent.click(trigger);
+
+    expect(screen.getByRole("menu")).toBeVisible();
+    expect(screen.getByText("dev@netloka.biz.id")).toBeInTheDocument();
+
+    const profileItem = screen.getByRole("menuitem", { name: /Profile/i });
+    expect(profileItem).toBeInTheDocument();
+
+    const settingsItem = screen.getByRole("menuitem", { name: /Pengaturan/i });
+    expect(settingsItem).toBeInTheDocument();
+
+    const supportLink = screen.getByRole("menuitem", { name: /Bantuan/i });
+    expect(supportLink).toHaveAttribute("href", "/#faq");
+
+    const logoutItem = screen.getByRole("menuitem", { name: /Keluar/i });
+    expect(logoutItem).toBeInTheDocument();
+
+    // Click Profile item to open Account Modal
+    fireEvent.click(profileItem);
+    expect(screen.getByRole("dialog", { name: "Modal Akun" })).toBeVisible();
+    expect(screen.getByText("Profil Pengguna")).toBeVisible();
+
+    // Verify editable headline displays Developer for dev user and no streak text
+    expect(screen.getByText("Developer")).toBeVisible();
+    expect(screen.queryByText(/1 Hari Streak/i)).not.toBeInTheDocument();
+
+    // Verify flame button exists and can be clicked to claim
+    const flameButton = screen.getByRole("button", { name: /Klaim api harian/i });
+    expect(flameButton).toBeVisible();
+    expect(flameButton).toHaveTextContent("🔥");
+    fireEvent.click(flameButton);
+    expect(flameButton).toBeDisabled();
+
+    // Switch to Pengaturan tab inside modal
+    fireEvent.click(screen.getByRole("button", { name: "Pengaturan" }));
+    expect(screen.getByText("Pengaturan Akun & Preferensi")).toBeVisible();
+    expect(screen.getByLabelText("Password Baru")).toBeVisible();
+    expect(screen.getByLabelText("Konfirmasi Password Baru")).toBeVisible();
+
+    // Close modal via X button
+    fireEvent.click(screen.getByRole("button", { name: "Tutup modal" }));
+    expect(screen.queryByRole("dialog", { name: "Modal Akun" })).not.toBeInTheDocument();
   });
 });

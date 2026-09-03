@@ -49,6 +49,9 @@ describe("Profile API routes", () => {
         createdAt: new Date(),
         updatedAt: new Date(),
         passwordHash: "hash",
+        headline: null,
+        streakCount: 1,
+        lastStreakDate: null,
       });
 
       const res = await getProfile();
@@ -124,6 +127,87 @@ describe("Profile API routes", () => {
         expect.objectContaining({
           where: { id: "user-123" },
           data: { name: "New Display Name" },
+        })
+      );
+    });
+
+    it("updates profile image successfully", async () => {
+      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+        id: "user-123",
+        email: "user@example.com",
+      });
+
+      vi.mocked(prisma.user.update).mockResolvedValueOnce({
+        id: "user-123",
+        name: "Test User",
+        email: "user@example.com",
+        role: "LEARNER",
+        image: "data:image/png;base64,sample",
+        updatedAt: new Date(),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } as any);
+
+      const req = new Request("http://localhost:3000/api/user/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image: "data:image/png;base64,sample" }),
+      });
+
+      const res = await updateProfile(req);
+      const data = await res.json();
+
+      expect(res.status).toBe(200);
+      expect(data.message).toBe("Profile updated successfully");
+      expect(prisma.user.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { id: "user-123" },
+          data: { image: "data:image/png;base64,sample" },
+        })
+      );
+    });
+
+    it("updates headline and streakCount successfully", async () => {
+      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+        id: "user-123",
+        email: "user@example.com",
+      });
+
+      vi.mocked(prisma.user.update).mockResolvedValueOnce({
+        id: "user-123",
+        name: "Test User",
+        email: "user@example.com",
+        role: "LEARNER",
+        image: null,
+        headline: "Developer",
+        streakCount: 5,
+        lastStreakDate: "2026-09-03",
+        updatedAt: new Date(),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } as any);
+
+      const req = new Request("http://localhost:3000/api/user/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          headline: "Developer",
+          streakCount: 5,
+          lastStreakDate: "2026-09-03",
+        }),
+      });
+
+      const res = await updateProfile(req);
+      const data = await res.json();
+
+      expect(res.status).toBe(200);
+      expect(data.message).toBe("Profile updated successfully");
+      expect(prisma.user.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { id: "user-123" },
+          data: {
+            headline: "Developer",
+            streakCount: 5,
+            lastStreakDate: "2026-09-03",
+          },
         })
       );
     });

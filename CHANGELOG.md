@@ -40,6 +40,20 @@ All notable project changes are recorded here.
 
 # 2026-09-03
 
+- [2026-09-03 15:25 WITA] [ADDED] [Milestone 7 / Sprint 16 / Profile Dropdown Menu & Account Modal]
+  Implemented interactive profile dropdown menu and rich Account Modal with sidebar navigation (Profile & Pengaturan).
+  Features:
+  - Accessible profile dropdown trigger in header with direct items: Profile, Pengaturan, Bantuan, and Keluar.
+  - Non-navigational popup modal with background scroll lock to prevent page movement behind the modal.
+  - Avatar image upload with automatic client-side canvas compression (WebP/JPEG) and removal control.
+  - Editable headline/specialization field initialized to "Developer" for the developer account.
+  - Gamified flame streak button (🔥 count) with daily claim restriction and automatic reset at 00:00 local device time.
+  - Direct password change without requiring current password in Settings.
+  - Terminal simulator CLI preferences (prompt style, font size, typing animation speed) and privacy controls.
+  Files: `prisma/schema.prisma`, `src/app/api/user/profile/route.ts`, `src/app/api/user/password/route.ts`, `src/components/navigation/account-modal/account-modal.tsx`, `src/components/navigation/app-header.tsx`, `src/features/profile/profile-form.tsx`, `src/features/auth/auth.ts`, `src/types/next-auth.d.ts`
+  Validation: ESLint clean, TypeScript clean, Vitest 36 files (170 tests) passed, Playwright browser test passed.
+  Git: branch `codex/profile-dropdown-menu`
+
 - [2026-09-03 13:15 WITA] [DOCS] [Milestone 7 / Sprint 16 / Agent Workflow PR Handoff]
   Prepared the user-requested pull request for agent workflow instructions, all-job CI verification gates, and handoff documentation on branch `codex/agent-workflow-handoff`. Rebased cleanly onto main commit `5f9903d` (PR #15). Verification: documentation review, links, and diff whitespace passed; all 5 CI jobs will be monitored via GitHub CLI. Delivery ready for repository owner review and merge.
   Git: pending; branch `codex/agent-workflow-handoff`; base `main` verified at `5f9903d`

@@ -40,6 +40,10 @@ All notable project changes are recorded here.
 
 # 2026-09-03
 
+- [2026-09-03 13:15 WITA] [DOCS] [Milestone 7 / Sprint 16 / Agent Workflow PR Handoff]
+  Prepared the user-requested pull request for agent workflow instructions, all-job CI verification gates, and handoff documentation on branch `codex/agent-workflow-handoff`. Rebased cleanly onto main commit `5f9903d` (PR #15). Verification: documentation review, links, and diff whitespace passed; all 5 CI jobs will be monitored via GitHub CLI. Delivery ready for repository owner review and merge.
+  Git: pending; branch `codex/agent-workflow-handoff`; base `main` verified at `5f9903d`
+
 - [2026-09-03 12:58 WITA] [DOCS] [Milestone 7 / Sprint 16 / Legal Pages PR Handoff]
   Prepared the owner-requested pull request for the Terms/Privacy feature only; unrelated agent-workflow documentation remains in its separate worktree. Fresh pre-commit verification passed ESLint, TypeScript, all 35 Vitest suites/163 tests, and the production build. Earlier 96/96 three-browser results and visual review apply to the same application code. The existing five-job GitHub Actions workflow will provide PR verification; CI results and the PR URL will be recorded in the GitHub handoff. No live OAuth, SMTP, migration, deployment, or legal-compliance claim is made. Human review and merge remain with the owner.
   Git: pending; branch `codex/auth-legal-pages`; base `main` verified at `33b7caa`
@@ -51,6 +55,17 @@ All notable project changes are recorded here.
   Final checks: ESLint, TypeScript, and diff whitespace checks passed after temporary test tooling was removed. DESIGN and PRODUCT record the scoped legal-page exception; application styling remains unchanged outside these routes.
   Files/areas: `src/app/(legal)/`, auth modal/footer and tests, `src/e2e/legal-pages.spec.ts`, README, PLAN, ROADMAP, DESIGN, PRODUCT, technical debt, ADR 0003
   Git: pending; local branch `codex/auth-legal-pages`; no push, PR, merge, or deployment performed
+
+- [2026-09-03 12:26 WITA] [DOCS] [Milestone 7 / Sprint 16 / Agent Workflow]
+  Clarified mandatory new-chat context recovery, source/flow inspection before implementation, planning and user-confirmation gates, isolated task worktrees, internal review/testing, GitHub CLI PR delivery, all-applicable-job CI verification, user-owned final review/merge, fast-forward main synchronization, and conservative local cleanup. Added a dated handoff with codebase entry points, development status, evidence boundaries, unresolved work, and next actions; preserved architecture/security rules and the generated Next.js guidance.
+  Files/areas: `AGENTS.md`, `docs/HANDOFF.md`, `CHANGELOG.md`
+  Validation: baseline Git state and prior PR/CI evidence checked; documentation consistency review, 10 local Markdown links, 39 source references, generated-block preservation, and diff whitespace checks passed. Independent read-only review found no material documentation issues. Fresh Prisma generation and 35 Vitest suites (160 tests) passed with placeholder credentials; the health test covered database authentication failure/degraded health, not live connectivity. Lint/typecheck/E2E/build were not rerun for documentation-only edits. No application behavior or deployment change; existing worktrees retained and main clean.
+  Audit follow-up: full npm audit including development dependencies reports 7 findings (4 moderate, 2 high, 1 critical), including a critical Vitest UI-server advisory and Vite/tooling findings in addition to Prisma/mysql2. This is a broader scope than the historical production-only audit; no dependency fix or public development server was introduced. Remediation requires a separate approved task.
+  Git: pending; local documentation branch `codex/agent-workflow-handoff`
+
+- [2026-09-03 12:18 WITA] [DOCS] [Milestone 7 / Sprint 16 / Post-Merge Checkpoint]
+  Follow-up to the 11:56 auth PR handoff: PR #14 was reviewed and merged by the project owner into main at 12:06 WITA; local main was pulled and now matches the observed origin/main merge commit. Rechecked feature-head CI run 33713239705: all five jobs succeeded. This does not verify live SMTP/Google/database integration or deployment. Old auth and unrelated staging worktrees remain; no branch cleanup was performed by this documentation task.
+  Git: PR #14; head 48df6c2e42fa8a1eaabf517f9003481c2dbf5380; merge 33b7caa07fa2f930a0d9e259adbf1166836a252d
 
 - [2026-09-03 11:56 WITA] [DOCS] [Milestone 7 / Sprint 16 / PR Handoff]
   Recorded the committed auth modal/password-recovery implementation and prepared the user-requested pull request to main. Re-ran ESLint, type-check, and all 160 unit tests successfully before committing. The previously recorded 72-browser-test and production-build results apply to the same application code. The PR must expose migration, live SMTP/OAuth, timing/abuse, JWT policy, and dependency limitations; it is not deployment approval or sprint completion. Human review and merge remain with the project owner.

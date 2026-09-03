@@ -2,6 +2,7 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 import { POST as progressHandler } from "@/app/api/learning/progress/route";
 import * as authLib from "@/lib/auth";
 import * as progressService from "@/features/learning/progress";
+import { CourseAccessDeniedError } from "@/features/commerce/access";
 
 vi.mock("@/lib/auth", () => ({
   getCurrentUser: vi.fn(),
@@ -117,5 +118,27 @@ describe("POST /api/learning/progress", () => {
 
     const res = await progressHandler(req);
     expect(res.status).toBe(403);
+  });
+
+  it("returns 403 with code COURSE_ACCESS_DENIED on unentitled premium course", async () => {
+    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+      id: "u-1",
+      email: "u@example.com",
+    });
+
+    vi.mocked(progressService.startLessonProgress).mockRejectedValueOnce(
+      new CourseAccessDeniedError(),
+    );
+
+    const req = new Request("http://localhost:3000/api/learning/progress", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ lessonId: "l-cctv", action: "start" }),
+    });
+
+    const res = await progressHandler(req);
+    expect(res.status).toBe(403);
+    const data = await res.json();
+    expect(data.code).toBe("COURSE_ACCESS_DENIED");
   });
 });

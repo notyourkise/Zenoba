@@ -14,6 +14,11 @@ export async function middleware(request: NextRequest) {
     "/challenges",
     "/consultant",
     "/profile",
+    "/settings",
+    "/catalog",
+    "/my-learning",
+    "/my-packages",
+    "/orders",
   ];
 
   const isProtected = protectedPrefixes.some((prefix) =>
@@ -42,6 +47,11 @@ export const config = {
     "/challenges/:path*",
     "/consultant/:path*",
     "/profile/:path*",
+    "/settings/:path*",
+    "/catalog/:path*",
+    "/my-learning/:path*",
+    "/my-packages/:path*",
+    "/orders/:path*",
     "/sign-in",
     "/sign-up",
   ],

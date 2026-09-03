@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Briefcase, ArrowRight, Building, Gamepad2, Truck, GraduationCap, Building2 } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth";
 
-export const CONSULTANT_CASES = [
+const CONSULTANT_CASES = [
   {
     slug: "small-office-notaris",
     title: "1. Kantor Notaris & PPAT (SOHO)",

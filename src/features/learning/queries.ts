@@ -9,6 +9,7 @@ import {
   LessonWithStatus,
   ModuleWithLessons,
 } from "./types";
+import { CourseAccessDeniedError } from "@/features/commerce/access";
 
 /**
  * Get all published learning paths with user progress.
@@ -94,6 +95,7 @@ export async function getLearningPathDetail(
   const path = await prisma.learningPath.findUnique({
     where: { slug: pathSlug, published: true },
     include: {
+      commerceCourse: true,
       modules: {
         where: { published: true },
         orderBy: { orderIndex: "asc" },
@@ -120,6 +122,25 @@ export async function getLearningPathDetail(
 
   if (!path) {
     return null;
+  }
+
+  // Entitlement guard for premium courses
+  if (path.commerceCourse && path.commerceCourse.accessTier === "PREMIUM") {
+    const entitlement = userId
+      ? await prisma.entitlement.findUnique({
+          where: {
+            userId_courseId: {
+              userId,
+              courseId: path.commerceCourse.id,
+            },
+          },
+          select: { state: true },
+        })
+      : null;
+
+    if (!entitlement || entitlement.state !== "ACTIVE") {
+      throw new CourseAccessDeniedError();
+    }
   }
 
   // Fetch all user progress records if logged in

@@ -4,6 +4,7 @@
  */
 
 import { prisma, closeDatabaseConnection } from "../src/lib/db/client";
+import { seedCommerceCatalog } from "./commerce-seed";
 
 async function main() {
   console.log("🌱 Seeding Paths 1 to 5 (Full Curriculum)...");
@@ -262,7 +263,10 @@ async function main() {
 
   await connectPrereq(l16_1.id, l15_1.id);
 
-  console.log("✅ Seed completed successfully for all 5 Paths (1 to 5)!");
+  console.log("🌱 Seeding Course Commerce Catalog & Packages...");
+  await seedCommerceCatalog(prisma);
+
+  console.log("✅ Seed completed successfully for all 5 Paths (1 to 5) and Commerce Catalog!");
 }
 
 main()

@@ -1,5 +1,7 @@
-import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/lib/auth";
+import { LearnerAccountRouteModal } from "@/components/navigation/learner-account-route-modal";
 
-export default function ProfilePage() {
-  redirect("/dashboard");
+export default async function ProfilePage() {
+  const user = await getCurrentUser();
+  return <LearnerAccountRouteModal initialTab="profile" user={user} />;
 }

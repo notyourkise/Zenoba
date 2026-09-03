@@ -37,6 +37,8 @@ model User {
   challengeAttempts   ChallengeAttempt[]
   consultantProjects  ConsultantProject[]
   passwordResetTokens PasswordResetToken[]
+  orders              Order[]
+  entitlements        Entitlement[]
 
   @@map("users")
 }
@@ -110,6 +112,7 @@ model LearningPath {
   updatedAt   DateTime @updatedAt
 
   modules Module[]
+  commerceCourse Course?
 
   @@map("learning_paths")
 }
@@ -342,4 +345,150 @@ model ConsultantProject {
 
   @@index([userId, caseId])
   @@map("consultant_projects")
+}
+
+// ====================
+// Course Commerce Models (Milestone 7 / Sprint 17)
+// ====================
+
+model Course {
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  title          String
+  track          String   // networking | cctv | fiber-optic | voip | mikrotik | cisco | linux-server | security
+  accessTier     String   @default("PREMIUM") // FREE | PREMIUM
+  catalogStatus  String   @default("COMING_SOON") // COMING_SOON | AVAILABLE | RETIRED
+  description    String?  @db.Text
+  orderIndex     Int      @default(0)
+  learningPathId String?  @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  learningPath   LearningPath?   @relation(fields: [learningPathId], references: [id], onDelete: SetNull)
+  packageCourses PackageCourse[]
+  entitlements   Entitlement[]
+
+  @@map("courses")
+}
+
+model Package {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  title         String
+  kind          String   // SINGLE | COMBO
+  catalogStatus String   @default("COMING_SOON") // COMING_SOON | AVAILABLE | RETIRED
+  description   String?  @db.Text
+  amountIdr     Int?     // in IDR (Rupiah), null when COMING_SOON
+  currency      String   @default("IDR")
+  orderIndex    Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  packageCourses PackageCourse[]
+  orders         Order[]
+
+  @@map("packages")
+}
+
+model PackageCourse {
+  packageId  String
+  courseId   String
+  orderIndex Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  package Package @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  course  Course  @relation(fields: [courseId], references: [id], onDelete: Restrict)
+
+  @@id([packageId, courseId])
+  @@map("package_courses")
+}
+
+model Order {
+  id             String    @id @default(cuid())
+  reference      String    @unique // e.g. ORD-20260904-XXXX
+  userId         String
+  packageId      String
+  state          String    @default("PENDING") // PENDING | PAID | EXPIRED | CANCELLED
+  provider       String    @default("SANDBOX") // SANDBOX | MIDTRANS
+  totalAmountIdr Int
+  currency       String    @default("IDR")
+  expiresAt      DateTime
+  paidAt         DateTime?
+  cancelledAt    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  package         Package          @relation(fields: [packageId], references: [id], onDelete: Restrict)
+  lines           OrderLine[]
+  paymentAttempts PaymentAttempt[]
+  entitlements    Entitlement[]
+
+  @@index([userId, state])
+  @@map("orders")
+}
+
+model OrderLine {
+  id          String   @id @default(cuid())
+  orderId     String
+  itemType    String   // PACKAGE | COURSE
+  itemSlug    String
+  itemTitle   String
+  amountIdr   Int
+  currency    String   @default("IDR")
+  createdAt   DateTime @default(now())
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("order_lines")
+}
+
+model PaymentAttempt {
+  id                String    @id @default(cuid())
+  orderId           String
+  provider          String    @default("SANDBOX") // SANDBOX | MIDTRANS
+  providerReference String?
+  state             String    @default("PENDING") // PENDING | SUCCESS | FAILED | EXPIRED
+  rawMetadata       Json?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  order  Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  events PaymentEvent[]
+
+  @@map("payment_attempts")
+}
+
+model PaymentEvent {
+  id               String    @id @default(cuid())
+  paymentAttemptId String
+  providerEventId  String    @unique
+  eventType        String
+  receivedAt       DateTime  @default(now())
+  processedAt      DateTime?
+  payloadSummary   Json?
+
+  paymentAttempt PaymentAttempt @relation(fields: [paymentAttemptId], references: [id], onDelete: Cascade)
+
+  @@map("payment_events")
+}
+
+model Entitlement {
+  id         String    @id @default(cuid())
+  userId     String
+  courseId   String
+  orderId    String?
+  sourceType String    @default("PURCHASE") // FREE | PURCHASE | ADMIN
+  state      String    @default("ACTIVE")   // ACTIVE | REVOKED
+  grantedAt  DateTime  @default(now())
+  revokedAt  DateTime?
+  updatedAt  DateTime  @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course Course @relation(fields: [courseId], references: [id], onDelete: Restrict)
+  order  Order? @relation(fields: [orderId], references: [id], onDelete: SetNull)
+
+  @@unique([userId, courseId])
+  @@index([userId, state])
+  @@map("entitlements")
 }

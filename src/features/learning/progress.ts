@@ -2,6 +2,7 @@ import { prisma } from "@/lib/db/client";
 import { resolveLessonStatus } from "./prerequisites";
 import { LessonStatus } from "./types";
 import { awardXp, getUserTotalXp } from "@/features/xp/ledger";
+import { requireLearningPathAccess } from "@/features/commerce/access";
 
 /**
  * Starts a lesson for a user, marking it as IN_PROGRESS if prerequisites are met.
@@ -17,6 +18,11 @@ export async function startLessonProgress(
   const lesson = await prisma.lesson.findUnique({
     where: { id: lessonId },
     include: {
+      module: {
+        include: {
+          path: true,
+        },
+      },
       prerequisites: {
         include: {
           prerequisite: {
@@ -34,6 +40,14 @@ export async function startLessonProgress(
 
   if (!lesson) {
     throw new Error("Lesson not found");
+  }
+
+  // Check entitlement access for the parent learning path
+  if (lesson.module?.path?.slug) {
+    await requireLearningPathAccess({
+      userId,
+      pathSlug: lesson.module.path.slug,
+    });
   }
 
   // Get user's completed lessons
@@ -105,10 +119,25 @@ export async function completeLessonProgress(
 }> {
   const lesson = await prisma.lesson.findUnique({
     where: { id: lessonId },
+    include: {
+      module: {
+        include: {
+          path: true,
+        },
+      },
+    },
   });
 
   if (!lesson) {
     throw new Error("Lesson not found");
+  }
+
+  // Check entitlement access for the parent learning path
+  if (lesson.module?.path?.slug) {
+    await requireLearningPathAccess({
+      userId,
+      pathSlug: lesson.module.path.slug,
+    });
   }
 
   const existing = await prisma.userLessonProgress.findUnique({

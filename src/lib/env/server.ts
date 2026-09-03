@@ -76,6 +76,31 @@ export function getEmailEnvironment() {
   return result.data;
 }
 
+const commerceEnvSchema = z.object({
+  PAYMENT_MODE: z.enum(["disabled", "sandbox"]).default("disabled"),
+  SANDBOX_PAYMENT_EVENT_SECRET: z.string().optional(),
+});
+
+export function getCommerceEnvironment() {
+  const paymentMode = (process.env.PAYMENT_MODE || "disabled") as "disabled" | "sandbox";
+  const nodeEnv = process.env.NODE_ENV || "development";
+
+  if (nodeEnv === "production" && paymentMode === "sandbox") {
+    throw new Error("Sandbox payment mode is not allowed in production");
+  }
+
+  const result = commerceEnvSchema.safeParse({
+    PAYMENT_MODE: paymentMode,
+    SANDBOX_PAYMENT_EVENT_SECRET: process.env.SANDBOX_PAYMENT_EVENT_SECRET,
+  });
+
+  if (!result.success) {
+    throw new Error("Invalid commerce environment configuration");
+  }
+
+  return result.data;
+}
+
 // Validate at import time (fail-fast on startup, skip in unit test runner)
 if (process.env.NODE_ENV !== "test" && typeof window === "undefined") {
   try {

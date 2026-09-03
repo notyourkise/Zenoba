@@ -70,6 +70,31 @@ cp .env.example .env
 # Edit .env with your actual database URL if needed
 ```
 
+Authentication uses credentials by default. Optional integrations are configured only through `.env`:
+
+```dotenv
+APP_URL="http://localhost:3000"
+NEXTAUTH_URL="http://localhost:3000"
+
+# Enable Google only after both values are available
+GOOGLE_CLIENT_ID=""
+GOOGLE_CLIENT_SECRET=""
+
+# Hostinger Email SMTP
+SMTP_HOST="smtp.hostinger.com"
+SMTP_PORT="465"
+SMTP_SECURE="true"
+SMTP_USER="noreply@example.com"
+SMTP_PASSWORD="replace-with-email-account-password"
+EMAIL_FROM="noreply@example.com"
+```
+
+Until both Google values are configured, the Google button remains visible but disabled with `Setup pending`. Register the OAuth callback as `http://localhost:3000/api/auth/callback/google` locally and `https://netloka.biz.id/api/auth/callback/google` for production. Never commit real SMTP or OAuth credentials.
+
+Password-reset links expire after 30 minutes and require the password-reset database migration to be deployed.
+
+Development validation uses mocked SMTP/database boundaries. Live Hostinger delivery, Google login, and applying the new migration still require integration verification. Before public exposure, complete reset-request abuse/timing protection and review existing JWT-session revocation behavior. See [ADR 0002](docs/decisions/0002-auth-modal-and-password-recovery.md) for the implementation and verification boundaries.
+
 4. **Start PostgreSQL (using Docker)**
 
 ```bash

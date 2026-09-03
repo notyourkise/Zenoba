@@ -795,6 +795,10 @@ Seed:
 - [x] Replace networking-only dropdown copy with a data-driven catalog that distinguishes available routes from noninteractive `Soon` domains.
 - [x] Align desktop and mobile navbar terminology and add focused tests for active links, disabled future domains, and mobile roadmap visibility.
 - [x] Finalize the active landing page, dashboard, navigation, authentication UI, and cosmic visual refinements currently present in the working tree.
+- [x] Move Sign In and Create Account into a URL-driven landing-page modal while retaining `/sign-in` and `/sign-up` as compatibility redirects.
+- [x] Add conditional Google OAuth registration, disabled setup-pending UI, and secure Hostinger SMTP password recovery with hashed 30-minute single-use tokens.
+- [ ] Verify the password-reset migration and a live Hostinger email → reset → sign-in journey on an isolated/staging database; verify Google login after OAuth credentials are supplied.
+- [ ] Before public exposure, verify reset-request rate limiting/abuse protection and timing-resistant responses; decide and implement the required JWT-session revocation policy (ADR 0002).
 - [x] Review responsive behavior, keyboard navigation, reduced motion, and accessibility for the active UI diff.
 - [x] Run the complete lint, type-check, unit/integration, E2E, and production-build gates against the finalized feature diff.
 - [ ] Review the final implementation diff and resolve all Critical/High findings before staging deployment.

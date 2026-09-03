@@ -66,38 +66,81 @@ test.describe("Netloka Core App & Auth Shell", () => {
     expect(new Date(body.timestamp).toISOString()).toBe(body.timestamp);
   });
 
-  test("renders sign-in page", async ({ page }) => {
-    await page.goto("/sign-in");
+  test("opens and switches the landing-page authentication modal", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page.getByRole("link", { name: "Masuk", exact: true }).click();
 
+    await expect(page).toHaveURL(/\?auth=sign-in/, { timeout: 15_000 });
     await expect(
-      page.getByRole("heading", { name: "Sign In", exact: true })
+      page.getByRole("dialog", { name: "Sign in to Netloka" }),
     ).toBeVisible();
     await expect(page.getByLabel("Email")).toBeVisible();
     await expect(page.getByLabel("Password")).toBeVisible();
     await expect(
-      page.getByRole("button", { name: "Sign In", exact: true })
+      page.getByRole("button", { name: "Continue with Google Setup pending" }),
+    ).toBeDisabled();
+
+    await page.getByRole("link", { name: "Create account" }).click();
+    await expect(page).toHaveURL(/\?auth=sign-up/, { timeout: 15_000 });
+    await expect(
+      page.getByRole("dialog", { name: "Create your Netloka account" }),
     ).toBeVisible();
+
+    await page.keyboard.press("Escape");
+    await expect(page).toHaveURL(/\/$/, { timeout: 15_000 });
+    await expect(page.getByRole("dialog")).toHaveCount(0);
   });
 
-  test("renders sign-up page", async ({ page }) => {
+  test("keeps legacy auth routes compatible with the landing modal", async ({
+    page,
+  }) => {
     await page.goto("/sign-up");
 
+    await expect(page).toHaveURL(/\?auth=sign-up/);
     await expect(
-      page.getByRole("heading", { name: "Create Account", exact: true })
+      page.getByRole("dialog", { name: "Create your Netloka account" }),
     ).toBeVisible();
     await expect(page.getByLabel(/Name/i)).toBeVisible();
     await expect(page.getByLabel("Email")).toBeVisible();
     await expect(page.getByLabel("Password", { exact: true })).toBeVisible();
-    await expect(page.getByLabel("Confirm Password")).toBeVisible();
+    await expect(page.getByLabel("Confirm password")).toBeVisible();
+  });
+
+  test("navigates from Sign In to password recovery", async ({ page }) => {
+    await page.goto("/?auth=sign-in");
+
+    await page.getByRole("link", { name: "Forgot password?" }).click();
+    await expect(page).toHaveURL(/\/forgot-password$/);
     await expect(
-      page.getByRole("button", { name: "Sign Up", exact: true })
+      page.getByRole("heading", { name: "Forgot your password?" }),
     ).toBeVisible();
+    await expect(page.getByLabel("Email")).toBeVisible();
+  });
+
+  test("shows a safe invalid state for reset links without tokens", async ({
+    page,
+  }) => {
+    await page.goto("/reset-password");
+
+    await expect(
+      page.getByText("This password reset link is invalid or incomplete.", {
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Reset password" }),
+    ).toBeDisabled();
   });
 
   test("redirects unauthenticated access on protected route to sign-in", async ({
     page,
   }) => {
     await page.goto("/dashboard");
-    await expect(page).toHaveURL(/.*sign-in.*callbackUrl=%2Fdashboard/);
+    await expect(page).toHaveURL(/.*auth=sign-in.*callbackUrl=%2Fdashboard/);
+    await expect(
+      page.getByRole("dialog", { name: "Sign in to Netloka" }),
+    ).toBeVisible();
   });
 });

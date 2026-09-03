@@ -38,7 +38,23 @@ All notable project changes are recorded here.
 
 ---
 
+# 2026-09-03
+
+- [2026-09-03 11:51 WITA] [REVIEW] [Milestone 7 / Sprint 16 / Authentication]
+  Completed local auth feature verification and documented remaining launch gates. Fixed callback URL normalization bypasses in the modal and legacy redirects, and bound reset-token deletion to its digest so concurrently replaced tokens cannot consume a newer token. Added regression coverage; retained a unique token-per-user constraint and atomic upsert. Recorded the actual NextAuth 4/Nodemailer alias architecture in ADR 0002.
+  Validation: ESLint and TypeScript passed; 35 Vitest suites passed (160/160 tests); production build passed (30 routes plus middleware); 72/72 Playwright tests passed across Chromium, Firefox, and WebKit using one worker against a local production build on port 3001. Prisma schema validation and diff whitespace checks passed. Desktop/mobile visual and keyboard QA was completed on 2026-09-02; Impeccable review improved the pending-label text size.
+  Limitations: SMTP and persistence are mocked in focused tests; the test server used placeholder DB credentials and exercised degraded health, not database connectivity. Docker was unavailable, so migration application and a live email-to-reset-to-login journey remain unverified. Google OAuth awaits credentials. Identical reset response bodies do not remove synchronous delivery timing differences; throttling/abuse resistance and JWT revocation policy remain pre-launch work. Audit reports one high and one moderate package finding through Prisma/mysql2; no Nodemailer finding. These release gates remain open in PLAN/technical debt; no deployment or sprint-completion claim is made.
+  Test infrastructure: local Next dev runs with six workers showed timing-related failures; single-worker Chromium passed, and final three-browser verification used the built app. The temporary test configuration was removed after verification. Existing middleware deprecation and standalone-start warnings were observed.
+  Files/areas: auth feature/routes/tests, Prisma migration, README, PLAN, technical debt, ADR 0002, implementation plan
+  Git: pending; no commit, push, PR, or merge performed
+
 # 2026-09-02
+
+- [2026-09-02 16:31 WITA] [ADDED] [Milestone 7 / Sprint 16 / Authentication]
+  Moved credentials Sign In and Create Account into an accessible URL-driven modal on the landing page, retained legacy auth URLs as compatibility redirects, prepared conditional Google OAuth account creation, and added a complete password-recovery flow. Password reset requests use account-enumeration-safe responses, Hostinger-compatible SMTP delivery, SHA-256 token digests, 30-minute expiry, one-active-token-per-user persistence, single-use transactional consumption, and a new Prisma migration. Google remains visibly disabled with `Setup pending` until both OAuth credentials are configured.
+  Files/areas: `src/features/auth/`, `src/app/(auth)/`, `src/app/api/auth/`, `src/components/navigation/app-header.tsx`, `src/middleware.ts`, `prisma/schema.prisma`, `prisma/migrations/20260902_add_password_reset_tokens/`, `.env.example`, `README.md`
+  Validation: ESLint passed; TypeScript type-check passed; 35 Vitest suites passed (154/154 tests); focused Chromium auth/landing E2E passed (9/9 tests); production build passed (30 application routes plus middleware); full browser suite and final visual/diff review pending
+  Git: pending
 
 - [2026-09-02 13:17 WITA] [FIXED] [Milestone 7 / Sprint 16 / Stabilization]
   Restored the complete local quality gate for the active UI refinement. Animated CTA labels now expose one accessible name while retaining the two-line visual transition; the simulator selector now uses a valid `tablist`/`tab`/`tabpanel` relationship; and tab-window state is updated from the selection event instead of synchronously inside an effect. Product positioning in the authoritative documentation now consistently describes Netloka as an IT infrastructure learning platform with Networking as the first available domain. The previously observed mobile `Mulai Gratis` label was rechecked at 390x844 and rendered visibly, so no speculative CSS change was applied.

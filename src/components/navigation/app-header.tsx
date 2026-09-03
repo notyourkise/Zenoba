@@ -362,7 +362,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                   </Link>
 
                   <button
-                    onClick={() => signOut({ callbackUrl: "/sign-in" })}
+                    onClick={() => signOut({ callbackUrl: "/?auth=sign-in" })}
                     className="p-2 rounded-lg text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:text-rose-400 dark:hover:text-rose-300 dark:hover:bg-rose-950/40 transition-colors"
                     title="Keluar"
                     aria-label="Keluar"
@@ -378,7 +378,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                     asChild
                     className="group h-9 min-w-[80px] px-3.5 rounded-lg text-sm font-semibold overflow-hidden cursor-pointer"
                   >
-                    <Link href="/sign-in">
+                    <Link href="/?auth=sign-in">
                       <SlidingButtonLabel
                         text="Masuk"
                         className="text-black dark:text-white font-semibold"
@@ -392,7 +392,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                     asChild
                     className="group h-9 min-w-[116px] px-4 rounded-lg text-sm font-semibold overflow-hidden cursor-pointer"
                   >
-                    <Link href="/sign-up">
+                    <Link href="/?auth=sign-up">
                       <SlidingButtonLabel
                         text="Mulai Gratis"
                         className="text-white dark:text-[#0a0a0a] font-semibold"
@@ -458,7 +458,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                     className="w-full h-9 px-3.5 rounded-lg justify-center text-sm font-semibold text-black dark:text-white"
                   >
                     <Link
-                      href="/sign-in"
+                      href="/?auth=sign-in"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Masuk
@@ -470,7 +470,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                     className="w-full h-9 px-4 rounded-lg justify-center text-sm font-semibold"
                   >
                     <Link
-                      href="/sign-up"
+                      href="/?auth=sign-up"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Mulai Gratis

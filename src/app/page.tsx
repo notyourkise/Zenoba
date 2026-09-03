@@ -8,14 +8,45 @@ import { InteractiveFaq } from "@/components/marketing/interactive-faq";
 import { MarketingFooter } from "@/components/marketing/marketing-footer";
 import { Button } from "@/components/ui/button";
 import { SlidingButtonLabel } from "@/components/ui/sliding-button-label";
+import { AuthModal, type AuthMode } from "@/features/auth/components/auth-modal";
+import { isGoogleAuthConfigured } from "@/features/auth/auth";
 
-export default async function Home() {
+type HomeProps = {
+  searchParams: Promise<{
+    auth?: string | string[];
+    callbackUrl?: string | string[];
+    registered?: string | string[];
+  }>;
+};
+
+export default async function Home({ searchParams }: HomeProps) {
   const user = await getCurrentUser();
+  const parameters = await searchParams;
+  const authValue = Array.isArray(parameters.auth)
+    ? parameters.auth[0]
+    : parameters.auth;
+  const mode: AuthMode | null =
+    !user && (authValue === "sign-in" || authValue === "sign-up")
+      ? authValue
+      : null;
+  const callbackUrl = Array.isArray(parameters.callbackUrl)
+    ? parameters.callbackUrl[0]
+    : parameters.callbackUrl;
+  const registered =
+    (Array.isArray(parameters.registered)
+      ? parameters.registered[0]
+      : parameters.registered) === "true";
 
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-gray-950 text-black dark:text-white selection:bg-blue-500 selection:text-white">
       {/* AppHeader Navigation */}
       <AppHeader user={user} />
+      <AuthModal
+        mode={mode}
+        callbackUrl={callbackUrl}
+        registered={registered}
+        googleEnabled={isGoogleAuthConfigured()}
+      />
 
       {/* ========================================================================= */}
       {/* 1. HERO SECTION WITH EXPANSIVE CELESTIAL CANVAS & ACTION BUTTON           */}

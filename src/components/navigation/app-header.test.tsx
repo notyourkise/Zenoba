@@ -31,13 +31,13 @@ vi.mock("next/link", () => ({
 describe("AppHeader auth buttons", () => {
   test("uses compact sizing in desktop and mobile navigation", () => {
     const { container, getByRole } = render(<AppHeader user={null} />);
-    const desktopSignIn = container.querySelector('a[href="/sign-in"]');
-    const desktopSignUp = container.querySelector('a[href="/sign-up"]');
+    const desktopSignIn = container.querySelector('a[href="/?auth=sign-in"]');
+    const desktopSignUp = container.querySelector('a[href="/?auth=sign-up"]');
 
     fireEvent.click(getByRole("button", { name: "Open menu" }));
 
-    const signInLinks = container.querySelectorAll('a[href="/sign-in"]');
-    const signUpLinks = container.querySelectorAll('a[href="/sign-up"]');
+    const signInLinks = container.querySelectorAll('a[href="/?auth=sign-in"]');
+    const signUpLinks = container.querySelectorAll('a[href="/?auth=sign-up"]');
 
     expect(signInLinks).toHaveLength(2);
     expect(signUpLinks).toHaveLength(2);

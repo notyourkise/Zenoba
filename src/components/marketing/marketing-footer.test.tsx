@@ -10,7 +10,9 @@ describe("MarketingFooter", () => {
       screen.getByRole("heading", { name: /Siap Melangkah dari Teori ke Praktik Nyata\?/i }),
     ).toBeInTheDocument();
 
-    expect(screen.getAllByText("Mulai Belajar Gratis")[0]).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "Mulai Belajar Gratis" }),
+    ).toHaveAttribute("href", "/?auth=sign-up");
     expect(screen.getAllByText("Eksplorasi Simulator")[0]).toBeInTheDocument();
   });
 

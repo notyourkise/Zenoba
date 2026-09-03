@@ -796,6 +796,8 @@ Seed:
 - [x] Align desktop and mobile navbar terminology and add focused tests for active links, disabled future domains, and mobile roadmap visibility.
 - [x] Finalize the active landing page, dashboard, navigation, authentication UI, and cosmic visual refinements currently present in the working tree.
 - [x] Move Sign In and Create Account into a URL-driven landing-page modal while retaining `/sign-in` and `/sign-up` as compatibility redirects.
+- [x] Add public, text-only `/terms` and `/privacy-policy` pages with Indonesian development-stage content, white/black styling, and links from both auth modal modes and the landing footer.
+- [ ] Before launch, finalize operator identity/privacy contact, lawful processing basis and consent where required, retention/deletion procedures, child-data safeguards, and deployed-provider disclosures (ADR 0003 / TD-10).
 - [x] Add conditional Google OAuth registration, disabled setup-pending UI, and secure Hostinger SMTP password recovery with hashed 30-minute single-use tokens.
 - [ ] Verify the password-reset migration and a live Hostinger email → reset → sign-in journey on an isolated/staging database; verify Google login after OAuth credentials are supplied.
 - [ ] Before public exposure, verify reset-request rate limiting/abuse protection and timing-resistant responses; decide and implement the required JWT-session revocation policy (ADR 0002).

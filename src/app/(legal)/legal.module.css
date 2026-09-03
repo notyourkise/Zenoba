@@ -1,0 +1,106 @@
+/* The selector stops matching when navigating away, even if Next keeps this CSS. */
+:global(html):has(.page),
+:global(body):has(.page) {
+  background: #fff;
+  color: #000;
+  /* The application root has an inline dark color-scheme. */
+  color-scheme: light !important;
+  scroll-behavior: auto;
+  scrollbar-width: auto;
+}
+
+:global(html):has(.page)::-webkit-scrollbar {
+  display: block;
+}
+
+.page {
+  min-height: 100svh;
+  background: #fff;
+  color: #000;
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 1rem;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.page ::selection {
+  background: #000;
+  color: #fff;
+}
+
+.column {
+  width: min(100%, 74ch);
+  margin-inline: auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.page a {
+  color: #000;
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+}
+
+.page a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.page a:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 4px;
+}
+
+.back {
+  margin-bottom: 3rem;
+}
+
+.document h1 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.document h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 650;
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+.document p + p {
+  margin-top: 1rem;
+}
+
+.related {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  margin-top: 3rem;
+}
+
+@media (min-width: 768px) {
+  .column {
+    padding-top: 3rem;
+    padding-bottom: 6rem;
+  }
+}
+
+@media print {
+  .column {
+    width: 100%;
+    padding: 0;
+  }
+
+  .back,
+  .related {
+    display: none;
+  }
+
+  .document h2 {
+    break-after: avoid;
+  }
+}

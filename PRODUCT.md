@@ -36,7 +36,7 @@ Networking merupakan learning domain pertama yang sudah tersedia. Server & Linux
 
 - **Arsitektur:** Modular monolith berbasis Next.js 16 (Turbopack), React 19, Tailwind CSS v4, Prisma ORM, dan PostgreSQL 16.
 - **Simulated Terminal Safety:** Semua perintah terminal/CLI dijalankan melalui pure deterministic parser di memori (tidak pernah dieksekusi ke host shell atau SSH).
-- **Theming:** Antarmuka saat ini menggunakan dark theme kosmik yang dikunci secara konsisten melalui `next-themes` dan class-based dark variant Tailwind v4.
+- **Theming:** Antarmuka saat ini menggunakan dark theme kosmik yang dikunci secara konsisten melalui `next-themes` dan class-based dark variant Tailwind v4. Pengecualian hanya untuk halaman terpisah `/terms` dan `/privacy-policy`: kanvas putih penuh, teks hitam, tanpa emoji, ikon, dekorasi, atau motion; tema aplikasi dan modal autentikasi tetap gelap.
 - **Autentikasi & Gamifikasi:** Manajemen akun dengan NextAuth, pencatatan progres per modul, perolehan XP transaksional, dan sertifikat/portofolio proyek konsultan.
 
 ## Brand Commitments

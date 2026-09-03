@@ -317,6 +317,32 @@ export function AuthModal({
           )}
         </button>
 
+        <p className="mt-5 text-center text-sm leading-relaxed text-slate-400">
+          Read our{" "}
+          <Link
+            href="/terms"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-describedby="auth-legal-tab-notice"
+            className="text-white! underline! underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+          >
+            Terms
+          </Link>{" "}
+          and{" "}
+          <Link
+            href="/privacy-policy"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-describedby="auth-legal-tab-notice"
+            className="text-white! underline! underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+          >
+            Privacy Policy
+          </Link>.
+          <span id="auth-legal-tab-notice" className="block">
+            Each document opens in a new tab.
+          </span>
+        </p>
+
         <p className="mt-6 text-center text-sm text-slate-400">
           {isSignIn ? "New to Netloka?" : "Already have an account?"}{" "}
           <Link

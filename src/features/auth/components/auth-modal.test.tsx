@@ -135,4 +135,22 @@ describe("AuthModal", () => {
 
     expect(router.replace).toHaveBeenCalledWith("/", { scroll: false });
   });
+
+  it.each(["sign-in", "sign-up"] as const)(
+    "offers legal documents without replacing the %s form",
+    (mode) => {
+      render(<AuthModal mode={mode} googleEnabled={false} />);
+
+      for (const [name, href] of [
+        ["Terms", "/terms"],
+        ["Privacy Policy", "/privacy-policy"],
+      ]) {
+        const link = screen.getByRole("link", { name });
+        expect(link).toHaveAttribute("href", href);
+        expect(link).toHaveAttribute("target", "_blank");
+        expect(link).toHaveAttribute("rel", "noopener noreferrer");
+        expect(link).toHaveAccessibleDescription(/new tab/i);
+      }
+    },
+  );
 });

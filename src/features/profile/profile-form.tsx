@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Edit2, Save, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface ProfileFormProps {
@@ -32,88 +31,86 @@ export function ProfileForm({ initialName }: ProfileFormProps) {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to update profile");
+        throw new Error(data.error || "Gagal memperbarui nama");
       }
 
-      setSuccess("Profile updated successfully!");
+      setSuccess("Nama profil berhasil diperbarui!");
       setIsEditing(false);
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to update profile");
+      setError(err instanceof Error ? err.message : "Gagal memperbarui nama");
     } finally {
       setSaving(false);
     }
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
-          <Edit2 className="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400" />
-          Edit Profile
-        </h3>
+    <div className="rounded-xl border border-gray-200/80 bg-gray-50/50 p-5 dark:border-white/10 dark:bg-white/[0.02]">
+      <div className="flex items-center justify-between mb-4">
+        <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
+          Nama Tampilan
+        </h4>
         {!isEditing && (
           <button
+            type="button"
             onClick={() => {
               setIsEditing(true);
               setSuccess(null);
               setError(null);
             }}
-            className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+            className="text-xs font-semibold text-blue-600 dark:text-sky-400 hover:underline cursor-pointer"
           >
-            Edit
+            Ubah
           </button>
         )}
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
-          <div className="p-3 text-sm text-red-700 bg-red-100 dark:bg-red-900/40 dark:text-red-200 rounded-md">
+          <div
+            role="alert"
+            className="p-3 text-xs rounded-lg border border-rose-500/20 bg-rose-500/10 text-rose-700 dark:text-rose-300"
+          >
             {error}
           </div>
         )}
 
         {success && (
-          <div className="p-3 text-sm text-green-700 bg-green-100 dark:bg-green-900/40 dark:text-green-200 rounded-md flex items-center">
-            <Check className="h-4 w-4 mr-2" />
+          <div
+            role="status"
+            className="p-3 text-xs rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+          >
             {success}
           </div>
         )}
 
         <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >
-            Display Name
+          <label htmlFor="display-name-input" className="sr-only">
+            Nama Tampilan
           </label>
           <input
+            id="display-name-input"
             type="text"
-            id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             disabled={!isEditing}
-            className={`w-full px-3 py-2 border ${
+            placeholder="Masukkan nama tampilan Anda"
+            className={`w-full px-3.5 py-2.5 rounded-lg text-sm transition-colors border ${
               isEditing
-                ? "border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
-                : "border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50"
-            } rounded-md text-gray-900 dark:text-white text-sm transition-colors`}
+                ? "bg-white dark:bg-white/[0.04] border-gray-300 dark:border-white/15 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                : "bg-gray-100/70 dark:bg-white/[0.02] border-transparent text-gray-700 dark:text-slate-300 cursor-default"
+            }`}
           />
         </div>
 
         {isEditing && (
-          <div className="flex space-x-3 pt-2">
+          <div className="flex items-center gap-2 pt-1">
             <button
               type="submit"
               disabled={saving}
-              className={`flex items-center px-4 py-2 text-sm font-medium rounded-md text-white transition-colors ${
-                saving
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-blue-600 hover:bg-blue-700"
-              }`}
+              className="h-9 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-sm transition disabled:opacity-50 cursor-pointer"
             >
-              <Save className="h-4 w-4 mr-2" />
-              {saving ? "Saving..." : "Save Changes"}
+              {saving ? "Menyimpan..." : "Simpan Perubahan"}
             </button>
             <button
               type="button"
@@ -122,9 +119,9 @@ export function ProfileForm({ initialName }: ProfileFormProps) {
                 setIsEditing(false);
                 setError(null);
               }}
-              className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
+              className="h-9 px-3 rounded-lg border border-gray-200 dark:border-white/10 text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-white/5 text-xs font-semibold transition cursor-pointer"
             >
-              Cancel
+              Batal
             </button>
           </div>
         )}

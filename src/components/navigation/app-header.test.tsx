@@ -176,7 +176,7 @@ describe("AppHeader profile dropdown", () => {
 
     // Switch to Pengaturan tab inside modal
     fireEvent.click(screen.getByRole("button", { name: "Pengaturan" }));
-    expect(screen.getByText("Pengaturan Keamanan & Preferensi")).toBeVisible();
+    expect(screen.getByText("Pengaturan Akun & Preferensi")).toBeVisible();
     expect(screen.getByLabelText("Password Baru")).toBeVisible();
     expect(screen.getByLabelText("Konfirmasi Password Baru")).toBeVisible();
 

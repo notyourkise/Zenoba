@@ -127,5 +127,40 @@ describe("Profile API routes", () => {
         })
       );
     });
+
+    it("updates profile image successfully", async () => {
+      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+        id: "user-123",
+        email: "user@example.com",
+      });
+
+      vi.mocked(prisma.user.update).mockResolvedValueOnce({
+        id: "user-123",
+        name: "Test User",
+        email: "user@example.com",
+        role: "LEARNER",
+        image: "data:image/png;base64,sample",
+        updatedAt: new Date(),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } as any);
+
+      const req = new Request("http://localhost:3000/api/user/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image: "data:image/png;base64,sample" }),
+      });
+
+      const res = await updateProfile(req);
+      const data = await res.json();
+
+      expect(res.status).toBe(200);
+      expect(data.message).toBe("Profile updated successfully");
+      expect(prisma.user.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { id: "user-123" },
+          data: { image: "data:image/png;base64,sample" },
+        })
+      );
+    });
   });
 });

@@ -35,6 +35,7 @@ interface AppHeaderProps {
     name?: string | null;
     email?: string | null;
     role?: string | null;
+    image?: string | null;
   } | null;
 }
 
@@ -365,8 +366,15 @@ export function AppHeader({ user }: AppHeaderProps) {
                         className="flex items-center gap-2 p-1.5 pl-2 rounded-xl border border-transparent hover:border-gray-200 dark:hover:border-white/15 hover:bg-gray-100 dark:hover:bg-white/[0.06] transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                         aria-label="Menu akun"
                       >
-                        <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-sm ring-2 ring-blue-500/20">
-                          {user.name ? (
+                        <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-sm ring-2 ring-blue-500/20 overflow-hidden">
+                          {user.image ? (
+                            /* eslint-disable-next-line @next/next/no-img-element */
+                            <img
+                              src={user.image}
+                              alt={user.name || "User"}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : user.name ? (
                             user.name.slice(0, 2).toUpperCase()
                           ) : (
                             <User className="w-4 h-4" />

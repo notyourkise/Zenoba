@@ -23,6 +23,8 @@ Dokumen pencatatan hutang teknis (*technical debt*), area refaktor masa depan, d
 - **TD-08 — Session policy:** Resetting a password does not revoke existing JWT sessions. Define and test the required revocation policy before launch. See ADR 0002.
 - **TD-09 — Dependency audit:** `npm audit --omit=dev` on 2026-09-03 reports one high and one moderate package finding through Prisma's `mysql2` dependency. The application uses the PostgreSQL adapter; do not treat this as a clean audit or apply the suggested Prisma major downgrade blindly. Validate a compatible dependency remediation before release.
 
+Pre-launch legal readiness: **TD-10 — High before collecting public learner data:** Terms and Privacy Policy now describe the development implementation, but are not a compliance certification. Confirm the operator's identity and reachable privacy contact; define lawful processing bases, consent evidence where required (including child/guardian safeguards), retention/deletion/export handling, deployed processors/locations, and international-transfer safeguards. Do not label link clicks or login as recorded consent. Also verify Google OAuth token storage/revocation against provider policy before activation. See `docs/decisions/0003-legal-pages-and-policy-boundaries.md`. No public deployment is authorized by this documentation.
+
 ## 2. Rencana Jalur Ekstensi Pasca-MVP (*Future Tracks*)
 
 Arsitektur Netloka saat ini dirancang modular sehingga siap untuk mengakomodasi path tingkat lanjut tanpa mengubah core engine:

@@ -20,6 +20,8 @@ colors:
   warning: "#f59e0b"
   danger: "#ef4444"
   indigo-consultant: "#6366f1"
+  legal-background: "#ffffff"
+  legal-text: "#000000"
 typography:
   display:
     fontFamily: "var(--font-geist-sans), system-ui, -apple-system, sans-serif"
@@ -45,6 +47,21 @@ typography:
     fontWeight: 500
     lineHeight: 1.4
     letterSpacing: "normal"
+  legal-heading:
+    fontFamily: "var(--font-geist-sans), sans-serif"
+    fontSize: "clamp(2rem, 6vw, 2.75rem)"
+    fontWeight: 700
+    lineHeight: 1.2
+    letterSpacing: "-0.025em"
+  legal-section:
+    fontFamily: "var(--font-geist-sans), sans-serif"
+    fontSize: "1.25rem"
+    fontWeight: 650
+    lineHeight: 1.4
+  legal-body:
+    fontFamily: "var(--font-geist-sans), sans-serif"
+    fontSize: "1rem"
+    lineHeight: 1.8
 rounded:
   sm: "6px"
   md: "8px"
@@ -76,6 +93,8 @@ components:
 
 Netloka menggunakan gaya visual modern, berorientasi IT infrastructure namun tetap ramah bagi siswa, pemula, dan calon praktisi. Desain mengutamakan kejelasan hierarki data, keterbacaan kode/diagram konfigurasi, dan feedback visual deterministik tanpa membatasi identitas produk pada networking saja.
 
+Halaman `/terms` dan `/privacy-policy` merupakan pengecualian lokal untuk membaca dokumen legal: kanvas putih penuh dan teks hitam tanpa dekorasi. Pengecualian ini tidak mengganti identitas dark theme aplikasi atau tampilan modal autentikasi.
+
 ## Colors
 
 Palet warna Netloka dirancang untuk mendukung dual-theme (Light & Dark) dengan kontras tinggi:
@@ -90,6 +109,8 @@ Palet warna Netloka dirancang untuk mendukung dual-theme (Light & Dark) dengan k
   - **Amber (`#f59e0b`):** Peringatan kapasitas, budget warning, status pending.
   - **Indigo (`#6366f1`):** Mode Konsultan TI, portofolio proyek, skor proposal.
 
+**Aturan Kanvas Legal.** Hanya `/terms` dan `/privacy-policy` menggunakan `colors.legal-background` dan `colors.legal-text`, termasuk tautan. Keduanya tetap putih-hitam ketika tema aplikasi gelap; seleksi teks membalik pasangan warna tersebut. Pengecualian berhenti berlaku saat meninggalkan route legal.
+
 ## Typography
 
 - **Font Utama:** Geist Sans (`var(--font-geist-sans)`). Digunakan untuk semua heading, navigasi, deskripsi, dan tombol.
@@ -102,6 +123,8 @@ Palet warna Netloka dirancang untuk mendukung dual-theme (Light & Dark) dengan k
   - **Body Copy:** `text-sm sm:text-base leading-relaxed`
   - **Caption & Meta:** `text-xs text-gray-500 dark:text-gray-400`
 
+- **Dokumen Legal:** Gunakan peran Geist Sans `typography.legal-heading` untuk h1, `typography.legal-section` untuk h2, dan `typography.legal-body` untuk isi. Skala baca ini khusus halaman legal, bukan pengganti tipografi aplikasi.
+
 ## Layout
 
 - **Grid System:** 12-kolom responsif dengan `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8`.
@@ -113,6 +136,8 @@ Palet warna Netloka dirancang untuk mendukung dual-theme (Light & Dark) dengan k
 
 Domain yang belum tersedia ditampilkan sebagai item noninteraktif dengan label `Soon`. Jangan membuat tautan atau route placeholder untuk domain tersebut.
 
+- **Layout Legal:** Satu kolom terpusat selebar `min(100%, 74ch)`, gutter horizontal (1.5rem), tinggi minimum (100svh), serta scrollbar native tanpa smooth scrolling. Padding atas/bawah (2rem/4rem) menjadi (3rem/6rem) mulai lebar viewport (768px). Navigasi kembali mendahului artikel; tautan antardokumen mengikutinya. Tidak memakai navbar atau footer marketing di halaman legal.
+
 ## Elevation & Depth
 
 - **Border Hierarchy:** Tipis dan elegan (`border border-gray-200/80 dark:border-gray-800`).
@@ -121,6 +146,8 @@ Domain yang belum tersedia ditampilkan sebagai item noninteraktif dengan label `
   - Dropdown & Modal: `shadow-xl dark:shadow-2xl`
   - CTA Button: `shadow-lg shadow-blue-500/20`
 - **Glassmorphism:** Sticky headers menggunakan `backdrop-blur bg-white/95 dark:bg-gray-900/95`.
+
+- **Pengecualian Legal:** Halaman legal tetap datar tanpa shadow, glow, gradien, panel dekoratif, atau motion; hierarki berasal dari tipografi dan spasi.
 
 ## Shapes
 
@@ -134,16 +161,19 @@ Domain yang belum tersedia ditampilkan sebagai item noninteraktif dengan label `
 - **Catalog Status:** Label teks `Soon` berwarna amber; status tidak boleh disampaikan hanya melalui warna.
 - **Terminal Simulator:** Console bernuansa dark mode (`bg-gray-950 text-emerald-400 font-mono`) dengan prompt `netloka>`.
 - **Interactive Quiz & Lab Evaluator:** Panel pilihan ganda/input CIDR dengan indikator feedback instan (hijau untuk benar, merah untuk salah beserta penjelasannya).
+- **Navigasi Legal:** Tautan teks hitam selalu bergaris bawah, offset garis (0.22em), ketebalan hover (2px), serta outline focus-visible (2px) dengan offset (4px). Label `Back to Netloka`, `Terms`, dan `Privacy Policy` tidak memakai ikon.
+- **Tautan Legal Autentikasi:** Modal login/register tetap gelap dengan tautan teks bahasa Inggris `Terms` dan `Privacy Policy`, bergaris bawah dan memiliki penanda fokus. Keduanya memakai `target="_blank"` dan `rel="noopener noreferrer"`, disertai pemberitahuan tab baru agar isian modal tetap tersedia. Footer marketing menyediakan tautan langsung ke kedua route tanpa membuka tab baru.
 
 ## Do's and Don'ts
 
 ### Do's
 - Gunakan `gap-*` untuk layout flex dan grid, bukan utilitas legacy `space-x-*`.
-- Selalu sediakan pasangan warna dark mode (`dark:bg-gray-900 dark:text-white dark:border-gray-800`).
+- Selalu sediakan pasangan warna dark mode (`dark:bg-gray-900 dark:text-white dark:border-gray-800`), kecuali kedua route legal yang mengikuti Aturan Kanvas Legal.
 - Gunakan font mono untuk nilai teknis (IP address, CIDR prefix, port interface, CLI syntax).
-- Berikan state hover, focus, dan transition yang halus pada seluruh elemen yang dapat diklik.
+- Berikan state hover, focus, dan transition yang halus pada seluruh elemen yang dapat diklik; tautan halaman legal tetap memiliki hover/focus tanpa transition atau motion.
 
 ### Don'ts
 - Jangan hardcode warna tanpa kelas Tailwind atau token yang sesuai.
 - Jangan gunakan terminal asli (exec/spawn); selalu gunakan parser simulasi deterministik.
 - Jangan gunakan layout asimetris tanpa penyeimbang pada navbar utama.
+- Jangan tambahkan emoji, ikon, ilustrasi, kartu, badge, atau dekorasi pada `/terms` dan `/privacy-policy`; jangan perluas pengecualian putih-hitam ini ke halaman aplikasi lainnya.

@@ -3,6 +3,12 @@ import { describe, expect, it } from "vitest";
 import { MarketingFooter } from "./marketing-footer";
 
 describe("MarketingFooter", () => {
+  it("makes legal documents discoverable without opening authentication", () => {
+    render(<MarketingFooter />);
+    expect(screen.getByRole("link", { name: "Terms" })).toHaveAttribute("href", "/terms");
+    expect(screen.getByRole("link", { name: "Privacy Policy" })).toHaveAttribute("href", "/privacy-policy");
+  });
+
   it("merender CTA Final card dengan tombol navigasi", () => {
     render(<MarketingFooter />);
 

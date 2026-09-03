@@ -455,6 +455,7 @@ Deliverables:
 - post-MVP roadmap revision (MikroTik, Cisco, Linux Server tracks) ✅
 - landing page, dashboard, navigation, and authentication UI refinement 🚧
 - landing-page Sign In/Register modal with legacy-route compatibility ✅
+- public Terms and Privacy Policy pages with text-only white/black styling and auth-modal/footer links ✅ (operational legal/privacy launch gates remain open; ADR 0003)
 - conditional Google OAuth configuration and email-recovery implementation ✅ (live OAuth/SMTP/migration verification pending)
 - pre-launch reset abuse/timing protection, session policy, and dependency remediation ⏳ (ADR 0002; TD-06–TD-09)
 - responsive, accessibility, regression, and final-diff review for the active UI work ⏳

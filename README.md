@@ -95,6 +95,12 @@ Password-reset links expire after 30 minutes and require the password-reset data
 
 Development validation uses mocked SMTP/database boundaries. Live Hostinger delivery, Google login, and applying the new migration still require integration verification. Before public exposure, complete reset-request abuse/timing protection and review existing JWT-session revocation behavior. See [ADR 0002](docs/decisions/0002-auth-modal-and-password-recovery.md) for the implementation and verification boundaries.
 
+### Terms and Privacy Policy
+
+Public routes `/terms` and `/privacy-policy` provide Indonesian development-stage policies. Both use a text-only white/black reading layout, independent of the application's dark theme. Sign In and Create Account expose clearly labeled new-tab links so reading a policy does not discard form input; the landing footer also links to both documents. These links are notices, not a stored acceptance or parental-consent workflow.
+
+The policies describe the current implementation, not certified legal compliance. Operator identity, a reachable privacy contact, retention/deletion procedures, child-data consent, and deployed infrastructure disclosures remain pre-launch work. See [legal content notes](docs/decisions/0003-legal-pages-and-policy-boundaries.md). Rotate any OAuth secret shared outside private configuration; do not copy it into tracked files. Adding legal pages does not activate Google OAuth or verify Google branding.
+
 4. **Start PostgreSQL (using Docker)**
 
 ```bash

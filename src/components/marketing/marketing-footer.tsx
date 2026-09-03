@@ -512,6 +512,10 @@ export function MarketingFooter() {
         {/* 3. BOTTOM COPYRIGHT                                                       */}
         {/* ========================================================================= */}
         <div className="pt-8 text-center">
+          <nav aria-label="Legal documents" className="mb-4 flex flex-wrap justify-center gap-6 text-sm text-slate-300">
+            <Link href="/terms" className={footerLinkClass}>Terms</Link>
+            <Link href="/privacy-policy" className={footerLinkClass}>Privacy Policy</Link>
+          </nav>
           <p className="text-xs sm:text-sm font-bold text-white tracking-wide">
             © 2026 Netloka. Hak Cipta Dilindungi Undang-Undang.
           </p>

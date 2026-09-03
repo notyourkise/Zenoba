@@ -22,7 +22,9 @@ Verified on 2026-09-03:
 | Main / origin/main | `5f9903d0774a383bb37a544865882672b14be266` |
 | Last feature PR | [#15 — feat: add Terms and Privacy Policy pages with auth modal links](https://github.com/notyourkise/NetLoka/pull/15) |
 | Current task branch | `codex/profile-dropdown-menu` |
-| Current task delivery | Prepared for PR via GitHub CLI per user request; awaiting CI and review |
+| Current task PR | [PR #17 — feat(navigation): profile dropdown menu, account modal, avatar upload, and flame streak](https://github.com/notyourkise/NetLoka/pull/17) |
+| PR #17 head | `3f1e3de5b1238b84a48803802fb50b3a84672252` |
+| PR #17 CI & mergeability | All 5 CI jobs passed, mergeable (`CLEAN`); ready for user review and merge |
 
 Retained worktrees (not cleanup targets for this documentation task):
 

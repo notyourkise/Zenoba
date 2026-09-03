@@ -33,8 +33,36 @@ export function AccountModal({
   React.useEffect(() => {
     if (!isOpen) return;
 
-    const previousOverflow = document.body.style.overflow;
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    const handleWheel = (e: WheelEvent) => {
+      const target = e.target as HTMLElement | null;
+      const scrollable = target?.closest<HTMLElement>(".overflow-y-auto");
+      if (!scrollable) {
+        e.preventDefault();
+        return;
+      }
+      const { scrollTop, scrollHeight, clientHeight } = scrollable;
+      const isAtTop = scrollTop <= 0 && e.deltaY < 0;
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1 && e.deltaY > 0;
+      if (isAtTop || isAtBottom) {
+        e.preventDefault();
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target?.closest(".overflow-y-auto")) {
+        e.preventDefault();
+      }
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -46,7 +74,10 @@ export function AccountModal({
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("touchmove", handleTouchMove);
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
     };
   }, [isOpen, onClose]);
 
@@ -60,7 +91,7 @@ export function AccountModal({
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm animate-in fade-in-0 duration-150"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm animate-in fade-in-0 duration-150 overscroll-contain"
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
@@ -70,7 +101,7 @@ export function AccountModal({
         role="dialog"
         aria-modal="true"
         aria-label="Modal Akun"
-        className="relative flex w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl dark:border-white/15 dark:bg-[#090b14] md:flex-row md:min-h-[520px]"
+        className="relative flex w-full max-w-3xl flex-col max-h-[min(520px,calc(100vh-3.5rem))] overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl dark:border-white/15 dark:bg-[#090b14] md:flex-row overscroll-contain"
       >
         {/* Tombol X Close di Atas Kanan */}
         <button
@@ -125,7 +156,7 @@ export function AccountModal({
         </div>
 
         {/* Konten Tab Modal */}
-        <div className="flex-1 overflow-y-auto p-6 md:p-7 max-h-[calc(85vh-4rem)]">
+        <div className="flex-1 overflow-y-auto p-6 md:p-7 overscroll-contain">
           {activeTab === "profile" && (
             <div className="space-y-6">
               <div>

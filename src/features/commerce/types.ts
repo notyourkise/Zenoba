@@ -16,7 +16,7 @@ export type PaymentProvider = "SANDBOX" | "MIDTRANS";
 
 export interface CourseInput {
   slug: string;
-  title: string;
+  title?: string;
   accessTier: CourseAccessTier;
   catalogStatus: CatalogStatus;
   learningPathId?: string | null;

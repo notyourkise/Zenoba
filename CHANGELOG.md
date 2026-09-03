@@ -40,6 +40,12 @@ All notable project changes are recorded here.
 
 # 2026-09-03
 
+- [2026-09-03 23:44 WITA] [DOCS] [Milestone 7 / Sprint 17 / Member Workspace & Course Commerce Foundation]
+  Recorded the owner-approved architectural design for a distinct post-login learner workspace and future hybrid lifetime course commerce. The design preserves the locked public landing/auth UI; makes Networking free; defines seven premium tracks as noninteractive Coming soon entries until content is published; defines Single Course and premium-only Combo Package rules; establishes seed/config catalog management, server-authoritative entitlements, a non-production sandbox payment lifecycle, and Dynamic QRIS/Midtrans as a separately gated activation phase. Added Sprint 17 planned workstreams and Milestone 8 provider/product activation gates, plus an explicit agent workflow, test strategy, authorization, security, and delivery requirements.
+  Validation: documentation/source-flow review and current main/worktree verification completed; `npm ci` baseline setup in the isolated planning worktree was blocked by a Windows `EPERM` lock on the checkout's `lightningcss` native binary, so no fresh application test result is claimed. No application code, migration, dependency, credential, public UI, payment activation, deployment, or PR was created by this documentation checkpoint.
+  Files/areas: `docs/superpowers/specs/2026-09-03-member-workspace-course-commerce-design.md`, `ROADMAP.md`, `PLAN.md`, `docs/HANDOFF.md`
+  Git: pending; local branch `codex/course-commerce-plan`, base `3a735da`
+
 - [2026-09-03 15:25 WITA] [ADDED] [Milestone 7 / Sprint 16 / Profile Dropdown Menu & Account Modal]
   Implemented interactive profile dropdown menu and rich Account Modal with sidebar navigation (Profile & Pengaturan).
   Features:

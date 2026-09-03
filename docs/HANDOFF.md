@@ -1,6 +1,6 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-03 15:25 WITA**. This is a development snapshot, not a live status feed. Follow [AGENTS.md](../AGENTS.md), then verify Git, files, PRs, and checks before acting. Do not require the previous chat to understand this file.
+Last updated: **2026-09-03 23:44 WITA**. This is a development snapshot, not a live status feed. Follow [AGENTS.md](../AGENTS.md), then verify Git, files, PRs, and checks before acting. Do not require the previous chat to understand this file.
 
 ## 1. Product and active work
 
@@ -9,7 +9,7 @@ Last updated: **2026-09-03 15:25 WITA**. This is a development snapshot, not a l
 - Other navbar domains remain noninteractive **Soon** entries. Keep established English product terms; do not implement future domains without approved scope.
 - [ROADMAP.md](../ROADMAP.md) records Milestones 0–6 complete. **Milestone 7 is active**, Sprint 16 covers stabilization/feature refinement; Sprint 15 security/environment/deployment gates remain open.
 - Current phase is **feature development**, not deployment. Staging and production have not been deployed/verified. Configuration files and CI builds are not evidence of a live deployment.
-- Current task: Profile Dropdown Menu & Account Modal with sidebar navigation, photo upload, editable headline, device-local flame streak, and CLI/settings controls.
+- Current planning task: Member Workspace & Course Commerce Foundation. The owner approved the architecture/design but no application implementation has started. The next agent must review the written spec, obtain/record owner approval of that document, then create the task-by-task implementation plan before code.
 
 ## 2. Git and delivery checkpoint
 
@@ -18,21 +18,17 @@ Verified on 2026-09-03:
 | Item | Last verified state |
 | --- | --- |
 | Repository | [notyourkise/NetLoka](https://github.com/notyourkise/NetLoka) |
-| Main checkout | `C:/laragon/www/netloka`, branch `codex/profile-dropdown-menu` |
-| Main / origin/main | `5f9903d0774a383bb37a544865882672b14be266` |
-| Last feature PR | [#15 — feat: add Terms and Privacy Policy pages with auth modal links](https://github.com/notyourkise/NetLoka/pull/15) |
-| Current task branch | `codex/profile-dropdown-menu` |
-| Current task PR | [PR #17 — feat(navigation): profile dropdown menu, account modal, avatar upload, and flame streak](https://github.com/notyourkise/NetLoka/pull/17) |
-| PR #17 head | `3f1e3de5b1238b84a48803802fb50b3a84672252` |
-| PR #17 CI & mergeability | All 5 CI jobs passed, mergeable (`CLEAN`); ready for user review and merge |
+| Main checkout | `C:/laragon/www/netloka`, branch `main` |
+| Main / origin/main | `3a735da181339bd98b0c6218389b3d83debd67bf` (observed synchronized after PR #17 merge) |
+| Last feature PR | [#17 — profile dropdown menu, account modal, avatar upload, and flame streak](https://github.com/notyourkise/NetLoka/pull/17), merged; re-verify live PR/CI facts before relying on this snapshot |
+| Current planning branch/worktree | `codex/course-commerce-plan` at `C:/laragon/www/netloka/.worktrees/codex-course-commerce-plan`, based on `3a735da` |
+| Current task PR | None. Documentation is local and uncommitted at this checkpoint. |
 
-Retained worktrees (not cleanup targets for this documentation task):
+Retained worktrees (not cleanup targets for this planning task):
 
-- `.worktrees/codex-auth-legal-pages` → branch `codex/auth-legal-pages`, last observed at `1325803`. PR #15 merged; cleanup unperformed.
-- `.worktrees/codex-auth-modal-password-reset` → branch `codex/auth-modal-password-reset`, last observed at `48df6c2`. PR #14 merged; cleanup unperformed.
 - `.worktrees/codex-fix-m0-sprint-0` → branch `docs/staging-progress`, last observed at `8460136`. Unrelated work; do not delete or repurpose it.
 
-Paths are local checkout hints, not portable requirements. Rediscover worktrees on another machine. After this docs PR eventually merges, do not resume this task merely because the snapshot still names its former branch.
+Paths are local checkout hints, not portable requirements. Rediscover worktrees on another machine. After this planning PR eventually merges, do not resume a former branch merely because this snapshot names it.
 
 ## 3. Implemented feature baseline
 
@@ -86,19 +82,18 @@ Example flows to retrace before related changes:
 - The 2026-09-03 changelog records local ESLint/typecheck, 35 Vitest suites / 160 tests, 72 Playwright tests across Chromium/Firefox/WebKit, Prisma validation, production build, and visual/keyboard checks on the feature code. These are prior-task results, not newly executed checks for this docs task.
 - Focused tests mock Prisma/SMTP. The browser server used placeholder DB credentials and exercised degraded health, not successful live persistence. No live email or Google journey was proven by those green results.
 
-### Current documentation task
+### Current planning checkpoint
 
-- Baseline: clean main and clean newly created worktree; `git diff --check` passed before edits.
-- Documentation verification passed: `git diff --check`, 10 local Markdown links, 39 source-path references, and exact preservation of the Next.js generated block. Independent read-only review found no material issues in the documentation change. Only `AGENTS.md`, `CHANGELOG.md`, and this file changed; main remains clean. This is local verification, not PR/CI readiness.
-- Application source, migration, lockfile, and CI configuration changes are out of scope. Do not claim this docs branch has fresh CI before it is published and checked.
-- Fresh local check on 2026-09-03: `npm ci`, `npm run db:generate`, and `npm test` succeeded; **35 suites / 160 tests passed** on unchanged application code at base `33b7caa` with uncommitted documentation edits. Safe placeholder database/auth values were used. The health test observed a database authentication failure and passed its degraded-health contract; this is not live integration success. Lint, typecheck, E2E, and build were not rerun for these documentation-only edits.
-- Fresh full `npm audit --json` (including development dependencies) reports **7 findings: 4 moderate, 2 high, 1 critical**. The critical report concerns Vitest's exposed UI-server behavior; this task ran `vitest run`, not a public UI server. Other findings include Vite/tooling and Prisma/mysql2. This broader audit differs from the historical production-only audit below. No dependency or lockfile was changed; assess remediation in a separate approved task and do not expose development servers publicly.
+- Owner-approved design: `docs/superpowers/specs/2026-09-03-member-workspace-course-commerce-design.md`. It defines the protected member workspace, hybrid lifetime catalog, course/package/order/entitlement boundaries, non-production sandbox lifecycle, locked public-UI boundary, Sprint 17 workstreams, and Milestone 8 activation gates.
+- `ROADMAP.md` and `PLAN.md` now contain the planned Sprint 17 workstreams. This is planning, not implementation: no application source, Prisma migration, lockfile, CI configuration, credential, live payment, deployment, or PR has been created.
+- Isolated planning worktree was clean at creation and based on `3a735da`. `npm ci` could not complete because Windows reported `EPERM` while unlinking the checkout's `lightningcss` native binary. Therefore no fresh baseline test is claimed for this planning task. Investigate a clean dependency setup before an implementation agent uses test results as evidence.
+- Historical audit and application-test observations below are retained as history only. Rerun relevant checks on the actual implementation branch and never expose a development test server publicly.
 
 For future application work, use actual npm scripts in `package.json`: `npm ci`, `npm run db:generate`, lint, typecheck, unit tests, E2E, and build as appropriate. Read `.github/workflows/` afresh to determine all expected jobs; do not assume this five-job inventory is permanent.
 
 ## 6. Open work and decisions
 
-See [technical debt](TECHNICAL_DEBT.md), [ADR 0002](decisions/0002-auth-modal-and-password-recovery.md), [auth plan](superpowers/plans/2026-09-02-auth-modal-password-reset.md), and [stabilization priorities](superpowers/plans/2026-09-02-mvp-stabilization-repair-priorities.md).
+See [the approved commerce design](superpowers/specs/2026-09-03-member-workspace-course-commerce-design.md), [technical debt](TECHNICAL_DEBT.md), [ADR 0002](decisions/0002-auth-modal-and-password-recovery.md), [auth plan](superpowers/plans/2026-09-02-auth-modal-password-reset.md), and [stabilization priorities](superpowers/plans/2026-09-02-mvp-stabilization-repair-priorities.md).
 
 1. **Before public password recovery (TD-06):** implement/verify abuse protection, throttling, and timing-resistant handling. Generic response bodies alone are insufficient.
 2. **Integration verification (TD-07):** apply the reset-token migration to an approved isolated/staging database; verify real SMTP delivery, replacement/expiry/consumption, reset-to-sign-in, and Google OAuth after configuration. Docker was unavailable during the previous feature review; recheck availability instead of assuming it remains unavailable.
@@ -106,6 +101,7 @@ See [technical debt](TECHNICAL_DEBT.md), [ADR 0002](decisions/0002-auth-modal-an
 4. **Dependency remediation (TD-09):** the 2026-09-03 production audit recorded one high and one moderate finding via Prisma/mysql2. PostgreSQL usage does not make that audit clean. Rerun the audit when tackling this task; do not apply a blind major downgrade. No new mail-adapter finding was recorded in that review.
 5. **Release gates (TD-04/TD-05):** CSP, deployed WAF verification, staging/production validation, migration/backup/restore/smoke verification, and final Critical/High review remain open. The user is still developing features; do not deploy without explicit approval.
 6. **Maintenance (TD-01):** tracked Next.js middleware-to-proxy deprecation.
+7. **Commerce activation:** Midtrans/Dynamic QRIS remains deferred until Milestone 8 entry gates. The owner currently has no NPWP/merchant readiness; do not ask for, store, or use live payment credentials. Phase 1 uses no real payment.
 
 Secrets must be configured privately, never written in this document or PR logs. Previously shared SMTP credentials need rotation before live use; do not recover or repeat them from chat. Google OAuth client credentials are pending. Confirm the environment and authority before sending live emails or applying migrations.
 
@@ -113,9 +109,8 @@ Documentation nuance: ROADMAP keeps aggregate UI/final-readiness review open, wh
 
 ## 7. Resume here
 
-1. Verify live Git/worktree state; do not edit `main` or reopen already merged feature implementation.
-2. The current documentation task is locally implemented and reviewed; do not recreate it. Preserve application code and existing worktrees. Recheck the diff for any edits made after this snapshot.
-3. Await the user's direction on publishing this documentation change. Once authorized, commit/push/create a focused documentation PR and record its actual delivery state; this task has not yet been published.
-4. Once published, verify every expected CI job for the current head and hand the PR to Abangku. Final review/merge belongs to the user.
-5. After the user merges and authorizes synchronization/cleanup, verify the merge, fast-forward main, and remove only verified safe task branches/worktrees according to AGENTS.md. Update this snapshot through the documented handoff process.
-6. Before taking the next feature/security task, ask which priority Abangku wants if none has been selected; do not treat this open-work list as automatic authorization.
+1. Verify live Git/worktree/PR/CI state and reconcile this snapshot before any change. Do not edit `main`, delete unrelated worktrees, or rely on the historical profile/auth results as fresh evidence.
+2. Review the approved commerce design and Sprint 17 section in `PLAN.md`. Ask Abangku to review the committed design document; after written-spec approval, create a detailed task-by-task implementation plan before code.
+3. Before implementation, resolve the `npm ci` file-lock blocker in a clean isolated workspace and establish fresh test evidence. If it recurs, report it rather than proceeding with unverified baseline assumptions.
+4. Start only the approved Sprint 17 scope on a dedicated worktree. Preserve public landing/auth UI exactly. Implement one workstream at a time with TDD and server-side authorization; use non-production fixtures only for sandbox payment.
+5. Publish only after local review/verification. Use `gh` for PR and CI evidence; Abangku owns review and merge. After a confirmed merge, fast-forward main and perform only explicitly authorized, verified local cleanup.

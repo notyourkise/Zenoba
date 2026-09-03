@@ -461,7 +461,42 @@ Deliverables:
 - responsive, accessibility, regression, and final-diff review for the active UI work ⏳
 - staging validation before production launch ⏳
 
+### Sprint 17 — Member Workspace & Commerce Foundation 🗓️ PLANNED
+
+**Goal:** Make the post-login experience a distinct learner workspace and establish a server-authoritative course catalog, package, order, sandbox payment, and lifetime-entitlement foundation. This sprint is planning-approved but not yet implemented. It does not activate live payments or change the locked public landing/auth experience.
+
+Deliverables:
+
+- persistent desktop sidebar and equivalent accessible mobile drawer for authenticated routes
+- post-login workspace with Overview, My Learning, Course Catalog, My Packages, Orders, Profile, and Settings
+- default authenticated black (`#000000`) / white (`#ffffff`) visual surface without the public cosmic background; Settings theme toggle remains functional
+- `Course`, `Package`, package composition, order, payment-attempt, and lifetime-entitlement persistence/domain services
+- Networking catalog entry marked Free and always accessible; seven planned premium tracks visible as noninteractive `Coming soon` entries with `Price announced at launch`
+- Single Course package rule (exactly one premium course) and Combo Package rule (two or more premium courses; no free Networking course)
+- server-side entitlement guards for future premium learning content; sidebar/UI is never an authorization boundary
+- sandbox-only payment gateway contract, idempotent `Pending → Paid/Expired/Cancelled` order lifecycle, and test-only fixture products
+- seed/config catalog management only; no admin dashboard, production checkout, live QRIS, payment secrets, refund UI, subscription, renewal, promotions, or invoice/tax automation
+- complete migration/security/accessibility/responsive/regression review and PR/CI gate
+
+**Reference design:** `docs/superpowers/specs/2026-09-03-member-workspace-course-commerce-design.md`
+
 **MVP exit criteria:** Netloka must be deployed to staging and production, pass post-deploy smoke and critical-path verification, and be stable, recoverable, measurable, and usable by real learners. Not yet satisfied.
+
+---
+
+## Milestone 8 — Premium Course & Payment Activation 🗓️ PLANNED
+
+**Goal:** Release the first real premium learning products and enable Dynamic QRIS only after content, merchant, privacy/legal, operational, infrastructure, and provider verification gates are all satisfied.
+
+Entry gates:
+
+1. a premium course has published, access-guarded learning content;
+2. owner-approved final pricing and a valid Combo Package of at least two real premium courses;
+3. merchant/legal/tax readiness, operator identity, privacy contact, retention/right procedures, and payment terms;
+4. private Midtrans credentials and verified Dynamic QRIS webhook configuration;
+5. staging/deployment/backup/monitoring gates from Milestone 7 verified with isolated data.
+
+Milestone 8 includes provider sandbox/staging/live validation, reconciliation and dispute/refund operational playbook, then controlled production enablement. Sprint 17 implementation alone is not evidence that these gates are complete.
 
 ---
 
@@ -483,6 +518,8 @@ M5 Labs & Challenges
 M6 IT Consultant Mode
      ↓
 M7 Production Launch
+     ↓
+M8 Premium Course & Payment Activation
 ```
 
 Parallelism is allowed only when interfaces are already stable and separate work cannot corrupt shared state.

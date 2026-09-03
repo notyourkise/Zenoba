@@ -1,5 +1,7 @@
-import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/lib/auth";
+import { LearnerAccountRouteModal } from "@/components/navigation/learner-account-route-modal";
 
-export default function SettingsPage() {
-  redirect("/dashboard");
+export default async function SettingsPage() {
+  const user = await getCurrentUser();
+  return <LearnerAccountRouteModal initialTab="settings" user={user} />;
 }

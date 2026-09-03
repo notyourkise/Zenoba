@@ -102,7 +102,7 @@ test.describe("Netloka Core App & Auth Shell", () => {
     await expect(
       page.getByRole("dialog", { name: "Create your Netloka account" }),
     ).toBeVisible();
-    await expect(page.getByLabel(/Name/i)).toBeVisible();
+    await expect(page.getByLabel(/Name/i)).not.toBeVisible();
     await expect(page.getByLabel("Email")).toBeVisible();
     await expect(page.getByLabel("Password", { exact: true })).toBeVisible();
     await expect(page.getByLabel("Confirm password")).toBeVisible();

@@ -40,6 +40,10 @@ All notable project changes are recorded here.
 
 # 2026-09-03
 
+- [2026-09-03 11:56 WITA] [DOCS] [Milestone 7 / Sprint 16 / PR Handoff]
+  Recorded the committed auth modal/password-recovery implementation and prepared the user-requested pull request to main. Re-ran ESLint, type-check, and all 160 unit tests successfully before committing. The previously recorded 72-browser-test and production-build results apply to the same application code. The PR must expose migration, live SMTP/OAuth, timing/abuse, JWT policy, and dependency limitations; it is not deployment approval or sprint completion. Human review and merge remain with the project owner.
+  Git: implementation commit 9d681b211af9dfa9a37e8e49efbc7e70b38cbac9; branch codex/auth-modal-password-reset; PR number and CI outcome will be reported in the GitHub handoff.
+
 - [2026-09-03 11:51 WITA] [REVIEW] [Milestone 7 / Sprint 16 / Authentication]
   Completed local auth feature verification and documented remaining launch gates. Fixed callback URL normalization bypasses in the modal and legacy redirects, and bound reset-token deletion to its digest so concurrently replaced tokens cannot consume a newer token. Added regression coverage; retained a unique token-per-user constraint and atomic upsert. Recorded the actual NextAuth 4/Nodemailer alias architecture in ADR 0002.
   Validation: ESLint and TypeScript passed; 35 Vitest suites passed (160/160 tests); production build passed (30 routes plus middleware); 72/72 Playwright tests passed across Chromium, Firefox, and WebKit using one worker against a local production build on port 3001. Prisma schema validation and diff whitespace checks passed. Desktop/mobile visual and keyboard QA was completed on 2026-09-02; Impeccable review improved the pending-label text size.

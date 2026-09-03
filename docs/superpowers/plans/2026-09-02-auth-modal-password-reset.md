@@ -263,3 +263,7 @@
 Tasks 1–5 and Task 6 Steps 1–5 are implemented and locally verified. Final gates: 160 Vitest tests, 72 cross-browser Playwright tests, lint, type-check, build, and Prisma schema validation passed. The final browser run used a built local app on port 3001 with one worker; the temporary config was removed afterward.
 
 Step 6 review was performed and callback/token-race findings were fixed, but its release-blocker criterion is intentionally not marked complete: live migration/SMTP/OAuth verification, reset abuse/timing protection, session revocation policy, and dependency remediation remain tracked in PLAN, ADR 0002, and the technical debt register. No deployment, commit, push, PR, or merge has occurred.
+
+## PR handoff — 2026-09-03
+
+The project owner subsequently requested a PR for human review. Implementation is committed as `9d681b211af9dfa9a37e8e49efbc7e70b38cbac9` on `codex/auth-modal-password-reset`, based on `main` at `73c1ea1`. Lint, type-check, and 160 unit tests were re-run before commit. Publishing a review PR does not close the release blockers above; no merge or deployment is authorized.

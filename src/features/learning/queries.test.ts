@@ -14,6 +14,9 @@ vi.mock("@/lib/db/client", () => ({
     userLessonProgress: {
       findMany: vi.fn(),
     },
+    entitlement: {
+      findUnique: vi.fn(),
+    },
   },
 }));
 
@@ -177,6 +180,27 @@ describe("Learning Queries", () => {
       expect(result?.modules[0].lessons[0].status).toBe("AVAILABLE");
       expect(result?.modules[0].lessons[1].status).toBe("LOCKED");
       expect(result?.modules[0].lessons[1].unmetPrerequisites).toHaveLength(1);
+    });
+
+    it("throws CourseAccessDeniedError when path is linked to a premium course and user is unentitled", async () => {
+      vi.mocked(prisma.learningPath.findUnique).mockResolvedValueOnce({
+        id: "path-cctv",
+        slug: "cctv-course",
+        title: "CCTV Course",
+        published: true,
+        commerceCourse: {
+          id: "c-cctv",
+          accessTier: "PREMIUM",
+        },
+      } as any);
+
+      vi.mocked(prisma.entitlement.findUnique).mockResolvedValueOnce(null);
+
+      await expect(
+        getLearningPathDetail("cctv-course", "user-1"),
+      ).rejects.toMatchObject({
+        code: "COURSE_ACCESS_DENIED",
+      });
     });
   });
 });

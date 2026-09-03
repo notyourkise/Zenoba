@@ -389,7 +389,7 @@ export function AppHeader({ user }: AppHeaderProps) {
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
-                        <Link href="/profile#settings" className="flex items-center justify-between">
+                        <Link href="/settings" className="flex items-center justify-between">
                           <span>Pengaturan</span>
                           <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                         </Link>

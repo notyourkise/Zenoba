@@ -156,7 +156,7 @@ describe("AppHeader profile dropdown", () => {
     expect(profileLink).toHaveAttribute("href", "/profile");
 
     const settingsLink = screen.getByRole("menuitem", { name: /Pengaturan/i });
-    expect(settingsLink).toHaveAttribute("href", "/profile#settings");
+    expect(settingsLink).toHaveAttribute("href", "/settings");
 
     const supportLink = screen.getByRole("menuitem", { name: /Bantuan/i });
     expect(supportLink).toHaveAttribute("href", "/#faq");

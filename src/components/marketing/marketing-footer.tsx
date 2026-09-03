@@ -364,7 +364,7 @@ export function MarketingFooter() {
           <div className="flex flex-wrap items-center justify-center gap-3.5">
             {/* Primary Action Button */}
             <Link
-              href="/sign-up"
+              href="/?auth=sign-up"
               style={{ color: "#000000" }}
               className="group inline-flex min-h-11 items-center justify-center rounded-full bg-white hover:bg-slate-100 px-7 text-sm font-bold text-black !text-black dark:text-black dark:!text-black transition-colors shadow-lg shadow-white/10 overflow-hidden cursor-pointer"
             >

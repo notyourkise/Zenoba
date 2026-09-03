@@ -45,6 +45,37 @@ export function getServerEnvironment() {
   return result.data;
 }
 
+const emailEnvSchema = z.object({
+  APP_URL: z.string().url("APP_URL or NEXTAUTH_URL must be a valid URL"),
+  SMTP_HOST: z.string().min(1).default("smtp.hostinger.com"),
+  SMTP_PORT: z.coerce.number().int().positive().default(465),
+  SMTP_SECURE: z
+    .enum(["true", "false"])
+    .default("true")
+    .transform((value) => value === "true"),
+  SMTP_USER: z.string().email("SMTP_USER must be an email address"),
+  SMTP_PASSWORD: z.string().min(1, "SMTP_PASSWORD is required"),
+  EMAIL_FROM: z.string().email("EMAIL_FROM must be an email address"),
+});
+
+export function getEmailEnvironment() {
+  const result = emailEnvSchema.safeParse({
+    APP_URL: process.env.APP_URL || process.env.NEXTAUTH_URL,
+    SMTP_HOST: process.env.SMTP_HOST || "smtp.hostinger.com",
+    SMTP_PORT: process.env.SMTP_PORT || "465",
+    SMTP_SECURE: process.env.SMTP_SECURE || "true",
+    SMTP_USER: process.env.SMTP_USER,
+    SMTP_PASSWORD: process.env.SMTP_PASSWORD,
+    EMAIL_FROM: process.env.EMAIL_FROM || process.env.SMTP_USER,
+  });
+
+  if (!result.success) {
+    throw new Error("Email delivery is not configured");
+  }
+
+  return result.data;
+}
+
 // Validate at import time (fail-fast on startup, skip in unit test runner)
 if (process.env.NODE_ENV !== "test" && typeof window === "undefined") {
   try {

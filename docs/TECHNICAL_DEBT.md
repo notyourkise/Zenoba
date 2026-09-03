@@ -16,6 +16,13 @@ Dokumen pencatatan hutang teknis (*technical debt*), area refaktor masa depan, d
 
 ---
 
+### Pre-launch authentication follow-up (2026-09-03)
+
+- **TD-06 — High before public exposure:** Reset request handlers return identical bodies, but synchronous SMTP timing can disclose account existence and no application-level reset throttling is implemented. Verify rate limiting/abuse protection and timing-resistant handling before enabling public password recovery.
+- **TD-07 — Integration verification:** Apply the new token migration on an isolated/staging database and verify real SMTP delivery, token replacement/consumption, reset-to-login, and Google OAuth after credentials are configured. Local unit tests mock database/mail boundaries; Docker was unavailable at final review.
+- **TD-08 — Session policy:** Resetting a password does not revoke existing JWT sessions. Define and test the required revocation policy before launch. See ADR 0002.
+- **TD-09 — Dependency audit:** `npm audit --omit=dev` on 2026-09-03 reports one high and one moderate package finding through Prisma's `mysql2` dependency. The application uses the PostgreSQL adapter; do not treat this as a clean audit or apply the suggested Prisma major downgrade blindly. Validate a compatible dependency remediation before release.
+
 ## 2. Rencana Jalur Ekstensi Pasca-MVP (*Future Tracks*)
 
 Arsitektur Netloka saat ini dirancang modular sehingga siap untuk mengakomodasi path tingkat lanjut tanpa mengubah core engine:

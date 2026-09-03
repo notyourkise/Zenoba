@@ -21,7 +21,8 @@ export async function middleware(request: NextRequest) {
   );
 
   if (isProtected && !token) {
-    const signInUrl = new URL("/sign-in", request.url);
+    const signInUrl = new URL("/", request.url);
+    signInUrl.searchParams.set("auth", "sign-in");
     signInUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(signInUrl);
   }

@@ -808,7 +808,7 @@ Seed:
 
 ---
 
-## Sprint 17 — Member Workspace & Commerce Foundation 🚀 IMPLEMENTED / READY FOR REVIEW
+## Sprint 17 — Member Workspace & Commerce Foundation 🚀 IMPLEMENTED / MERGED
 
 **Approved design:** `docs/superpowers/specs/2026-09-03-member-workspace-course-commerce-design.md`
 **Task-by-task execution plan:** `docs/superpowers/plans/2026-09-03-member-workspace-course-commerce.md`
@@ -859,6 +859,28 @@ Seed:
 ### Deferred activation — Milestone 8
 
 - [ ] Do not add Midtrans credentials, production Dynamic QRIS, active premium price, checkout, or provider webhook until all Milestone 8 entry gates in the approved design and `ROADMAP.md` are independently verified.
+
+---
+
+## Sprint 18 — Dashboard Distillation & Workspace Focus 🗓️ PLANNED
+
+**Approved design:** `docs/superpowers/specs/2026-09-05-dashboard-distillation-design.md`
+**Task-by-task execution plan:** `docs/superpowers/plans/2026-09-05-dashboard-distillation.md`
+**Status:** Owner has approved the scope. Planning is complete; application implementation has not started.
+
+### Scope and non-negotiable boundaries
+
+- [ ] Replace only the authenticated `/dashboard` marketing/card-heavy composition with a one-column, text-led learner workspace.
+- [ ] Keep the locked pre-login landing page, marketing components, public navigation, and auth modal unchanged.
+- [ ] Remove public-dashboard-only pillars, roadmap/UKK, platform highlights, FAQ, promotional footer, decorative icons, and repeated card grids from `/dashboard`; retain public material on the landing page.
+- [ ] Use existing user-scoped progress/path read models, retain all authorization behavior, and load independent reads concurrently after session resolution.
+- [ ] Cover active, zero-progress, and no-path states; add progress-bar semantics, keyboard/responsive/theme review, and no-public-regression verification.
+- [ ] Do not introduce a next-lesson resolver, database migration, API, new dependency, commerce change, payment behavior, or deployment work.
+
+### Delivery sequence
+
+- [ ] Follow Tasks 1–4 in the approved plan: red focused tests → minimal dashboard refactor → state/accessibility/regression coverage → full review, quality gate, PR, CI, owner review, merge synchronization, and safe cleanup.
+- [ ] Do not mark Sprint 18 complete until application work is implemented, locally verified, CI-passed on its latest PR head, merged by Abangku, and main is synchronized.
 
 ---
 

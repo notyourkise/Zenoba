@@ -461,7 +461,7 @@ Deliverables:
 - responsive, accessibility, regression, and final-diff review for the active UI work ⏳
 - staging validation before production launch ⏳
 
-### Sprint 17 — Member Workspace & Commerce Foundation 🚀 IMPLEMENTED / READY FOR REVIEW
+### Sprint 17 — Member Workspace & Commerce Foundation 🚀 IMPLEMENTED / MERGED
 
 **Goal:** Make the post-login experience a distinct learner workspace and establish a server-authoritative course catalog, package, order, sandbox payment, and lifetime-entitlement foundation. This sprint is fully implemented and locally verified across all 9 tasks. It does not activate live payments or change the locked public landing/auth experience.
 
@@ -479,6 +479,21 @@ Deliverables:
 - complete migration/security/accessibility/responsive/regression review and PR/CI gate
 
 **Reference design:** `docs/superpowers/specs/2026-09-03-member-workspace-course-commerce-design.md`
+
+### Sprint 18 — Dashboard Distillation & Workspace Focus 🗓️ PLANNED
+
+**Goal:** Refocus the authenticated dashboard on the learner's immediate next step and truthful learning progress. Remove duplicated public-marketing content, decorative icons, and card-heavy layout from `/dashboard` only, while preserving the owner-locked pre-login landing/auth UI exactly.
+
+Deliverables:
+
+- one-column, text-led authenticated dashboard with a single primary learning action
+- active, zero-progress, and no-published-path states backed by existing user-scoped learning read models
+- labelled, semantic progress indicator and compact text progress metrics
+- text-only secondary links to Labs, Challenges, and Consultant without feature cards
+- concurrent independent dashboard read-model loading after session resolution
+- focused dashboard regression tests, responsive/accessibility review, full project quality gates, PR, and current-head GitHub Actions verification
+
+**Reference design:** `docs/superpowers/specs/2026-09-05-dashboard-distillation-design.md`
 
 **MVP exit criteria:** Netloka must be deployed to staging and production, pass post-deploy smoke and critical-path verification, and be stable, recoverable, measurable, and usable by real learners. Not yet satisfied.
 

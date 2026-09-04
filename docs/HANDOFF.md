@@ -1,15 +1,15 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-05 02:55 WITA**. This is a development snapshot, not a live status feed. Read [AGENTS.md](../AGENTS.md), then verify Git, files, PRs, and checks before acting. Do not depend on prior chat history.
+Last updated: **2026-09-05 03:37 WITA**. This is a development snapshot, not a live status feed. Read [AGENTS.md](../AGENTS.md), then verify Git, files, PRs, and checks before acting. Do not depend on prior chat history.
 
 ## 1. Product and active work
 
 - Netloka is an interactive **IT infrastructure learning platform**. Networking is its first available learning domain; the product journey is **Learn → Interact → Practice → Challenge → Consultant Project**.
 - Milestones 0–6 are complete; **Milestone 7 remains active**. Staging/production and other launch gates remain unverified.
-- Sprint 17's workspace/commerce work merged in PR #18, and the account-security/theming work merged in PR #19. Neither merge is evidence of deployment.
-- **Current task:** Dashboard Distillation & Workspace Focus (Sprint 18).
-- **Owner-approved scope:** Change authenticated `/dashboard` into a quiet, text-led learner workspace. Remove its public marketing sections, decorative icons, and repeated card grids. Keep public landing/auth UI exactly as it is; public material stays on the landing page.
-- **Current phase:** Implementation locally verified. Server component refactored to single-column text hierarchy with progress semantics and concurrent read loading; focused tests created in `src/app/(app)/dashboard/page.test.tsx`; all checks green.
+- Sprint 17 merged in PR #18, account security merged in PR #19, and Sprint 18 (Dashboard distillation) merged in PR #20.
+- **Current task:** Cosmic Orbital Workspace UI Redesign (Sprint 19).
+- **Owner-approved scope:** Transform `/dashboard`, `LearnerSidebar`, and `LearnerMobileDrawer` into a cosmic, orbital-themed workspace matching the user-provided reference design (`media_1788549989073.png`). Include Earth orbital hero banner with Netloka quote, 4 stats cards with 3D glowing flame, circular donut gauge, resume card, and 3 exploration cards with flowing luminous waves.
+- **Current phase:** Implementation locally verified. All unit tests, Playwright E2E tests, build, and linter passing. Ready for commit, push, PR, and Abangku's review.
 
 ## 2. Verified Git and worktree checkpoint
 
@@ -19,13 +19,11 @@ Verified locally on 2026-09-05:
 | --- | --- |
 | Repository | `notyourkise/NetLoka` |
 | Main checkout | `C:/laragon/www/netloka`, branch `main` |
-| Verified main / `origin/main` | `6082a7022e7f8383d2571b40afdf6e21e8f26c2b` — merge PR #19 |
-| Last confirmed merge before this task | PR #19 — Account Security, 2FA, Google Account Connection, Account Modal Expansion, and B/W Theming |
-| Implementation worktree | `C:/laragon/www/netloka/.worktrees/codex-dashboard-distillation` |
-| Implementation branch | `codex/dashboard-distillation` |
-| Planning worktree | `C:/laragon/www/netloka/.worktrees/codex-dashboard-distillation-plan` (retained, branch `codex/dashboard-distillation-plan`) |
-| Implementation worktree local changes | Staged/ready for commit: `src/app/(app)/dashboard/page.tsx`, `src/app/(app)/dashboard/page.test.tsx`, `ROADMAP.md`, `PLAN.md`, `CHANGELOG.md`, `docs/HANDOFF.md` |
-| Main checkout local changes | A user-owned modification to `src/app/(app)/dashboard/page.tsx`; preserved untouched in main checkout. |
+| Verified main / `origin/main` | `2999efa23f9b3d99cedba01af6984c3c6889ed65` — merge PR #20 |
+| Last confirmed merge before this task | PR #20 — refactor: focus learner dashboard (sprint 18) |
+| Implementation worktree | `C:/laragon/www/netloka/.worktrees/codex-dashboard-sidebar-cosmic-redesign` |
+| Implementation branch | `codex/dashboard-sidebar-cosmic-redesign` |
+| Stashed main edits | `stash@{0}: On main: local-dashboard-changes-before-sync-pr-20` |
 
 Retained unrelated worktree (not a cleanup target):
 

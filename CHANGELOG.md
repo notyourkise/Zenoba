@@ -40,6 +40,17 @@ All notable project changes are recorded here.
 
 # 2026-09-05
 
+- [2026-09-05 03:36 WITA] [CHANGED] [TEST] [Milestone 7 / Sprint 19 / Cosmic Orbital Workspace UI Redesign]
+  Transformed the authenticated `/dashboard` and navigation sidebar (`LearnerSidebar` and `LearnerMobileDrawer`) into a cosmic, orbital-themed workspace matching the user-provided reference design:
+  1. Hero Banner: Designed a deep cosmic banner with high-resolution Earth orbital visual, subtle atmospheric rim lighting, dynamic greeting ("Dev Netloka!"), tagline, primary "Lanjutkan/Mulai Belajar" CTA button, and Netloka orbital quote ("Better Networks Brighter Opportunities").
+  2. Quick Stats Row: Created 4 metric cards for Total Kursus, Sedang Dipelajari, Selesai, and Streak Belajar with a 3D glowing flame visual asset and subtle colored border glows.
+  3. Middle Row: Implemented "Progres Belajar" with a circular radial SVG donut progress gauge, horizontal progress bar, and 3 metric columns, alongside "Lanjutkan dari Terakhir" with friendly empty and active resume states.
+  4. Praktik & Eksplorasi: Added 3 feature cards for Interactive Labs (purple), Troubleshooting Challenges (cyan), and Simulasi Konsultan TI (amber) with flowing SVG luminous wave backgrounds and direct action buttons.
+  5. Sidebar & Navigation: Updated `LearnerSidebar` and `LearnerMobileDrawer` with cosmic theme, categorized under "MENU UTAMA" (Dashboard, Pembelajaran Saya, Katalog Kursus, Paket Saya, Riwayat Pesanan) and "EKSPLORASI" (Interactive Labs, Troubleshooting Challenges, Simulasi Konsultan TI) with active gradient pills, Lucide icons, and integrated profile card.
+  Files/areas: `src/app/(app)/dashboard/page.tsx`, `src/app/(app)/dashboard/page.test.tsx`, `src/components/navigation/learner-sidebar.tsx`, `src/components/navigation/learner-mobile-drawer.tsx`, `src/components/navigation/learner-workspace-shell.tsx`, `src/components/navigation/learner-workspace-shell.test.tsx`, `public/images/dashboard-earth-banner.jpg`, `public/images/streak-flame.jpg`, `CHANGELOG.md`
+  Validation: `npm run typecheck` (0 errors), `npm run lint` (0 errors), `npm test` (49 test files, 235 passed), `npx playwright test src/e2e/member-workspace.spec.ts` (5 passed), `npm run build` (34/34 routes passed), `git diff --check` passed.
+  Git: `codex/dashboard-sidebar-cosmic-redesign`
+
 - [2026-09-05 02:55 WITA] [REFACTOR] [TEST] [Milestone 7 / Sprint 18 / Dashboard Distillation & Workspace Focus]
   Refocused the authenticated `/dashboard` into a minimal, text-led learner workspace:
   1. Distillation & Information Reduction: Removed public marketing sections (**4 Pilar Utama Netloka**, **Roadmap & UKK**, platform highlights, FAQ, and promotional footer), decorative SVG icons, and card-heavy layout from `/dashboard` while keeping locked public landing page/auth UI unchanged.

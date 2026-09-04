@@ -36,6 +36,15 @@ describe("LearnerWorkspaceShell", () => {
     expect(screen.getAllByText("Katalog Kursus").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("Paket Saya").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("Riwayat Pesanan").length).toBeGreaterThanOrEqual(1);
+
+    // Exploration navigation items
+    expect(screen.getAllByText("Interactive Labs").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("Troubleshooting Challenges").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("Simulasi Konsultan TI").length).toBeGreaterThanOrEqual(1);
+
+    // User profile card info
+    expect(screen.getAllByText("John Learner").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("Network Enthusiast").length).toBeGreaterThanOrEqual(1);
   });
 
   it("opens mobile drawer when hamburger button is clicked", () => {

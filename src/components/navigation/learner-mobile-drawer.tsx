@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { WORKSPACE_NAV_ITEMS } from "./learner-sidebar";
+import { WORKSPACE_NAV_ITEMS, EXPLORATION_NAV_ITEMS } from "./learner-sidebar";
 
 export interface LearnerMobileDrawerProps {
   user: {
@@ -43,18 +43,23 @@ export function LearnerMobileDrawer({
   return (
     <>
       {/* Mobile Top Header */}
-      <div className="md:hidden flex items-center justify-between h-14 px-4 bg-white dark:bg-black border-b border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white sticky top-0 z-30 transition-colors">
-        <Link
-          href="/dashboard"
-          className="font-bold text-base tracking-wider text-zinc-900 dark:text-white"
-        >
-          NETLOKA
-        </Link>
+      <div className="md:hidden flex items-center justify-between h-16 px-5 bg-[#060913] border-b border-blue-900/20 text-white sticky top-0 z-30">
+        <div>
+          <Link
+            href="/dashboard"
+            className="font-black text-lg tracking-wider text-white block"
+          >
+            NETLOKA
+          </Link>
+          <span className="text-[10px] text-zinc-400 block -mt-0.5">
+            Learn · Practice · Connect
+          </span>
+        </div>
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => setIsOpen(true)}
-            className="p-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500 cursor-pointer"
+            className="p-2 rounded-lg text-zinc-300 hover:text-white hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 cursor-pointer"
             aria-label="Buka menu navigasi"
             aria-expanded={isOpen}
           >
@@ -79,65 +84,101 @@ export function LearnerMobileDrawer({
           />
 
           {/* Drawer Menu */}
-          <div className="relative w-4/5 max-w-xs bg-white dark:bg-zinc-950 border-r border-zinc-200 dark:border-white/10 h-full flex flex-col z-10 text-zinc-900 dark:text-white shadow-2xl transition-colors">
-            <div className="h-14 flex items-center justify-between px-4 border-b border-zinc-200 dark:border-white/10">
-              <span className="font-bold text-base tracking-wider text-zinc-900 dark:text-white">
-                NETLOKA
-              </span>
+          <div className="relative w-4/5 max-w-xs bg-[#060913] border-r border-blue-900/30 h-full flex flex-col z-10 text-white shadow-2xl">
+            <div className="h-16 flex items-center justify-between px-5 border-b border-blue-900/20">
+              <div>
+                <span className="font-black text-lg tracking-wider text-white block">
+                  NETLOKA
+                </span>
+                <span className="text-[10px] text-zinc-400 block -mt-0.5">
+                  Learn · Practice · Connect
+                </span>
+              </div>
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500 cursor-pointer"
+                className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 cursor-pointer"
                 aria-label="Tutup menu navigasi"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-              {WORKSPACE_NAV_ITEMS.map((item) => {
-                const isActive = pathname === item.href;
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className={cn(
-                      "flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-colors",
-                      isActive
-                        ? "bg-zinc-100 dark:bg-white/10 text-zinc-900 dark:text-white font-semibold shadow-xs"
-                        : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-white/5",
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
+            <nav className="flex-1 px-4 py-4 space-y-6 overflow-y-auto">
+              {/* MENU UTAMA */}
+              <div>
+                <h2 className="text-[11px] font-bold text-zinc-400 tracking-wider uppercase px-3 mb-2">
+                  Menu Utama
+                </h2>
+                <div className="space-y-1.5">
+                  {WORKSPACE_NAV_ITEMS.map((item) => {
+                    const isActive = pathname === item.href;
+                    const Icon = item.icon;
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setIsOpen(false)}
+                        className={cn(
+                          "flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors",
+                          isActive
+                            ? "bg-gradient-to-r from-blue-600 via-blue-600 to-indigo-600 text-white font-semibold shadow-md shadow-blue-600/30 border border-blue-400/30"
+                            : "text-zinc-400 hover:text-white hover:bg-white/5",
+                        )}
+                      >
+                        <Icon className={cn("w-4 h-4 shrink-0", isActive ? "text-white" : "text-zinc-400")} />
+                        <span>{item.label}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* EKSPLORASI */}
+              <div>
+                <h2 className="text-[11px] font-bold text-zinc-400 tracking-wider uppercase px-3 mb-2">
+                  Eksplorasi
+                </h2>
+                <div className="space-y-1.5">
+                  {EXPLORATION_NAV_ITEMS.map((item) => {
+                    const isActive = pathname === item.href;
+                    const Icon = item.icon;
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setIsOpen(false)}
+                        className={cn(
+                          "flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors",
+                          isActive
+                            ? "bg-gradient-to-r from-blue-600 via-blue-600 to-indigo-600 text-white font-semibold shadow-md shadow-blue-600/30 border border-blue-400/30"
+                            : "text-zinc-400 hover:text-white hover:bg-white/5",
+                        )}
+                      >
+                        <Icon className={cn("w-4 h-4 shrink-0", isActive ? "text-white" : "text-zinc-400")} />
+                        <span>{item.label}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
             </nav>
 
-            <div className="p-3 border-t border-zinc-200 dark:border-white/10">
+            <div className="p-4 border-t border-blue-900/20">
               <button
                 type="button"
                 onClick={() => {
                   setIsOpen(false);
                   onOpenAccountModal();
                 }}
-                className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/5 text-left transition-colors cursor-pointer"
+                className="w-full flex items-center justify-between p-3 rounded-xl bg-[#0B1120] hover:bg-[#0F172A] border border-blue-900/30 text-left transition-colors cursor-pointer"
               >
-                <div className="w-8 h-8 rounded-full bg-zinc-200 dark:bg-zinc-800 border border-zinc-300 dark:border-white/15 flex items-center justify-center text-xs font-semibold text-zinc-800 dark:text-zinc-200 overflow-hidden shrink-0">
-                  {user?.image ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={user.image} alt={user.name || "Avatar"} className="w-full h-full object-cover" />
-                  ) : (
-                    (user?.name?.[0] || user?.email?.[0] || "U").toUpperCase()
-                  )}
-                </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-zinc-900 dark:text-white truncate">
-                    {user?.name || user?.email?.split("@")[0] || "Learner"}
+                  <p className="text-sm font-bold text-white truncate">
+                    {user?.name || user?.email?.split("@")[0] || "Dev Netloka"}
                   </p>
-                  <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
-                    {user?.headline || "Akun & Pengaturan"}
+                  <p className="text-xs text-zinc-400 truncate">
+                    {user?.headline || (user?.role === "ADMIN" ? "Administrator" : "Developer")}
                   </p>
                 </div>
               </button>

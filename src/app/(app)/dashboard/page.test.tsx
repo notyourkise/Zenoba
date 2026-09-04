@@ -24,17 +24,18 @@ const mockGetCurrentUser = vi.mocked(getCurrentUser);
 const mockGetUserProgressSummary = vi.mocked(getUserProgressSummary);
 const mockGetLearningPathsWithProgress = vi.mocked(getLearningPathsWithProgress);
 
-describe("DashboardPage (Distilled Workspace)", () => {
+describe("DashboardPage (Cosmic Orbital Workspace)", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it("renders active path with progress bar, text metrics, and Continue learning link without marketing content or SVG", async () => {
+  it("renders active path with cosmic hero, stat cards, progress donut, and practice cards", async () => {
     const user: MockUser = {
       id: "user-1",
-      name: "Budi",
+      name: "Budi Netloka",
       email: "budi@example.com",
       role: "LEARNER",
+      streakCount: 5,
     };
     mockGetCurrentUser.mockResolvedValue(user);
 
@@ -62,50 +63,54 @@ describe("DashboardPage (Distilled Workspace)", () => {
     ]);
 
     const ui = await DashboardPage();
-    const { container } = render(ui);
+    render(ui);
 
     // Dashboard heading
-    expect(screen.getByRole("heading", { level: 1, name: /Selamat Datang/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: /Budi/i })).toBeInTheDocument();
+    expect(screen.getByText(/Netloka!/i)).toBeInTheDocument();
 
-    // Primary Continue learning action
-    const ctaLink = screen.getByRole("link", { name: "Continue learning" });
-    expect(ctaLink).toBeInTheDocument();
-    expect(ctaLink).toHaveAttribute("href", "/learn/network-foundations");
+    // Netloka orbital quote
+    expect(screen.getByText(/Better Networks/i)).toBeInTheDocument();
 
-    // Text progress context
-    expect(screen.getByText(/10 dari 24 pelajaran selesai/i)).toBeInTheDocument();
+    // Primary Lanjutkan Belajar action in hero & resume card
+    const ctaLinks = screen.getAllByRole("link", { name: /Lanjutkan Belajar/i });
+    expect(ctaLinks.length).toBeGreaterThanOrEqual(1);
+    expect(ctaLinks[0]).toHaveAttribute("href", "/learn/network-foundations");
+
+    // 4 Stat cards
+    expect(screen.getByText("Total Kursus")).toBeInTheDocument();
+    expect(screen.getByText("Sedang Dipelajari")).toBeInTheDocument();
+    expect(screen.getAllByText("Selesai").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText("Streak Belajar")).toBeInTheDocument();
+    expect(screen.getByText("5 hari")).toBeInTheDocument();
+
+    // Donut Progress & Text progress context
+    expect(screen.getAllByText(/10 dari 24 pelajaran selesai/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/42%/i).length).toBeGreaterThanOrEqual(1);
 
     // Semantic progress bar
-    const progressbar = screen.getByRole("progressbar", { name: "Network Foundations progress" });
+    const progressbar = screen.getByRole("progressbar", { name: "Progres Belajar" });
     expect(progressbar).toBeInTheDocument();
     expect(progressbar).toHaveAttribute("aria-valuemin", "0");
     expect(progressbar).toHaveAttribute("aria-valuemax", "100");
     expect(progressbar).toHaveAttribute("aria-valuenow", "42");
 
-    // Truthful metrics in Learning Progress
-    expect(screen.getAllByText(/dari 24 pelajaran selesai/i).length).toBeGreaterThanOrEqual(1);
-    expect(screen.getByText(/sedang dipelajari/i)).toBeInTheDocument();
+    // Sub-metrics
     expect(screen.getByText(/XP diperoleh/i)).toBeInTheDocument();
 
-    // Practice links
-    expect(screen.getByRole("link", { name: "Interactive Labs" })).toHaveAttribute("href", "/labs");
-    expect(screen.getByRole("link", { name: "Troubleshooting Challenges" })).toHaveAttribute("href", "/challenges");
-    expect(screen.getByRole("link", { name: "Simulasi Konsultan TI" })).toHaveAttribute("href", "/consultant");
+    // Lanjutkan dari Terakhir section
+    expect(screen.getByText("Lanjutkan dari Terakhir")).toBeInTheDocument();
 
-    // Public marketing sections must NOT be present
-    expect(screen.queryByText("4 Pilar Utama Netloka")).not.toBeInTheDocument();
-    expect(screen.queryByText(/Roadmap Pembelajaran & Standar UKK TKJ/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Keunggulan Sistem & Simulasi Deterministik/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Panduan Cepat & Informasi Pembelajaran/i)).not.toBeInTheDocument();
-
-    // No decorative SVGs allowed in distilled dashboard
-    expect(container.querySelector("svg")).toBeNull();
+    // Practice & Exploration links
+    expect(screen.getByRole("link", { name: "Mulai Praktik" })).toHaveAttribute("href", "/labs");
+    expect(screen.getByRole("link", { name: "Mulai Tantangan" })).toHaveAttribute("href", "/challenges");
+    expect(screen.getByRole("link", { name: "Mulai Simulasi" })).toHaveAttribute("href", "/consultant");
   });
 
-  it("renders Start learning CTA when active path has zero progress", async () => {
+  it("renders Mulai Belajar CTA when active path has zero progress", async () => {
     const user: MockUser = {
       id: "user-2",
-      name: "Siti",
+      name: "Siti Netloka",
       email: "siti@example.com",
       role: "LEARNER",
     };
@@ -135,25 +140,21 @@ describe("DashboardPage (Distilled Workspace)", () => {
     ]);
 
     const ui = await DashboardPage();
-    const { container } = render(ui);
+    render(ui);
 
-    // Primary action is Start learning
-    const startLink = screen.getByRole("link", { name: "Start learning" });
+    // Primary action is Mulai Belajar
+    const startLink = screen.getByRole("link", { name: /Mulai Belajar/i });
     expect(startLink).toBeInTheDocument();
     expect(startLink).toHaveAttribute("href", "/learn/network-foundations");
 
     // Truthful progress metrics visible
     expect(screen.getByText(/0 dari 24 pelajaran selesai/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/dari 24 pelajaran selesai/i).length).toBeGreaterThanOrEqual(1);
-
-    // No SVGs
-    expect(container.querySelector("svg")).toBeNull();
   });
 
-  it("renders empty state with Course catalog link when no learning paths are returned", async () => {
+  it("renders empty state with Jelajahi Katalog Kursus link when no learning paths are returned", async () => {
     const user: MockUser = {
       id: "user-3",
-      name: "Rian",
+      name: "Rian Netloka",
       email: "rian@example.com",
       role: "LEARNER",
     };
@@ -170,23 +171,17 @@ describe("DashboardPage (Distilled Workspace)", () => {
     mockGetLearningPathsWithProgress.mockResolvedValue([]);
 
     const ui = await DashboardPage();
-    const { container } = render(ui);
+    render(ui);
 
     // Explanatory empty state
-    expect(screen.getByText(/Belum ada jalur pembelajaran yang tersedia/i)).toBeInTheDocument();
+    expect(screen.getByText(/Belum ada aktivitas belajar/i)).toBeInTheDocument();
 
-    // Link to Course catalog
-    const catalogLink = screen.getByRole("link", { name: /Katalog Kursus|Course catalog/i });
+    // Link to Course catalog in Lanjutkan dari Terakhir
+    const catalogLink = screen.getByRole("link", { name: /Jelajahi Katalog Kursus/i });
     expect(catalogLink).toBeInTheDocument();
     expect(catalogLink).toHaveAttribute("href", "/catalog");
 
-    // No fake progress bar
-    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
-
-    // Truthful zero metrics remain visible and do not crash
-    expect(screen.getByText(/dari 0 pelajaran selesai/i)).toBeInTheDocument();
-
-    // No SVGs
-    expect(container.querySelector("svg")).toBeNull();
+    // Metrics visible
+    expect(screen.getByText(/0 dari 15 pelajaran selesai/i)).toBeInTheDocument();
   });
 });

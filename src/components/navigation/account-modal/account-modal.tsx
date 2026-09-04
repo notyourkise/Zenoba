@@ -2,13 +2,16 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { User, Settings, X } from "lucide-react";
+import { User, Settings, Shield, Award, HelpCircle, X } from "lucide-react";
+import { signOut } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { ProfileForm } from "@/features/profile/profile-form";
 import { SettingsPasswordForm } from "@/features/settings/components/settings-password-form";
+import { SecurityTwoFactorCard } from "@/features/settings/components/security-two-factor-card";
+import { SecurityConnectedAccountsCard } from "@/features/settings/components/security-connected-accounts-card";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 
-export type AccountTab = "profile" | "settings";
+export type AccountTab = "profile" | "settings" | "security" | "certificates" | "support";
 
 interface AccountModalProps {
   isOpen: boolean;
@@ -425,18 +428,18 @@ export function AccountModal({
             </p>
           </div>
 
-          <nav className="flex gap-1 md:flex-col" aria-label="Menu Akun">
+          <nav className="flex gap-1 md:flex-col overflow-x-auto md:overflow-x-visible pb-1 md:pb-0" aria-label="Menu Akun">
             <button
               type="button"
               onClick={() => setActiveTab("profile")}
               className={cn(
-                "flex flex-1 items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-colors md:flex-initial",
+                "flex shrink-0 md:shrink items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-colors cursor-pointer",
                 activeTab === "profile"
                   ? "bg-blue-600 text-white shadow-sm shadow-blue-600/30"
                   : "text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-slate-300 dark:hover:bg-white/5 dark:hover:text-white",
               )}
             >
-              <User className="h-4 w-4" />
+              <User className="h-4 w-4 shrink-0" />
               <span>Profile</span>
             </button>
 
@@ -444,14 +447,56 @@ export function AccountModal({
               type="button"
               onClick={() => setActiveTab("settings")}
               className={cn(
-                "flex flex-1 items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-colors md:flex-initial",
+                "flex shrink-0 md:shrink items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-colors cursor-pointer",
                 activeTab === "settings"
                   ? "bg-blue-600 text-white shadow-sm shadow-blue-600/30"
                   : "text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-slate-300 dark:hover:bg-white/5 dark:hover:text-white",
               )}
             >
-              <Settings className="h-4 w-4" />
+              <Settings className="h-4 w-4 shrink-0" />
               <span>Pengaturan</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveTab("security")}
+              className={cn(
+                "flex shrink-0 md:shrink items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-colors cursor-pointer",
+                activeTab === "security"
+                  ? "bg-blue-600 text-white shadow-sm shadow-blue-600/30"
+                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-slate-300 dark:hover:bg-white/5 dark:hover:text-white",
+              )}
+            >
+              <Shield className="h-4 w-4 shrink-0" />
+              <span>Keamanan</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveTab("certificates")}
+              className={cn(
+                "flex shrink-0 md:shrink items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-colors cursor-pointer",
+                activeTab === "certificates"
+                  ? "bg-blue-600 text-white shadow-sm shadow-blue-600/30"
+                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-slate-300 dark:hover:bg-white/5 dark:hover:text-white",
+              )}
+            >
+              <Award className="h-4 w-4 shrink-0" />
+              <span>Sertifikat</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveTab("support")}
+              className={cn(
+                "flex shrink-0 md:shrink items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-colors cursor-pointer",
+                activeTab === "support"
+                  ? "bg-blue-600 text-white shadow-sm shadow-blue-600/30"
+                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-slate-300 dark:hover:bg-white/5 dark:hover:text-white",
+              )}
+            >
+              <HelpCircle className="h-4 w-4 shrink-0" />
+              <span>Bantuan</span>
             </button>
           </nav>
         </div>
@@ -846,33 +891,20 @@ export function AccountModal({
                 </div>
               </div>
 
-              {/* 2. Ubah Password Langsung */}
-              <div className="rounded-xl border border-gray-200/80 bg-gray-50/50 p-4.5 dark:border-white/10 dark:bg-white/[0.02]">
-                <div className="mb-4">
-                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
-                    Ubah Kata Sandi
-                  </h4>
-                  <p className="mt-0.5 text-xs text-gray-500 dark:text-slate-400">
-                    Masukkan password baru dan konfirmasi password langsung tanpa perlu password saat ini.
-                  </p>
-                </div>
-                <SettingsPasswordForm />
-              </div>
-
-              {/* 3. Preferensi Tampilan */}
+              {/* 2. Preferensi Tampilan */}
               <div className="flex items-center justify-between rounded-xl border border-gray-200/80 bg-gray-50/50 p-4 dark:border-white/10 dark:bg-white/[0.02]">
                 <div>
                   <p className="text-sm font-semibold text-gray-900 dark:text-white">
                     Tema Tampilan
                   </p>
                   <p className="text-xs text-gray-500 dark:text-slate-400">
-                    Beralih antara mode gelap (Cosmic Dark) dan mode terang.
+                    Pilih mode terang, gelap, atau ikuti tema sistem perangkat Anda.
                   </p>
                 </div>
                 <ModeToggle />
               </div>
 
-              {/* 4. Privasi & Pengingat */}
+              {/* 3. Privasi & Pengingat */}
               <div className="rounded-xl border border-gray-200/80 bg-gray-50/50 p-4 dark:border-white/10 dark:bg-white/[0.02] space-y-3">
                 <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
                   Privasi & Notifikasi Belajar
@@ -940,24 +972,276 @@ export function AccountModal({
                 </div>
               </div>
 
-              {/* 5. Informasi Sesi Login Aktif */}
-              <div className="rounded-xl border border-gray-200/80 bg-gray-50/50 p-4 dark:border-white/10 dark:bg-white/[0.02]">
-                <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                  Sesi Login Aktif
+              {/* 4. Keluar dari Akun (Logout) */}
+              <div className="rounded-xl border border-rose-200/80 bg-rose-50/50 p-4.5 dark:border-rose-900/30 dark:bg-rose-950/15 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                  <h4 className="text-sm font-semibold text-rose-900 dark:text-rose-300">
+                    Keluar dari Akun
+                  </h4>
+                  <p className="mt-0.5 text-xs text-rose-700/80 dark:text-rose-400/80">
+                    Akhiri sesi pembelajaran Anda pada perangkat ini dengan aman.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => signOut({ callbackUrl: "/?auth=sign-in" })}
+                  className="inline-flex items-center justify-center rounded-lg bg-rose-600 px-5 py-2.5 text-xs font-semibold text-white shadow-xs hover:bg-rose-700 active:bg-rose-800 transition cursor-pointer shrink-0"
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "security" && (
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                  Keamanan Akun
+                </h3>
+                <p className="mt-0.5 text-xs text-gray-500 dark:text-slate-400">
+                  Kelola kata sandi, metode autentikasi, dan status keamanan akun Anda.
+                </p>
+              </div>
+
+              {/* 1. Ubah Password Langsung */}
+              <div className="rounded-xl border border-gray-200/80 bg-gray-50/50 p-4.5 dark:border-white/10 dark:bg-white/[0.02]">
+                <div className="mb-4">
+                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
+                    Ubah Kata Sandi
+                  </h4>
+                  <p className="mt-0.5 text-xs text-gray-500 dark:text-slate-400">
+                    Masukkan password baru dan konfirmasi password langsung tanpa perlu password saat ini.
+                  </p>
+                </div>
+                <SettingsPasswordForm />
+              </div>
+
+              {/* 2. Autentikasi Dua Faktor (2FA) */}
+              <SecurityTwoFactorCard />
+
+              {/* 3. Akun Terhubung (Google) */}
+              <SecurityConnectedAccountsCard userEmail={user?.email} />
+
+              {/* 4. Informasi Autentikasi & Akun */}
+              <div className="rounded-xl border border-gray-200/80 bg-gray-50/50 p-4.5 dark:border-white/10 dark:bg-white/[0.02] space-y-3">
+                <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
+                  Informasi Autentikasi
                 </h4>
-                <div className="flex items-center justify-between text-xs">
+                <div className="space-y-2 text-xs">
+                  <div className="flex items-center justify-between py-1 border-b border-gray-200/60 dark:border-white/5">
+                    <span className="text-gray-500 dark:text-slate-400">Email Terdaftar</span>
+                    <span className="font-semibold text-gray-900 dark:text-white">{user?.email || "-"}</span>
+                  </div>
+                  <div className="flex items-center justify-between py-1 border-b border-gray-200/60 dark:border-white/5">
+                    <span className="text-gray-500 dark:text-slate-400">Status Akun</span>
+                    <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                      Terverifikasi
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between py-1">
+                    <div>
+                      <p className="font-semibold text-gray-800 dark:text-slate-200">Perangkat Saat Ini</p>
+                      <p className="text-[10px] text-gray-400 dark:text-slate-500">Desktop (Windows) - Browser Web</p>
+                    </div>
+                    <span className="inline-flex items-center rounded-full bg-blue-500/10 px-2 py-0.5 text-[10px] font-semibold text-blue-600 dark:text-blue-400 border border-blue-500/20">
+                      Sesi Aktif
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 3. Tips Keamanan */}
+              <div className="rounded-xl border border-blue-200/80 bg-blue-50/40 p-4 dark:border-blue-950/40 dark:bg-blue-950/15">
+                <h4 className="text-xs font-semibold text-blue-900 dark:text-blue-300 mb-1">
+                  Tips Keamanan Akun
+                </h4>
+                <p className="text-[11px] text-blue-800/80 dark:text-blue-300/80 leading-relaxed">
+                  Gunakan kata sandi unik minimal 8 karakter dengan kombinasi huruf dan angka. Selalu lakukan logout jika menggunakan komputer bersama di laboratorium sekolah.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "certificates" && (
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                  Sertifikat Kelulusan & Kompetensi
+                </h3>
+                <p className="mt-0.5 text-xs text-gray-500 dark:text-slate-400">
+                  Kredensial digital resmi terverifikasi yang didapatkan setelah menyelesaikan jalur pembelajaran.
+                </p>
+              </div>
+
+              {/* Sertifikat Target */}
+              <div className="rounded-xl border border-gray-200/80 bg-white p-5 dark:border-white/10 dark:bg-white/[0.02] shadow-xs space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-gray-200/60 dark:border-white/5">
                   <div>
-                    <p className="font-semibold text-gray-800 dark:text-slate-200">
-                      Perangkat Saat Ini
-                    </p>
-                    <p className="text-[11px] text-gray-500 dark:text-slate-400">
-                      Desktop (Windows) - Browser Web
+                    <span className="inline-flex items-center rounded-full bg-cyan-500/10 px-2.5 py-0.5 text-[10px] font-semibold text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 mb-1.5 uppercase tracking-wider">
+                      Jalur Pembelajaran Utama
+                    </span>
+                    <h4 className="text-base font-bold text-gray-900 dark:text-white">
+                      Kompetensi Fondasi Jaringan Komputer
+                    </h4>
+                    <p className="text-xs text-gray-500 dark:text-slate-400 mt-0.5">
+                      Standar kurikulum SMK TKJ & IT Network Fundamentals.
                     </p>
                   </div>
-                  <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                    Aktif Sekarang
+                  <span className="inline-flex items-center self-start sm:self-center rounded-full bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-600 dark:text-amber-400 border border-amber-500/20 shrink-0">
+                    Sedang Berjalan
                   </span>
                 </div>
+
+                <div className="space-y-2 text-xs text-gray-600 dark:text-slate-300">
+                  <p className="font-semibold text-gray-800 dark:text-slate-200">
+                    Cakupan Materi Sertifikasi:
+                  </p>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px] text-gray-500 dark:text-slate-400">
+                    <li className="flex items-center gap-1.5">
+                      <span className="h-1.5 w-1.5 rounded-full bg-cyan-500 shrink-0" />
+                      <span>Pengalamatan IPv4 & Subnetting CIDR</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className="h-1.5 w-1.5 rounded-full bg-cyan-500 shrink-0" />
+                      <span>Segmentasi VLAN & IEEE 802.1Q</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className="h-1.5 w-1.5 rounded-full bg-cyan-500 shrink-0" />
+                      <span>Routing Statis & Longest Prefix Match</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className="h-1.5 w-1.5 rounded-full bg-cyan-500 shrink-0" />
+                      <span>Diagnostik & Troubleshooting Terminal CLI</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="pt-2 border-t border-gray-200/60 dark:border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                  <span className="text-[11px] text-gray-400 dark:text-slate-500">
+                    Syarat: Tuntaskan seluruh modul kurikulum dan capai skor evaluasi ≥ 80%.
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onClose();
+                      router.push("/my-learning");
+                    }}
+                    className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-blue-700 transition cursor-pointer shrink-0"
+                  >
+                    Buka Modul Belajar
+                  </button>
+                </div>
+              </div>
+
+              {/* Status Sertifikat Digital */}
+              <div className="rounded-xl border border-dashed border-gray-200 dark:border-white/10 p-5 text-center space-y-2">
+                <p className="text-sm font-semibold text-gray-700 dark:text-slate-300">
+                  Belum Ada Sertifikat yang Diterbitkan
+                </p>
+                <p className="text-xs text-gray-500 dark:text-slate-400 max-w-md mx-auto">
+                  Setiap sertifikat kelulusan yang Anda raih akan dilengkapi ID Kredensial unik dan QR Code verifikasi resmi yang dapat ditautkan ke LinkedIn atau portofolio UKK Anda.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "support" && (
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                  Pusat Bantuan & Panduan
+                </h3>
+                <p className="mt-0.5 text-xs text-gray-500 dark:text-slate-400">
+                  Solusi cepat kendala teknis, panduan simulator terminal CLI, dan kontak tim Netloka.
+                </p>
+              </div>
+
+              {/* 1. Pertanyaan Umum (FAQ) */}
+              <div className="space-y-2.5">
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-slate-400">
+                  Pertanyaan yang Sering Diajukan (FAQ)
+                </h4>
+
+                <div className="rounded-xl border border-gray-200/80 bg-gray-50/50 p-4 dark:border-white/10 dark:bg-white/[0.02] space-y-1.5">
+                  <p className="text-xs font-semibold text-gray-900 dark:text-white">
+                    Bagaimana jika simulator terminal CLI macet atau tidak merespons?
+                  </p>
+                  <p className="text-xs text-gray-600 dark:text-slate-400 leading-relaxed">
+                    Ketik perintah <code className="px-1.5 py-0.5 rounded bg-gray-200 dark:bg-white/10 font-mono text-[11px]">clear</code> atau <code className="px-1.5 py-0.5 rounded bg-gray-200 dark:bg-white/10 font-mono text-[11px]">reset</code> pada jendela simulator, atau segarkan (refresh) halaman peramban Anda. Progres belajar dan akumulasi XP yang sudah tersimpan di cloud tidak akan hilang.
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-gray-200/80 bg-gray-50/50 p-4 dark:border-white/10 dark:bg-white/[0.02] space-y-1.5">
+                  <p className="text-xs font-semibold text-gray-900 dark:text-white">
+                    Bagaimana cara menjaga api konsistensi harian (streak)?
+                  </p>
+                  <p className="text-xs text-gray-600 dark:text-slate-400 leading-relaxed">
+                    Akses platform Netloka minimal satu kali sehari dan lakukan aktivitas belajar (membaca materi, menyelesaikan kuis, atau menjalankan skenario lab). Jangan lupa klik tombol api pada profil sebelum pukul 00:00 WITA.
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-gray-200/80 bg-gray-50/50 p-4 dark:border-white/10 dark:bg-white/[0.02] space-y-1.5">
+                  <p className="text-xs font-semibold text-gray-900 dark:text-white">
+                    Bagaimana cara membuka modul yang masih terkunci?
+                  </p>
+                  <p className="text-xs text-gray-600 dark:text-slate-400 leading-relaxed">
+                    Pastikan Anda telah menyelesaikan modul prasyarat sebelumnya secara berurutan. Untuk modul spesialisasi tambahan, Anda dapat memeriksa status paket Anda di menu Katalog Kursus.
+                  </p>
+                </div>
+              </div>
+
+              {/* 2. Pintasan Keyboard Simulator CLI */}
+              <div className="rounded-xl border border-gray-200/80 bg-gray-50/50 p-4.5 dark:border-white/10 dark:bg-white/[0.02] space-y-3">
+                <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
+                  Pintasan Keyboard Simulator CLI
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                  <div className="p-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-white/[0.02]">
+                    <kbd className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-white/10 font-mono text-[10px] font-semibold text-gray-800 dark:text-white">
+                      Ctrl + C
+                    </kbd>
+                    <p className="text-[11px] text-gray-500 dark:text-slate-400 mt-1">
+                      Batalkan perintah yang sedang berjalan
+                    </p>
+                  </div>
+
+                  <div className="p-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-white/[0.02]">
+                    <kbd className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-white/10 font-mono text-[10px] font-semibold text-gray-800 dark:text-white">
+                      ↑ / ↓
+                    </kbd>
+                    <p className="text-[11px] text-gray-500 dark:text-slate-400 mt-1">
+                      Akses riwayat perintah sebelumnya
+                    </p>
+                  </div>
+
+                  <div className="p-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-white/[0.02]">
+                    <kbd className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-white/10 font-mono text-[10px] font-semibold text-gray-800 dark:text-white">
+                      Tab
+                    </kbd>
+                    <p className="text-[11px] text-gray-500 dark:text-slate-400 mt-1">
+                      Autokomplit nama perintah & argumen
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 3. Kontak Dukungan */}
+              <div className="rounded-xl border border-gray-200/80 bg-white p-4.5 dark:border-white/10 dark:bg-white/[0.02] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
+                    Butuh Bantuan Lebih Lanjut?
+                  </h4>
+                  <p className="mt-0.5 text-xs text-gray-500 dark:text-slate-400">
+                    Tim instruktur dan support Netloka siap membantu kendala teknis atau pertanyaan materi Anda.
+                  </p>
+                </div>
+                <a
+                  href="mailto:support@netloka.biz.id?subject=Bantuan%20Platform%20Netloka"
+                  className="inline-flex items-center justify-center rounded-lg bg-gray-900 dark:bg-white px-4 py-2 text-xs font-semibold text-white dark:text-gray-900 shadow-xs hover:bg-gray-800 dark:hover:bg-gray-100 transition shrink-0"
+                >
+                  Hubungi Tim Support
+                </a>
               </div>
             </div>
           )}

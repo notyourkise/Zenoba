@@ -46,6 +46,8 @@ export function AuthModal({
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [twoFactorRequired, setTwoFactorRequired] = useState(false);
+  const [twoFactorCode, setTwoFactorCode] = useState("");
 
   const closeModal = () => router.replace("/", { scroll: false });
 
@@ -107,7 +109,36 @@ export function AuthModal({
         redirect: false,
       });
       if (result?.error) {
+        if (result.error.includes("2FA_REQUIRED")) {
+          setTwoFactorRequired(true);
+          setError(null);
+          return;
+        }
         setError("Invalid email or password.");
+        return;
+      }
+      router.push(destination);
+      router.refresh();
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleTwoFactorSignIn = async (event: FormEvent) => {
+    event.preventDefault();
+    setError(null);
+    setLoading(true);
+    try {
+      const result = await signIn("credentials", {
+        email,
+        password,
+        code: twoFactorCode.trim(),
+        redirect: false,
+      });
+      if (result?.error) {
+        setError("Kode 2FA tidak valid atau telah kedaluwarsa.");
         return;
       }
       router.push(destination);
@@ -209,99 +240,146 @@ export function AuthModal({
           </p>
         )}
 
-        <form
-          aria-label={isSignIn ? "Sign in" : "Create account"}
-          onSubmit={isSignIn ? handleCredentialsSignIn : handleRegistration}
-          className="mt-6 space-y-4"
-        >
-          <Field label="Email" id="auth-email">
-            <input
-              id="auth-email"
-              type="email"
-              required
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              autoComplete="email"
-              placeholder="you@example.com"
-              className={inputClasses}
-            />
-          </Field>
-
-          <Field
-            label="Password"
-            id="auth-password"
-            action={
-              isSignIn ? (
-                <Link
-                  href="/forgot-password"
-                  className="text-xs font-medium text-sky-300 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-                >
-                  Forgot password?
-                </Link>
-              ) : undefined
-            }
+        {twoFactorRequired ? (
+          <form
+            aria-label="Two-factor authentication"
+            onSubmit={handleTwoFactorSignIn}
+            className="mt-6 space-y-4"
           >
-            <input
-              id="auth-password"
-              type="password"
-              required
-              minLength={8}
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              autoComplete={isSignIn ? "current-password" : "new-password"}
-              className={inputClasses}
-            />
-          </Field>
+            <div className="rounded-xl border border-sky-400/25 bg-sky-400/10 p-3 text-xs text-sky-200 leading-relaxed">
+              Akun ini dilindungi oleh Autentikasi Dua Faktor (2FA). Masukkan 6 digit kode dari aplikasi authenticator Anda atau gunakan kode cadangan pemulihan.
+            </div>
 
-          {!isSignIn && (
-            <Field label="Confirm password" id="auth-confirm-password">
+            <Field label="Kode 2FA / Kode Cadangan" id="auth-2fa-code">
               <input
-                id="auth-confirm-password"
-                type="password"
+                id="auth-2fa-code"
+                type="text"
                 required
-                minLength={8}
-                value={confirmPassword}
-                onChange={(event) => setConfirmPassword(event.target.value)}
-                autoComplete="new-password"
+                autoFocus
+                value={twoFactorCode}
+                onChange={(event) => setTwoFactorCode(event.target.value)}
+                placeholder="Contoh: 123456 atau a1b2-c3d4"
                 className={inputClasses}
               />
             </Field>
-          )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="flex h-11 w-full items-center justify-center rounded-xl bg-white px-4 text-sm font-bold text-black transition hover:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {loading
-              ? isSignIn
-                ? "Signing in..."
-                : "Creating account..."
-              : isSignIn
-                ? "Sign in"
-                : "Create account"}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={loading || !twoFactorCode.trim()}
+              className="flex h-11 w-full items-center justify-center rounded-xl bg-white px-4 text-sm font-bold text-black transition hover:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
+            >
+              {loading ? "Memverifikasi..." : "Verifikasi & Masuk"}
+            </button>
 
-        <div className="my-5 flex items-center gap-3 text-xs uppercase tracking-[0.18em] text-slate-500">
-          <span className="h-px flex-1 bg-white/10" />
-          or
-          <span className="h-px flex-1 bg-white/10" />
-        </div>
+            <button
+              type="button"
+              onClick={() => {
+                setTwoFactorRequired(false);
+                setTwoFactorCode("");
+                setError(null);
+              }}
+              className="flex h-9 w-full items-center justify-center rounded-xl text-xs text-slate-400 hover:text-white transition cursor-pointer"
+            >
+              Kembali ke Login
+            </button>
+          </form>
+        ) : (
+          <>
+            <form
+              aria-label={isSignIn ? "Sign in" : "Create account"}
+              onSubmit={isSignIn ? handleCredentialsSignIn : handleRegistration}
+              className="mt-6 space-y-4"
+            >
+              <Field label="Email" id="auth-email">
+                <input
+                  id="auth-email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  autoComplete="email"
+                  placeholder="you@example.com"
+                  className={inputClasses}
+                />
+              </Field>
 
-        <button
-          type="button"
-          disabled={!googleEnabled}
-          onClick={() => signIn("google", { callbackUrl: destination })}
-          className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-4 text-sm font-semibold text-white transition hover:bg-white/[0.09] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:cursor-not-allowed disabled:opacity-55"
-        >
-          <span>Continue with Google</span>
-          {!googleEnabled && (
-            <span className="rounded-full border border-amber-300/25 bg-amber-300/10 px-2 py-0.5 text-xs uppercase tracking-wide text-amber-200">
-              Setup pending
-            </span>
-          )}
-        </button>
+              <Field
+                label="Password"
+                id="auth-password"
+                action={
+                  isSignIn ? (
+                    <Link
+                      href="/forgot-password"
+                      className="text-xs font-medium text-sky-300 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                    >
+                      Forgot password?
+                    </Link>
+                  ) : undefined
+                }
+              >
+                <input
+                  id="auth-password"
+                  type="password"
+                  required
+                  minLength={8}
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  autoComplete={isSignIn ? "current-password" : "new-password"}
+                  className={inputClasses}
+                />
+              </Field>
+
+              {!isSignIn && (
+                <Field label="Confirm password" id="auth-confirm-password">
+                  <input
+                    id="auth-confirm-password"
+                    type="password"
+                    required
+                    minLength={8}
+                    value={confirmPassword}
+                    onChange={(event) => setConfirmPassword(event.target.value)}
+                    autoComplete="new-password"
+                    className={inputClasses}
+                  />
+                </Field>
+              )}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="flex h-11 w-full items-center justify-center rounded-xl bg-white px-4 text-sm font-bold text-black transition hover:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
+              >
+                {loading
+                  ? isSignIn
+                    ? "Signing in..."
+                    : "Creating account..."
+                  : isSignIn
+                    ? "Sign in"
+                    : "Create account"}
+              </button>
+            </form>
+
+            <div className="my-5 flex items-center gap-3 text-xs uppercase tracking-[0.18em] text-slate-500">
+              <span className="h-px flex-1 bg-white/10" />
+              or
+              <span className="h-px flex-1 bg-white/10" />
+            </div>
+
+            <button
+              type="button"
+              disabled={!googleEnabled}
+              onClick={() => signIn("google", { callbackUrl: destination })}
+              className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-4 text-sm font-semibold text-white transition hover:bg-white/[0.09] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:cursor-not-allowed disabled:opacity-55 cursor-pointer"
+            >
+              <span>Continue with Google</span>
+              {!googleEnabled && (
+                <span className="rounded-full border border-amber-300/25 bg-amber-300/10 px-2 py-0.5 text-xs uppercase tracking-wide text-amber-200">
+                  Setup pending
+                </span>
+              )}
+            </button>
+          </>
+        )}
 
         <p className="mt-5 text-center text-sm leading-relaxed text-slate-400">
           Read our{" "}

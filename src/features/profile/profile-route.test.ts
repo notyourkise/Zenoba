@@ -52,6 +52,9 @@ describe("Profile API routes", () => {
         headline: null,
         streakCount: 1,
         lastStreakDate: null,
+        twoFactorEnabled: false,
+        twoFactorSecret: null,
+        twoFactorBackupCodes: null,
       });
 
       const res = await getProfile();

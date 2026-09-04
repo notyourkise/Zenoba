@@ -14,20 +14,20 @@ export function PackageCatalogGrid({ packages }: PackageCatalogGridProps) {
         return (
           <div
             key={pkg.id}
-            className="flex flex-col justify-between p-6 rounded-xl border border-white/10 bg-zinc-950 text-white transition-all hover:border-white/20"
+            className="flex flex-col justify-between p-6 rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-white transition-all hover:border-zinc-300 dark:hover:border-white/20 shadow-xs"
           >
             <div>
               {/* Badges */}
               <div className="flex items-center justify-between gap-2 mb-4">
-                <span className="text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                <span className="text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
                   {pkg.kind === "COMBO" ? "Paket Bundling" : "Paket Mandiri"}
                 </span>
 
                 <span
                   className={`text-xs font-medium px-2 py-0.5 rounded ${
                     isComingSoon
-                      ? "bg-zinc-800 text-zinc-400"
-                      : "bg-white/10 text-white"
+                      ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400"
+                      : "bg-zinc-100 dark:bg-white/10 text-zinc-900 dark:text-white"
                   }`}
                 >
                   {pkg.availabilityLabel}
@@ -35,25 +35,25 @@ export function PackageCatalogGrid({ packages }: PackageCatalogGridProps) {
               </div>
 
               {/* Title & Description */}
-              <h3 className="text-lg font-bold text-white mb-2 leading-snug">
+              <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-2 leading-snug">
                 {pkg.title}
               </h3>
-              <p className="text-sm text-zinc-400 line-clamp-3 mb-4">
+              <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-3 mb-4">
                 {pkg.description || "Paket kurikulum komprehensif."}
               </p>
 
               {/* Included courses */}
               <div className="mb-6">
-                <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">
+                <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2">
                   Termasuk {pkg.courses.length} Kursus:
                 </p>
                 <ul className="space-y-1">
                   {pkg.courses.map((c) => (
                     <li
                       key={c.slug}
-                      className="text-xs text-zinc-300 flex items-center gap-2"
+                      className="text-xs text-zinc-700 dark:text-zinc-300 flex items-center gap-2"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 shrink-0" />
                       <span>{c.title}</span>
                     </li>
                   ))}
@@ -61,10 +61,10 @@ export function PackageCatalogGrid({ packages }: PackageCatalogGridProps) {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-white/10 flex items-center justify-between gap-4">
+            <div className="pt-4 border-t border-zinc-200 dark:border-white/10 flex items-center justify-between gap-4">
               <div>
-                <p className="text-xs text-zinc-500 font-medium">Biaya Paket</p>
-                <p className="text-base font-bold text-white tracking-tight">
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">Biaya Paket</p>
+                <p className="text-base font-bold text-zinc-900 dark:text-white tracking-tight">
                   {pkg.priceLabel}
                 </p>
               </div>
@@ -74,7 +74,7 @@ export function PackageCatalogGrid({ packages }: PackageCatalogGridProps) {
                   <button
                     type="button"
                     disabled
-                    className="inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold bg-zinc-900 text-zinc-500 border border-white/5 cursor-not-allowed"
+                    className="inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold bg-zinc-100 dark:bg-zinc-900 text-zinc-400 dark:text-zinc-500 border border-zinc-200 dark:border-white/5 cursor-not-allowed"
                   >
                     Segera Hadir
                   </button>

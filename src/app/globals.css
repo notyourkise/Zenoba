@@ -8,13 +8,13 @@
 
 /* Custom base styles */
 :root {
-  --background: #030308;
-  --foreground: #ffffff;
-  color-scheme: dark;
+  --background: #ffffff;
+  --foreground: #09090b;
+  color-scheme: light;
 }
 
 .dark {
-  --background: #030308;
+  --background: #000000;
   --foreground: #ffffff;
   color-scheme: dark;
 }
@@ -31,7 +31,6 @@
 
 html {
   scroll-behavior: smooth;
-  color-scheme: dark;
 }
 
 html,

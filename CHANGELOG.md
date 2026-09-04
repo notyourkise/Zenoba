@@ -44,7 +44,7 @@ All notable project changes are recorded here.
   Recorded the owner-approved design and task-by-task implementation plan for a quieter authenticated dashboard. The planned work removes dashboard-only public marketing content, decorative icons, and repeated card grids; preserves the locked public landing/auth UI; uses existing user-scoped progress/path reads concurrently; and defines active, new-learner, and no-path accessibility/test states.
   Files/areas: `docs/superpowers/specs/2026-09-05-dashboard-distillation-design.md`, `docs/superpowers/plans/2026-09-05-dashboard-distillation.md`, `ROADMAP.md`, `PLAN.md`, `docs/HANDOFF.md`
   Validation: source-flow audit; documentation/path consistency review and `git diff --check` passed. No application code, migration, dependency, deployment, remote push, PR, CI run, or live authenticated browser session was created for this documentation task.
-  Git: pending
+  Git: `350dfc0` (`docs: plan dashboard distillation`)
 
 ---
 

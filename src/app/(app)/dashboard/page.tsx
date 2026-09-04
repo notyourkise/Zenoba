@@ -20,7 +20,6 @@ import {
   Network,
 } from "lucide-react";
 import Link from "next/link";
-import { CosmicBackground } from "@/components/effects/cosmic-background";
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
@@ -35,24 +34,15 @@ export default async function DashboardPage() {
   return (
     <div className="relative space-y-12 pb-16">
       {/* ========================================================================= */}
-      {/* HERO SECTION WITH COSMIC SPACE BACKGROUND & SQUARE BLUEPRINT GRID         */}
+      {/* HERO SECTION (CLEAN WORKSPACE SURFACE)                                     */}
       {/* ========================================================================= */}
-      <section className="relative -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 pt-6 pb-10 border-b border-gray-200/80 dark:border-gray-800/80 overflow-hidden bg-gray-50/50 dark:bg-gray-950/40">
-        {/* Cosmic Celestial Elements (Stars, Planet, Black Hole, White Hole, Galaxy - Dark Mode only) */}
-        <CosmicBackground />
-
-        {/* 1. Square Grid Pattern (White Theme Only) */}
-        <div
-          className="pointer-events-none absolute inset-0 [background-image:linear-gradient(to_right,rgba(0,0,0,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.08)_1px,transparent_1px)] [background-size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,white_85%,transparent_100%)] dark:hidden"
-          aria-hidden="true"
-        />
-
+      <section className="relative -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 pt-4 pb-8 border-b border-gray-200/80 dark:border-white/10 bg-transparent">
         {/* Hero Content Container */}
         <div className="relative max-w-7xl mx-auto">
           {/* Hero Content Inner */}
           <div className="relative z-10 px-2 sm:px-4 py-2 space-y-8">
             {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md p-6 rounded-2xl border border-gray-200/80 dark:border-gray-800/80 shadow-sm">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-zinc-900/90 p-6 rounded-2xl border border-gray-200/80 dark:border-white/10 shadow-xs">
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-semibold uppercase tracking-wider mb-2">
                   <Sparkles className="w-3.5 h-3.5" />
@@ -215,7 +205,7 @@ export default async function DashboardPage() {
       </section>
 
       {/* SECTION 2: Learning Pathway & UKK TKJ Readiness */}
-      <section className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl border border-gray-200/80 dark:border-gray-800 p-6 sm:p-8 space-y-6">
+      <section className="bg-white dark:bg-zinc-900/90 rounded-2xl border border-gray-200/80 dark:border-white/10 p-6 sm:p-8 space-y-6">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-xs font-semibold uppercase tracking-wider mb-2">
             <Layers className="w-3.5 h-3.5" />
@@ -300,7 +290,7 @@ export default async function DashboardPage() {
       </section>
 
       {/* SECTION 4: Quick Start Guidance & FAQ */}
-      <section className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl border border-gray-200/80 dark:border-gray-800 p-6 sm:p-8 space-y-6">
+      <section className="bg-white dark:bg-zinc-900/90 rounded-2xl border border-gray-200/80 dark:border-white/10 p-6 sm:p-8 space-y-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400">
             <HelpCircle className="w-5 h-5" />
@@ -336,7 +326,7 @@ export default async function DashboardPage() {
       </section>
 
       {/* SECTION 5: Footer Accreditation Banner */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-gray-900 to-gray-950 text-white border border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="p-6 rounded-2xl bg-zinc-900 text-white border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="space-y-1 text-center sm:text-left">
           <p className="text-sm font-semibold text-white">
             Netloka — Platform Pembelajaran Jaringan Komputer SMK TKJ
@@ -378,7 +368,7 @@ function StatCard({
   };
 
   return (
-    <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm p-5 rounded-xl shadow-sm border border-gray-200/80 dark:border-gray-800 flex flex-col justify-between transition-all hover:shadow-md">
+    <div className="bg-white dark:bg-zinc-900/90 p-5 rounded-xl shadow-xs border border-gray-200/80 dark:border-white/10 flex flex-col justify-between transition-all hover:border-gray-300 dark:hover:border-white/20">
       <div>
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-xs font-semibold text-black dark:text-white uppercase tracking-wider">
@@ -389,7 +379,7 @@ function StatCard({
         <p className="text-2xl font-black text-black dark:text-white tracking-tight">{value}</p>
       </div>
       {subtext && (
-        <p className="text-xs text-black dark:text-white mt-2 border-t border-gray-100 dark:border-gray-800/80 pt-2">
+        <p className="text-xs text-black dark:text-white mt-2 border-t border-gray-100 dark:border-white/10 pt-2">
           {subtext}
         </p>
       )}
@@ -419,7 +409,7 @@ function PillarCard({
   return (
     <Link
       href={href}
-      className={`group bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-gray-200/80 dark:border-gray-800 ${accent} hover:shadow-lg transition-all flex flex-col justify-between`}
+      className={`group bg-white dark:bg-zinc-900/90 p-6 rounded-2xl shadow-xs border border-gray-200/80 dark:border-white/10 ${accent} hover:shadow-md transition-all flex flex-col justify-between`}
     >
       <div className="space-y-3">
         <div className="flex items-center justify-between">
@@ -430,7 +420,7 @@ function PillarCard({
         </div>
 
         <div className="flex items-center gap-3 pt-1">
-          <div className="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-black dark:text-white group-hover:bg-blue-600 group-hover:text-white transition-colors">
+          <div className="p-2.5 rounded-xl bg-gray-100 dark:bg-zinc-800 text-black dark:text-white group-hover:bg-blue-600 group-hover:text-white transition-colors">
             {icon}
           </div>
           <h3 className="text-lg font-bold text-black dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
@@ -443,11 +433,11 @@ function PillarCard({
         </p>
       </div>
 
-      <div className="flex flex-wrap gap-1.5 pt-4 mt-2 border-t border-gray-100 dark:border-gray-800/80">
+      <div className="flex flex-wrap gap-1.5 pt-4 mt-2 border-t border-gray-100 dark:border-white/10">
         {tags.map((tag) => (
           <span
             key={tag}
-            className="px-2 py-0.5 rounded-md bg-gray-100 dark:bg-gray-800 text-[10px] font-medium text-black dark:text-white"
+            className="px-2 py-0.5 rounded-md bg-gray-100 dark:bg-zinc-800 text-[10px] font-medium text-black dark:text-white"
           >
             {tag}
           </span>
@@ -476,7 +466,7 @@ function RoadmapStep({
       className={`group p-4 rounded-xl border transition-all flex flex-col justify-between ${
         isFlagship
           ? "bg-indigo-50/50 dark:bg-indigo-950/20 border-indigo-200 dark:border-indigo-800 hover:border-indigo-500"
-          : "bg-gray-50/60 dark:bg-gray-800/50 border-gray-200/70 dark:border-gray-700/60 hover:border-blue-500"
+          : "bg-gray-50/60 dark:bg-zinc-900/60 border-gray-200/70 dark:border-white/10 hover:border-blue-500"
       }`}
     >
       <div className="space-y-2">
@@ -516,8 +506,8 @@ function FeatureHighlightCard({
   description: string;
 }) {
   return (
-    <div className="p-5 rounded-xl bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border border-gray-200/80 dark:border-gray-800 shadow-sm space-y-2.5">
-      <div className="p-2.5 w-fit rounded-lg bg-gray-100 dark:bg-gray-800">
+    <div className="p-5 rounded-xl bg-white dark:bg-zinc-900/90 border border-gray-200/80 dark:border-white/10 shadow-xs space-y-2.5">
+      <div className="p-2.5 w-fit rounded-lg bg-gray-100 dark:bg-zinc-800">
         {icon}
       </div>
       <h4 className="text-sm font-bold text-black dark:text-white">{title}</h4>
@@ -528,7 +518,7 @@ function FeatureHighlightCard({
 
 function FaqCard({ question, answer }: { question: string; answer: string }) {
   return (
-    <div className="p-4 rounded-xl bg-gray-50/70 dark:bg-gray-800/60 border border-gray-200/70 dark:border-gray-700/60 space-y-1.5">
+    <div className="p-4 rounded-xl bg-gray-50/70 dark:bg-zinc-900/60 border border-gray-200/70 dark:border-white/10 space-y-1.5">
       <h4 className="text-sm font-bold text-black dark:text-white flex items-start gap-2">
         <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
         <span>{question}</span>

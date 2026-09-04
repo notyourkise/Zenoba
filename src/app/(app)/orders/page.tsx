@@ -35,36 +35,36 @@ export default async function OrdersPage() {
     <div className="space-y-8 pb-16">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+        <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">
           Riwayat Pesanan
         </h1>
-        <p className="mt-2 text-base text-zinc-400 max-w-2xl">
+        <p className="mt-2 text-base text-zinc-600 dark:text-zinc-400 max-w-2xl">
           Pantau status pemesanan, invoice pembayaran, dan riwayat aktivasi paket Anda.
         </p>
       </div>
 
       {orders.length === 0 ? (
-        <div className="p-10 rounded-xl border border-white/10 bg-zinc-950 text-center space-y-4">
-          <p className="text-base text-zinc-300 font-medium">
+        <div className="p-10 rounded-xl border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-zinc-950 text-center space-y-4 shadow-xs">
+          <p className="text-base text-zinc-800 dark:text-zinc-300 font-medium">
             Belum ada riwayat pesanan.
           </p>
-          <p className="text-sm text-zinc-400 max-w-md mx-auto">
+          <p className="text-sm text-zinc-600 dark:text-zinc-400 max-w-md mx-auto">
             Semua tagihan dan transaksi checkout Anda akan tercatat dengan status yang transparan di sini.
           </p>
           <div>
             <Link
               href="/catalog"
-              className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-semibold bg-white text-black hover:bg-zinc-200 transition-colors"
+              className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-semibold bg-zinc-900 dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors"
             >
               Jelajahi Katalog
             </Link>
           </div>
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-white/10 bg-zinc-950">
+        <div className="overflow-x-auto rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-950 shadow-xs">
           <table className="w-full text-left border-collapse text-sm">
             <thead>
-              <tr className="border-b border-white/10 bg-white/5 text-zinc-400 font-medium">
+              <tr className="border-b border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-white/5 text-zinc-600 dark:text-zinc-400 font-medium">
                 <th className="py-3 px-4">Referensi</th>
                 <th className="py-3 px-4">Paket / Item</th>
                 <th className="py-3 px-4">Total Biaya</th>
@@ -72,10 +72,10 @@ export default async function OrdersPage() {
                 <th className="py-3 px-4">Tanggal Pesanan</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/10 text-white">
+            <tbody className="divide-y divide-zinc-200 dark:divide-white/10 text-zinc-900 dark:text-white">
               {orders.map((order) => (
-                <tr key={order.id} className="hover:bg-white/5">
-                  <td className="py-3 px-4 font-mono text-xs text-cyan-400 font-semibold">
+                <tr key={order.id} className="hover:bg-zinc-50 dark:hover:bg-white/5 transition-colors">
+                  <td className="py-3 px-4 font-mono text-xs text-cyan-600 dark:text-cyan-400 font-semibold">
                     {order.reference}
                   </td>
                   <td className="py-3 px-4 font-medium">{order.packageTitle}</td>
@@ -91,7 +91,7 @@ export default async function OrdersPage() {
                       {order.state}
                     </span>
                   </td>
-                  <td className="py-3 px-4 text-zinc-400">
+                  <td className="py-3 px-4 text-zinc-600 dark:text-zinc-400">
                     {new Date(order.createdAt).toLocaleDateString("id-ID", {
                       year: "numeric",
                       month: "short",

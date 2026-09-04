@@ -98,6 +98,9 @@ describe("POST /api/user/password", () => {
       headline: null,
       streakCount: 1,
       lastStreakDate: null,
+      twoFactorEnabled: false,
+      twoFactorSecret: null,
+      twoFactorBackupCodes: null,
     });
 
     const request = new Request("http://localhost:3000/api/user/password", {

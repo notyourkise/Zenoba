@@ -16,10 +16,10 @@ export default async function CatalogPage() {
     <div className="space-y-12 pb-16">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+        <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">
           Katalog Kursus
         </h1>
-        <p className="mt-2 text-base text-zinc-400 max-w-2xl">
+        <p className="mt-2 text-base text-zinc-600 dark:text-zinc-400 max-w-2xl">
           Eksplorasi jalur pembelajaran infrastruktur IT. Fondasi Networking dapat diakses 100% gratis secara permanen.
         </p>
       </div>
@@ -27,10 +27,10 @@ export default async function CatalogPage() {
       {/* Section 1: Single Courses */}
       <section className="space-y-6">
         <div>
-          <h2 className="text-xl font-bold text-white tracking-tight">
+          <h2 className="text-xl font-bold text-zinc-900 dark:text-white tracking-tight">
             Kursus Mandiri
           </h2>
-          <p className="text-sm text-zinc-400">
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">
             Pilih spesialisasi teknis yang ingin Anda dalami secara fokus dan terarah.
           </p>
         </div>
@@ -38,12 +38,12 @@ export default async function CatalogPage() {
       </section>
 
       {/* Section 2: Combo Packages */}
-      <section className="space-y-6 pt-6 border-t border-white/10">
+      <section className="space-y-6 pt-6 border-t border-zinc-200 dark:border-white/10">
         <div>
-          <h2 className="text-xl font-bold text-white tracking-tight">
+          <h2 className="text-xl font-bold text-zinc-900 dark:text-white tracking-tight">
             Paket Bundling
           </h2>
-          <p className="text-sm text-zinc-400">
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">
             Kombinasi modul tematik untuk akselerasi penguasaan domain infrastruktur lapangan.
           </p>
         </div>

@@ -188,8 +188,20 @@ describe("AppHeader profile dropdown", () => {
     // Switch to Pengaturan tab inside modal
     fireEvent.click(screen.getByRole("button", { name: "Pengaturan" }));
     expect(screen.getByText("Pengaturan Akun & Preferensi")).toBeVisible();
+
+    // Switch to Keamanan tab inside modal
+    fireEvent.click(screen.getByRole("button", { name: "Keamanan" }));
+    expect(screen.getByText("Keamanan Akun")).toBeVisible();
     expect(screen.getByLabelText("Password Baru")).toBeVisible();
     expect(screen.getByLabelText("Konfirmasi Password Baru")).toBeVisible();
+
+    // Switch to Sertifikat tab inside modal
+    fireEvent.click(screen.getByRole("button", { name: "Sertifikat" }));
+    expect(screen.getByText("Sertifikat Kelulusan & Kompetensi")).toBeVisible();
+
+    // Switch to Bantuan tab inside modal
+    fireEvent.click(screen.getByRole("button", { name: "Bantuan" }));
+    expect(screen.getByText("Pusat Bantuan & Panduan")).toBeVisible();
 
     // Close modal via X button
     fireEvent.click(screen.getByRole("button", { name: "Tutup modal" }));

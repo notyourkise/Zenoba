@@ -40,6 +40,18 @@ All notable project changes are recorded here.
 
 # 2026-09-04
 
+- [2026-09-04 15:25 WITA] [ADDED] [SECURITY] [Milestone 7 / Sprint 17 / Account Security, 2FA, Google Connection & Theming]
+  Implemented Two-Factor Authentication (2FA TOTP), Google Account connection, Account Modal expansion, and full B/W theming:
+  1. Two-Factor Authentication (RFC 6238 TOTP): Pure Node.js `crypto` TOTP engine (`totp.ts`), QR code generation (`qr.ts`), 6-digit verification with ±30s clock drift tolerance, and 8 one-time backup recovery codes (`xxxx-xxxx`).
+  2. Database persistence: Added non-breaking fields `twoFactorEnabled`, `twoFactorSecret`, and `twoFactorBackupCodes` to Prisma `User` model.
+  3. Security API Routes: Implemented `GET /api/user/security`, `POST /api/user/security/2fa` (setup, verify, disable), and `DELETE /api/user/security/google` (with anti-lockout local password protection).
+  4. NextAuth credentials integration: Enforced 2FA verification step during credentials login when `twoFactorEnabled` is true (`2FA_REQUIRED`), updating `auth-modal.tsx` with dedicated 2FA code / backup code prompt.
+  5. Account Linking: Enabled `allowDangerousEmailAccountLinking: true` for GoogleProvider in NextAuth and built `SecurityConnectedAccountsCard` for instant Google link/unlink.
+  6. Account Modal Expansion: Expanded modal sidebar to 5 tabs (`Profile`, `Pengaturan`, `Keamanan`, `Sertifikat`, `Bantuan`).
+  7. Full B/W Theming & System Theme: Moved theme toggle exclusively to settings with 3 icon buttons (Light, Dark, System); converted dashboard, catalog, learning, packages, and orders views to dual-theme contrast styling.
+  Validation: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm test` (48 test files, 232 tests passed).
+  Files/areas: `prisma/schema.prisma`, `src/features/auth/`, `src/app/api/user/security/`, `src/features/settings/`, `src/components/navigation/account-modal/`, `src/components/ui/mode-toggle.tsx`, `src/app/globals.css`.
+
 - [2026-09-04 01:26 WITA] [ADDED] [Milestone 7 / Sprint 17 / Member Workspace & Course Commerce Foundation]
   Implemented full Member Workspace and Course Commerce Foundation across Tasks 1 through 9:
   1. ADR 0004 & pure catalog rules (`catalog-rules.ts`, `types.ts`, `catalog-rules.test.ts`).

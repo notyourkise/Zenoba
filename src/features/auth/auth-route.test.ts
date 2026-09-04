@@ -66,6 +66,9 @@ describe("POST /api/auth/register", () => {
       headline: null,
       streakCount: 1,
       lastStreakDate: null,
+      twoFactorEnabled: false,
+      twoFactorSecret: null,
+      twoFactorBackupCodes: null,
     });
 
     const req = new Request("http://localhost:3000/api/auth/register", {

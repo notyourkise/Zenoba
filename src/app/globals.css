@@ -19,6 +19,12 @@
   color-scheme: dark;
 }
 
+.light {
+  --background: #ffffff;
+  --foreground: #09090b;
+  color-scheme: light;
+}
+
 /* Hide scrollbars globally across all browsers */
 * {
   -ms-overflow-style: none;
@@ -32,6 +38,10 @@
 html {
   scroll-behavior: smooth;
   color-scheme: dark;
+}
+
+html.light {
+  color-scheme: light;
 }
 
 html,

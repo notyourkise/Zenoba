@@ -6,6 +6,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { prisma } from "@/lib/db/client";
 import { verifyPassword } from "./password";
+import { verifyTotpCode, verifyAndConsumeBackupCode } from "./totp";
 
 type GoogleEnvironment = Record<string, string | undefined>;
 
@@ -27,6 +28,7 @@ export function buildAuthProviders(
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
+        code: { label: "2FA Code", type: "text" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -49,6 +51,41 @@ export function buildAuthProviders(
           throw new Error("Invalid email or password");
         }
 
+        // 2FA Verification Check
+        if (user.twoFactorEnabled) {
+          const rawCode = credentials.code?.trim();
+          if (!rawCode) {
+            throw new Error("2FA_REQUIRED");
+          }
+
+          let isCodeValid = false;
+          if (user.twoFactorSecret && verifyTotpCode(user.twoFactorSecret, rawCode)) {
+            isCodeValid = true;
+          } else if (user.twoFactorBackupCodes) {
+            try {
+              const storedHashes = JSON.parse(user.twoFactorBackupCodes);
+              if (Array.isArray(storedHashes)) {
+                const consumption = verifyAndConsumeBackupCode(rawCode, storedHashes);
+                if (consumption.valid) {
+                  isCodeValid = true;
+                  await prisma.user.update({
+                    where: { id: user.id },
+                    data: {
+                      twoFactorBackupCodes: JSON.stringify(consumption.remainingHashedCodes),
+                    },
+                  });
+                }
+              }
+            } catch {
+              // Ignore parsing error
+            }
+          }
+
+          if (!isCodeValid) {
+            throw new Error("Kode autentikasi 2FA tidak valid.");
+          }
+        }
+
         return {
           id: user.id,
           email: user.email,
@@ -68,6 +105,7 @@ export function buildAuthProviders(
       GoogleProvider({
         clientId: environment.GOOGLE_CLIENT_ID!.trim(),
         clientSecret: environment.GOOGLE_CLIENT_SECRET!.trim(),
+        allowDangerousEmailAccountLinking: true,
       }),
     );
   }

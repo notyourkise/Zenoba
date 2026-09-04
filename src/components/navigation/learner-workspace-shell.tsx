@@ -32,7 +32,7 @@ export function LearnerWorkspaceShell({
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-white dark:bg-black text-zinc-900 dark:text-white selection:bg-cyan-500/30 selection:text-cyan-800 dark:selection:text-cyan-200 transition-colors">
+    <div className="min-h-screen flex flex-col md:flex-row bg-[#050811] text-white selection:bg-blue-500/30 selection:text-blue-200">
       {/* Mobile Drawer */}
       <LearnerMobileDrawer
         user={user}
@@ -47,7 +47,7 @@ export function LearnerWorkspaceShell({
 
       {/* Main Content Workspace */}
       <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
-        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
           {children}
         </main>
       </div>

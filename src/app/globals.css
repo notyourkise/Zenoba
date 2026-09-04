@@ -8,15 +8,21 @@
 
 /* Custom base styles */
 :root {
-  --background: #ffffff;
-  --foreground: #09090b;
-  color-scheme: light;
+  --background: #030308;
+  --foreground: #ffffff;
+  color-scheme: dark;
 }
 
 .dark {
-  --background: #000000;
+  --background: #030308;
   --foreground: #ffffff;
   color-scheme: dark;
+}
+
+.light {
+  --background: #ffffff;
+  --foreground: #09090b;
+  color-scheme: light;
 }
 
 /* Hide scrollbars globally across all browsers */
@@ -31,6 +37,11 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+html.light {
+  color-scheme: light;
 }
 
 html,

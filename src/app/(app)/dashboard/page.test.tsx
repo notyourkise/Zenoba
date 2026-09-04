@@ -1,6 +1,5 @@
-﻿import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import * as React from "react";
 import DashboardPage from "./page";
 
 vi.mock("@/lib/auth", () => ({
@@ -19,6 +18,8 @@ import { getCurrentUser } from "@/lib/auth";
 import { getUserProgressSummary } from "@/features/learning/progress";
 import { getLearningPathsWithProgress } from "@/features/learning/queries";
 
+type MockUser = NonNullable<Awaited<ReturnType<typeof getCurrentUser>>>;
+
 const mockGetCurrentUser = vi.mocked(getCurrentUser);
 const mockGetUserProgressSummary = vi.mocked(getUserProgressSummary);
 const mockGetLearningPathsWithProgress = vi.mocked(getLearningPathsWithProgress);
@@ -29,12 +30,13 @@ describe("DashboardPage (Distilled Workspace)", () => {
   });
 
   it("renders active path with progress bar, text metrics, and Continue learning link without marketing content or SVG", async () => {
-    mockGetCurrentUser.mockResolvedValue({
+    const user: MockUser = {
       id: "user-1",
       name: "Budi",
       email: "budi@example.com",
       role: "LEARNER",
-    } as any);
+    };
+    mockGetCurrentUser.mockResolvedValue(user);
 
     mockGetUserProgressSummary.mockResolvedValue({
       totalLessons: 24,
@@ -50,12 +52,13 @@ describe("DashboardPage (Distilled Workspace)", () => {
         title: "Network Foundations",
         slug: "network-foundations",
         description: "Dasar-dasar jaringan komputer",
+        icon: null,
         orderIndex: 0,
         modulesCount: 8,
         totalLessonsCount: 24,
         completedLessonsCount: 10,
         progressPercent: 42,
-      } as any,
+      },
     ]);
 
     const ui = await DashboardPage();
@@ -100,12 +103,13 @@ describe("DashboardPage (Distilled Workspace)", () => {
   });
 
   it("renders Start learning CTA when active path has zero progress", async () => {
-    mockGetCurrentUser.mockResolvedValue({
+    const user: MockUser = {
       id: "user-2",
       name: "Siti",
       email: "siti@example.com",
       role: "LEARNER",
-    } as any);
+    };
+    mockGetCurrentUser.mockResolvedValue(user);
 
     mockGetUserProgressSummary.mockResolvedValue({
       totalLessons: 24,
@@ -121,12 +125,13 @@ describe("DashboardPage (Distilled Workspace)", () => {
         title: "Network Foundations",
         slug: "network-foundations",
         description: "Dasar-dasar jaringan komputer",
+        icon: null,
         orderIndex: 0,
         modulesCount: 8,
         totalLessonsCount: 24,
         completedLessonsCount: 0,
         progressPercent: 0,
-      } as any,
+      },
     ]);
 
     const ui = await DashboardPage();
@@ -146,12 +151,13 @@ describe("DashboardPage (Distilled Workspace)", () => {
   });
 
   it("renders empty state with Course catalog link when no learning paths are returned", async () => {
-    mockGetCurrentUser.mockResolvedValue({
+    const user: MockUser = {
       id: "user-3",
       name: "Rian",
       email: "rian@example.com",
       role: "LEARNER",
-    } as any);
+    };
+    mockGetCurrentUser.mockResolvedValue(user);
 
     mockGetUserProgressSummary.mockResolvedValue({
       totalLessons: 0,

@@ -38,6 +38,27 @@ All notable project changes are recorded here.
 
 ---
 
+# 2026-09-05
+
+- [2026-09-05 02:55 WITA] [REFACTOR] [TEST] [Milestone 7 / Sprint 18 / Dashboard Distillation & Workspace Focus]
+  Refocused the authenticated `/dashboard` into a minimal, text-led learner workspace:
+  1. Distillation & Information Reduction: Removed public marketing sections (**4 Pilar Utama Netloka**, **Roadmap & UKK**, platform highlights, FAQ, and promotional footer), decorative SVG icons, and card-heavy layout from `/dashboard` while keeping locked public landing page/auth UI unchanged.
+  2. Workspace Layout: Implemented a clean, single-column reading hierarchy with a welcome orientation, primary Continue/Start learning CTA, semantic `<div role="progressbar">` with `aria-valuemin="0"`, `aria-valuemax="100"`, and `aria-valuenow`, compact inline text metrics for completed lessons, in-progress count, and XP, and ordinary text links for Labs, Challenges, and Consultant.
+  3. Data Fetching Optimization: Fetched `getUserProgressSummary` and `getLearningPathsWithProgress` concurrently with `Promise.all` after resolving session user.
+  4. Empty & Edge States: Provided a truthful, non-broken zero-progress state (`Start learning`) and no-path state with a direct text link to `Course catalog` (`/catalog`).
+  5. Regression Testing: Added comprehensive test coverage in `src/app/(app)/dashboard/page.test.tsx` asserting active path progress bar semantics, truthful metrics, empty catalog states, zero SVG presence, and absence of public marketing headings.
+  Files/areas: `src/app/(app)/dashboard/page.tsx`, `src/app/(app)/dashboard/page.test.tsx`, `ROADMAP.md`, `PLAN.md`, `docs/HANDOFF.md`
+  Validation: `npm run db:generate`, `npm run typecheck` (0 errors), `npm run lint` (0 errors), `vitest run` (49 files, 235 tests passed), `playwright test src/e2e/member-workspace.spec.ts` (5 passed), `npm run build` (34/34 routes passed), `impeccable detect.mjs` (0 antipatterns), and `git diff --check` passed.
+  Git: `codex/dashboard-distillation`
+
+- [2026-09-05 02:22 WITA] [DOCS] [Milestone 7 / Sprint 18 / Dashboard Distillation & Workspace Focus]
+  Recorded the owner-approved design and task-by-task implementation plan for a quieter authenticated dashboard. The planned work removes dashboard-only public marketing content, decorative icons, and repeated card grids; preserves the locked public landing/auth UI; uses existing user-scoped progress/path reads concurrently; and defines active, new-learner, and no-path accessibility/test states.
+  Files/areas: `docs/superpowers/specs/2026-09-05-dashboard-distillation-design.md`, `docs/superpowers/plans/2026-09-05-dashboard-distillation.md`, `ROADMAP.md`, `PLAN.md`, `docs/HANDOFF.md`
+  Validation: source-flow audit; documentation/path consistency review and `git diff --check` passed. No application code, migration, dependency, deployment, remote push, PR, CI run, or live authenticated browser session was created for this documentation task.
+  Git: `350dfc0` (`docs: plan dashboard distillation`)
+
+---
+
 # 2026-09-04
 
 - [2026-09-04 15:25 WITA] [ADDED] [SECURITY] [Milestone 7 / Sprint 17 / Account Security, 2FA, Google Connection & Theming]

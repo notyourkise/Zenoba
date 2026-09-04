@@ -2,21 +2,22 @@ import { getCurrentUser } from "@/lib/auth";
 import { getUserProgressSummary } from "@/features/learning/progress";
 import { getLearningPathsWithProgress } from "@/features/learning/queries";
 import Link from "next/link";
+import { Terminal } from "lucide-react";
 
 function WaveLinesBackground({ color }: { color: "purple" | "cyan" | "amber" }) {
   const strokeColor =
     color === "purple"
-      ? "rgba(168, 85, 247, 0.4)"
+      ? "rgba(168, 85, 247, 0.45)"
       : color === "cyan"
-      ? "rgba(6, 182, 212, 0.4)"
-      : "rgba(245, 158, 11, 0.4)";
+      ? "rgba(6, 182, 212, 0.45)"
+      : "rgba(245, 158, 11, 0.45)";
 
   const glowColor =
     color === "purple"
-      ? "rgba(147, 51, 234, 0.25)"
+      ? "rgba(192, 132, 252, 0.8)"
       : color === "cyan"
-      ? "rgba(20, 184, 166, 0.25)"
-      : "rgba(217, 119, 6, 0.25)";
+      ? "rgba(45, 212, 191, 0.8)"
+      : "rgba(251, 191, 36, 0.8)";
 
   return (
     <div
@@ -24,36 +25,43 @@ function WaveLinesBackground({ color }: { color: "purple" | "cyan" | "amber" }) 
       aria-hidden="true"
     >
       <svg
-        className="absolute right-0 bottom-0 w-full h-full opacity-60"
+        className="absolute right-0 bottom-0 w-full h-full opacity-70"
         viewBox="0 0 300 150"
         fill="none"
         preserveAspectRatio="none"
       >
-        <path
-          d="M0,150 C80,140 150,60 300,80"
-          stroke={strokeColor}
-          strokeWidth="1.2"
-        />
-        <path
-          d="M0,150 C100,120 180,40 300,60"
-          stroke={strokeColor}
-          strokeWidth="1.2"
-        />
-        <path
-          d="M0,150 C120,100 210,30 300,40"
-          stroke={strokeColor}
-          strokeWidth="1.5"
-        />
-        <path
-          d="M0,150 C140,80 240,20 300,20"
-          stroke={strokeColor}
-          strokeWidth="1.2"
-        />
-        <path
-          d="M0,150 C160,70 270,10 300,10"
-          stroke={glowColor}
-          strokeWidth="2"
-        />
+        <g className="animate-wave-1">
+          <path
+            d="M0,150 C80,140 150,60 300,80"
+            stroke={strokeColor}
+            strokeWidth="1.2"
+          />
+          <path
+            d="M0,150 C100,120 180,40 300,60"
+            stroke={strokeColor}
+            strokeWidth="1.2"
+          />
+        </g>
+        <g className="animate-wave-2">
+          <path
+            d="M0,150 C120,100 210,30 300,40"
+            stroke={strokeColor}
+            strokeWidth="1.5"
+          />
+          <path
+            d="M0,150 C140,80 240,20 300,20"
+            stroke={strokeColor}
+            strokeWidth="1.2"
+          />
+        </g>
+        <g className="animate-wave-3">
+          <path
+            d="M0,150 C160,70 270,10 300,10"
+            stroke={glowColor}
+            strokeWidth="2"
+            className="animate-wave-stream"
+          />
+        </g>
       </svg>
     </div>
   );
@@ -113,47 +121,48 @@ export default async function DashboardPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-[#070E22]/50 via-transparent to-transparent" />
         </div>
 
-        {/* Top bar with Quote on the right */}
-        <div className="flex items-start justify-between relative z-10">
-          <div>
-            <p className="text-xs sm:text-sm font-medium text-zinc-300">
-              Selamat Datang Kembali,
+        {/* Top bar */}
+        <div className="relative z-10">
+          <p className="text-xs sm:text-sm font-medium text-zinc-300">
+            Selamat Datang Kembali,
+          </p>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white mt-1">
+            {firstName} <span className="text-blue-500">{lastName}!</span>
+          </h1>
+        </div>
+
+        {/* Bottom bar with description, CTA, and Quote at bottom right */}
+        <div className="relative z-10 pt-4 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+          <div className="space-y-4 max-w-xl">
+            <p className="text-xs sm:text-sm text-zinc-300/90 leading-relaxed max-w-md">
+              Terus eksplorasi, praktik, dan asah skill jaringanmu.
+              Masa depan infrastruktur ada di tanganmu.
             </p>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white mt-1">
-              {firstName} <span className="text-blue-500">{lastName}!</span>
-            </h1>
+
+            <div className="flex flex-wrap items-center gap-4 pt-1">
+              <Link
+                href={continueHref}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white text-sm font-semibold shadow-lg shadow-blue-600/30 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+              >
+                <span>{continueLabel}</span>
+                <span aria-hidden="true">&gt;</span>
+              </Link>
+              <span className="text-xs text-zinc-400 italic">
+                Belajar hari ini, jaringan yang lebih baik esok hari.
+              </span>
+            </div>
           </div>
 
-          <div className="hidden lg:flex flex-col items-end text-right select-none pl-4">
+          {/* Quote placed at bottom right */}
+          <div className="hidden lg:flex flex-col items-end text-right select-none pl-4 pb-1 shrink-0">
             <p className="font-serif italic text-sm md:text-base text-zinc-200/90 tracking-wide">
-              “Better Networks
+              &ldquo;Better Networks
               <br />
-              Brighter Opportunities”
+              Brighter Opportunities&rdquo;
             </p>
             <p className="text-[10px] uppercase tracking-[0.25em] text-blue-300/70 font-semibold mt-2">
               N E T L O K A
             </p>
-          </div>
-        </div>
-
-        {/* Bottom bar with description and CTA */}
-        <div className="relative z-10 pt-4 space-y-4 max-w-xl">
-          <p className="text-xs sm:text-sm text-zinc-300/90 leading-relaxed max-w-md">
-            Terus eksplorasi, praktik, dan asah skill jaringanmu.
-            Masa depan infrastruktur ada di tanganmu.
-          </p>
-
-          <div className="flex flex-wrap items-center gap-4 pt-1">
-            <Link
-              href={continueHref}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white text-sm font-semibold shadow-lg shadow-blue-600/30 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-            >
-              <span>{continueLabel}</span>
-              <span aria-hidden="true">&gt;</span>
-            </Link>
-            <span className="text-xs text-zinc-400 italic">
-              Belajar hari ini, jaringan yang lebih baik esok hari.
-            </span>
           </div>
         </div>
       </section>
@@ -205,27 +214,29 @@ export default async function DashboardPage() {
           </p>
         </div>
 
-        {/* Card 4: Streak Belajar with 3D Glowing Flame */}
+        {/* Card 4: Streak Belajar with 3D Glowing Animated Flame */}
         <div className="rounded-2xl border border-amber-500/30 bg-gradient-to-r from-[#1E1408] via-[#1B1207] to-[#2B1B06] p-5 shadow-lg shadow-amber-500/5 relative overflow-hidden flex items-center justify-between transition-colors hover:border-amber-500/50">
           <div className="flex-1 min-w-0 z-10">
             <h2 className="text-xs font-semibold text-amber-400">
               Streak Belajar
             </h2>
-            <p className="text-3xl font-black text-white mt-2 tracking-tight">
-              {user?.streakCount || 0} hari
+            <p className="text-3xl font-black text-white mt-2 tracking-tight" aria-label={`${user?.streakCount || 0} hari`}>
+              {user?.streakCount || 0}
             </p>
             <p className="text-xs text-amber-200/60 mt-2 truncate">
               Konsistensi membangun masa depan
             </p>
           </div>
 
-          <div className="relative w-14 h-14 sm:w-16 sm:h-16 shrink-0 mix-blend-screen select-none ml-2">
+          <div className="relative w-14 h-14 sm:w-16 sm:h-16 shrink-0 select-none ml-2 flex items-center justify-center">
+            {/* Ambient flame glow halo */}
+            <div className="absolute inset-0 rounded-full bg-amber-500/20 blur-md pointer-events-none" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/streak-flame.jpg"
               alt=""
               aria-hidden="true"
-              className="w-full h-full object-contain filter drop-shadow-[0_0_12px_rgba(245,158,11,0.5)]"
+              className="w-full h-full object-contain mix-blend-screen rounded-full [mask-image:radial-gradient(circle_at_center,black_42%,transparent_70%)] [-webkit-mask-image:radial-gradient(circle_at_center,black_42%,transparent_70%)] animate-flame-flicker pointer-events-none filter drop-shadow-[0_0_12px_rgba(245,158,11,0.6)]"
             />
           </div>
         </div>
@@ -408,9 +419,12 @@ export default async function DashboardPage() {
           <div className="relative overflow-hidden rounded-2xl border border-purple-500/20 bg-gradient-to-b from-[#130E26] to-[#0A0716] p-5 shadow-lg flex flex-col justify-between group hover:border-purple-500/40 transition-all min-h-[160px]">
             <WaveLinesBackground color="purple" />
             <div className="relative z-10 space-y-2">
-              <h3 className="font-bold text-base text-white">
-                Interactive Labs
-              </h3>
+              <div className="flex items-center gap-2">
+                <Terminal className="w-5 h-5 text-purple-400 shrink-0" aria-hidden="true" />
+                <h3 className="font-bold text-base text-white">
+                  Interactive Labs
+                </h3>
+              </div>
               <p className="text-xs text-zinc-300 leading-relaxed">
                 Gunakan lab interaktif untuk praktik langsung tanpa perlu perangkat fisik.
               </p>

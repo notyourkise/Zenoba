@@ -9,7 +9,7 @@ import {
   LayoutGrid,
   Package,
   History,
-  FlaskConical,
+  Terminal,
   Wrench,
   Monitor,
   type LucideIcon,
@@ -45,7 +45,7 @@ export const WORKSPACE_NAV_ITEMS: NavItemConfig[] = [
 ];
 
 export const EXPLORATION_NAV_ITEMS: NavItemConfig[] = [
-  { href: "/labs", label: "Interactive Labs", icon: FlaskConical },
+  { href: "/labs", label: "Interactive Labs", icon: Terminal },
   { href: "/challenges", label: "Troubleshooting Challenges", icon: Wrench },
   { href: "/consultant", label: "Simulasi Konsultan TI", icon: Monitor },
 ];

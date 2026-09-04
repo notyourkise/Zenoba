@@ -40,6 +40,16 @@ All notable project changes are recorded here.
 
 # 2026-09-05
 
+- [2026-09-05 05:41 WITA] [CHANGED] [TEST] [Milestone 7 / Sprint 20 / Dashboard & Sidebar UI Polish]
+  Applied 4 visual and interactive refinements to `/dashboard` and navigation:
+  1. Streak Belajar Flame: Eliminated square border around flame image using radial gradient mask fade (`[mask-image:radial-gradient(circle_at_center,black_42%,transparent_70%)]`), added soft ambient glow aura halo, added dynamic `@keyframes flame-flicker` animation for organic movement and swaying, and removed `"hari"` suffix from streak counter (now displaying number only, retaining accessible `aria-label`).
+  2. Interactive Labs Icon: Switched icon from `FlaskConical` to CLI icon (`Terminal` / `>_`) in `LearnerSidebar`, `LearnerMobileDrawer`, and the Interactive Labs card header.
+  3. Hero Banner Quote: Repositioned Netloka orbital quote (*“Better Networks Brighter Opportunities” — NETLOKA*) to the bottom-right corner of the hero banner, aligned with the CTA and description block.
+  4. Animated Wave Lines: Added dynamic undulating and streaming light animations (`animate-wave-1`, `animate-wave-2`, `animate-wave-3`, `animate-wave-stream`) to the SVG wave lines in the 3 exploration cards (Interactive Labs, Troubleshooting Challenges, Simulasi Konsultan TI), with full `@media (prefers-reduced-motion: reduce)` support.
+  Files/areas: `src/app/(app)/dashboard/page.tsx`, `src/app/(app)/dashboard/page.test.tsx`, `src/components/navigation/learner-sidebar.tsx`, `src/app/globals.css`, `PLAN.md`, `CHANGELOG.md`, `docs/HANDOFF.md`
+  Validation: `npm run typecheck` (0 errors), `npm run lint` (0 errors), `vitest run` (49 test files, 235 passed), `playwright test src/e2e/member-workspace.spec.ts` (5 passed), `npm run build` (34/34 routes passed), `git diff --check` passed.
+  Git: `codex/dashboard-ui-polish`
+
 - [2026-09-05 03:36 WITA] [CHANGED] [TEST] [Milestone 7 / Sprint 19 / Cosmic Orbital Workspace UI Redesign]
   Transformed the authenticated `/dashboard` and navigation sidebar (`LearnerSidebar` and `LearnerMobileDrawer`) into a cosmic, orbital-themed workspace matching the user-provided reference design:
   1. Hero Banner: Designed a deep cosmic banner with high-resolution Earth orbital visual, subtle atmospheric rim lighting, dynamic greeting ("Dev Netloka!"), tagline, primary "Lanjutkan/Mulai Belajar" CTA button, and Netloka orbital quote ("Better Networks Brighter Opportunities").

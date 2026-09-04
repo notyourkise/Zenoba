@@ -870,16 +870,16 @@ Seed:
 
 ### Scope and non-negotiable boundaries
 
-- [ ] Replace only the authenticated `/dashboard` marketing/card-heavy composition with a one-column, text-led learner workspace.
-- [ ] Keep the locked pre-login landing page, marketing components, public navigation, and auth modal unchanged.
-- [ ] Remove public-dashboard-only pillars, roadmap/UKK, platform highlights, FAQ, promotional footer, decorative icons, and repeated card grids from `/dashboard`; retain public material on the landing page.
-- [ ] Use existing user-scoped progress/path read models, retain all authorization behavior, and load independent reads concurrently after session resolution.
-- [ ] Cover active, zero-progress, and no-path states; add progress-bar semantics, keyboard/responsive/theme review, and no-public-regression verification.
-- [ ] Do not introduce a next-lesson resolver, database migration, API, new dependency, commerce change, payment behavior, or deployment work.
+- [x] Replace only the authenticated `/dashboard` marketing/card-heavy composition with a one-column, text-led learner workspace.
+- [x] Keep the locked pre-login landing page, marketing components, public navigation, and auth modal unchanged.
+- [x] Remove public-dashboard-only pillars, roadmap/UKK, platform highlights, FAQ, promotional footer, decorative icons, and repeated card grids from `/dashboard`; retain public material on the landing page.
+- [x] Use existing user-scoped progress/path read models, retain all authorization behavior, and load independent reads concurrently after session resolution.
+- [x] Cover active, zero-progress, and no-path states; add progress-bar semantics, keyboard/responsive/theme review, and no-public-regression verification.
+- [x] Do not introduce a next-lesson resolver, database migration, API, new dependency, commerce change, payment behavior, or deployment work.
 
 ### Delivery sequence
 
-- [ ] Follow Tasks 1–4 in the approved plan: red focused tests → minimal dashboard refactor → state/accessibility/regression coverage → full review, quality gate, PR, CI, owner review, merge synchronization, and safe cleanup.
+- [x] Follow Tasks 1–4 in the approved plan: red focused tests → minimal dashboard refactor → state/accessibility/regression coverage → full review, quality gate, PR, CI, owner review, merge synchronization, and safe cleanup.
 - [ ] Do not mark Sprint 18 complete until application work is implemented, locally verified, CI-passed on its latest PR head, merged by Abangku, and main is synchronized.
 
 ---

@@ -1,15 +1,15 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-05 02:28 WITA**. This is a development snapshot, not a live status feed. Read [AGENTS.md](../AGENTS.md), then verify Git, files, PRs, and checks before acting. Do not depend on prior chat history.
+Last updated: **2026-09-05 02:55 WITA**. This is a development snapshot, not a live status feed. Read [AGENTS.md](../AGENTS.md), then verify Git, files, PRs, and checks before acting. Do not depend on prior chat history.
 
 ## 1. Product and active work
 
 - Netloka is an interactive **IT infrastructure learning platform**. Networking is its first available learning domain; the product journey is **Learn → Interact → Practice → Challenge → Consultant Project**.
 - Milestones 0–6 are complete; **Milestone 7 remains active**. Staging/production and other launch gates remain unverified.
 - Sprint 17's workspace/commerce work merged in PR #18, and the account-security/theming work merged in PR #19. Neither merge is evidence of deployment.
-- **Current task:** Dashboard Distillation & Workspace Focus (proposed Sprint 18).
+- **Current task:** Dashboard Distillation & Workspace Focus (Sprint 18).
 - **Owner-approved scope:** Change authenticated `/dashboard` into a quiet, text-led learner workspace. Remove its public marketing sections, decorative icons, and repeated card grids. Keep public landing/auth UI exactly as it is; public material stays on the landing page.
-- **Current phase:** Documentation plan complete in this worktree; no dashboard application code, migration, dependency, remote push, PR, CI run, or deployment has been created for this task.
+- **Current phase:** Implementation locally verified. Server component refactored to single-column text hierarchy with progress semantics and concurrent read loading; focused tests created in `src/app/(app)/dashboard/page.test.tsx`; all checks green.
 
 ## 2. Verified Git and worktree checkpoint
 
@@ -20,12 +20,12 @@ Verified locally on 2026-09-05:
 | Repository | `notyourkise/NetLoka` |
 | Main checkout | `C:/laragon/www/netloka`, branch `main` |
 | Verified main / `origin/main` | `6082a7022e7f8383d2571b40afdf6e21e8f26c2b` — merge PR #19 |
-| Last confirmed merge before this docs task | PR #19 — Account Security, 2FA, Google Account Connection, Account Modal Expansion, and B/W Theming |
-| Planning worktree | `C:/laragon/www/netloka/.worktrees/codex-dashboard-distillation-plan` |
-| Planning branch | `codex/dashboard-distillation-plan`, based on `6082a70` |
-| Planning documentation commit | `350dfc0` — `docs: plan dashboard distillation` |
-| Planning worktree local changes | None expected after the checkpoint commit below; verify with `git status` before acting. |
-| Main checkout local changes | A user-owned modification to `src/app/(app)/dashboard/page.tsx`; preserve it. It is not part of this planning branch and must never be reset, stashed, or overwritten without owner instruction. |
+| Last confirmed merge before this task | PR #19 — Account Security, 2FA, Google Account Connection, Account Modal Expansion, and B/W Theming |
+| Implementation worktree | `C:/laragon/www/netloka/.worktrees/codex-dashboard-distillation` |
+| Implementation branch | `codex/dashboard-distillation` |
+| Planning worktree | `C:/laragon/www/netloka/.worktrees/codex-dashboard-distillation-plan` (retained, branch `codex/dashboard-distillation-plan`) |
+| Implementation worktree local changes | Staged/ready for commit: `src/app/(app)/dashboard/page.tsx`, `src/app/(app)/dashboard/page.test.tsx`, `ROADMAP.md`, `PLAN.md`, `CHANGELOG.md`, `docs/HANDOFF.md` |
+| Main checkout local changes | A user-owned modification to `src/app/(app)/dashboard/page.tsx`; preserved untouched in main checkout. |
 
 Retained unrelated worktree (not a cleanup target):
 
@@ -67,17 +67,24 @@ Browser /dashboard → existing route/session protection → DashboardPage → c
 
 ## 5. Verification status and limits
 
-- Planning-task validation still required before commit: documentation/path consistency review and `git diff --check`.
-- No application suite is required for a documentation-only branch; no application suite result should be reported for this task.
-- Historical PR #18 and #19 test evidence is not fresh verification of a future dashboard implementation.
-- A signed-in local browser audit requires an authorized local development account and isolated data. Do not bypass authentication or use production data merely to create dashboard screenshots/tests.
+- Local verification completed:
+  - `npm run db:generate`: Prisma client generated successfully.
+  - `npm run typecheck`: 0 errors.
+  - `npm run lint`: 0 errors / 0 warnings.
+  - `npm test`: 49 test files (235 tests) 100% green.
+  - `npx playwright test src/e2e/member-workspace.spec.ts --project=chromium`: 5 passed 100% green.
+  - `npm run build`: 34 of 34 routes compiled and generated successfully.
+  - `impeccable detect.mjs`: 0 antipatterns (`[]`).
+  - `git diff --check`: Clean (0 whitespace errors).
+  - Public landing files (`src/app/page.tsx`, `src/components/marketing/`): 0 diff.
 
 ## 6. Next action
 
-1. Finish the documentation-only review, commit the plan/checkpoint on `codex/dashboard-distillation-plan`, and report its local status. Do not push or create a PR unless Abangku asks.
-2. When Abangku requests implementation, recover context again and create/reuse a **fresh** isolated implementation worktree based on current `origin/main`; do not implement in this planning worktree or in the dirty main checkout.
-3. Execute plan Tasks 1–4 test-first. Ask Abangku before any material scope or data-contract change; no new decision is presently needed for the approved dashboard scope.
-4. Before an implementation PR, run all applicable local quality gates, inspect latest-head GitHub Actions, and wait for Abangku's review/merge. Synchronize a clean main checkout and clean only the verified task worktree/branch afterward.
+1. Commit changes on `codex/dashboard-distillation` with conventional commit message `refactor: focus learner dashboard`.
+2. Push branch to `origin/codex/dashboard-distillation` using GitHub CLI.
+3. Open a Pull Request targeting `main`.
+4. Monitor and verify all applicable GitHub Actions CI checks on the PR head.
+5. Report PR as ready for Abangku's review and merge.
 
 ## 7. Known open product/deployment gates
 

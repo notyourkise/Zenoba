@@ -480,7 +480,7 @@ Deliverables:
 
 **Reference design:** `docs/superpowers/specs/2026-09-03-member-workspace-course-commerce-design.md`
 
-### Sprint 18 — Dashboard Distillation & Workspace Focus 🗓️ PLANNED
+### Sprint 18 — Dashboard Distillation & Workspace Focus 🚀 IMPLEMENTED / LOCALLY VERIFIED
 
 **Goal:** Refocus the authenticated dashboard on the learner's immediate next step and truthful learning progress. Remove duplicated public-marketing content, decorative icons, and card-heavy layout from `/dashboard` only, while preserving the owner-locked pre-login landing/auth UI exactly.
 

@@ -214,6 +214,96 @@ body {
   animation: stardust-drift-3 36s linear infinite 10s;
 }
 
+@keyframes flame-flicker {
+  0%, 100% {
+    transform: scale(1) translateY(0) rotate(0deg);
+    filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.7)) brightness(1);
+  }
+  25% {
+    transform: scale(1.05, 0.96) translateY(-1.5px) rotate(-1.5deg);
+    filter: drop-shadow(0 0 16px rgba(251, 191, 36, 0.85)) brightness(1.1);
+  }
+  50% {
+    transform: scale(0.97, 1.03) translateY(0.5px) rotate(1deg);
+    filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.55)) brightness(0.95);
+  }
+  75% {
+    transform: scale(1.04, 0.98) translateY(-1px) rotate(-0.5deg);
+    filter: drop-shadow(0 0 14px rgba(245, 158, 11, 0.8)) brightness(1.05);
+  }
+}
+
+.animate-flame-flicker {
+  animation: flame-flicker 2.6s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes wave-float-1 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scaleY(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(-10px, 5px, 0) scaleY(1.06);
+    opacity: 0.85;
+  }
+}
+
+@keyframes wave-float-2 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scaleY(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate3d(12px, -6px, 0) scaleY(0.94);
+    opacity: 0.9;
+  }
+}
+
+@keyframes wave-float-3 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.5;
+  }
+  33% {
+    transform: translate3d(6px, 4px, 0);
+    opacity: 0.8;
+  }
+  66% {
+    transform: translate3d(-6px, -4px, 0);
+    opacity: 0.65;
+  }
+}
+
+@keyframes wave-stream {
+  0% {
+    stroke-dashoffset: 400;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-wave-1 {
+  animation: wave-float-1 7s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-wave-2 {
+  animation: wave-float-2 9s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-wave-3 {
+  animation: wave-float-3 12s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-wave-stream {
+  stroke-dasharray: 100 40;
+  animation: wave-stream 10s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-cosmic-spin,
   .animate-cosmic-spin-slow,
@@ -225,7 +315,12 @@ body {
   .animate-whitehole-glow,
   .animate-stardust-drift-1,
   .animate-stardust-drift-2,
-  .animate-stardust-drift-3 {
+  .animate-stardust-drift-3,
+  .animate-flame-flicker,
+  .animate-wave-1,
+  .animate-wave-2,
+  .animate-wave-3,
+  .animate-wave-stream {
     animation: none !important;
   }
 }

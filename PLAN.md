@@ -884,7 +884,7 @@ Seed:
 
 ---
 
-## Sprint 19 — Cosmic Orbital Workspace UI Redesign 🚀 ACTIVE
+## Sprint 19 — Cosmic Orbital Workspace UI Redesign (Merged in PR #21)
 
 **Scope & Design Reference:** User-provided reference design screenshot (`media_1788549989073.png`)
 **Goal:** Transform the authenticated learner dashboard and sidebar navigation into a deep cosmic, orbital-themed workspace matching the approved visual design.
@@ -897,6 +897,18 @@ Seed:
 - [x] Sidebar Navigation: Categorized into "MENU UTAMA" and "EKSPLORASI" with active gradient pills, Lucide icons, and integrated profile card for both desktop and mobile drawer.
 - [x] Test Coverage: Full unit test coverage in `src/app/(app)/dashboard/page.test.tsx` and `src/components/navigation/learner-workspace-shell.test.tsx`.
 - [x] Verification: TypeScript typecheck, ESLint, full vitest suite (49 files, 235 tests), Playwright E2E tests, and Next.js production build passing 100%.
+
+---
+
+## Sprint 20 — Dashboard & Sidebar UI Polish 🚀 ACTIVE
+
+**Scope & Reference:** User-requested refinement (image `media_1788557237327.png`)
+**Goal:** Polish visual elements and animations on the cosmic dashboard and navigation:
+- [x] Streak Flame Refinement: Eliminate dark square border around flame using radial gradient mask feathering (`[mask-image:radial-gradient(circle_at_center,black_42%,transparent_70%)]`), add ambient glow aura, add dynamic `@keyframes flame-flicker` animation for natural flame movement, and remove `"hari"` suffix from streak counter (display number only, retaining `aria-label` for screen readers).
+- [x] Interactive Labs Icon: Switch icon from `FlaskConical` to CLI icon (`Terminal` / `>_`) in `LearnerSidebar`, `LearnerMobileDrawer`, and the Interactive Labs card.
+- [x] Quote Positioning: Move Netloka quote (*“Better Networks Brighter Opportunities” — NETLOKA*) from top-right to bottom-right of the hero banner, aligned with the bottom CTA and description row.
+- [x] Animated Wave Lines: Implement flowing wave animations (`animate-wave-1`, `animate-wave-2`, `animate-wave-3`, `animate-wave-stream`) for the SVG wave lines in the 3 exploration cards (Interactive Labs, Troubleshooting Challenges, Simulasi Konsultan TI) with full `prefers-reduced-motion: reduce` fallback.
+- [x] Test Coverage & Verification: Update unit tests for number-only streak assertion; all quality gates (typecheck, lint, vitest, E2E, build) green.
 
 ---
 

@@ -82,7 +82,8 @@ describe("DashboardPage (Cosmic Orbital Workspace)", () => {
     expect(screen.getByText("Sedang Dipelajari")).toBeInTheDocument();
     expect(screen.getAllByText("Selesai").length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText("Streak Belajar")).toBeInTheDocument();
-    expect(screen.getByText("5 hari")).toBeInTheDocument();
+    expect(screen.getByText("5")).toBeInTheDocument();
+    expect(screen.getByLabelText("5 hari")).toBeInTheDocument();
 
     // Donut Progress & Text progress context
     expect(screen.getAllByText(/10 dari 24 pelajaran selesai/i).length).toBeGreaterThanOrEqual(1);

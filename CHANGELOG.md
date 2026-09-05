@@ -40,6 +40,15 @@ All notable project changes are recorded here.
 
 # 2026-09-05
 
+- [2026-09-05 18:14 WITA] [ADDED] [Milestone 8 / Sprint 21 / Curriculum Contracts & Data Foundation]
+  Established curriculum contracts, measurable outcome validation, Indonesian content foundation, and private assessment isolation for the Welcome to Networking reference module:
+  - Task 21.1: Authored comprehensive Indonesian content for 4 pilot lessons in `docs/curriculum/welcome-to-networking-content.md` with 8 observable learning outcomes (WN-L1-A through WN-L4-B), 12 formative quiz items, 10 module final concept items, and 3 beginner practical connectivity criteria. Created Zod content schemas and bidirectional traceability validators in `src/features/learning/content/{schema.ts,validate.ts,schema.test.ts}`.
+  - Task 21.2: Documented evidence persistence, request idempotency, and legacy learner preservation in ADR 0005 (`docs/decisions/0005-learning-evidence-and-versioning.md`). Added additive `AssessmentAttempt` model with composite unique constraint `[userId, requestId]` in `prisma/schema.prisma`. Validated contracts in `src/features/learning/assessment/persistence.test.ts`.
+  - Task 21.3: Authored public curriculum data in `src/features/learning/content/network-foundations/welcome.ts`, isolated server-only questions/rubrics in `src/features/learning/assessment/welcome.server.ts`, and implemented secret sanitization in `src/features/learning/content/public-projection.ts`. Verified with `welcome.test.ts` and `public-projection.test.ts`.
+  Files/areas: `docs/curriculum/welcome-to-networking-content.md`, `docs/decisions/0005-learning-evidence-and-versioning.md`, `prisma/schema.prisma`, `src/features/learning/content/schema.ts`, `src/features/learning/content/validate.ts`, `src/features/learning/content/schema.test.ts`, `src/features/learning/content/network-foundations/welcome.ts`, `src/features/learning/content/welcome.test.ts`, `src/features/learning/assessment/welcome.server.ts`, `src/features/learning/assessment/persistence.test.ts`, `src/features/learning/content/public-projection.ts`, `src/features/learning/content/public-projection.test.ts`, `PLAN.md`, `docs/HANDOFF.md`
+  Validation: TypeScript typecheck (0 errors), ESLint (0 errors, 0 warnings), vitest (59 test files, 296 tests 100% green), Playwright E2E (`member-workspace.spec.ts`, 5/5 passed), Next.js production build (`next build --webpack`, 37 static pages generated), `git diff --check` clean.
+  Git: branch `codex/curriculum-contracts-sprint-21`.
+
 - [2026-09-05 17:51 WITA] [DOCS] [Milestones 8–12 / Planning Delivery]
   Committed the curriculum planning set as `9f43e16af7258977d5dd215b5db0e27a4a23ef4a`, pushed `codex/learning-curriculum-plan`, and opened PR #26: https://github.com/notyourkise/NetLoka/pull/26. Local document/path/ownership/lesson-count checks and staged diff check passed; fixed one trailing blank line in the program plan before commit. Updated handoff with the real PR and review entry point. CI was pending at this checkpoint; verify fresh checks after this delivery commit. No merge, application implementation, or deployment performed.
 

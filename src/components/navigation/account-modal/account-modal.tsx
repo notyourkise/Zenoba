@@ -27,32 +27,16 @@ interface AccountModalProps {
     streakCount?: number;
     lastStreakDate?: string | null;
   } | null;
-}
-
-function getDeviceLocalDate(): string {
-  const d = new Date();
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
-function getYesterdayDeviceDate(): string {
-  const d = new Date();
-  d.setDate(d.getDate() - 1);
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
-function getTimeUntilMidnight(): { hours: number; minutes: number } {
-  const now = new Date();
-  const tomorrowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
-  const diffMs = Math.max(0, tomorrowMidnight.getTime() - now.getTime());
-  const hours = Math.floor(diffMs / (1000 * 60 * 60));
-  const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-  return { hours, minutes };
+  onUserUpdated?: (user: {
+    id?: string;
+    name?: string | null;
+    email?: string | null;
+    role?: string | null;
+    image?: string | null;
+    headline?: string | null;
+    streakCount?: number;
+    lastStreakDate?: string | null;
+  }) => void;
 }
 
 export function AccountModal({
@@ -60,9 +44,12 @@ export function AccountModal({
   onClose,
   initialTab = "profile",
   user,
+  onUserUpdated,
 }: AccountModalProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = React.useState<AccountTab>(initialTab);
+  const [nameOverride, setNameOverride] = React.useState<string | null>(null);
+  const displayName = nameOverride ?? user?.name ?? "";
   const [avatar, setAvatar] = React.useState<string | null>(user?.image || null);
   const [uploading, setUploading] = React.useState(false);
   const [uploadError, setUploadError] = React.useState<string | null>(null);
@@ -79,42 +66,6 @@ export function AccountModal({
   const [headlineSaving, setHeadlineSaving] = React.useState(false);
   const [headlineError, setHeadlineError] = React.useState<string | null>(null);
 
-  // Flame (Api) state
-  const [flameData, setFlameData] = React.useState<{ count: number; lastClaimDate: string | null }>(() => {
-    const today = getDeviceLocalDate();
-    const yesterday = getYesterdayDeviceDate();
-    if (typeof window === "undefined") {
-      return { count: user?.streakCount ?? 1, lastClaimDate: user?.lastStreakDate ?? null };
-    }
-    try {
-      const saved = localStorage.getItem("netloka_flame_streak");
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        const count = typeof parsed.count === "number" ? parsed.count : 1;
-        const lastDate = parsed.lastClaimDate || null;
-        if (lastDate && lastDate !== today && lastDate !== yesterday) {
-          return { count: 0, lastClaimDate: lastDate };
-        }
-        return { count, lastClaimDate: lastDate };
-      }
-    } catch {}
-    const serverCount = user?.streakCount ?? 1;
-    const serverDate = user?.lastStreakDate ?? null;
-    if (serverDate && serverDate !== today && serverDate !== yesterday) {
-      return { count: 0, lastClaimDate: serverDate };
-    }
-    return { count: serverCount, lastClaimDate: serverDate };
-  });
-
-  const [midnightCountdown, setMidnightCountdown] = React.useState(getTimeUntilMidnight());
-
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setMidnightCountdown(getTimeUntilMidnight());
-    }, 15000);
-    return () => clearInterval(timer);
-  }, []);
-
   const handleSaveHeadline = async () => {
     const trimmed = headlineInput.trim();
     if (!trimmed) return;
@@ -130,37 +81,14 @@ export function AccountModal({
       if (!res.ok) throw new Error(data.error || "Gagal memperbarui status");
       setHeadline(trimmed);
       setIsEditingHeadline(false);
+      if (user) {
+        onUserUpdated?.({ ...user, headline: trimmed });
+      }
       router.refresh();
     } catch (err) {
       setHeadlineError(err instanceof Error ? err.message : "Gagal menyimpan");
     } finally {
       setHeadlineSaving(false);
-    }
-  };
-
-  const handleClaimFlame = async () => {
-    const today = getDeviceLocalDate();
-    if (flameData.lastClaimDate === today) return;
-
-    const yesterday = getYesterdayDeviceDate();
-    const isConsecutive = flameData.lastClaimDate === yesterday;
-    const nextCount = isConsecutive
-      ? flameData.count + 1
-      : (flameData.count > 0 && !flameData.lastClaimDate ? flameData.count + 1 : 1);
-
-    const updated = { count: nextCount, lastClaimDate: today };
-    setFlameData(updated);
-
-    try {
-      localStorage.setItem("netloka_flame_streak", JSON.stringify(updated));
-      await fetch("/api/user/profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ streakCount: nextCount, lastStreakDate: today }),
-      });
-      router.refresh();
-    } catch {
-      // Local state remains updated
     }
   };
 
@@ -323,6 +251,9 @@ export function AccountModal({
       }
 
       setAvatar(imageUrl);
+      if (user) {
+        onUserUpdated?.({ ...user, image: imageUrl });
+      }
       router.refresh();
     } catch (err) {
       setUploadError(err instanceof Error ? err.message : "Gagal memperbarui foto profil");
@@ -384,14 +315,13 @@ export function AccountModal({
 
   if (!isOpen || !user) return null;
 
-  const initials = user.name
-    ? user.name.slice(0, 2).toUpperCase()
+  const initials = displayName
+    ? displayName.slice(0, 2).toUpperCase()
     : user.email
     ? user.email.slice(0, 2).toUpperCase()
     : "NL";
 
   const memberCode = user.id ? `#NL-${user.id.slice(-4).toUpperCase()}` : "#NL-TKJ";
-  const hasClaimedToday = flameData.lastClaimDate === getDeviceLocalDate();
 
   return (
     <div
@@ -524,7 +454,7 @@ export function AccountModal({
                         /* eslint-disable-next-line @next/next/no-img-element */
                         <img
                           src={avatar}
-                          alt={user.name || "Foto profil"}
+                          alt={displayName || "Foto profil"}
                           className="h-full w-full object-cover"
                         />
                       ) : (
@@ -537,7 +467,7 @@ export function AccountModal({
                   <div className="min-w-0 flex-1 space-y-1">
                     <div className="flex items-center gap-2 flex-wrap">
                       <p className="truncate text-base font-bold text-gray-900 dark:text-white">
-                        {user.name || "Learner Netloka"}
+                        {displayName || "Learner Netloka"}
                       </p>
                       <span className="text-[10px] font-mono text-gray-400 dark:text-slate-500">
                         {memberCode}
@@ -645,52 +575,13 @@ export function AccountModal({
 
               {/* 2. Gamifikasi & Level Progression */}
               <div className="rounded-xl border border-gray-200/80 bg-gray-50/50 p-4 dark:border-white/10 dark:bg-white/[0.02] space-y-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-blue-600 dark:text-sky-400">
-                      Level 1
-                    </span>
-                    <h4 className="text-sm font-bold text-gray-900 dark:text-white">
-                      Cable Puller (Beginner)
-                    </h4>
-                  </div>
-                  {/* Flame Button (Api) - 1x per hari, reset 00:00 waktu device */}
-                  <div className="flex flex-col items-end gap-1">
-                    <button
-                      type="button"
-                      aria-label="Klaim api harian"
-                      onClick={handleClaimFlame}
-                      disabled={hasClaimedToday}
-                      title={
-                        hasClaimedToday
-                          ? `Sudah diklaim hari ini. Reset pukul 00:00 (${midnightCountdown.hours}j ${midnightCountdown.minutes}m)`
-                          : "Klik untuk klaim api harian (+1)"
-                      }
-                      className={cn(
-                        "group inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold transition-all select-none cursor-pointer",
-                        hasClaimedToday
-                          ? "bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 opacity-90 cursor-default"
-                          : "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md shadow-orange-500/25 hover:from-amber-600 hover:to-orange-600 hover:scale-105 active:scale-95 animate-pulse",
-                      )}
-                    >
-                      <span className="text-sm transition-transform group-hover:scale-125">
-                        🔥
-                      </span>
-                      <span className="font-extrabold text-sm">
-                        {flameData.count}
-                      </span>
-                      {!hasClaimedToday && (
-                        <span className="rounded bg-white/25 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider">
-                          Klaim
-                        </span>
-                      )}
-                    </button>
-                    <span className="text-[10px] text-gray-400 dark:text-slate-500">
-                      {hasClaimedToday
-                        ? `Reset 00:00 (${midnightCountdown.hours}j ${midnightCountdown.minutes}m)`
-                        : "Klik api untuk klaim (1x sehari)"}
-                    </span>
-                  </div>
+                <div>
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-blue-600 dark:text-sky-400">
+                    Level 1
+                  </span>
+                  <h4 className="text-sm font-bold text-gray-900 dark:text-white">
+                    Cable Puller (Beginner)
+                  </h4>
                 </div>
 
                 <div>
@@ -760,7 +651,15 @@ export function AccountModal({
 
               {/* 5. Form Ubah Nama Display (Tanpa icon pencil!) */}
               <div className="pt-1">
-                <ProfileForm initialName={user.name || ""} />
+                <ProfileForm
+                  initialName={displayName}
+                  onNameUpdated={(newName) => {
+                    setNameOverride(newName);
+                    if (user) {
+                      onUserUpdated?.({ ...user, name: newName });
+                    }
+                  }}
+                />
               </div>
             </div>
           )}

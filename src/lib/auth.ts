@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/features/auth/auth";
+import { prisma } from "@/lib/db/client";
 
 /**
  * Get current session on the server
@@ -9,11 +10,45 @@ export async function getSession() {
 }
 
 /**
- * Get current authenticated user on the server
+ * Get current authenticated user on the server with fresh database state
  */
 export async function getCurrentUser() {
   const session = await getSession();
-  return session?.user ?? null;
+  if (!session?.user?.id) {
+    return session?.user ?? null;
+  }
+
+  try {
+    const dbUser = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        image: true,
+        headline: true,
+        streakCount: true,
+        lastStreakDate: true,
+      },
+    });
+
+    if (dbUser) {
+      return {
+        ...session.user,
+        name: dbUser.name,
+        role: dbUser.role,
+        image: dbUser.image,
+        headline: dbUser.headline,
+        streakCount: dbUser.streakCount,
+        lastStreakDate: dbUser.lastStreakDate,
+      };
+    }
+  } catch {
+    // Return session.user fallback if database is temporarily unreachable or in mock tests
+  }
+
+  return session.user;
 }
 
 /**

@@ -40,6 +40,17 @@ All notable project changes are recorded here.
 
 # 2026-09-05
 
+- [2026-09-05 16:19 WITA] [FIXED] [Milestone 7 / Profile & Streak Synchronization]
+  Fixed display name and username updating so changes persist immediately across the platform and removed the disconnected flame streak mechanism from the profile modal:
+  - Updated `getCurrentUser()` in `src/lib/auth.ts` to query fresh profile data from PostgreSQL (`prisma.user.findUnique`) when a session exists, ensuring Server Components (Dashboard, Profile, Shell) render updated names immediately without requiring logout/re-login.
+  - Added `trigger === "update"` support to NextAuth `jwt` callback in `src/features/auth/auth.ts` and mapped `token.name` into `session.user.name` so client JWT sessions synchronize with server updates.
+  - Enhanced `ProfileForm` in `src/features/profile/profile-form.tsx` with `useSession().update({ name })`, `onNameUpdated` prop, and whitespace validation.
+  - Refactored `AccountModal` in `src/components/navigation/account-modal/account-modal.tsx` to use reactive derived `displayName`, pass `onUserUpdated` to parent, and completely remove the disconnected flame button, `flameData`, midnight reset countdown, and `localStorage` streak claiming.
+  - Updated `LearnerWorkspaceShell` in `src/components/navigation/learner-workspace-shell.tsx` with `userOverride` state to re-render sidebar and drawer immediately when profile updates.
+  - Added unit test suite `src/features/profile/profile-form.test.tsx` (6 tests) and `src/lib/auth.test.ts` (6 tests), updated `auth-options.test.ts` and `app-header.test.tsx`.
+  Files/areas: `src/lib/auth.ts`, `src/features/auth/auth.ts`, `src/features/profile/profile-form.tsx`, `src/components/navigation/account-modal/account-modal.tsx`, `src/components/navigation/learner-workspace-shell.tsx`, `src/features/profile/profile-form.test.tsx`, `src/lib/auth.test.ts`, `src/features/auth/auth-options.test.ts`, `src/components/navigation/app-header.test.tsx`, `src/components/navigation/learner-workspace-shell.test.tsx`
+  Validation: `npm run db:generate`, `npm run typecheck` (0 errors), `npm run lint` (0 errors), `npm test` (51 test files / 250 tests passed 100%), Playwright E2E (5 passed 100%), `npm run build` (34 routes compiled successfully), `git diff --check` (clean).
+
 - [2026-09-05 15:28 WITA] [CHANGED] [Milestone 7 / Sprint 20 / Dashboard Card Polish]
   Removed the CLI `Terminal` icon from the Interactive Labs card in the main dashboard content as requested by Abangku, while preserving the `Terminal` CLI icon on the sidebar menu (`LearnerSidebar` and `LearnerMobileDrawer`).
   Files/areas: `src/app/(app)/dashboard/page.tsx`, `CHANGELOG.md`, `docs/HANDOFF.md`

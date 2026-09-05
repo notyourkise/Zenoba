@@ -124,7 +124,7 @@ export const authOptions: NextAuthOptions = {
   },
   providers: buildAuthProviders(),
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id;
         token.role = user.role;
@@ -133,11 +133,25 @@ export const authOptions: NextAuthOptions = {
         token.streakCount = user.streakCount;
         token.lastStreakDate = user.lastStreakDate;
       }
+      if (trigger === "update" && session) {
+        if (session.name !== undefined) {
+          token.name = session.name;
+        }
+        if (session.headline !== undefined) {
+          token.headline = session.headline;
+        }
+        if (session.image !== undefined) {
+          token.picture = session.image;
+        }
+      }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
+        if (token.name) {
+          session.user.name = token.name as string;
+        }
         session.user.role = token.role as string;
         session.user.headline = token.headline as string | null;
         session.user.streakCount = typeof token.streakCount === "number" ? token.streakCount : 1;

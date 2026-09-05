@@ -12,6 +12,7 @@ vi.mock("next/navigation", () => ({
 // Mock next-auth/react
 vi.mock("next-auth/react", () => ({
   signOut: vi.fn(),
+  useSession: () => ({ data: null, status: "unauthenticated", update: vi.fn() }),
 }));
 
 describe("LearnerWorkspaceShell", () => {

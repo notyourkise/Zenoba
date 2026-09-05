@@ -141,4 +141,27 @@ describe("POST /api/learning/progress", () => {
     const data = await res.json();
     expect(data.code).toBe("COURSE_ACCESS_DENIED");
   });
+
+  it("returns 403 with code ASSESSMENT_INCOMPLETE when formative assessment criteria not met", async () => {
+    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+      id: "u-1",
+      email: "u@example.com",
+    });
+
+    const { AssessmentIncompleteError } = await import("@/features/learning/assessment/errors");
+    vi.mocked(progressService.completeLessonProgress).mockRejectedValueOnce(
+      new AssessmentIncompleteError("Belum memenuhi syarat kelulusan materi")
+    );
+
+    const req = new Request("http://localhost:3000/api/learning/progress", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ lessonId: "l-1", action: "complete" }),
+    });
+
+    const res = await progressHandler(req);
+    expect(res.status).toBe(403);
+    const data = await res.json();
+    expect(data.code).toBe("ASSESSMENT_INCOMPLETE");
+  });
 });

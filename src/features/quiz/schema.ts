@@ -54,10 +54,11 @@ export const QuizQuestionSchema = z.discriminatedUnion("type", [
 export type QuizQuestion = z.infer<typeof QuizQuestionSchema>;
 
 export const QuizSubmissionSchema = z.object({
-  lessonId: z.string().min(1),
-  quizId: z.string().min(1),
+  lessonId: z.string().min(1, "lessonId is required"),
+  quizId: z.string().min(1, "quizId is required"),
   // Answer payload can be string (single choice), array of string (multiple choice / ordering)
   answer: z.union([z.string(), z.array(z.string())]),
+  requestId: z.string().min(1, "requestId cannot be empty").default(() => crypto.randomUUID()),
 });
 
 export type QuizSubmission = z.infer<typeof QuizSubmissionSchema>;

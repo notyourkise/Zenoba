@@ -64,13 +64,23 @@ export const BLOCK_COMPONENTS: Record<
   terminal: TerminalBlockPlayer,
 };
 
-export function renderLessonBlock(block: LessonBlock, index?: number): React.ReactNode {
+export function renderLessonBlock(
+  block: LessonBlock,
+  index?: number,
+  lessonId?: string
+): React.ReactNode {
   // Check if interactive block specifies interactiveType
   if (block.type === "interactive" && (block as any).interactiveType) { // eslint-disable-line @typescript-eslint/no-explicit-any
     const interactiveType = (block as any).interactiveType; // eslint-disable-line @typescript-eslint/no-explicit-any
     const InteractiveComponent = BLOCK_COMPONENTS[interactiveType];
     if (InteractiveComponent) {
-      return <InteractiveComponent key={block.id || `interactive-${index}`} block={block} />;
+      return (
+        <InteractiveComponent
+          key={block.id || `interactive-${index}`}
+          block={block}
+          lessonId={lessonId}
+        />
+      );
     }
   }
 
@@ -86,5 +96,11 @@ export function renderLessonBlock(block: LessonBlock, index?: number): React.Rea
     );
   }
 
-  return <Component key={block.id || `block-${block.type}-${index}`} block={block} />;
+  return (
+    <Component
+      key={block.id || `block-${block.type}-${index}`}
+      block={block}
+      lessonId={lessonId}
+    />
+  );
 }

@@ -3,6 +3,8 @@ import { resolveLessonStatus } from "./prerequisites";
 import { LessonStatus } from "./types";
 import { awardXp, getUserTotalXp } from "@/features/xp/ledger";
 import { requireLearningPathAccess } from "@/features/commerce/access";
+import { getLessonCompletionDecision } from "@/features/learning/assessment/completion";
+import { AssessmentIncompleteError } from "@/features/learning/assessment/errors";
 
 /**
  * Starts a lesson for a user, marking it as IN_PROGRESS if prerequisites are met.
@@ -138,6 +140,12 @@ export async function completeLessonProgress(
       userId,
       pathSlug: lesson.module.path.slug,
     });
+  }
+
+  // Enforce authoritative assessment completion gate
+  const decision = await getLessonCompletionDecision(userId, lesson.id);
+  if (!decision.canComplete) {
+    throw new AssessmentIncompleteError(decision.reason);
   }
 
   const existing = await prisma.userLessonProgress.findUnique({

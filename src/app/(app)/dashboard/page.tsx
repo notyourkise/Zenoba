@@ -2,7 +2,6 @@ import { getCurrentUser } from "@/lib/auth";
 import { getUserProgressSummary } from "@/features/learning/progress";
 import { getLearningPathsWithProgress } from "@/features/learning/queries";
 import Link from "next/link";
-import { Terminal } from "lucide-react";
 
 function WaveLinesBackground({ color }: { color: "purple" | "cyan" | "amber" }) {
   const strokeColor =
@@ -419,12 +418,9 @@ export default async function DashboardPage() {
           <div className="relative overflow-hidden rounded-2xl border border-purple-500/20 bg-gradient-to-b from-[#130E26] to-[#0A0716] p-5 shadow-lg flex flex-col justify-between group hover:border-purple-500/40 transition-all min-h-[160px]">
             <WaveLinesBackground color="purple" />
             <div className="relative z-10 space-y-2">
-              <div className="flex items-center gap-2">
-                <Terminal className="w-5 h-5 text-purple-400 shrink-0" aria-hidden="true" />
-                <h3 className="font-bold text-base text-white">
-                  Interactive Labs
-                </h3>
-              </div>
+              <h3 className="font-bold text-base text-white">
+                Interactive Labs
+              </h3>
               <p className="text-xs text-zinc-300 leading-relaxed">
                 Gunakan lab interaktif untuk praktik langsung tanpa perlu perangkat fisik.
               </p>

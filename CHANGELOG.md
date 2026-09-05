@@ -40,6 +40,12 @@ All notable project changes are recorded here.
 
 # 2026-09-05
 
+- [2026-09-05 15:28 WITA] [CHANGED] [Milestone 7 / Sprint 20 / Dashboard Card Polish]
+  Removed the CLI `Terminal` icon from the Interactive Labs card in the main dashboard content as requested by Abangku, while preserving the `Terminal` CLI icon on the sidebar menu (`LearnerSidebar` and `LearnerMobileDrawer`).
+  Files/areas: `src/app/(app)/dashboard/page.tsx`, `CHANGELOG.md`, `docs/HANDOFF.md`
+  Validation: `npm run typecheck` (0 errors), `npm run lint` (0 errors), `vitest run` (3 tests passed), `git diff --check` passed.
+  Git: `codex/remove-interactive-labs-card-icon`
+
 - [2026-09-05 05:41 WITA] [CHANGED] [TEST] [Milestone 7 / Sprint 20 / Dashboard & Sidebar UI Polish]
   Applied 4 visual and interactive refinements to `/dashboard` and navigation:
   1. Streak Belajar Flame: Eliminated square border around flame image using radial gradient mask fade (`[mask-image:radial-gradient(circle_at_center,black_42%,transparent_70%)]`), added soft ambient glow aura halo, added dynamic `@keyframes flame-flicker` animation for organic movement and swaying, and removed `"hari"` suffix from streak counter (now displaying number only, retaining accessible `aria-label`).

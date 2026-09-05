@@ -40,6 +40,9 @@ All notable project changes are recorded here.
 
 # 2026-09-05
 
+- [2026-09-05 17:51 WITA] [DOCS] [Milestones 8–12 / Planning Delivery]
+  Committed the curriculum planning set as `9f43e16af7258977d5dd215b5db0e27a4a23ef4a`, pushed `codex/learning-curriculum-plan`, and opened PR #26: https://github.com/notyourkise/NetLoka/pull/26. Local document/path/ownership/lesson-count checks and staged diff check passed; fixed one trailing blank line in the program plan before commit. Updated handoff with the real PR and review entry point. CI was pending at this checkpoint; verify fresh checks after this delivery commit. No merge, application implementation, or deployment performed.
+
 - [2026-09-05 17:47 WITA] [DOCS] [REVIEW] [Milestones 8–12 / Learning Curriculum Planning]
   Recorded the owner-approved learning direction: explicit path/module/lesson outcomes, Welcome to Networking as the first reference module, mandatory lesson quizzes and module final assessments, pass-before-advance with retries, and premium activation renumbering after learning renewal. Added M8/S21–24 pilot foundation, M9/S25–26 Foundations completion, M10/S27–30 core networking, M11/S31–32 Consultant/curriculum verification, and M12/S33–34 separately gated premium activation. Every sprint has one milestone owner.
   Added a detailed design, a 65-lesson proposed outcome matrix across six paths, program work packages, and a task-by-task four-lesson pilot plan with eight lesson outcomes, assessment traceability, context paths, contracts, migration safeguards, negative cases, and actual-project verification commands. Numeric thresholds and legacy-user transition remain explicitly proposed for detailed owner review before code; no approval is fabricated.

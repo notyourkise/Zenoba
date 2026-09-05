@@ -3,16 +3,23 @@
 import React, { useState } from "react";
 import { z } from "zod";
 import { QuizBlockSchema } from "@/features/learning/blocks/schema";
-import { CheckCircle2, XCircle, HelpCircle, Award, Loader2 } from "lucide-react";
+import { CheckCircle2, XCircle, HelpCircle, Award, Loader2, AlertCircle } from "lucide-react";
 
 type QuizBlockPlayerProps = {
   block: z.infer<typeof QuizBlockSchema>;
+  lessonId?: string;
 };
 
-export function QuizBlockPlayer({ block }: QuizBlockPlayerProps) {
+export function QuizBlockPlayer({ block, lessonId }: QuizBlockPlayerProps) {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [networkError, setNetworkError] = useState<string | null>(null);
+  const [requestId, setRequestId] = useState<string>(() =>
+    typeof crypto !== "undefined" && crypto.randomUUID
+      ? crypto.randomUUID()
+      : `req-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
+  );
   const [result, setResult] = useState<{
     passed: boolean;
     feedback: string;
@@ -23,33 +30,42 @@ export function QuizBlockPlayer({ block }: QuizBlockPlayerProps) {
     if (!selectedOption) return;
 
     setLoading(true);
+    setNetworkError(null);
+
+    const targetLessonId =
+      lessonId || (block as { lessonId?: string }).lessonId || block.id || "current-lesson";
+
     try {
       const res = await fetch("/api/learning/quiz/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           quizId: block.quizId,
-          lessonId: block.id || "current-lesson",
+          lessonId: targetLessonId,
           answer: selectedOption,
+          requestId,
         }),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        throw new Error(data?.error || "Gagal memproses jawaban kuis.");
+      }
+
       setResult({
         passed: data.passed,
         feedback: data.feedback,
         explanation: data.explanation || block.explanation,
       });
       setSubmitted(true);
-    } catch {
-      // Local fallback evaluation if network fails
-      const isPassed = true; // Fallback
-      setResult({
-        passed: isPassed,
-        feedback: "Jawaban berhasil dikirim.",
-        explanation: block.explanation,
-      });
-      setSubmitted(true);
+    } catch (err) {
+      setNetworkError(
+        err instanceof Error
+          ? err.message
+          : "Gagal terhubung ke server. Periksa koneksi Anda dan coba lagi."
+      );
+      // Selected answer is preserved for retry without false-pass
     } finally {
       setLoading(false);
     }
@@ -59,6 +75,13 @@ export function QuizBlockPlayer({ block }: QuizBlockPlayerProps) {
     setSubmitted(false);
     setResult(null);
     setSelectedOption(null);
+    setNetworkError(null);
+    // Generate fresh requestId for a new attempt cycle
+    setRequestId(
+      typeof crypto !== "undefined" && crypto.randomUUID
+        ? crypto.randomUUID()
+        : `req-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
+    );
   };
 
   return (
@@ -88,7 +111,10 @@ export function QuizBlockPlayer({ block }: QuizBlockPlayerProps) {
               key={opt.id}
               type="button"
               disabled={submitted || loading}
-              onClick={() => setSelectedOption(opt.id)}
+              onClick={() => {
+                setSelectedOption(opt.id);
+                setNetworkError(null);
+              }}
               className={`w-full p-4 rounded-xl text-left text-sm font-medium transition-all flex items-center justify-between border ${
                 isSelected
                   ? "border-blue-600 bg-blue-50/80 dark:bg-blue-950/60 text-blue-900 dark:text-blue-200 shadow-sm"
@@ -109,6 +135,17 @@ export function QuizBlockPlayer({ block }: QuizBlockPlayerProps) {
           );
         })}
       </div>
+
+      {/* Network or Server Error Message */}
+      {networkError && (
+        <div className="p-4 rounded-xl border bg-red-50/80 dark:bg-red-950/40 border-red-200 dark:border-red-800 text-red-900 dark:text-red-200 space-y-1">
+          <div className="flex items-center space-x-2 font-bold text-sm">
+            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 shrink-0" />
+            <span>Terjadi Kesalahan</span>
+          </div>
+          <p className="text-xs opacity-90 pl-7">{networkError}</p>
+        </div>
+      )}
 
       {/* Submission Feedback */}
       {submitted && result && (

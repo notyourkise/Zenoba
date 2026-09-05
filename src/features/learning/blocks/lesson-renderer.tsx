@@ -5,9 +5,10 @@ import { FallbackBlock } from "./components/fallback-block";
 
 interface LessonRendererProps {
   content: unknown;
+  lessonId?: string;
 }
 
-export function LessonRenderer({ content }: LessonRendererProps) {
+export function LessonRenderer({ content, lessonId }: LessonRendererProps) {
   if (!content) {
     return null;
   }
@@ -29,7 +30,7 @@ export function LessonRenderer({ content }: LessonRendererProps) {
 
   return (
     <div className="space-y-6 lesson-content-blocks">
-      {document.blocks.map((block, idx) => renderLessonBlock(block, idx))}
+      {document.blocks.map((block, idx) => renderLessonBlock(block, idx, lessonId))}
     </div>
   );
 }

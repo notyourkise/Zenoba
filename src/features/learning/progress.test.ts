@@ -20,6 +20,15 @@ vi.mock("@/lib/db/client", () => ({
   },
 }));
 
+vi.mock("@/features/learning/assessment/completion", () => ({
+  getLessonCompletionDecision: vi.fn().mockResolvedValue({
+    canComplete: true,
+    totalRequired: 0,
+    passedCount: 0,
+    missingQuestionIds: [],
+  }),
+}));
+
 vi.mock("@/features/xp/ledger", () => ({
   awardXp: vi.fn().mockImplementation((userId, amount) =>
     Promise.resolve({ awarded: true, amount, totalXp: amount, message: "OK" })

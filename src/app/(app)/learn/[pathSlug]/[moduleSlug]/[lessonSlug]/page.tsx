@@ -134,7 +134,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {/* Lesson Content Body */}
       <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-8 shadow-sm space-y-6">
         {lesson.content ? (
-          <LessonRenderer content={lesson.content} />
+          <LessonRenderer content={lesson.content} lessonId={lesson.id} />
         ) : (
           <div className="prose dark:prose-invert max-w-none text-sm leading-relaxed space-y-4">
             <div className="p-4 bg-blue-50/60 dark:bg-blue-950/40 rounded-xl border border-blue-100 dark:border-blue-900 flex items-start space-x-3">

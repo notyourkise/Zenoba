@@ -523,7 +523,7 @@ Historical Milestones 0–6 and their sprint delivery records remain intact. The
 
 **Entry:** Review existing M1/M2 learning/auth/progress and M7 merged baseline; local development does not wait for production deployment.
 
-### Sprint 21 — Curriculum Contracts & Reproducible Data Foundation — PLANNED
+### Sprint 21 — Curriculum Contracts & Reproducible Data Foundation — COMPLETE
 
 **Owner:** Milestone 8 only.
 
@@ -535,7 +535,7 @@ A reviewed, versioned content/evidence contract and reproducible storage underpi
 
 **Acceptance:** Schema rejects incomplete outcomes; fresh and legacy DB fixtures preserve IDs; seed twice does not duplicate content.
 
-### Sprint 22 — Authoritative Assessment, Progression & XP — PLANNED
+### Sprint 22 — Authoritative Assessment, Progression & XP — IMPLEMENTED
 
 **Owner:** Milestone 8 only.
 

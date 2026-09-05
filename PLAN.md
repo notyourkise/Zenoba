@@ -935,7 +935,7 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 - [x] Task 21.1: Confirm exact assessment/legacy policy and author mapped pilot content.
 - [x] Task 21.2: Reconcile migration history on disposable data; design additive versioned evidence storage.
 - [x] Task 21.3: Extract pilot definitions; enforce public/private projection and evidence completeness.
-- [ ] Task 21.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
+- [x] Task 21.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
 
 **Acceptance:** Schema rejects incomplete outcomes; fresh and legacy DB fixtures preserve IDs; seed twice does not duplicate content.
 
@@ -943,10 +943,10 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Exclusive owner:** M8. **Required context:** Sprint 21 contracts; quiz API/evaluator/player; progress/prerequisites; XP ledger and commerce access.
 
-- [ ] Task 22.1: Wire server-owned questions to real lesson identity and persist validated attempts.
-- [ ] Task 22.2: Enforce lesson and final-module gates, including direct API access and current-version evidence.
-- [ ] Task 22.3: Make evidence/progress/reward consistent under concurrency, retry, and storage failure.
-- [ ] Task 22.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
+- [x] Task 22.1: Wire server-owned questions to real lesson identity and persist validated attempts.
+- [x] Task 22.2: Enforce lesson and final-module gates, including direct API access and current-version evidence.
+- [x] Task 22.3: Make evidence/progress/reward consistent under concurrency, retry, and storage failure.
+- [x] Task 22.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
 
 **Acceptance:** Wrong nonempty answers fail; no direct completion bypass; duplicate events grant once; failed practical blocks module pass.
 

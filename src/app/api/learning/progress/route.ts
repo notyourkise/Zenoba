@@ -6,6 +6,7 @@ import {
   completeLessonProgress,
 } from "@/features/learning/progress";
 import { CourseAccessDeniedError } from "@/features/commerce/access";
+import { AssessmentIncompleteError } from "@/features/learning/assessment/errors";
 
 const progressSchema = z.object({
   lessonId: z.string().min(1, "lessonId is required"),
@@ -50,6 +51,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });
   } catch (error) {
     if (error instanceof CourseAccessDeniedError) {
+      return NextResponse.json(
+        { error: error.message, code: error.code },
+        { status: 403 }
+      );
+    }
+
+    if (error instanceof AssessmentIncompleteError) {
       return NextResponse.json(
         { error: error.message, code: error.code },
         { status: 403 }

@@ -2,6 +2,7 @@ import { prisma } from "@/lib/db/client";
 
 export type XpEventType =
   | "LESSON_COMPLETION"
+  | "MODULE_COMPLETION"
   | "QUIZ_PASS"
   | "PRACTICE_SOLVED"
   | "LAB_COMPLETED"
@@ -55,15 +56,28 @@ export async function awardXp(
     };
   }
 
-  // Insert ledger entry
-  await prisma.userXpLedger.create({
-    data: {
-      userId,
-      amount,
-      eventType,
-      referenceId,
-    },
-  });
+  // Insert ledger entry with race condition safety
+  try {
+    await prisma.userXpLedger.create({
+      data: {
+        userId,
+        amount,
+        eventType,
+        referenceId,
+      },
+    });
+  } catch (error: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
+    if (error?.code === "P2002" || error?.message?.includes("Unique constraint")) {
+      const totalXp = await getUserTotalXp(userId);
+      return {
+        awarded: false,
+        amount: 0,
+        totalXp,
+        message: "XP has already been awarded for this activity",
+      };
+    }
+    throw error;
+  }
 
   const totalXp = await getUserTotalXp(userId);
 

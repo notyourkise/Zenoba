@@ -53,4 +53,36 @@ describe("Lesson Block Renderer & Registry", () => {
     const { getByText } = render(<LessonRenderer content={invalidDoc} />);
     expect(getByText(/Validasi dokumen pelajaran gagal/)).toBeDefined();
   });
+
+  it("renders welcome interactive blocks without fallback", () => {
+    const interactiveDoc = {
+      version: "1.0",
+      blocks: [
+        {
+          id: "act-1",
+          type: "interactive",
+          interactiveType: "connectivity_toggle",
+          config: { scenario: "standalone_vs_connected" },
+        },
+        {
+          id: "act-2",
+          type: "interactive",
+          interactiveType: "uplink_toggle",
+          config: { scenario: "home_office_uplink" },
+        },
+        {
+          id: "act-3",
+          type: "interactive",
+          interactiveType: "classification",
+          config: { scenario: "endpoints_and_media" },
+        },
+      ],
+    };
+
+    const { getByText, queryByText } = render(<LessonRenderer content={interactiveDoc} />);
+    expect(getByText("Aktivitas Interaktif: Mandiri vs Berjaringan")).toBeDefined();
+    expect(getByText("Aktivitas Interaktif: Uplink ISP vs Jaringan Lokal")).toBeDefined();
+    expect(getByText("Latihan Interaktif: Klasifikasi Perangkat vs Media")).toBeDefined();
+    expect(queryByText(/belum didukung dalam renderer ini/)).toBeNull();
+  });
 });

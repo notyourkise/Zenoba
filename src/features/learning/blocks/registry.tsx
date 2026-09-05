@@ -27,6 +27,9 @@ import { NatVisualizer } from "./components/nat-visualizer";
 import { IcmpPingVisualizer } from "./components/icmp-ping-visualizer";
 import { TerminalBlockPlayer } from "./components/terminal-block-player";
 import { QuizBlockPlayer } from "@/features/quiz/components/quiz-block-player";
+import { ConnectivityToggle } from "./components/connectivity-toggle";
+import { UplinkToggle } from "./components/uplink-toggle";
+import { ConceptActivity } from "./components/concept-activity";
 import { FallbackBlock } from "./components/fallback-block";
 
 // Registry of Block Components
@@ -62,6 +65,14 @@ export const BLOCK_COMPONENTS: Record<
   nat_visualizer: NatVisualizer,
   icmp_ping: IcmpPingVisualizer,
   terminal: TerminalBlockPlayer,
+  connectivity_toggle: ConnectivityToggle,
+  branch_disconnect: ConnectivityToggle,
+  uplink_toggle: UplinkToggle,
+  classification: ConceptActivity,
+  resource_match: ConceptActivity,
+  resource_selection: ConceptActivity,
+  role_assignment: ConceptActivity,
+  message_flow: ConceptActivity,
 };
 
 export function renderLessonBlock(

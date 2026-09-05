@@ -10,6 +10,7 @@ import {
   ModuleWithLessons,
 } from "./types";
 import { CourseAccessDeniedError } from "@/features/commerce/access";
+import { getCurriculumModule } from "./content/registry";
 
 /**
  * Get all published learning paths with user progress.
@@ -165,6 +166,8 @@ export async function getLearningPathDetail(
 
   const modulesWithLessons: ModuleWithLessons[] = path.modules.map((mod) => {
     let modCompleted = 0;
+    const curriculumMod =
+      getCurriculumModule(mod.slug) || getCurriculumModule(mod.id);
 
     const lessonsWithStatus: LessonWithStatus[] = mod.lessons.map((lesson) => {
       totalLessons++;
@@ -181,6 +184,10 @@ export async function getLearningPathDetail(
         modCompleted++;
       }
 
+      const curriculumLesson = curriculumMod?.lessons.find(
+        (cl) => cl.slug === lesson.slug || cl.id === lesson.id
+      );
+
       return {
         id: lesson.id,
         slug: lesson.slug,
@@ -188,7 +195,7 @@ export async function getLearningPathDetail(
         description: lesson.description,
         orderIndex: lesson.orderIndex,
         xpReward: lesson.xpReward,
-        content: lesson.content,
+        content: lesson.content ?? curriculumLesson?.content,
         status: resolved.status,
         prerequisites: lesson.prerequisites.map((p) => ({
           id: p.prerequisiteId,
@@ -197,6 +204,7 @@ export async function getLearningPathDetail(
           moduleSlug: p.prerequisite?.module?.slug || "",
         })),
         unmetPrerequisites: resolved.unmetPrerequisites,
+        outcomes: curriculumLesson?.outcomes,
       };
     });
 
@@ -213,6 +221,8 @@ export async function getLearningPathDetail(
       ),
       completedCount: modCompleted,
       totalCount: mod.lessons.length,
+      outcomes: curriculumMod?.outcomes,
+      finalAssessment: curriculumMod?.finalAssessment,
     };
   });
 
@@ -272,6 +282,8 @@ export async function getLessonDetail(
       id: currentModule.id,
       slug: currentModule.slug,
       title: currentModule.title,
+      outcomes: currentModule.outcomes,
+      finalAssessment: currentModule.finalAssessment,
     },
     lesson: currentLesson,
     prevLesson: prevLesson

@@ -5,6 +5,7 @@
 
 import { prisma, closeDatabaseConnection } from "../src/lib/db/client";
 import { seedCommerceCatalog } from "./commerce-seed";
+import { welcomeModuleData } from "../src/features/learning/content/network-foundations/welcome";
 
 async function main() {
   console.log("🌱 Seeding Paths 1 to 5 (Full Curriculum)...");
@@ -64,24 +65,38 @@ async function main() {
     1
   );
 
-  const mod1 = await upsertModule(path1.id, "welcome-to-networking", "1. Welcome to Networking", "Memahami apa itu jaringan dan konsep dasar pertukaran data.", 1);
-  const l1_1 = await upsertLesson(mod1.id, "intro-to-networking", "Apa Itu Jaringan Komputer?", "Pengenalan konsep dasar jaringan, client, server, dan node.", 1, 50, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Apa Sebenarnya Jaringan Komputer Itu?" },
-      { type: "text", content: "Jaringan komputer adalah sekumpulan perangkat otonom yang saling terhubung menggunakan media kabel atau nirkabel untuk bertukar data dan berbagi sumber daya." },
-      { type: "interactive", interactiveType: "packet_flow", config: {} },
-      { type: "reward", xp: 50, message: "Pelajaran awal selesai!" },
-    ],
-  });
-  const l1_2 = await upsertLesson(mod1.id, "everyday-networks", "Jaringan di Sekitar Kita", "Studi kasus jaringan rumahan (Wi-Fi, Smart TV, Smartphone).", 2, 50, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Jaringan di Rumah Kita" },
-      { type: "text", content: "Router Wi-Fi rumah menggabungkan fungsi Router, Switch, dan Access Point." },
-      { type: "reward", xp: 50, message: "Pelajaran 2 selesai!" },
-    ],
-  });
+  const mod1 = await upsertModule(
+    path1.id,
+    welcomeModuleData.slug,
+    `1. ${welcomeModuleData.title}`,
+    welcomeModuleData.description,
+    1
+  );
+
+  const welcomeLessons: Record<string, { id: string }> = {};
+  for (const lesson of welcomeModuleData.lessons) {
+    welcomeLessons[lesson.slug] = await upsertLesson(
+      mod1.id,
+      lesson.slug,
+      lesson.title,
+      lesson.description,
+      lesson.orderIndex + 1,
+      lesson.xpReward,
+      lesson.content
+    );
+  }
+
+  // Connect prerequisites for welcome lessons
+  for (const lesson of welcomeModuleData.lessons) {
+    for (const prereqSlug of lesson.prerequisites) {
+      if (welcomeLessons[prereqSlug] && welcomeLessons[lesson.slug]) {
+        await connectPrereq(
+          welcomeLessons[lesson.slug].id,
+          welcomeLessons[prereqSlug].id
+        );
+      }
+    }
+  }
 
   const mod2 = await upsertModule(path1.id, "types-of-networks", "2. Types of Networks", "Klasifikasi jaringan LAN, MAN, WAN, SOHO & Enterprise.", 2);
   const l2_1 = await upsertLesson(mod2.id, "lan-man-wan", "Klasifikasi Skala: LAN, MAN, & WAN", "Perbedaan Local Area Network, Metropolitan, dan Wide Area Network.", 1, 75, {
@@ -107,8 +122,10 @@ async function main() {
     blocks: [{ type: "heading", level: 2, text: "7 Layer OSI" }, { type: "interactive", interactiveType: "osi_stack", config: {} }, { type: "reward", xp: 120, message: "OSI selesai!" }],
   });
 
-  await connectPrereq(l1_2.id, l1_1.id);
-  await connectPrereq(l2_1.id, l1_2.id);
+  const lastWelcomeLesson = welcomeLessons["simple-network-communication"];
+  if (lastWelcomeLesson) {
+    await connectPrereq(l2_1.id, lastWelcomeLesson.id);
+  }
   await connectPrereq(l4_1.id, l2_1.id);
   await connectPrereq(l6_2.id, l4_1.id);
   await connectPrereq(l8_1.id, l6_2.id);

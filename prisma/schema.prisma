@@ -36,6 +36,7 @@ model User {
   progress            UserLessonProgress[]
   xpLedger            UserXpLedger[]
   quizAttempts        QuizAttempt[]
+  assessmentAttempts  AssessmentAttempt[]
   labAttempts         LabAttempt[]
   challengeAttempts   ChallengeAttempt[]
   consultantProjects  ConsultantProject[]
@@ -133,6 +134,7 @@ model Module {
 
   path    LearningPath @relation(fields: [pathId], references: [id], onDelete: Cascade)
   lessons Lesson[]
+  assessmentAttempts AssessmentAttempt[]
 
   @@unique([pathId, slug])
   @@map("modules")
@@ -156,6 +158,7 @@ model Lesson {
   requiredFor   LessonPrerequisite[] @relation("PrerequisiteToLesson")
   userProgress  UserLessonProgress[]
   quizAttempts  QuizAttempt[]
+  assessmentAttempts AssessmentAttempt[]
 
   @@unique([moduleId, slug])
   @@map("lessons")
@@ -224,6 +227,29 @@ model QuizAttempt {
 
   @@index([userId, lessonId])
   @@map("quiz_attempts")
+}
+
+model AssessmentAttempt {
+  id           String   @id @default(cuid())
+  userId       String
+  assessmentId String
+  moduleId     String?
+  lessonId     String?
+  version      String   @default("1.0")
+  score        Int
+  passed       Boolean
+  answersJson  Json
+  requestId    String
+  createdAt    DateTime @default(now())
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  module Module? @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  lesson Lesson? @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, requestId])
+  @@index([userId, assessmentId])
+  @@index([userId, moduleId])
+  @@map("assessment_attempts")
 }
 
 // ====================

@@ -932,9 +932,9 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Exclusive owner:** M8. **Required context:** Spec §§2–6; current seed, block schema, Prisma schema/migrations, commerce ADR; M2 Sprint 3–4 history.
 
-- [ ] Task 21.1: Confirm exact assessment/legacy policy and author mapped pilot content.
-- [ ] Task 21.2: Reconcile migration history on disposable data; design additive versioned evidence storage.
-- [ ] Task 21.3: Extract pilot definitions; enforce public/private projection and evidence completeness.
+- [x] Task 21.1: Confirm exact assessment/legacy policy and author mapped pilot content.
+- [x] Task 21.2: Reconcile migration history on disposable data; design additive versioned evidence storage.
+- [x] Task 21.3: Extract pilot definitions; enforce public/private projection and evidence completeness.
 - [ ] Task 21.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
 
 **Acceptance:** Schema rejects incomplete outcomes; fresh and legacy DB fixtures preserve IDs; seed twice does not duplicate content.

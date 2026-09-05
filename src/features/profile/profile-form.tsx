@@ -2,21 +2,36 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 interface ProfileFormProps {
   initialName: string;
+  onNameUpdated?: (newName: string) => void;
 }
 
-export function ProfileForm({ initialName }: ProfileFormProps) {
+export function ProfileForm({ initialName, onNameUpdated }: ProfileFormProps) {
   const router = useRouter();
+  const { update: updateSession } = useSession();
   const [isEditing, setIsEditing] = useState(false);
+  const [prevInitialName, setPrevInitialName] = useState(initialName);
   const [name, setName] = useState(initialName);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
+  if (!isEditing && initialName !== prevInitialName) {
+    setPrevInitialName(initialName);
+    setName(initialName);
+  }
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    const trimmedName = name.trim();
+    if (!trimmedName) {
+      setError("Nama tampilan tidak boleh kosong");
+      return;
+    }
+
     setSaving(true);
     setError(null);
     setSuccess(null);
@@ -25,7 +40,7 @@ export function ProfileForm({ initialName }: ProfileFormProps) {
       const response = await fetch("/api/user/profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name }),
+        body: JSON.stringify({ name: trimmedName }),
       });
 
       const data = await response.json();
@@ -34,6 +49,15 @@ export function ProfileForm({ initialName }: ProfileFormProps) {
         throw new Error(data.error || "Gagal memperbarui nama");
       }
 
+      if (typeof updateSession === "function") {
+        try {
+          await updateSession({ name: trimmedName });
+        } catch {
+          // Session update fallback in test/unauthenticated environments
+        }
+      }
+
+      onNameUpdated?.(trimmedName);
       setSuccess("Nama profil berhasil diperbarui!");
       setIsEditing(false);
       router.refresh();

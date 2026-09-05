@@ -23,6 +23,8 @@ export function LearnerWorkspaceShell({
   user,
   children,
 }: LearnerWorkspaceShellProps) {
+  const [userOverride, setUserOverride] = React.useState<LearnerWorkspaceShellProps["user"] | null>(null);
+  const currentUser = userOverride ?? user;
   const [isAccountModalOpen, setIsAccountModalOpen] = React.useState(false);
   const [accountTab, setAccountTab] = React.useState<AccountTab>("profile");
 
@@ -35,13 +37,13 @@ export function LearnerWorkspaceShell({
     <div className="min-h-screen flex flex-col md:flex-row bg-[#050811] text-white selection:bg-blue-500/30 selection:text-blue-200">
       {/* Mobile Drawer */}
       <LearnerMobileDrawer
-        user={user}
+        user={currentUser}
         onOpenAccountModal={() => openAccountModal("profile")}
       />
 
       {/* Desktop Sidebar */}
       <LearnerSidebar
-        user={user}
+        user={currentUser}
         onOpenAccountModal={() => openAccountModal("profile")}
       />
 
@@ -57,7 +59,8 @@ export function LearnerWorkspaceShell({
         isOpen={isAccountModalOpen}
         onClose={() => setIsAccountModalOpen(false)}
         initialTab={accountTab}
-        user={user}
+        user={currentUser}
+        onUserUpdated={setUserOverride}
       />
     </div>
   );

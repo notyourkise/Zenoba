@@ -11,6 +11,11 @@ vi.mock("next/navigation", () => ({
   }),
 }));
 
+vi.mock("next-auth/react", () => ({
+  signOut: vi.fn(),
+  useSession: () => ({ data: null, status: "unauthenticated", update: vi.fn() }),
+}));
+
 vi.mock("next-themes", () => ({
   useTheme: () => ({
     resolvedTheme: "dark",
@@ -178,12 +183,8 @@ describe("AppHeader profile dropdown", () => {
     expect(screen.getByText("Developer")).toBeVisible();
     expect(screen.queryByText(/1 Hari Streak/i)).not.toBeInTheDocument();
 
-    // Verify flame button exists and can be clicked to claim
-    const flameButton = screen.getByRole("button", { name: /Klaim api harian/i });
-    expect(flameButton).toBeVisible();
-    expect(flameButton).toHaveTextContent("🔥");
-    fireEvent.click(flameButton);
-    expect(flameButton).toBeDisabled();
+    // Verify flame button is removed from profile modal (streak is managed on dashboard)
+    expect(screen.queryByRole("button", { name: /Klaim api harian/i })).not.toBeInTheDocument();
 
     // Switch to Pengaturan tab inside modal
     fireEvent.click(screen.getByRole("button", { name: "Pengaturan" }));

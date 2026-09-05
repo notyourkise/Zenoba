@@ -4,6 +4,8 @@
 
 Accepted
 
+Planning update (2026-09-05): the owner approved inserting learning renewal Milestones 8–11. References to premium activation as "Milestone 8" below are historical and now mean **Milestone 12** in [ROADMAP.md](../../ROADMAP.md). All original provider/product/legal/deployment gates remain in force; no commercial schema or activation behavior changes in this documentation task.
+
 ## Context
 
 Netloka provides interactive IT infrastructure learning, with Networking as its foundational MVP curriculum. Moving into Milestone 7 / Sprint 17, the platform requires:

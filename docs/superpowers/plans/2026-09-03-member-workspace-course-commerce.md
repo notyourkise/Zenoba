@@ -6,6 +6,8 @@
 
 **Architecture:** Extend the modular monolith with `src/features/commerce/`. Prisma/PostgreSQL are the authority for catalog, immutable order snapshots, payment-event idempotency, and entitlements. Only the protected `(app)` layout becomes a workspace shell with a sidebar/drawer. The public `/` page and public `AppHeader` behavior remain unchanged. A non-production sandbox exercises the payment state machine through server-only APIs; no browser state can produce a paid order or entitlement. Midtrans/QRIS is deferred to Milestone 8.
 
+> Historical numbering update (2026-09-05): premium activation called M8 throughout this archived plan now belongs to **Milestone 12**, following owner-approved learning renewal M8–M11. This changes numbering only, not the original activation gates. See [ROADMAP.md](../../../ROADMAP.md).
+
 **Tech Stack:** Next.js 16.3 App Router, React 19, TypeScript 5, Prisma 7/PostgreSQL, NextAuth.js 4, Zod, Tailwind CSS 4, `next-themes`, Vitest/Testing Library, Playwright.
 
 **Spec:** `docs/superpowers/specs/2026-09-03-member-workspace-course-commerce-design.md`; `ROADMAP.md` Milestone 7 / Sprint 17; `PLAN.md` Sprint 17.

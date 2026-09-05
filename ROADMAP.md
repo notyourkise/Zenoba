@@ -5,14 +5,14 @@
 > **Product:** Interactive IT infrastructure learning platform
 > **Primary audience:** SMK TKJ students, beginners, and learners preparing for practical network, sysadmin, security, cloud, and field-infrastructure work
 > **Core experience:** Learn → Interact → Practice → Challenge → Consultant Project  
-> **Status:** Milestones 0–6 complete; Milestone 7 active; feature stabilization and staging/production deployment pending
+> **Status:** Milestones 0–6 historically delivered; Milestone 7 operationally active; Milestones 8–11 learning renewal planned (Welcome pilot first); Milestone 12 premium activation gated
 > **Timezone for project logs:** WITA / GMT+8
 
 ---
 
 ## 1. Product Direction
 
-Netloka is not intended to be a conventional LMS consisting mainly of long-form reading and video. The product should teach IT infrastructure through short lessons, reusable interactive visualizations, practice labs, troubleshooting scenarios, and project-based simulations. Networking is the first implemented domain and the complete MVP curriculum; future domains remain out of MVP scope until the roadmap intentionally activates them.
+Netloka is not intended to be a conventional LMS consisting mainly of long-form reading and video. The product should teach IT infrastructure through short lessons, reusable interactive visualizations, practice labs, troubleshooting scenarios, and project-based simulations. Networking is the first implemented domain and the intended MVP curriculum; renewed instructional completeness is tracked in Milestones 8–11. Future domains remain out of MVP scope until the roadmap intentionally activates them.
 
 The MVP must establish four core product areas:
 
@@ -480,7 +480,7 @@ Deliverables:
 
 **Reference design:** `docs/superpowers/specs/2026-09-03-member-workspace-course-commerce-design.md`
 
-### Sprint 18 — Dashboard Distillation & Workspace Focus 🚀 IMPLEMENTED / LOCALLY VERIFIED
+### Sprint 18 — Dashboard Distillation & Workspace Focus — MERGED (PR #20)
 
 **Goal:** Refocus the authenticated dashboard on the learner's immediate next step and truthful learning progress. Remove duplicated public-marketing content, decorative icons, and card-heavy layout from `/dashboard` only, while preserving the owner-locked pre-login landing/auth UI exactly.
 
@@ -495,49 +495,267 @@ Deliverables:
 
 **Reference design:** `docs/superpowers/specs/2026-09-05-dashboard-distillation-design.md`
 
-**MVP exit criteria:** Netloka must be deployed to staging and production, pass post-deploy smoke and critical-path verification, and be stable, recoverable, measurable, and usable by real learners. Not yet satisfied.
+### Sprint 19 — Cosmic Orbital Workspace UI Redesign — MERGED (PR #21)
+
+Owner-requested authenticated dashboard/sidebar redesign. Historical delivery details remain in PLAN.md and CHANGELOG.md; later learning plans do not reopen public landing or workspace redesign.
+
+### Sprint 20 — Dashboard & Sidebar UI Polish — MERGED (PR #22)
+
+Flame, quote placement, sidebar CLI icon, and wave refinements. Subsequent card-icon adjustment merged as PR #23, profile synchronization as PR #24, and security hardening as PR #25; these follow-ups do not create additional sprint ownership.
+
+**Current evidence note (2026-09-05):** PR #25 introduced CSP and in-memory reset abuse/session controls. Earlier Sprint 15–16 checklists are historical scope records; operational and multi-process/live integration validation is separate. This curriculum documentation task does not certify public production security.
+
+**MVP exit criteria:** Netloka must be deployed to staging and production, pass post-deploy smoke and critical-path verification, and be stable, recoverable, measurable, and usable by real learners. Not yet satisfied. Learning scope claimed at launch must also have the corresponding outcome/assessment evidence from the renewal milestones; planned content is not published-content evidence.
 
 ---
 
-## Milestone 8 — Premium Course & Payment Activation 🗓️ PLANNED
+## Curriculum renewal — owner-approved planning direction (2026-09-05)
 
-**Goal:** Release the first real premium learning products and enable Dynamic QRIS only after content, merchant, privacy/legal, operational, infrastructure, and provider verification gates are all satisfied.
+The owner approved explicit outcomes at path/module/lesson levels, Welcome to Networking as the first reference module, mandatory lesson quizzes and module final assessments with retry, and insertion of learning milestones before premium activation. All new sprints are **PLANNED**, not implemented. Exact numeric thresholds and legacy transition policy require detailed design review before code.
 
-Entry gates:
+Read [curriculum design](docs/superpowers/specs/2026-09-05-learning-outcomes-and-curriculum-design.md), [outcome matrix](docs/curriculum/networking-outcomes.md), [program plan](docs/superpowers/plans/2026-09-05-learning-curriculum-renewal.md), and [Welcome pilot plan](docs/superpowers/plans/2026-09-05-welcome-to-networking.md).
 
-1. a premium course has published, access-guarded learning content;
-2. owner-approved final pricing and a valid Combo Package of at least two real premium courses;
-3. merchant/legal/tax readiness, operator identity, privacy contact, retention/right procedures, and payment terms;
-4. private Midtrans credentials and verified Dynamic QRIS webhook configuration;
-5. staging/deployment/backup/monitoring gates from Milestone 7 verified with isolated data.
+Historical Milestones 0–6 and their sprint delivery records remain intact. Their checked curriculum claims do not certify the renewed learning outcomes: the inspected seed contains 5 paths/13 modules/15 lessons, no quiz or summary blocks, and incomplete instructional content. New learning milestones repair and expand that experience within Networking; they do not activate future premium domains. Milestone 7 remains operationally open.
 
-Milestone 8 includes provider sandbox/staging/live validation, reconciliation and dispute/refund operational playbook, then controlled production enablement. Sprint 17 implementation alone is not evidence that these gates are complete.
+## Milestone 8 — Learning Outcomes, Assessment Foundation & Welcome Pilot — PLANNED
+
+**Goal:** Deliver Welcome to Networking as an owner-reviewed reference with explicit outcomes, accurate assessment, mandatory passing, retry, persistent evidence, and safe progression.
+
+**Entry:** Review existing M1/M2 learning/auth/progress and M7 merged baseline; local development does not wait for production deployment.
+
+### Sprint 21 — Curriculum Contracts & Reproducible Data Foundation — PLANNED
+
+**Owner:** Milestone 8 only.
+
+A reviewed, versioned content/evidence contract and reproducible storage underpin the pilot.
+
+- Confirm exact assessment/legacy policy and author mapped pilot content.
+- Reconcile migration history on disposable data; design additive versioned evidence storage.
+- Extract pilot definitions; enforce public/private projection and evidence completeness.
+
+**Acceptance:** Schema rejects incomplete outcomes; fresh and legacy DB fixtures preserve IDs; seed twice does not duplicate content.
+
+### Sprint 22 — Authoritative Assessment, Progression & XP — PLANNED
+
+**Owner:** Milestone 8 only.
+
+Only verified current-user answers/evidence can complete lessons or modules.
+
+- Wire server-owned questions to real lesson identity and persist validated attempts.
+- Enforce lesson and final-module gates, including direct API access and current-version evidence.
+- Make evidence/progress/reward consistent under concurrency, retry, and storage failure.
+
+**Acceptance:** Wrong nonempty answers fail; no direct completion bypass; duplicate events grant once; failed practical blocks module pass.
+
+### Sprint 23 — Welcome Lessons & Module Assessment Experience — PLANNED
+
+**Owner:** Milestone 8 only.
+
+Deliver four complete beginner lessons plus final test/remediation in the existing workspace.
+
+- Render scoped objectives and ordered instructional stages without generic success fallback.
+- Implement beginner-safe connectivity practice and server-evaluated scenario evidence.
+- Deliver final module test, outcome feedback, retry, and correct next-stage navigation.
+
+**Acceptance:** All 8 lesson outcomes visibly taught/tested; keyboard/reduced-motion controls work; unresolved network request never shows success.
+
+### Sprint 24 — Pilot Integration, Teaching Review & Reference Approval — PLANNED
+
+**Owner:** Milestone 8 only.
+
+Prove the complete pilot with real isolated persistence and owner teaching review.
+
+- Add two-user authenticated E2E and isolated PostgreSQL/server setup.
+- Review outcome coverage, responsive/accessibility behavior, legacy records, and dependent feature regressions.
+- Run full gates, deliver PR/CI, obtain owner reference acceptance and verify merge synchronization.
+
+**Acceptance:** Fail→remediate→retry→pass→reload→unlock is verified; spoofed evidence denied; owner accepts before bulk authoring.
+
+**Milestone exit criteria:** Four complete lessons, full outcome-to-evidence coverage, authentic database/E2E proof, preserved legacy identities, no Critical/High findings, and owner acceptance of the reusable reference. Every implementation sprint also requires current-head checks, owner review/merge, and verified synchronization under AGENTS.md.
 
 ---
+
+## Milestone 9 — Network Foundations Curriculum Completion — PLANNED
+
+**Goal:** Complete the remaining Network Foundations modules using the accepted reference and assess transfer through First Day as IT Support.
+
+**Entry:** M8 complete and owner-approved as the reference.
+
+### Sprint 25 — Network Foundations Content Expansion — PLANNED
+
+**Owner:** Milestone 9 only.
+
+Author remaining P1 modules as complete learning experiences with individual outcomes.
+
+- Author lessons P1-L05–L19 with concepts, worked examples, meaningful interaction, quiz explanations, and summaries.
+- Map every module outcome to final concept/practical evidence and extend existing interactions only where required.
+- Validate content graph and verify representative beginning/middle/end module journeys before full path release.
+
+**Acceptance:** Every listed P1 lesson is authored; no heading-plus-reward lesson; no IP arithmetic assessed before Path 2.
+
+### Sprint 26 — Foundations Final Challenge & Path Migration Contract — PLANNED
+
+**Owner:** Milestone 9 only.
+
+Verify P1 mastery and define safe mappings before reorganizing Paths 3–4 or adding Path 6.
+
+- Align First Day as IT Support to P1 outcomes; grade inventory/topology/diagnosis evidence through a shared activity identity.
+- Implement/test P1 final eligibility and persistence; keep standalone challenge replay from duplicating rewards.
+- Inventory all old lesson IDs/URLs/progress and document explicit source→destination mapping for later paths; obtain review before writes.
+
+**Acceptance:** P1 final rejects ineligible/spoofed attempts; all old links resolve; mappings retain progress and preserve FREE access.
+
+**Milestone exit criteria:** All P1 module outcomes taught and assessed, path final passed in authenticated E2E, old URLs/progress preserved, owner-reviewed curriculum mapping for later paths. Every implementation sprint also requires current-head checks, owner review/merge, and verified synchronization under AGENTS.md.
+
+---
+
+## Milestone 10 — Core Networking Curriculum & Applied Practice — PLANNED
+
+**Goal:** Deliver Paths 2–5 with measurable objectives, complete lessons, module gates, linked practice, and path-level troubleshooting evidence.
+
+**Entry:** M9 complete; S26 approves exact lesson/URL migration before path restructuring.
+
+### Sprint 27 — IPv4 & Subnetting Curriculum — PLANNED
+
+**Owner:** Milestone 10 only.
+
+Students independently calculate and allocate valid IPv4 networks for stated host requirements.
+
+- Author P2-L01–L10 and module assessments covering biner, address types, masks, host bounds, subnetting and VLSM.
+- Link existing subnet/IP labs with shared identity and add path-final room-allocation evidence.
+- Validate calculations, capacity/overlap, bad inputs and boundary prefixes with deterministic domain tests and authenticated path E2E.
+
+**Acceptance:** All P2 outcomes taught/assessed; worked example followed by independent values; invalid/overlapping plan fails.
+
+### Sprint 28 — Switching & LAN Curriculum — PLANNED
+
+**Owner:** Milestone 10 only.
+
+Students reason about MAC/ARP forwarding and correctly segment an access/trunk LAN.
+
+- Author P3-L01–L08 with MAC learning, ARP, broadcast scope, VLAN and access/trunk concepts.
+- Apply only reviewed legacy switching/routing mappings, preserve URLs/IDs, and link VLAN lab evidence.
+- Build/test a staff/guest final scenario with incorrect port/trunk and verify preserved isolation after repair.
+
+**Acceptance:** Expected L2 recipient/forwarding/isolation results are deterministic; required module evidence blocks premature final.
+
+### Sprint 29 — Routing & Services Curriculum — PLANNED
+
+**Owner:** Milestone 10 only.
+
+Students trace inter-subnet and named-service access with routing/DHCP/DNS/NAT evidence.
+
+- Author P4-L01–L10, separating gateway/routes, DHCP/DNS, NAT/PAT and transport/service outcomes.
+- Map current routing/service lessons to the approved path structure and link reusable labs without duplication.
+- Assess a failing named-service scenario; require diagnosis, corrected settings, and verified expected connectivity.
+
+**Acceptance:** Correct next hop/return route, leases, name resolution and translation tested separately; no false pass on ping alone.
+
+### Sprint 30 — Wireless, Troubleshooting & Core Path Validation — PLANNED
+
+**Owner:** Milestone 10 only.
+
+Students collect evidence and verify repairs across Paths 2–5.
+
+- Author P5-L01–L08 with wireless tradeoffs, guest security, tool choice and diagnostic method.
+- Tie observable command/evidence state to diagnosis and repair; map current challenges to taught outcomes.
+- Run cross-path new-user/returning-user regression, content coverage, migration consistency and milestone review.
+
+**Acceptance:** Diagnosis plus expected restored behavior required; outcome graph remains acyclic; all P2–P5 path finals verified.
+
+**Milestone exit criteria:** Each of Paths 2–5 passes its own content/domain/security/E2E gates; cross-path prerequisite graph has no missing evidence or cycles. Every implementation sprint also requires current-head checks, owner review/merge, and verified synchronization under AGENTS.md.
+
+---
+
+## Milestone 11 — Consultant Learning Path & Curriculum Validation — PLANNED
+
+**Goal:** Teach requirement analysis through proposal creation before independent Consultant work, then verify the full Networking journey.
+
+**Entry:** M10 complete; review existing M6 procurement/topology/scoring limitations before dependency work.
+
+### Sprint 31 — Consultant Preparation Learning Path — PLANNED
+
+**Owner:** Milestone 11 only.
+
+Students turn a client brief into a justified, testable network proposal.
+
+- Author P6-L01–L08 with requirement analysis, capacity/procurement, topology/IP/VLAN, documentation and review.
+- Add the reviewed instructional Path 6 and lesson/module assessments; retain FREE Networking behavior.
+- Connect guided exercises to the existing Consultant workspace and review essential connectivity/security constraints in scoring.
+
+**Acceptance:** Each requirement has design evidence and acceptance test; budget success cannot conceal missing critical connectivity.
+
+### Sprint 32 — Consultant Capstone, Portfolio & Full Curriculum Review — PLANNED
+
+**Owner:** Milestone 11 only.
+
+Verify independent proposal work and the entire six-path curriculum.
+
+- Author P6-L09–L10 and final Small Office transfer scenario; introduce advanced cases only after prerequisite proof.
+- Preserve proposal, case/rubric/content version, scoring evidence and feedback in portfolio; never silently regrade old work.
+- Run full outcome/evidence coverage, authenticated end-to-end sample chain and domain regressions; record milestone review and owner acceptance.
+
+**Acceptance:** All six paths have complete taught/assessed outcomes; portfolio reproduces historical results; no Critical/High finding open.
+
+**Milestone exit criteria:** Path 6 and retained proposal evidence verified; all six paths have outcome coverage and a reviewed curriculum-level regression report. Every implementation sprint also requires current-head checks, owner review/merge, and verified synchronization under AGENTS.md.
+
+---
+
+## Milestone 12 — Premium Course & Payment Activation — PLANNED
+
+**Goal:** Preserve the former M8 premium/provider activation scope, strictly after content/product/operator/provider and deployment gates.
+
+**Entry:** M7 operational gates and M8–M11 curriculum gates complete, real premium content and pricing separately approved, merchant/legal/provider prerequisites verified.
+
+### Sprint 33 — Premium Activation Entry-Gate Review — PLANNED
+
+**Owner:** Milestone 12 only.
+
+Determine whether commercial activation prerequisites are independently satisfied.
+
+- Verify actual published premium content, access guards, owner-approved price and valid premium Combo Package.
+- Verify operator/privacy/merchant/tax readiness and private provider/staging configuration through approved channels.
+- Record evidence and unresolved gates before authorizing provider implementation; no credentials in documentation.
+
+**Acceptance:** Every entry gate has current evidence; absent premium products keep milestone blocked from activation.
+
+### Sprint 34 — Provider Verification & Controlled Release — PLANNED
+
+**Owner:** Milestone 12 only.
+
+Execute only the separately approved provider activation/release design after all entry gates pass.
+
+- Prepare and obtain owner review of exact provider adapter/webhook/reconciliation implementation plan with live-vs-sandbox boundaries.
+- Verify provider sandbox and staging amount/signature/idempotency/reconciliation cases with isolated data, then review operational refund/dispute handling.
+- Enable production only with explicit owner authorization; run post-deploy smoke/monitoring and record release/recovery evidence.
+
+**Acceptance:** Provider event—not client redirect—controls entitlement; all release gates and operator actions recorded.
+
+**Milestone exit criteria:** Only owner-authorized real premium products and provider integration can satisfy commercial activation; no readiness inferred from free curriculum completion. Every implementation sprint also requires current-head checks, owner review/merge, and verified synchronization under AGENTS.md.
+
+---
+
+### Premium renumbering and unchanged activation gates
+
+Milestone 12 replaces the former **Milestone 8 — Premium Course & Payment Activation**. Historical changelog/commerce-document M8 references retain their original meaning; this note supersedes numbering only. No payment activation is authorized here.
+
+Required gates remain: real published access-guarded premium content; owner-approved pricing and a Combo Package of at least two real premium courses; merchant/legal/tax/operator/privacy/retention/payment terms; private Midtrans credentials and verified Dynamic QRIS webhook; isolated staging/deployment/backup/monitoring evidence. Provider sandbox/staging/live verification and reconciliation/dispute/refund procedures remain required. Free Networking completion and Sprint 17 implementation cannot satisfy these gates on their own.
 
 # 4. Milestone Dependency Map
 
 ```text
-M0 Foundation
-     ↓
-M1 Core Product Shell
-     ↓
-M2 Learning Engine
-     ↓
-M3 Network Foundations
-     ↓
-M4 Addressing & Core Networking
-     ↓
-M5 Labs & Challenges
-     ↓
-M6 IT Consultant Mode
-     ↓
-M7 Production Launch
-     ↓
-M8 Premium Course & Payment Activation
+Reviewed M0–M6 foundation + merged M7 application baseline
+    → M8 / S21–24: contracts, assessment, Welcome pilot and owner review
+    → M9 / S25–26: complete Network Foundations and final challenge
+    → M10 / S27–30: IPv4, switching, routing/services, wireless/troubleshooting
+    → M11 / S31–32: Consultant learning and full curriculum validation
+
+M7 operational launch gates + M8–M11 verified curriculum
+    + separately approved real premium content/operator/provider readiness
+    → M12 / S33–34: gated premium/payment activation
 ```
 
-Parallelism is allowed only when interfaces are already stable and separate work cannot corrupt shared state.
+M7 remains active for operational work. M8 local development can start from its reviewed code without waiting for deployment; it does not mark M7 complete. A sprint has exactly one milestone owner; consuming or testing another milestone's features does not transfer ownership. Welcome is the only first implementation target. Later milestones require the preceding review gates.
 
 ---
 

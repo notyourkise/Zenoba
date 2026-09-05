@@ -25,7 +25,15 @@ Dokumen pencatatan hutang teknis (*technical debt*), area refaktor masa depan, d
 
 Pre-launch legal readiness: **TD-10 — High before collecting public learner data:** Terms and Privacy Policy now describe the development implementation, but are not a compliance certification. Confirm the operator's identity and reachable privacy contact; define lawful processing bases, consent evidence where required (including child/guardian safeguards), retention/deletion/export handling, deployed processors/locations, and international-transfer safeguards. Do not label link clicks or login as recorded consent. Also verify Google OAuth token storage/revocation against provider policy before activation. See `docs/decisions/0003-legal-pages-and-policy-boundaries.md`. No public deployment is authorized by this documentation.
 
-## 2. Rencana Jalur Ekstensi Pasca-MVP (*Future Tracks*)
+## 2. Learning curriculum inspection follow-up (2026-09-05)
+
+- **TD-11 — High for trustworthy learning completion:** At `a95b025`, quiz submit accepts a nonempty answer without using the real evaluator, the player can show success on network failure, and lesson completion does not enforce assessment evidence. Seeded content lacks quiz/summary blocks. Scope and remediation: M8 / S21–24 in the [pilot plan](superpowers/plans/2026-09-05-welcome-to-networking.md), followed by content expansion in M9–M11. This is a source-inspection finding; no runtime reproduction or fix occurred in the documentation task.
+- **TD-12 — High for reproducible persistence:** Initial migration is empty and the subsequent reset-token migration assumes `users` already exists, while current schema includes learning/commerce models without matching creation migrations. Reconcile fresh/legacy migration paths on disposable DB in M8 / Task 21.2 before claiming real persisted learning integration. Never repair against a real user DB without agreed scope.
+- **TD-13 — Curriculum coverage/evidence:** Historical completion claims and anonymous E2E barriers do not prove a full authenticated learning journey. The [outcome matrix](curriculum/networking-outcomes.md) and M8 / S24 require actual taught/assessed outcome coverage and authenticated isolated DB tests. Preserve historical changelog; correct current planning status with evidence.
+
+## 3. Rencana Jalur Ekstensi Pasca-MVP (*Future Tracks*)
+
+The following extension ideas remain future domains. The former M8 premium/payment activation gate is now M12; Networking curriculum renewal does not activate these premium tracks.
 
 Arsitektur Netloka saat ini dirancang modular sehingga siap untuk mengakomodasi path tingkat lanjut tanpa mengubah core engine:
 

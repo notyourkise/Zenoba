@@ -3,6 +3,8 @@
 **Status:** Approved product design; planning documentation only. No application code, schema migration, payment credential, or production payment activation is authorized by this document.
 **Date:** 2026-09-03
 **Scope:** Milestone 7 / Sprint 17 planned, and Milestone 8 activation gates
+
+> Historical numbering update (2026-09-05): the owner-approved roadmap now assigns the premium activation scope referenced as M8 in this document to **Milestone 12**, after learning renewal M8–M11. Original activation gates remain unchanged. See [ROADMAP.md](../../../ROADMAP.md).
 **Owner decisions recorded:** hybrid lifetime catalog; Networking free; Single Course and Combo Package products; combos contain two or more premium courses only; premium tracks are sellable only after their learning content is available; unreleased offers show `Coming soon` and `Price announced at launch`; catalog management begins with repository seed/config; Dynamic QRIS is deferred until merchant readiness; refunds are handled outside the application.
 
 ## 1. Purpose and scope

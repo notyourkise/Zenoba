@@ -6,7 +6,7 @@
 
 **Domain:** `netloka.biz.id`  
 **Architecture:** Modular monolith (Next.js + TypeScript + PostgreSQL)  
-**Development status:** Milestones 0–6 implemented; Milestone 7 active; not yet deployed to staging or production
+**Development status:** Milestones 0–6 historically implemented; Milestone 7 operationally active; learning renewal planned in Milestones 8–11; staging/production not verified for the current feature set
 
 **Timezone:** WITA / GMT+8
 
@@ -24,6 +24,18 @@ Netloka is an interactive IT infrastructure learning platform for SMK TKJ studen
 2. **Labs** — reusable interactive networking practice
 3. **Challenges** — scenario-based troubleshooting without step-by-step handholding
 4. **Consultant** — case-based IT consultant simulation (procurement, topology, IP/VLAN planning, scoring)
+
+### Planned learning curriculum renewal
+
+The next learning target is **Welcome to Networking** as a four-lesson reference module. The planned experience shows **Capaian Pembelajaran** at path, module, and lesson levels, then introduction, concept, worked example, visualization, practice, quiz, summary, and server-verified completion. Lesson quizzes and module final assessments must be passed, with retries and remediation. These are planned requirements, not current production capabilities.
+
+- Milestone 8 / Sprints 21–24: contracts, assessment/progress repair, Welcome lessons, and reference validation.
+- Milestone 9 / Sprints 25–26: complete Network Foundations and its final challenge.
+- Milestone 10 / Sprints 27–30: IPv4, Switching, Routing/Services, and Wireless/Troubleshooting curriculum.
+- Milestone 11 / Sprints 31–32: Consultant learning path and full curriculum validation.
+- Milestone 12 / Sprints 33–34: premium/payment activation, renumbered from M8 and still separately gated.
+
+Read the [curriculum outcome matrix](docs/curriculum/networking-outcomes.md), [design](docs/superpowers/specs/2026-09-05-learning-outcomes-and-curriculum-design.md), [program plan](docs/superpowers/plans/2026-09-05-learning-curriculum-renewal.md), and [Welcome pilot plan](docs/superpowers/plans/2026-09-05-welcome-to-networking.md). Current seed coverage is 5 paths/13 modules/15 lessons; it does not yet implement the complete planned learning loop. Existing migration history also requires reconciliation before claiming fresh-database setup reproducibility; see [technical debt](docs/TECHNICAL_DEBT.md).
 
 ---
 
@@ -256,7 +268,7 @@ Use `.env.example` with safe placeholders instead.
 
 1. **Read documentation first** (AGENTS.md → ROADMAP.md → PLAN.md → CHANGELOG.md)
 2. **Identify active sprint/task** from PLAN.md
-3. **Create focused branch**: `feat/sprint-X-task-name` or `fix/task-name`
+3. **Create focused isolated branch/worktree**: `codex/<task-slug>` under the workflow in `AGENTS.md`
 4. **Implement with tests** (write failing test first, then implementation)
 5. **Run full verification suite** before committing
 6. **Update CHANGELOG.md** with WITA timestamp
@@ -283,6 +295,11 @@ Use `.env.example` with safe placeholders instead.
 | M5 | Labs & Challenges | ✅ Complete |
 | M6 | IT Consultant Mode | ✅ Complete |
 | M7 | Production Readiness & MVP Launch | 🚧 Active — feature stabilization and deployment pending |
+| M8 | Learning Outcomes & Welcome Pilot (S21–24) | Planned — first learning target |
+| M9 | Network Foundations Completion (S25–26) | Planned — after pilot acceptance |
+| M10 | Core Networking Curriculum (S27–30) | Planned — Paths 2–5 |
+| M11 | Consultant Learning & Curriculum Validation (S31–32) | Planned |
+| M12 | Premium & Payment Activation (S33–34; formerly M8) | Planned — separate activation gates |
 
 See [ROADMAP.md](ROADMAP.md) for detailed milestones and sprints.
 

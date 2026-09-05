@@ -1,81 +1,56 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-05 17:01 WITA**. This is a development snapshot, not a live status feed. Read [AGENTS.md](../AGENTS.md), then verify Git, files, PRs, and checks before acting. Do not depend on prior chat history.
+Last updated: **2026-09-05 17:47 WITA**. Read AGENTS.md and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
 
-## 1. Product and active work
+## 1. Current task and authority
 
-- Netloka is an interactive **IT infrastructure learning platform**. Networking is its first available learning domain; the product journey is **Learn → Interact → Practice → Challenge → Consultant Project**.
-- Milestones 0–6 are complete; **Milestone 7 remains active**. Staging/production and other launch gates remain unverified.
-- Sprint 17 merged in PR #18, account security merged in PR #19, Sprint 18 merged in PR #20, Sprint 19 merged in PR #21, Sprint 20 merged in PR #22, card icon fix merged in PR #23, and profile/streak fix merged in PR #24.
-- **Current task:** Security Hardening & Technical Debt Cleanup (Option 1: TD-04, TD-06, TD-08, and TD-01).
-- **Owner-approved scope:**
-  - Configure robust, adaptive Content-Security-Policy (CSP) headers in `next.config.ts` and `Caddyfile` (TD-04).
-  - Implement in-memory sliding-window abuse protection / rate limiting and timing-attack mitigation (~250ms barrier with dummy crypto entropy) in `/api/auth/forgot-password` and `/api/auth/reset-password` (TD-06).
-  - Implement in-memory session revocation strategy (`src/features/auth/session-revocation.ts`) to immediately invalidate pre-reset JWT sessions upon password reset (TD-08).
-  - Evaluate Next.js 16 `middleware` vs `proxy` deprecation (TD-01). Document finding that `proxy.ts` crashes in Webpack dev mode (`Native module not found: ./webpack-runtime.js`), verifying `src/middleware.ts` must be retained.
-- **Current phase:** Implementation locally verified. All unit tests, typecheck, linter, E2E, and build passing. Ready for commit, push, PR, and Abangku's review.
+- Product: interactive IT infrastructure learning; Networking is the first curriculum.
+- M0–M6 are historical delivery records; M7 remains open for operational launch gates. M8–M11 curriculum renewal is planned; former M8 premium activation moves to M12.
+- **Current task:** documentation-only learning curriculum planning. No application implementation started.
+- **Owner approved:** outcomes at path/module/lesson levels; Welcome to Networking first as the reusable example; quiz per lesson and final assessment per module; passing required before advancing; retries allowed; insert multiple learning milestones and shift premium numbering after them.
+- **Proposed details requiring review before code:** 3/3 formative answers, 8/10 module concept test plus all 3 essential practical criteria; exact four-lesson authored blueprint; how historical learners bridge to new mastery requirements.
+- **Phase:** planning documents written and local consistency checks performed; commit/publication state must be verified from Git. No PR or CI for this task has been created at this checkpoint.
 
-## 2. Verified Git and worktree checkpoint
+## 2. Verified repository checkpoint
 
-Verified locally on 2026-09-05:
-
-| Item | State |
+| Item | Verified state |
 | --- | --- |
-| Repository | `notyourkise/NetLoka` |
-| Main checkout | `C:/laragon/www/netloka`, branch `main` |
-| Verified main / `origin/main` | `48f347e0e54b9ae14c5daa9702dd4315743e838e` — merge PR #24 |
-| Last confirmed merge before this task | PR #24 — fix: sync profile display name updates and unify streak flame on dashboard |
-| Implementation worktree | `C:/laragon/www/netloka/.worktrees/codex-security-hardening-csp-ratelimit` |
-| Implementation branch | `codex/security-hardening-csp-ratelimit` |
+| Main checkout | `C:/laragon/www/netloka`, branch `main`, clean at task start |
+| Main / fetched origin/main | `a95b025860b8c1788f8fbf48f8d98cd34929da4d` |
+| Last merged PR | [PR #25](https://github.com/notyourkise/NetLoka/pull/25), security hardening; previous handoff's commit/push instruction is obsolete |
+| Baseline CI | [Run 33957353648](https://github.com/notyourkise/NetLoka/actions/runs/33957353648), success for main baseline only |
+| Planning branch | `codex/learning-curriculum-plan` |
+| Planning worktree | `C:/laragon/www/netloka/.worktrees/codex-learning-curriculum-plan` |
+| Work state at checkpoint | Documentation changes only; Git revision pending until commit |
+| Unrelated retained worktree | `C:/laragon/www/netloka/.worktrees/codex-fix-m0-sprint-0`, branch `docs/staging-progress`, `8460136`; not a cleanup target |
 
-Retained unrelated worktree (not a cleanup target):
+## 3. Planning entry points
 
-- `C:/laragon/www/netloka/.worktrees/codex-fix-m0-sprint-0` → `docs/staging-progress` (last observed `8460136`).
+1. [ROADMAP](../ROADMAP.md): M8/S21–24 reference; M9/S25–26 Foundations; M10/S27–30 Paths 2–5; M11/S31–32 Consultant/full curriculum; M12/S33–34 gated premium activation.
+2. [PLAN](../PLAN.md): exact sprint ownership and task/acceptance index.
+3. [Design](superpowers/specs/2026-09-05-learning-outcomes-and-curriculum-design.md): evidence, learning outcomes, assessment/progress, compatibility, pilot blueprint.
+4. [Outcome matrix](curriculum/networking-outcomes.md): 65 proposed lessons across six paths, module/path goals and evidence.
+5. [Program plan](superpowers/plans/2026-09-05-learning-curriculum-renewal.md): context, dependencies, work packages, risks, validation per sprint.
+6. [Pilot plan](superpowers/plans/2026-09-05-welcome-to-networking.md): concrete S21–24 files, contracts, tasks, fixtures, and quality gates.
 
-## 3. Security and Feature Changes
+Pilot has four planned lessons: preserve `intro-to-networking` and `everyday-networks`; add `sharing-network-resources` and `simple-network-communication`. Eight observable lesson outcomes feed module assessment. Source findings and mapping requirements are documented; do not restart a cosmetic dashboard sprint.
 
-- `next.config.ts` & `Caddyfile`:
-  - Added comprehensive `Content-Security-Policy` header covering `default-src 'self'`, scripts, inline styles for Tailwind, canvas avatars/data URIs, local fonts, and clickjacking protection (`frame-ancestors 'none'`).
-- `src/features/auth/rate-limiter.ts` & `rate-limiter.test.ts`:
-  - In-memory sliding-window rate limiter with automated pruning, IP extraction, and constant-time delay helper (`ensureMinimumDuration`).
-- `src/app/api/auth/forgot-password/route.ts`:
-  - Enforced dual rate limiting: max 5 requests / 15 min per IP, max 3 requests / 15 min per email.
-  - Enforced ~250ms timing barrier and dummy SHA-256 entropy workload for non-existent accounts to eliminate timing-based email enumeration.
-- `src/app/api/auth/reset-password/route.ts`:
-  - Enforced rate limiting: max 10 attempts / 15 min per IP.
-- `src/features/auth/session-revocation.ts` & `session-revocation.test.ts`:
-  - In-memory session revocation registry tracking revocation timestamps per user.
-- `src/features/auth/password-reset.ts`:
-  - Calls `revokeUserSessions(token.userId)` upon successful password update in `consumePasswordResetToken`.
-- `src/features/auth/auth.ts`:
-  - NextAuth `session` callback checks `isSessionRevoked(token.id, token.iat * 1000)` and invalidates session if token was issued prior to password reset.
-- `src/middleware.ts` & `middleware.test.ts`:
-  - Route guard checks `isSessionRevoked` and redirects revoked sessions on protected routes to `/?auth=sign-in`.
-- `docs/TECHNICAL_DEBT.md`:
-  - Updated status for TD-01, TD-04, TD-06, and TD-08.
+## 4. Validation and limits
 
-## 4. Verification status and limits
-
-- Local verification completed:
-  - `npm run db:generate`: Prisma client generated successfully.
-  - `npm run typecheck`: 0 errors.
-  - `npm run lint`: 0 errors / 0 warnings.
-  - `npm test`: 55 test files (269 tests) 100% green.
-  - `npx playwright test src/e2e/member-workspace.spec.ts --project=chromium`: 5 passed 100% green.
-  - `npm run build`: 34 of 34 routes compiled and generated successfully.
-  - `git diff --check`: Clean (0 whitespace errors).
+- Baseline and post-edit `git diff --check` passed under repository configuration; command-local CRLF override produced false whitespace noise, normal command passed.
+- Markdown links and one-owner S21–S34 numbering checked across current planning documents.
+- Content evidence source is repository seed: 5 paths/13 modules/15 lessons. Live DB was not inspected.
+- Quiz correctness/completion-gating and migration gaps are source-inspection findings tracked as TD-11–TD-13; no fix or runtime reproduction performed.
+- No dependencies installed, application checks run, database modified, authenticated integration tested, deployment performed, or payment enabled in this documentation task.
+- Main baseline CI is distinct from task-branch CI. Do not claim application or publication readiness from documentation checks.
 
 ## 5. Next action
 
-1. Commit changes on `codex/security-hardening-csp-ratelimit` with conventional commit message `feat: harden security with CSP, rate limiting, and session revocation`.
-2. Push branch to `origin/codex/security-hardening-csp-ratelimit` using Git transport.
-3. Open a Pull Request targeting `main` via `gh pr create`.
-4. Monitor and verify all applicable GitHub Actions CI checks on the PR head.
-5. Report PR as ready for Abangku's review and merge.
+Review the design/pilot proposals with Abangku, particularly numeric thresholds and historical-progress transition. After approval of behavioral details, begin **M8 / Sprint 21** with verified current source and isolated data. Local pilot development consumes reviewed M7 code; it does not wait for or certify production deployment. Remaining curriculum modules must wait for the accepted Welcome reference.
 
-## 6. Known open product/deployment gates
+Keep all new implementation checkboxes unchecked until evidence exists. Preserve existing learner IDs/progress/XP. Final PR review and merge remain Abangku's responsibility; planning approval is not deployment or live payment permission.
 
-- Public password recovery still needs real isolated/staging migration and SMTP delivery verification, and Google OAuth after credentials are configured.
-- Milestone 8 Dynamic QRIS/Midtrans stays deferred until premium course content, pricing, merchant/legal/tax, provider, and staging/deployment gates are satisfied. Do not request/store live payment credentials in this task.
-- Staging and production have not been verified or deployed for the current feature set.
+## 6. Open operational boundaries
+
+PR #25 introduced CSP and in-memory reset/session controls; real deployed/multi-process behavior is not certified here. SMTP/OAuth, reproducible migrations, staging/production, backup/restore, and operator/privacy readiness retain their own verification gates. M12 premium activation also needs real premium course content, approved pricing/package, merchant/legal/provider evidence and explicit rollout authority. Networking curriculum completion alone is insufficient.
 

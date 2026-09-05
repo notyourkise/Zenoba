@@ -6,6 +6,10 @@ import {
   createPasswordResetToken,
   hashResetToken,
 } from "@/features/auth/password-reset";
+import {
+  isSessionRevoked,
+  clearRevokedSessions,
+} from "@/features/auth/session-revocation";
 
 const transactionClient = {
   passwordResetToken: {
@@ -29,6 +33,7 @@ vi.mock("@/lib/db/client", () => ({
 describe("password reset token domain", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    clearRevokedSessions();
     transactionClient.passwordResetToken.deleteMany.mockResolvedValue({ count: 1 });
     vi.mocked(prisma.$transaction).mockImplementation(async (callback) =>
       callback(transactionClient as never),
@@ -86,6 +91,7 @@ describe("password reset token domain", () => {
       })
       .mockResolvedValueOnce(null);
 
+    const beforeResetTime = Date.now();
     const firstResult = await consumePasswordResetToken(
       "single-use-token",
       "NewPassword123!",
@@ -99,6 +105,8 @@ describe("password reset token domain", () => {
 
     expect(firstResult).toBe("updated");
     expect(secondResult).toBe("invalid");
+    // Verify session revocation (TD-08)
+    expect(isSessionRevoked("user-1", beforeResetTime - 1000)).toBe(true);
     const passwordHash = transactionClient.user.update.mock.calls[0]?.[0].data
       .passwordHash as string;
     await expect(verifyPassword("NewPassword123!", passwordHash)).resolves.toBe(

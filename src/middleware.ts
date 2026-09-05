@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
+import { isSessionRevoked } from "@/features/auth/session-revocation";
 
 export async function middleware(request: NextRequest) {
   const secret = process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET;
@@ -25,14 +26,17 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith(prefix)
   );
 
-  if (isProtected && !token) {
+  const tokenIatMs = typeof token?.iat === "number" ? token.iat * 1000 : undefined;
+  const isRevoked = token?.id ? isSessionRevoked(token.id as string, tokenIatMs) : false;
+
+  if (isProtected && (!token || isRevoked)) {
     const signInUrl = new URL("/", request.url);
     signInUrl.searchParams.set("auth", "sign-in");
     signInUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(signInUrl);
   }
 
-  if (token && (pathname === "/sign-in" || pathname === "/sign-up")) {
+  if (token && !isRevoked && (pathname === "/sign-in" || pathname === "/sign-up")) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 

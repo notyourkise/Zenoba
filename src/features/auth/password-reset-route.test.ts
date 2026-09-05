@@ -13,10 +13,13 @@ vi.mock("@/lib/db/client", () => ({
   prisma: { user: { findUnique: vi.fn() } },
 }));
 
+import { resetRateLimits } from "@/features/auth/rate-limiter";
+
 vi.mock("@/features/auth/password-reset", () => ({
   createPasswordResetToken: vi.fn(),
   consumePasswordResetToken: vi.fn(),
   invalidatePasswordResetToken: vi.fn(),
+  hashResetToken: vi.fn(() => "dummy-hash"),
 }));
 
 vi.mock("@/features/auth/email/password-reset-email", () => ({
@@ -26,10 +29,10 @@ vi.mock("@/features/auth/email/password-reset-email", () => ({
 const genericMessage =
   "If an account exists for that email, a password reset link has been sent.";
 
-function postJson(url: string, body: unknown) {
+function postJson(url: string, body: unknown, headers: Record<string, string> = {}) {
   return new Request(url, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...headers },
     body: JSON.stringify(body),
   });
 }
@@ -37,6 +40,7 @@ function postJson(url: string, body: unknown) {
 describe("POST /api/auth/forgot-password", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    resetRateLimits();
     process.env.APP_URL = "https://netloka.biz.id";
     vi.mocked(invalidatePasswordResetToken).mockResolvedValue(undefined);
   });
@@ -105,10 +109,62 @@ describe("POST /api/auth/forgot-password", () => {
     await expect(response.json()).resolves.toEqual({ message: genericMessage });
     expect(invalidatePasswordResetToken).toHaveBeenCalledWith("raw-token");
   });
+
+  it("rate limits repeated requests from the same IP (TD-06)", async () => {
+    vi.mocked(prisma.user.findUnique).mockResolvedValue(null);
+
+    // Max 5 attempts allowed for IP
+    for (let i = 0; i < 5; i++) {
+      const res = await forgotPassword(
+        postJson("http://localhost/api/auth/forgot-password", {
+          email: `user${i}@example.com`,
+        }, { "x-forwarded-for": "198.51.100.1" }),
+      );
+      expect(res.status).toBe(200);
+    }
+
+    // 6th attempt from the same IP should be blocked with 429
+    const blockedRes = await forgotPassword(
+      postJson("http://localhost/api/auth/forgot-password", {
+        email: "user6@example.com",
+      }, { "x-forwarded-for": "198.51.100.1" }),
+    );
+    expect(blockedRes.status).toBe(429);
+    expect(blockedRes.headers.get("Retry-After")).toBeDefined();
+    await expect(blockedRes.json()).resolves.toEqual({
+      error: "Too many requests. Please try again later.",
+    });
+  });
+
+  it("rate limits repeated requests for the same email (TD-06)", async () => {
+    vi.mocked(prisma.user.findUnique).mockResolvedValue(null);
+
+    // Max 3 attempts allowed for same email across different IPs
+    for (let i = 0; i < 3; i++) {
+      const res = await forgotPassword(
+        postJson("http://localhost/api/auth/forgot-password", {
+          email: "target@example.com",
+        }, { "x-forwarded-for": `198.51.100.${i + 10}` }),
+      );
+      expect(res.status).toBe(200);
+    }
+
+    // 4th attempt for the same email should be blocked with 429
+    const blockedRes = await forgotPassword(
+      postJson("http://localhost/api/auth/forgot-password", {
+        email: "target@example.com",
+      }, { "x-forwarded-for": "198.51.100.99" }),
+    );
+    expect(blockedRes.status).toBe(429);
+    expect(blockedRes.headers.get("Retry-After")).toBeDefined();
+  });
 });
 
 describe("POST /api/auth/reset-password", () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+    resetRateLimits();
+  });
 
   it("rejects passwords shorter than eight characters", async () => {
     const response = await resetPassword(
@@ -153,6 +209,34 @@ describe("POST /api/auth/reset-password", () => {
     expect(response.status).toBe(200);
     await expect(response.json()).resolves.toEqual({
       message: "Your password has been reset successfully.",
+    });
+  });
+
+  it("rate limits repeated reset attempts from the same IP (TD-06)", async () => {
+    vi.mocked(consumePasswordResetToken).mockResolvedValue("invalid");
+
+    // Max 10 attempts allowed for IP
+    for (let i = 0; i < 10; i++) {
+      const res = await resetPassword(
+        postJson("http://localhost/api/auth/reset-password", {
+          token: `token-${i}`,
+          password: "NewPassword123!",
+        }, { "x-forwarded-for": "203.0.113.88" }),
+      );
+      expect(res.status).toBe(400);
+    }
+
+    // 11th attempt from the same IP should be blocked with 429
+    const blockedRes = await resetPassword(
+      postJson("http://localhost/api/auth/reset-password", {
+        token: "token-11",
+        password: "NewPassword123!",
+      }, { "x-forwarded-for": "203.0.113.88" }),
+    );
+    expect(blockedRes.status).toBe(429);
+    expect(blockedRes.headers.get("Retry-After")).toBeDefined();
+    await expect(blockedRes.json()).resolves.toEqual({
+      error: "Too many requests. Please try again later.",
     });
   });
 });

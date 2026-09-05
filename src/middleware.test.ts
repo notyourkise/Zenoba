@@ -1,0 +1,108 @@
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { middleware } from "./middleware";
+import { getToken } from "next-auth/jwt";
+import type { NextRequest } from "next/server";
+import {
+  revokeUserSessions,
+  clearRevokedSessions,
+} from "@/features/auth/session-revocation";
+
+vi.mock("next-auth/jwt", () => ({
+  getToken: vi.fn(),
+}));
+
+function createMockRequest(pathname: string): NextRequest {
+  const url = new URL(pathname, "https://netloka.biz.id");
+  return {
+    url: url.toString(),
+    nextUrl: url,
+  } as unknown as NextRequest;
+}
+
+describe("Middleware Route Guard & Session Invalidation (TD-01 & TD-08)", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    clearRevokedSessions();
+  });
+
+  it("allows unauthenticated requests on public routes", async () => {
+    vi.mocked(getToken).mockResolvedValue(null);
+
+    const req = createMockRequest("/");
+    const res = await middleware(req);
+
+    expect(res.status).toBe(200);
+    expect(res.headers.get("x-middleware-rewrite")).toBeNull();
+  });
+
+  it("redirects unauthenticated requests on protected routes to sign-in modal", async () => {
+    vi.mocked(getToken).mockResolvedValue(null);
+
+    const req = createMockRequest("/dashboard");
+    const res = await middleware(req);
+
+    expect(res.status).toBe(307);
+    const location = res.headers.get("location");
+    expect(location).toContain("/?auth=sign-in");
+    expect(location).toContain("callbackUrl=%2Fdashboard");
+  });
+
+  it("allows authenticated requests on protected routes when session is valid", async () => {
+    vi.mocked(getToken).mockResolvedValue({
+      id: "user-1",
+      iat: Math.floor(Date.now() / 1000),
+    });
+
+    const req = createMockRequest("/dashboard");
+    const res = await middleware(req);
+
+    expect(res.status).toBe(200);
+  });
+
+  it("redirects authenticated request on protected routes when session is revoked (TD-08)", async () => {
+    const issuedAtSeconds = 100;
+    const revocationTimeMs = 150000; // revoked after issue time
+    revokeUserSessions("user-revoked", revocationTimeMs);
+
+    vi.mocked(getToken).mockResolvedValue({
+      id: "user-revoked",
+      iat: issuedAtSeconds, // 100000 ms < 150000 ms
+    });
+
+    const req = createMockRequest("/dashboard");
+    const res = await middleware(req);
+
+    expect(res.status).toBe(307);
+    const location = res.headers.get("location");
+    expect(location).toContain("/?auth=sign-in");
+    expect(location).toContain("callbackUrl=%2Fdashboard");
+  });
+
+  it("redirects valid authenticated users away from /sign-in to /dashboard", async () => {
+    vi.mocked(getToken).mockResolvedValue({
+      id: "user-1",
+      iat: Math.floor(Date.now() / 1000),
+    });
+
+    const req = createMockRequest("/sign-in");
+    const res = await middleware(req);
+
+    expect(res.status).toBe(307);
+    expect(res.headers.get("location")).toBe("https://netloka.biz.id/dashboard");
+  });
+
+  it("allows users with revoked sessions to access /sign-in", async () => {
+    const revocationTimeMs = 200000;
+    revokeUserSessions("user-revoked", revocationTimeMs);
+
+    vi.mocked(getToken).mockResolvedValue({
+      id: "user-revoked",
+      iat: 100, // 100000 ms < 200000 ms
+    });
+
+    const req = createMockRequest("/sign-in");
+    const res = await middleware(req);
+
+    expect(res.status).toBe(200);
+  });
+});

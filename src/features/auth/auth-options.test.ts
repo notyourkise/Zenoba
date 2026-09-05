@@ -1,12 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, beforeEach } from "vitest";
 import {
   authOptions,
   buildAuthProviders,
   isGoogleAuthConfigured,
 } from "@/features/auth/auth";
+import {
+  revokeUserSessions,
+  clearRevokedSessions,
+} from "@/features/auth/session-revocation";
 
 describe("authentication provider configuration", () => {
+  beforeEach(() => {
+    clearRevokedSessions();
+  });
   it.each([
     [{}, false],
     [{ GOOGLE_CLIENT_ID: "client-id" }, false],
@@ -100,6 +107,26 @@ describe("authentication provider configuration", () => {
       expect(result.user?.name).toBe("Fresh Name");
       expect((result.user as any)?.headline).toBe("Network Engineer");
       expect((result.user as any)?.streakCount).toBe(5);
+    });
+
+    it("invalidates session when user session is revoked (TD-08)", async () => {
+      const sessionCallback = authOptions.callbacks?.session as any;
+      const revocationTime = 100000;
+      revokeUserSessions("revoked-user", revocationTime);
+
+      const result = await sessionCallback({
+        session: {
+          user: { id: "revoked-user" },
+          expires: "2026-10-01",
+        },
+        token: {
+          id: "revoked-user",
+          iat: 90, // 90000 ms < 100000 ms
+        },
+      });
+
+      expect(result.user).toBeUndefined();
+      expect(result.expires).toBe(new Date(0).toISOString());
     });
   });
 });

@@ -7,6 +7,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { prisma } from "@/lib/db/client";
 import { verifyPassword } from "./password";
 import { verifyTotpCode, verifyAndConsumeBackupCode } from "./totp";
+import { isSessionRevoked } from "./session-revocation";
 
 type GoogleEnvironment = Record<string, string | undefined>;
 
@@ -147,6 +148,15 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
+      const tokenIatMs = typeof token.iat === "number" ? token.iat * 1000 : undefined;
+      if (token.id && isSessionRevoked(token.id as string, tokenIatMs)) {
+        return {
+          ...session,
+          user: undefined as unknown as typeof session.user,
+          expires: new Date(0).toISOString(),
+        };
+      }
+
       if (session.user) {
         session.user.id = token.id as string;
         if (token.name) {

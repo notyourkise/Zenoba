@@ -40,6 +40,15 @@ All notable project changes are recorded here.
 
 # 2026-09-05
 
+- [2026-09-05 17:01 WITA] [SECURITY] [REFACTOR] [Milestone 7 / Security Hardening & Technical Debt Cleanup]
+  Resolved key pre-launch technical debt items TD-04, TD-06, TD-08, and validated TD-01:
+  - TD-04 (Content Security Policy): Configured robust, adaptive Content-Security-Policy headers in `next.config.ts` and `Caddyfile` with full compatibility for Next.js 16, React 19, Tailwind CSS 4, client canvas avatars, and local fonts. Added `src/lib/security-headers.test.ts`.
+  - TD-06 (Abuse Protection & Rate Limiting): Created in-memory sliding window rate limiter in `src/features/auth/rate-limiter.ts`. Implemented dual rate limiting (IP & email) and timing-attack defense (~250ms constant-time barrier with dummy crypto entropy) in `/api/auth/forgot-password` and `/api/auth/reset-password`. Added unit tests `src/features/auth/rate-limiter.test.ts` and route test coverage.
+  - TD-08 (Session Revocation Policy): Implemented `src/features/auth/session-revocation.ts` to immediately invalidate active JWT sessions (`iat < revokedAt`) upon password reset in `consumePasswordResetToken`. Integrated checks into NextAuth `session` callback and route guard middleware. Added unit tests in `session-revocation.test.ts`, `auth-options.test.ts`, and `middleware.test.ts`.
+  - TD-01 (Middleware vs Proxy Evaluation): Evaluated `src/proxy.ts` under Next.js 16.3.2 with `--webpack`. Discovered runtime failure `TypeError: Native module not found: ./webpack-runtime.js` inside Next.js Webpack Edge sandbox dev server. Reverted to stable `src/middleware.ts` and documented status in `docs/TECHNICAL_DEBT.md`.
+  Files/areas: `next.config.ts`, `Caddyfile`, `src/features/auth/rate-limiter.ts`, `src/features/auth/rate-limiter.test.ts`, `src/app/api/auth/forgot-password/route.ts`, `src/app/api/auth/reset-password/route.ts`, `src/features/auth/password-reset-route.test.ts`, `src/features/auth/session-revocation.ts`, `src/features/auth/session-revocation.test.ts`, `src/features/auth/password-reset.ts`, `src/features/auth/password-reset.test.ts`, `src/features/auth/auth.ts`, `src/features/auth/auth-options.test.ts`, `src/middleware.ts`, `src/middleware.test.ts`, `src/lib/security-headers.test.ts`, `docs/TECHNICAL_DEBT.md`
+  Validation: `npm run typecheck` (0 errors), `npm run lint` (0 errors), `npm test` (55 test files / 269 tests passed 100%), Playwright E2E (5 passed 100%), `npm run build` (34 routes compiled), `git diff --check` (clean).
+
 - [2026-09-05 16:19 WITA] [FIXED] [Milestone 7 / Profile & Streak Synchronization]
   Fixed display name and username updating so changes persist immediately across the platform and removed the disconnected flame streak mechanism from the profile modal:
   - Updated `getCurrentUser()` in `src/lib/auth.ts` to query fresh profile data from PostgreSQL (`prisma.user.findUnique`) when a session exists, ensuring Server Components (Dashboard, Profile, Shell) render updated names immediately without requiring logout/re-login.

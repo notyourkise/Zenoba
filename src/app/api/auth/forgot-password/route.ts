@@ -4,8 +4,14 @@ import { prisma } from "@/lib/db/client";
 import {
   createPasswordResetToken,
   invalidatePasswordResetToken,
+  hashResetToken,
 } from "@/features/auth/password-reset";
 import { sendPasswordResetEmail } from "@/features/auth/email/password-reset-email";
+import {
+  checkRateLimit,
+  getClientIp,
+  ensureMinimumDuration,
+} from "@/features/auth/rate-limiter";
 
 const requestSchema = z.object({
   email: z.string().email("Invalid email format"),
@@ -16,7 +22,13 @@ const genericResponse = {
     "If an account exists for that email, a password reset link has been sent.",
 };
 
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
+const MAX_ATTEMPTS_PER_IP = 5;
+const MAX_ATTEMPTS_PER_EMAIL = 3;
+
 export async function POST(request: Request) {
+  const startTime = Date.now();
+
   let body: unknown;
   try {
     body = await request.json();
@@ -32,13 +44,50 @@ export async function POST(request: Request) {
     );
   }
 
+  const clientIp = getClientIp(request);
   const email = result.data.email.toLowerCase().trim();
+
+  // 1. IP rate limiting (5 requests per 15 minutes)
+  const ipCheck = checkRateLimit(
+    `forgot-password:ip:${clientIp}`,
+    MAX_ATTEMPTS_PER_IP,
+    RATE_LIMIT_WINDOW_MS,
+  );
+  if (!ipCheck.success) {
+    return NextResponse.json(
+      { error: "Too many requests. Please try again later." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(ipCheck.retryAfterSeconds) },
+      },
+    );
+  }
+
+  // 2. Email rate limiting (3 requests per 15 minutes)
+  const emailCheck = checkRateLimit(
+    `forgot-password:email:${email}`,
+    MAX_ATTEMPTS_PER_EMAIL,
+    RATE_LIMIT_WINDOW_MS,
+  );
+  if (!emailCheck.success) {
+    return NextResponse.json(
+      { error: "Too many requests. Please try again later." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(emailCheck.retryAfterSeconds) },
+      },
+    );
+  }
+
   const user = await prisma.user.findUnique({
     where: { email },
     select: { id: true, email: true, passwordHash: true },
   });
 
   if (!user?.passwordHash) {
+    // Equalize CPU workload to mitigate timing-based enumeration
+    hashResetToken("dummy-entropy-padding-for-timing-defense");
+    await ensureMinimumDuration(startTime, 250);
     return NextResponse.json(genericResponse);
   }
 
@@ -63,5 +112,6 @@ export async function POST(request: Request) {
     console.error("Password reset email delivery failed");
   }
 
+  await ensureMinimumDuration(startTime, 250);
   return NextResponse.json(genericResponse);
 }

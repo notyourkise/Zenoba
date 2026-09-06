@@ -40,6 +40,16 @@ All notable project changes are recorded here.
 
 # 2026-09-06
 
+- [2026-09-06 17:25 WITA] [FIXED] [SECURITY] [Authenticated Landing Redirect & Public Header Cleanup]
+  Resolved authenticated route exposure bug where logged-in users could access the public marketing landing page (`/`):
+  - Middleware Route Guard: Added matcher `"/"` in `src/middleware.ts` and redirected any authenticated user with an active unrevoked session away from `"/"` (along with `/sign-in` and `/sign-up`) directly to `/dashboard`.
+  - Server Component Guard: Added defense-in-depth redirect in `src/app/page.tsx` (`if (user) redirect("/dashboard")`), ensuring root route always redirects logged-in learners even if middleware is bypassed.
+  - Public Header Cleanup: Removed user profile dropdown menu, user avatar, and AccountModal from `src/components/navigation/app-header.tsx`. Landing page header is now purely public, consistently displaying "Masuk" and "Mulai Gratis" auth actions.
+  - Tests & Verification: Added middleware unit tests in `src/middleware.test.ts` for `/` redirects and revoked session handling, added landing page server component tests in `src/app/page.test.tsx`, and updated `src/components/navigation/app-header.test.tsx` to assert public-only authentication surfaces.
+  Files/areas: `src/middleware.ts`, `src/middleware.test.ts`, `src/app/page.tsx`, `src/app/page.test.tsx`, `src/components/navigation/app-header.tsx`, `src/components/navigation/app-header.test.tsx`, `CHANGELOG.md`, `docs/HANDOFF.md`
+  Validation: `npm run typecheck` (0 errors), `npm run lint` (0 errors, 0 warnings), vitest (67 test files, 356 tests 100% green), `npm run build` (35 routes compiled cleanly), `git diff --check` clean.
+  Git: branch `codex/landing-auth-redirect-cleanup`.
+
 - [2026-09-06 02:15 WITA] [ADDED] [Milestone 8 / Sprint 23 / Welcome Lessons & Module Assessment Experience]
   Implemented interactive welcome lessons, deterministic connectivity practice, scoped learning outcomes display, and full module assessment player with remediation routing:
   - Task 23.1: Surfaced explicit learning outcomes across module overview (`/learn/[pathSlug]`) and lesson view (`/learn/[pathSlug]/[moduleSlug]/[lessonSlug]`) via `LearningOutcomesBadge` and `LearningOutcomesList`. Attached curriculum outcomes to modules and lessons in `queries.ts` and `registry.ts`. Replaced generic success fallback with truthful state banners when content is missing or in preparation.

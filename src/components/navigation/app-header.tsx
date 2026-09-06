@@ -3,23 +3,10 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { signOut } from "next-auth/react";
 import { cn } from "@/lib/utils";
-import { Menu, X, User, ChevronDown } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SlidingButtonLabel } from "@/components/ui/sliding-button-label";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-} from "@/components/ui/dropdown-menu";
-import {
-  AccountModal,
-  type AccountTab,
-} from "@/components/navigation/account-modal/account-modal";
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -28,19 +15,6 @@ import {
   NavigationMenuContent,
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
-
-interface AppHeaderProps {
-  user: {
-    id?: string;
-    name?: string | null;
-    email?: string | null;
-    role?: string | null;
-    image?: string | null;
-    headline?: string | null;
-    streakCount?: number;
-    lastStreakDate?: string | null;
-  } | null;
-}
 
 type NavigationCatalogItem = {
   title: string;
@@ -227,13 +201,11 @@ const soonLearningDomains = navigationSections[0].items
   .map((item) => item.title)
   .join(" · ");
 
-export function AppHeader({ user }: AppHeaderProps) {
+export function AppHeader() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [isTransparent, setIsTransparent] = React.useState(false);
   const [isHovered, setIsHovered] = React.useState(false);
-  const [accountModalOpen, setAccountModalOpen] = React.useState(false);
-  const [accountModalTab, setAccountModalTab] = React.useState<AccountTab>("profile");
   const lastScrollYRef = React.useRef(0);
 
   React.useEffect(() => {
@@ -360,114 +332,35 @@ export function AppHeader({ user }: AppHeaderProps) {
 
             {/* 3. Right: Vertical Text Slide Auth Buttons */}
             <div className="flex items-center justify-end flex-1 gap-4 sm:gap-5">
-              {user ? (
-                <div className="flex items-center gap-3">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <button
-                        type="button"
-                        className="flex items-center gap-2 p-1.5 pl-2 rounded-xl border border-transparent hover:border-gray-200 dark:hover:border-white/15 hover:bg-gray-100 dark:hover:bg-white/[0.06] transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
-                        aria-label="Menu akun"
-                      >
-                        <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-sm ring-2 ring-blue-500/20 overflow-hidden">
-                          {user.image ? (
-                            /* eslint-disable-next-line @next/next/no-img-element */
-                            <img
-                              src={user.image}
-                              alt={user.name || "User"}
-                              className="w-full h-full object-cover"
-                            />
-                          ) : user.name ? (
-                            user.name.slice(0, 2).toUpperCase()
-                          ) : (
-                            <User className="w-4 h-4" />
-                          )}
-                        </div>
-                        <span className="hidden sm:inline text-xs font-semibold text-gray-700 dark:text-gray-200 max-w-[120px] truncate">
-                          {user.name || user.email?.split("@")[0]}
-                        </span>
-                        <ChevronDown className="w-3.5 h-3.5 text-gray-500 dark:text-slate-400 transition-transform duration-200" />
-                      </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-56">
-                      <div className="px-2.5 py-2">
-                        <p className="text-xs font-semibold text-gray-900 dark:text-white truncate">
-                          {user.name || "Akun Netloka"}
-                        </p>
-                        <p className="text-[11px] text-gray-500 dark:text-slate-400 truncate">
-                          {user.email}
-                        </p>
-                      </div>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={() => {
-                          setAccountModalTab("profile");
-                          setAccountModalOpen(true);
-                        }}
-                        className="flex items-center justify-between"
-                      >
-                        <span>Profile</span>
-                        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => {
-                          setAccountModalTab("settings");
-                          setAccountModalOpen(true);
-                        }}
-                        className="flex items-center justify-between"
-                      >
-                        <span>Pengaturan</span>
-                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem asChild>
-                        <Link href="/#faq" className="flex items-center justify-between">
-                          <span>Bantuan</span>
-                          <DropdownMenuShortcut>⌘H</DropdownMenuShortcut>
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={() => signOut({ callbackUrl: "/?auth=sign-in" })}
-                        className="text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-950/40"
-                      >
-                        <span>Keluar</span>
-                        <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2.5">
-                  {/* Secondary Button: Masuk (Compact 36px height, 80px min-width) */}
-                  <Button
-                    variant="outline-dark"
-                    asChild
-                    className="group h-9 min-w-[80px] px-3.5 rounded-lg text-sm font-semibold overflow-hidden cursor-pointer"
-                  >
-                    <Link href="/?auth=sign-in">
-                      <SlidingButtonLabel
-                        text="Masuk"
-                        className="text-black dark:text-white font-semibold"
-                      />
-                    </Link>
-                  </Button>
+              <div className="flex items-center gap-2.5">
+                {/* Secondary Button: Masuk (Compact 36px height, 80px min-width) */}
+                <Button
+                  variant="outline-dark"
+                  asChild
+                  className="group h-9 min-w-[80px] px-3.5 rounded-lg text-sm font-semibold overflow-hidden cursor-pointer"
+                >
+                  <Link href="/?auth=sign-in">
+                    <SlidingButtonLabel
+                      text="Masuk"
+                      className="text-black dark:text-white font-semibold"
+                    />
+                  </Link>
+                </Button>
 
-                  {/* Primary CTA: Mulai Gratis (Compact 36px height, 116px min-width) */}
-                  <Button
-                    variant="solid-light"
-                    asChild
-                    className="group h-9 min-w-[116px] px-4 rounded-lg text-sm font-semibold overflow-hidden cursor-pointer"
-                  >
-                    <Link href="/?auth=sign-up">
-                      <SlidingButtonLabel
-                        text="Mulai Gratis"
-                        className="text-white dark:text-[#0a0a0a] font-semibold"
-                      />
-                    </Link>
-                  </Button>
-                </div>
-              )}
+                {/* Primary CTA: Mulai Gratis (Compact 36px height, 116px min-width) */}
+                <Button
+                  variant="solid-light"
+                  asChild
+                  className="group h-9 min-w-[116px] px-4 rounded-lg text-sm font-semibold overflow-hidden cursor-pointer"
+                >
+                  <Link href="/?auth=sign-up">
+                    <SlidingButtonLabel
+                      text="Mulai Gratis"
+                      className="text-white dark:text-[#0a0a0a] font-semibold"
+                    />
+                  </Link>
+                </Button>
+              </div>
 
               {/* Mobile hamburger menu */}
               <button
@@ -517,47 +410,38 @@ export function AppHeader({ user }: AppHeaderProps) {
                 </p>
               </div>
 
-              {!user && (
-                <div className="pt-3 mt-2 border-t border-gray-100 dark:border-gray-800 flex flex-col gap-2.5">
-                  <Button
-                    variant="outline-dark"
-                    asChild
-                    className="w-full h-9 px-3.5 rounded-lg justify-center text-sm font-semibold text-black dark:text-white"
+              <div className="pt-3 mt-2 border-t border-gray-100 dark:border-gray-800 flex flex-col gap-2.5">
+                <Button
+                  variant="outline-dark"
+                  asChild
+                  className="w-full h-9 px-3.5 rounded-lg justify-center text-sm font-semibold text-black dark:text-white"
+                >
+                  <Link
+                    href="/?auth=sign-in"
+                    onClick={() => setMobileMenuOpen(false)}
                   >
-                    <Link
-                      href="/?auth=sign-in"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Masuk
-                    </Link>
-                  </Button>
-                  <Button
-                    variant="solid-light"
-                    asChild
-                    className="w-full h-9 px-4 rounded-lg justify-center text-sm font-semibold"
+                    Masuk
+                  </Link>
+                </Button>
+                <Button
+                  variant="solid-light"
+                  asChild
+                  className="w-full h-9 px-4 rounded-lg justify-center text-sm font-semibold"
+                >
+                  <Link
+                    href="/?auth=sign-up"
+                    onClick={() => setMobileMenuOpen(false)}
                   >
-                    <Link
-                      href="/?auth=sign-up"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Mulai Gratis
-                    </Link>
-                  </Button>
-                </div>
-              )}
+                    Mulai Gratis
+                  </Link>
+                </Button>
+              </div>
             </div>
           )}
         </div>
       </header>
       {/* Invisible placeholder to preserve layout flow */}
       <div className="h-[72px] pointer-events-none" aria-hidden="true" />
-      <AccountModal
-        key={`${accountModalOpen}-${accountModalTab}`}
-        isOpen={accountModalOpen}
-        onClose={() => setAccountModalOpen(false)}
-        initialTab={accountModalTab}
-        user={user}
-      />
     </>
   );
 }

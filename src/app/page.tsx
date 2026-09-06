@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { AppHeader } from "@/components/navigation/app-header";
 import { CosmicBackground } from "@/components/effects/cosmic-background";
@@ -21,12 +22,16 @@ type HomeProps = {
 
 export default async function Home({ searchParams }: HomeProps) {
   const user = await getCurrentUser();
+  if (user) {
+    redirect("/dashboard");
+  }
+
   const parameters = await searchParams;
   const authValue = Array.isArray(parameters.auth)
     ? parameters.auth[0]
     : parameters.auth;
   const mode: AuthMode | null =
-    !user && (authValue === "sign-in" || authValue === "sign-up")
+    authValue === "sign-in" || authValue === "sign-up"
       ? authValue
       : null;
   const callbackUrl = Array.isArray(parameters.callbackUrl)
@@ -40,7 +45,7 @@ export default async function Home({ searchParams }: HomeProps) {
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-gray-950 text-black dark:text-white selection:bg-blue-500 selection:text-white">
       {/* AppHeader Navigation */}
-      <AppHeader user={user} />
+      <AppHeader />
       <AuthModal
         mode={mode}
         callbackUrl={callbackUrl}

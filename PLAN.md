@@ -1021,14 +1021,14 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Acceptance:** All P2 outcomes taught/assessed; worked example followed by independent values; invalid/overlapping plan fails.
 
-### Sprint 28 — Switching & LAN Curriculum
+### Sprint 28 — Switching & LAN Curriculum — IMPLEMENTED / READY FOR REVIEW
 
 **Exclusive owner:** M10. **Required context:** S27 address outcomes; S26 approved mappings; matrix P3; Sprint 8 primitives and VLAN/ARP components.
 
-- [ ] Task 28.1: Author P3-L01–L08 with MAC learning, ARP, broadcast scope, VLAN and access/trunk concepts.
-- [ ] Task 28.2: Apply only reviewed legacy switching/routing mappings, preserve URLs/IDs, and link VLAN lab evidence.
-- [ ] Task 28.3: Build/test a staff/guest final scenario with incorrect port/trunk and verify preserved isolation after repair.
-- [ ] Task 28.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
+- [x] Task 28.1: Author P3-L01–L08 with MAC learning, ARP, broadcast scope, VLAN and access/trunk concepts.
+- [x] Task 28.2: Apply only reviewed legacy switching/routing mappings, preserve URLs/IDs, and link VLAN lab evidence.
+- [x] Task 28.3: Build/test a staff/guest final scenario with incorrect port/trunk and verify preserved isolation after repair.
+- [x] Task 28.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
 
 **Acceptance:** Expected L2 recipient/forwarding/isolation results are deterministic; required module evidence blocks premature final.
 

@@ -457,4 +457,169 @@ describe("POST /api/challenges/submit", () => {
       );
     });
   });
+
+  describe("staff-guest-vlan-repair", () => {
+    const vlanSubmission = {
+      challengeId: "staff-guest-vlan-repair",
+      switch2Port2Vlan: 10,
+      trunkAllowedVlans: [10, 20],
+      interVlanReasonOption: "l2-isolation-needs-l3-router",
+    };
+
+    it("evaluates staff-guest-vlan-repair submission and awards 150 XP when passed", async () => {
+      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+        id: "user-3",
+        email: "switchmaster@example.com",
+      });
+
+      vi.mocked(xpLedger.awardXp).mockResolvedValueOnce({
+        awarded: true,
+        amount: 150,
+        totalXp: 300,
+        message: "+150 XP",
+      });
+
+      vi.mocked(prisma.challenge.findUnique).mockResolvedValueOnce({
+        id: "ch-3",
+        slug: "staff-guest-vlan-repair",
+      } as any);
+
+      const req = new Request("http://localhost:3000/api/challenges/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(vlanSubmission),
+      });
+
+      const res = await challengeSubmitHandler(req);
+      const data = await res.json();
+
+      expect(res.status).toBe(200);
+      expect(data.passed).toBe(true);
+      expect(data.score).toBe(100);
+      expect(data.criteriaResults).toHaveLength(3);
+      expect(xpLedger.awardXp).toHaveBeenCalledWith(
+        "user-3",
+        150,
+        "CHALLENGE_SOLVED",
+        "challenge-staff-guest-vlan-repair"
+      );
+
+      expect(prisma.assessmentAttempt.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            userId: "user-3",
+            assessmentId: "challenge-staff-guest-vlan-repair",
+            score: 100,
+            passed: true,
+          }),
+        })
+      );
+
+      expect(prisma.challengeAttempt.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            userId: "user-3",
+            challengeId: "ch-3",
+            score: 100,
+            passed: true,
+          }),
+        })
+      );
+    });
+
+    it("rejects staff-guest-vlan-repair with 403 when submitted as isPathFinal: true and user has incomplete lessons", async () => {
+      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+        id: "user-3",
+        email: "switchmaster@example.com",
+      });
+
+      const fakeLessons = Array.from({ length: 8 }, (_, i) => ({ id: `p3-lesson-${i + 1}` }));
+      vi.mocked(prisma.learningPath.findUnique).mockResolvedValueOnce({
+        id: "p3",
+        slug: "switching-lan",
+        modules: [
+          {
+            id: "m3",
+            lessons: fakeLessons,
+          },
+        ],
+      } as any);
+
+      vi.mocked(prisma.userLessonProgress.findMany).mockResolvedValueOnce(
+        fakeLessons.slice(0, 5).map((l) => ({ lessonId: l.id })) as any
+      );
+
+      const req = new Request("http://localhost:3000/api/challenges/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...vlanSubmission,
+          isPathFinal: true,
+        }),
+      });
+
+      const res = await challengeSubmitHandler(req);
+      expect(res.status).toBe(403);
+      const data = await res.json();
+      expect(data.code).toBe("PREREQUISITES_INCOMPLETE");
+      expect(data.completedLessons).toBe(5);
+      expect(data.totalLessons).toBe(8);
+    });
+
+    it("allows staff-guest-vlan-repair when user completed all 8 lessons in path 3", async () => {
+      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+        id: "user-3",
+        email: "switchmaster@example.com",
+      });
+
+      const fakeLessons = Array.from({ length: 8 }, (_, i) => ({ id: `p3-lesson-${i + 1}` }));
+      vi.mocked(prisma.learningPath.findUnique).mockResolvedValueOnce({
+        id: "p3",
+        slug: "switching-lan",
+        modules: [
+          {
+            id: "m3",
+            lessons: fakeLessons,
+          },
+        ],
+      } as any);
+
+      vi.mocked(prisma.userLessonProgress.findMany).mockResolvedValueOnce(
+        fakeLessons.map((l) => ({ lessonId: l.id })) as any
+      );
+
+      vi.mocked(xpLedger.awardXp).mockResolvedValueOnce({
+        awarded: true,
+        amount: 150,
+        totalXp: 450,
+        message: "+150 XP",
+      });
+
+      const req = new Request("http://localhost:3000/api/challenges/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...vlanSubmission,
+          isPathFinal: true,
+        }),
+      });
+
+      const res = await challengeSubmitHandler(req);
+      expect(res.status).toBe(200);
+      const data = await res.json();
+      expect(data.passed).toBe(true);
+      expect(data.isPathFinal).toBe(true);
+
+      expect(prisma.assessmentAttempt.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            userId: "user-3",
+            assessmentId: "path-switching-lan-final",
+            score: 100,
+            passed: true,
+          }),
+        })
+      );
+    });
+  });
 });

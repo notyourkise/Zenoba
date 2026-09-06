@@ -627,7 +627,7 @@ Students independently calculate and allocate valid IPv4 networks for stated hos
 
 **Acceptance:** All P2 outcomes taught/assessed; worked example followed by independent values; invalid/overlapping plan fails.
 
-### Sprint 28 — Switching & LAN Curriculum — PLANNED
+### Sprint 28 — Switching & LAN Curriculum — IMPLEMENTED / READY FOR REVIEW
 
 **Owner:** Milestone 10 only.
 

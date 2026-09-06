@@ -57,6 +57,20 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/learn/switching-vlan-routing",
+        destination: "/learn/switching-lan",
+        permanent: true,
+      },
+      {
+        source: "/learn/switching-vlan-routing/:path*",
+        destination: "/learn/switching-lan/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

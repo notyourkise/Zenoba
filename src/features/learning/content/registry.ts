@@ -11,6 +11,10 @@ import { addressTypesModuleData } from "./ipv4-subnetting/address-types";
 import { maskCidrModuleData } from "./ipv4-subnetting/mask-cidr";
 import { subnetCalculationsModuleData } from "./ipv4-subnetting/subnet-calculations";
 import { vlsmDesignModuleData } from "./ipv4-subnetting/vlsm-design";
+import { ethernetMacModuleData } from "./switching-lan/ethernet-mac";
+import { arpBroadcastModuleData } from "./switching-lan/arp-broadcast";
+import { vlanSegmentationModuleData } from "./switching-lan/vlan-segmentation";
+import { accessTrunkModuleData } from "./switching-lan/access-trunk";
 import type { CurriculumLesson, CurriculumModule } from "./schema";
 
 /**
@@ -55,6 +59,23 @@ const CURRICULUM_REGISTRY: Record<string, CurriculumModule> = {
 
   "subnetting-dan-vlsm": vlsmDesignModuleData,
   "module-subnetting-dan-vlsm": vlsmDesignModuleData,
+
+  // Path 3: Switching & LAN
+  "ethernet-dan-mac": ethernetMacModuleData,
+  "module-ethernet-dan-mac": ethernetMacModuleData,
+
+  "arp-dan-broadcast": arpBroadcastModuleData,
+  "module-arp-dan-broadcast": arpBroadcastModuleData,
+  "switching-and-arp": arpBroadcastModuleData, // Legacy alias
+  "module-switching-and-arp": arpBroadcastModuleData,
+
+  "vlan-dan-segmentasi": vlanSegmentationModuleData,
+  "module-vlan-dan-segmentasi": vlanSegmentationModuleData,
+  "vlan-and-routing": vlanSegmentationModuleData, // Legacy alias
+  "module-vlan-and-routing": vlanSegmentationModuleData,
+
+  "access-dan-trunk": accessTrunkModuleData,
+  "module-access-dan-trunk": accessTrunkModuleData,
 };
 
 /**
@@ -63,6 +84,8 @@ const CURRICULUM_REGISTRY: Record<string, CurriculumModule> = {
 const LESSON_SLUG_ALIASES: Record<string, string> = {
   "binary-fundamentals": "biner-8-bit",
   "subnet-calculator-lab": "network-broadcast",
+  "arp-resolution-flow": "arp-request-reply",
+  "vlan-segmentation-practice": "broadcast-domain-vlan",
 };
 
 /**

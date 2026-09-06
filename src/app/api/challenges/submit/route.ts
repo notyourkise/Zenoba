@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { z } from "zod";
 import { evaluateSupportChallenge } from "@/features/challenges/support-challenge";
 import { evaluateSchoolRoomAllocation } from "@/features/learning/practice/ipv4/room-allocation";
+import { evaluateVlanRepair } from "@/features/learning/practice/switching/vlan-repair";
 import { awardXp } from "@/features/xp/ledger";
 import { prisma } from "@/lib/db/client";
 
@@ -31,9 +32,18 @@ const schoolRoomAllocationSchema = z.object({
   isPathFinal: z.boolean().optional(),
 });
 
+const staffGuestVlanRepairSchema = z.object({
+  challengeId: z.literal("staff-guest-vlan-repair"),
+  switch2Port2Vlan: z.number(),
+  trunkAllowedVlans: z.array(z.number()),
+  interVlanReasonOption: z.string().min(1),
+  isPathFinal: z.boolean().optional(),
+});
+
 const challengeSubmitSchema = z.discriminatedUnion("challengeId", [
   supportChallengeSchema,
   schoolRoomAllocationSchema,
+  staffGuestVlanRepairSchema,
 ]);
 
 export async function POST(request: Request) {
@@ -322,6 +332,141 @@ export async function POST(request: Request) {
         feedback: evaluation.feedback,
         criteriaResults: evaluation.criteriaResults,
         roomDetails: evaluation.roomDetails,
+        unmetOutcomes: evaluation.unmetOutcomes,
+        xpResult,
+        isPathFinal: !!data.isPathFinal,
+      });
+    }
+
+    // =========================================================================
+    // Challenge 3: Staff & Guest VLAN Repair (Path 3 Capstone)
+    // =========================================================================
+    if (result.data.challengeId === "staff-guest-vlan-repair") {
+      const data = result.data;
+
+      // Eligibility check when taken as Path 3 Final Assessment
+      if (data.isPathFinal) {
+        const path = await prisma.learningPath.findUnique({
+          where: { slug: "switching-lan" },
+          include: {
+            modules: {
+              where: { published: true },
+              include: {
+                lessons: {
+                  where: { published: true },
+                  select: { id: true },
+                },
+              },
+            },
+          },
+        });
+
+        if (path) {
+          const pathLessonIds = path.modules.flatMap((m) =>
+            m.lessons.map((l) => l.id)
+          );
+          const totalLessons = pathLessonIds.length;
+
+          if (totalLessons > 0) {
+            const userCompletedRecords =
+              await prisma.userLessonProgress.findMany({
+                where: {
+                  userId: user.id,
+                  lessonId: { in: pathLessonIds },
+                  status: "COMPLETED",
+                },
+                select: { lessonId: true },
+              });
+
+            const completedCount = userCompletedRecords.length;
+
+            if (completedCount < totalLessons) {
+              return NextResponse.json(
+                {
+                  error:
+                    "Prasyarat belum terpenuhi. Anda harus menyelesaikan seluruh 8 pelajaran di Switching & LAN sebelum mengambil Ujian Akhir Path.",
+                  code: "PREREQUISITES_INCOMPLETE",
+                  completedLessons: completedCount,
+                  totalLessons,
+                },
+                { status: 403 }
+              );
+            }
+          }
+        }
+      }
+
+      const evaluation = evaluateVlanRepair({
+        switch2Port2Vlan: data.switch2Port2Vlan,
+        trunkAllowedVlans: data.trunkAllowedVlans,
+        interVlanReasonOption: data.interVlanReasonOption,
+      });
+
+      let xpResult = null;
+      if (evaluation.passed) {
+        xpResult = await awardXp(
+          user.id,
+          150,
+          "CHALLENGE_SOLVED",
+          "challenge-staff-guest-vlan-repair"
+        );
+      }
+
+      // Persist to AssessmentAttempt
+      const requestId = crypto.randomUUID();
+      const assessmentId = data.isPathFinal
+        ? "path-switching-lan-final"
+        : "challenge-staff-guest-vlan-repair";
+
+      try {
+        await prisma.assessmentAttempt.create({
+          data: {
+            userId: user.id,
+            assessmentId,
+            score: evaluation.score,
+            passed: evaluation.passed,
+            answersJson: {
+              submission: data,
+              criteriaResults: evaluation.criteriaResults,
+            } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+            requestId,
+          },
+        });
+      } catch (persistErr) {
+        console.error("Failed to record assessment attempt:", persistErr);
+      }
+
+      // Also record ChallengeAttempt for standalone challenge progress
+      try {
+        const challenge = await prisma.challenge.findUnique({
+          where: { slug: "staff-guest-vlan-repair" },
+          select: { id: true },
+        });
+
+        if (challenge) {
+          await prisma.challengeAttempt.create({
+            data: {
+              userId: user.id,
+              challengeId: challenge.id,
+              score: evaluation.score,
+              passed: evaluation.passed,
+              answers: {
+                submission: data,
+                criteriaResults: evaluation.criteriaResults,
+              } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+            },
+          });
+        }
+      } catch (challengeErr) {
+        console.error("Failed to record challenge attempt:", challengeErr);
+      }
+
+      return NextResponse.json({
+        passed: evaluation.passed,
+        score: evaluation.score,
+        maxScore: evaluation.maxScore,
+        feedback: evaluation.feedback,
+        criteriaResults: evaluation.criteriaResults,
         unmetOutcomes: evaluation.unmetOutcomes,
         xpResult,
         isPathFinal: !!data.isPathFinal,

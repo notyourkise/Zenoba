@@ -559,7 +559,7 @@ Deliver four complete beginner lessons plus final test/remediation in the existi
 
 **Acceptance:** All 8 lesson outcomes visibly taught/tested; keyboard/reduced-motion controls work; unresolved network request never shows success.
 
-### Sprint 24 — Pilot Integration, Teaching Review & Reference Approval — IMPLEMENTED
+### Sprint 24 — Pilot Integration, Teaching Review & Reference Approval — MERGED (PR #31)
 
 **Owner:** Milestone 8 only.
 
@@ -575,13 +575,13 @@ Prove the complete pilot with real isolated persistence and owner teaching revie
 
 ---
 
-## Milestone 9 — Network Foundations Curriculum Completion — PLANNED
+## Milestone 9 — Network Foundations Curriculum Completion — IN PROGRESS
 
 **Goal:** Complete the remaining Network Foundations modules using the accepted reference and assess transfer through First Day as IT Support.
 
 **Entry:** M8 complete and owner-approved as the reference.
 
-### Sprint 25 — Network Foundations Content Expansion — PLANNED
+### Sprint 25 — Network Foundations Content Expansion — IMPLEMENTED
 
 **Owner:** Milestone 9 only.
 

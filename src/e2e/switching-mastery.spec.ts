@@ -38,10 +38,10 @@ test.describe("Switching & LAN Curriculum Mastery (Sprint 28)", () => {
     await expect(page.getByRole("heading", { name: /Switching & LAN/i }).first()).toBeVisible();
 
     // Verify 4 modules are rendered
-    await expect(page.getByText("Ethernet & Alamat MAC")).toBeVisible();
-    await expect(page.getByText("Protokol ARP & Broadcast Domain")).toBeVisible();
-    await expect(page.getByText("Segmentasi VLAN & Access Port")).toBeVisible();
-    await expect(page.getByText("Trunking 802.1Q & Inter-VLAN Routing")).toBeVisible();
+    await expect(page.getByRole("heading", { name: /1\. Ethernet & Alamat MAC/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /2\. Protokol ARP & Broadcast Domain/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /3\. Segmentasi VLAN & Access Port/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /4\. Trunking 802.1Q & Inter-VLAN Routing/i })).toBeVisible();
 
     // Verify Capstone Challenge banner is rendered
     await expect(

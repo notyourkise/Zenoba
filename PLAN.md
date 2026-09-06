@@ -1004,20 +1004,20 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Exit:** All P1 module outcomes taught and assessed, path final passed in authenticated E2E, old URLs/progress preserved, owner-reviewed curriculum mapping for later paths.
 
-## Milestone 10 — Core Networking Curriculum & Applied Practice — PLANNED
+## Milestone 10 — Core Networking Curriculum & Applied Practice — IN PROGRESS
 
 **Goal:** Deliver Paths 2–5 with measurable objectives, complete lessons, module gates, linked practice, and path-level troubleshooting evidence.
 
 **Dependency:** M9 complete; S26 approves exact lesson/URL migration before path restructuring.
 
-### Sprint 27 — IPv4 & Subnetting Curriculum
+### Sprint 27 — IPv4 & Subnetting Curriculum — COMPLETE
 
 **Exclusive owner:** M10. **Required context:** M9 closeout; matrix P2-M1–M5; Sprint 7 domain/tests; IPv4/SubnetPractice and accepted content contracts.
 
-- [ ] Task 27.1: Author P2-L01–L10 and module assessments covering biner, address types, masks, host bounds, subnetting and VLSM.
-- [ ] Task 27.2: Link existing subnet/IP labs with shared identity and add path-final room-allocation evidence.
-- [ ] Task 27.3: Validate calculations, capacity/overlap, bad inputs and boundary prefixes with deterministic domain tests and authenticated path E2E.
-- [ ] Task 27.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
+- [x] Task 27.1: Author P2-L01–L10 and module assessments covering biner, address types, masks, host bounds, subnetting and VLSM.
+- [x] Task 27.2: Link existing subnet/IP labs with shared identity and add path-final room-allocation evidence.
+- [x] Task 27.3: Validate calculations, capacity/overlap, bad inputs and boundary prefixes with deterministic domain tests and authenticated path E2E.
+- [x] Task 27.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
 
 **Acceptance:** All P2 outcomes taught/assessed; worked example followed by independent values; invalid/overlapping plan fails.
 

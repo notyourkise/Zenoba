@@ -974,13 +974,13 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Exit:** Four complete lessons, full outcome-to-evidence coverage, authentic database/E2E proof, preserved legacy identities, no Critical/High findings, and owner acceptance of the reusable reference.
 
-## Milestone 9 — Network Foundations Curriculum Completion — PLANNED
+## Milestone 9 — Network Foundations Curriculum Completion — IMPLEMENTED / READY FOR REVIEW
 
 **Goal:** Complete the remaining Network Foundations modules using the accepted reference and assess transfer through First Day as IT Support.
 
 **Dependency:** M8 complete and owner-approved as the reference.
 
-### Sprint 25 — Network Foundations Content Expansion
+### Sprint 25 — Network Foundations Content Expansion — COMPLETE
 
 **Exclusive owner:** M9. **Required context:** M8 reference review; matrix P1-M2–M8; original Sprint 5–6 coverage; device/topology/cable/OSI/encapsulation blocks.
 
@@ -991,14 +991,14 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Acceptance:** Every listed P1 lesson is authored; no heading-plus-reward lesson; no IP arithmetic assessed before Path 2.
 
-### Sprint 26 — Foundations Final Challenge & Path Migration Contract
+### Sprint 26 — Foundations Final Challenge & Path Migration Contract — COMPLETE
 
 **Exclusive owner:** M9. **Required context:** S25 curriculum; `support-challenge.ts`, `/api/challenges/submit`, `queries.ts`, prerequisite graph, schema Course relationship.
 
-- [ ] Task 26.1: Align First Day as IT Support to P1 outcomes; grade inventory/topology/diagnosis evidence through a shared activity identity.
-- [ ] Task 26.2: Implement/test P1 final eligibility and persistence; keep standalone challenge replay from duplicating rewards.
-- [ ] Task 26.3: Inventory all old lesson IDs/URLs/progress and document explicit source→destination mapping for later paths; obtain review before writes.
-- [ ] Task 26.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
+- [x] Task 26.1: Align First Day as IT Support to P1 outcomes; grade inventory/topology/diagnosis evidence through a shared activity identity.
+- [x] Task 26.2: Implement/test P1 final eligibility and persistence; keep standalone challenge replay from duplicating rewards.
+- [x] Task 26.3: Inventory all old lesson IDs/URLs/progress and document explicit source→destination mapping for later paths; obtain review before writes.
+- [x] Task 26.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
 
 **Acceptance:** P1 final rejects ineligible/spoofed attempts; all old links resolve; mappings retain progress and preserve FREE access.
 

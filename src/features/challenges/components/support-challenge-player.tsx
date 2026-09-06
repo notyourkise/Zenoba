@@ -1,20 +1,34 @@
 "use client";
 
 import React, { useState } from "react";
-import { CheckCircle2, Award, ShieldAlert, Sparkles, Loader2 } from "lucide-react";
+import { CheckCircle2, Award, ShieldAlert, Sparkles, Loader2, AlertCircle } from "lucide-react";
 
-export function SupportChallengePlayer() {
+interface SupportChallengePlayerProps {
+  isPathFinal?: boolean;
+}
+
+export function SupportChallengePlayer({ isPathFinal }: SupportChallengePlayerProps) {
   const [selectedDevices, setSelectedDevices] = useState<string[]>([]);
   const [topology, setTopology] = useState<string>("star");
   const [troubleshoot, setTroubleshoot] = useState<string>("check_layer1_cable");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{
-    passed: boolean;
-    score: number;
+    passed?: boolean;
+    score?: number;
     maxScore?: number;
-    feedback: string[];
+    feedback?: string[];
+    outcomeResults?: Array<{
+      outcomeId: string;
+      title: string;
+      passed: boolean;
+      feedback: string;
+    }>;
+    unmetOutcomes?: string[];
     xpResult?: { awarded: boolean; amount: number; totalXp: number } | null;
+    error?: string;
+    completedLessons?: number;
+    totalLessons?: number;
   } | null>(null);
 
   const inventoryOptions = [
@@ -43,6 +57,7 @@ export function SupportChallengePlayer() {
           selectedDeviceIds: selectedDevices,
           topologyChoice: topology,
           troubleshootAnswer: troubleshoot,
+          isPathFinal,
         }),
       });
 
@@ -50,7 +65,8 @@ export function SupportChallengePlayer() {
       setResult(data);
       setSubmitted(true);
     } catch {
-      // Fallback
+      setResult({ error: "Gagal mengirim jawaban. Periksa koneksi jaringan Anda." });
+      setSubmitted(true);
     } finally {
       setLoading(false);
     }
@@ -174,35 +190,95 @@ export function SupportChallengePlayer() {
       {/* Result Display */}
       {submitted && result && (
         <div
-          className={`p-6 rounded-2xl border space-y-3 ${
-            result.passed
+          className={`p-6 rounded-2xl border space-y-4 ${
+            result.error
+              ? "bg-red-50/80 dark:bg-red-950/40 border-red-300 dark:border-red-800 text-red-900 dark:text-red-200"
+              : result.passed
               ? "bg-green-50/80 dark:bg-green-950/40 border-green-300 dark:border-green-800 text-green-900 dark:text-green-200"
               : "bg-amber-50/80 dark:bg-amber-950/40 border-amber-300 dark:border-amber-800 text-amber-900 dark:text-amber-200"
           }`}
         >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 font-bold text-base">
-              {result.passed ? (
-                <CheckCircle2 className="w-6 h-6 text-green-600" />
-              ) : (
-                <ShieldAlert className="w-6 h-6 text-amber-600" />
+          {result.error ? (
+            <div className="flex items-start space-x-3">
+              <AlertCircle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
+              <div>
+                <h4 className="font-bold text-sm">Akses Ujian Akhir Terkunci</h4>
+                <p className="text-xs mt-1 leading-relaxed opacity-95">{result.error}</p>
+                {result.completedLessons !== undefined && result.totalLessons !== undefined && (
+                  <p className="text-xs mt-2 font-semibold">
+                    Kemajuan Anda: {result.completedLessons} dari {result.totalLessons} materi selesai.
+                  </p>
+                )}
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2 font-bold text-base">
+                  {result.passed ? (
+                    <CheckCircle2 className="w-6 h-6 text-green-600" />
+                  ) : (
+                    <ShieldAlert className="w-6 h-6 text-amber-600" />
+                  )}
+                  <span>{result.passed ? "Tantangan Berhasil Diselesaikan!" : "Skor Belum Mencapai Syarat Kelulusan"}</span>
+                </div>
+                <span className="font-extrabold text-lg">Skor: {result.score} / {result.maxScore}</span>
+              </div>
+
+              {result.feedback && result.feedback.length > 0 && (
+                <ul className="list-disc pl-5 space-y-1 text-xs opacity-90">
+                  {result.feedback.map((f, i) => (
+                    <li key={i}>{f}</li>
+                  ))}
+                </ul>
               )}
-              <span>{result.passed ? "Tantangan Berhasil Diselesaikan!" : "Skor Belum Mencapai Syarat Kelulusan"}</span>
-            </div>
-            <span className="font-extrabold text-lg">Skor: {result.score} / {result.maxScore}</span>
-          </div>
 
-          <ul className="list-disc pl-5 space-y-1 text-xs opacity-90">
-            {result.feedback.map((f, i) => (
-              <li key={i}>{f}</li>
-            ))}
-          </ul>
+              {/* Learning Outcomes Badges */}
+              {result.outcomeResults && result.outcomeResults.length > 0 && (
+                <div className="pt-3 border-t border-gray-200/60 dark:border-gray-700/60 space-y-2">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300">
+                    Pencapaian Capstone Outcomes Path 1:
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {result.outcomeResults.map((outcome) => (
+                      <div
+                        key={outcome.outcomeId}
+                        className={`p-2.5 rounded-xl border text-xs flex items-start space-x-2 ${
+                          outcome.passed
+                            ? "border-green-300 dark:border-green-800 bg-green-100/50 dark:bg-green-950/40 text-green-900 dark:text-green-200"
+                            : "border-red-300 dark:border-red-800 bg-red-100/50 dark:bg-red-950/40 text-red-900 dark:text-red-200"
+                        }`}
+                      >
+                        <span
+                          className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold mt-0.5 flex-shrink-0 ${
+                            outcome.passed
+                              ? "bg-green-600 text-white"
+                              : "bg-red-600 text-white"
+                          }`}
+                        >
+                          {outcome.passed ? "✓" : "✕"}
+                        </span>
+                        <div>
+                          <span className="font-mono font-bold text-[11px] block">
+                            [{outcome.outcomeId}] {outcome.title}
+                          </span>
+                          <p className="text-[11px] mt-0.5 opacity-90">
+                            {outcome.feedback}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-          {result.xpResult?.awarded && (
-            <div className="inline-flex items-center space-x-1.5 px-3 py-1 bg-green-200 dark:bg-green-900 text-green-900 dark:text-green-100 rounded-full text-xs font-bold mt-2">
-              <Sparkles className="w-4 h-4 text-green-700" />
-              <span>Reward: +{result.xpResult.amount} XP Ditambahkan ke Buku Besar! Total XP: {result.xpResult.totalXp} XP</span>
-            </div>
+              {result.xpResult?.awarded && (
+                <div className="inline-flex items-center space-x-1.5 px-3 py-1 bg-green-200 dark:bg-green-900 text-green-900 dark:text-green-100 rounded-full text-xs font-bold mt-2">
+                  <Sparkles className="w-4 h-4 text-green-700" />
+                  <span>Reward: +{result.xpResult.amount} XP Ditambahkan ke Buku Besar! Total XP: {result.xpResult.totalXp} XP</span>
+                </div>
+              )}
+            </>
           )}
         </div>
       )}

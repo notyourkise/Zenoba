@@ -13,6 +13,11 @@ import { networkDevicesModuleData } from "../src/features/learning/content/netwo
 import { physicalMediaCablingModuleData } from "../src/features/learning/content/network-foundations/media-cabling";
 import { howDataTravelsModuleData } from "../src/features/learning/content/network-foundations/how-data-travels";
 import { osiTcpipModuleData } from "../src/features/learning/content/network-foundations/osi-tcpip";
+import { binaryIpv4ModuleData } from "../src/features/learning/content/ipv4-subnetting/binary-ipv4";
+import { addressTypesModuleData } from "../src/features/learning/content/ipv4-subnetting/address-types";
+import { maskCidrModuleData } from "../src/features/learning/content/ipv4-subnetting/mask-cidr";
+import { subnetCalculationsModuleData } from "../src/features/learning/content/ipv4-subnetting/subnet-calculations";
+import { vlsmDesignModuleData } from "../src/features/learning/content/ipv4-subnetting/vlsm-design";
 
 async function main() {
   console.log("🌱 Seeding Paths 1 to 5 (Full Curriculum)...");
@@ -133,7 +138,7 @@ async function main() {
   }
 
   // ==========================================
-  // PATH 2: IPv4 & Subnetting
+  // PATH 2: IPv4 & Subnetting (Full 5 Modules, 10 Lessons)
   // ==========================================
   const path2 = await upsertPath(
     "ipv4-subnetting",
@@ -143,28 +148,107 @@ async function main() {
     2
   );
 
-  const mod9 = await upsertModule(path2.id, "binary-ipv4-structure", "1. Biner & Struktur IPv4", "Konversi bit dan anatomi alamat 32-bit.", 1);
-  const l9_1 = await upsertLesson(mod9.id, "binary-fundamentals", "Konversi Biner ke Desimal", "Latihan 8-bit octet dan powers of two.", 1, 75, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Dasar Sistem Biner dalam IPv4" },
-      { type: "interactive", interactiveType: "binary_converter", config: {} },
-      { type: "reward", xp: 75, message: "Pelajaran biner selesai!" },
-    ],
-  });
+  const path2Modules = [
+    binaryIpv4ModuleData,
+    addressTypesModuleData,
+    maskCidrModuleData,
+    subnetCalculationsModuleData,
+    vlsmDesignModuleData,
+  ];
 
-  const mod10 = await upsertModule(path2.id, "subnet-calculations", "2. Kalkulasi Subnetting", "Menghitung Network ID, Broadcast, dan Usable Host.", 2);
-  const l10_1 = await upsertLesson(mod10.id, "subnet-calculator-lab", "Kalkulator Subnet & Pembagian Host", "Praktek menghitung parameter subnet.", 1, 100, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Kalkulasi Subnetting Interaktif" },
-      { type: "interactive", interactiveType: "subnet_calculator", config: {} },
-      { type: "interactive", interactiveType: "subnet_practice", config: {} },
-      { type: "reward", xp: 100, message: "Kalkulasi subnetting selesai!" },
-    ],
-  });
+  const path2Lessons: Record<string, { id: string }> = {};
 
-  await connectPrereq(l10_1.id, l9_1.id);
+  for (let mIdx = 0; mIdx < path2Modules.length; mIdx++) {
+    const modData = path2Modules[mIdx];
+    const moduleRecord = await upsertModule(
+      path2.id,
+      modData.slug,
+      `${mIdx + 1}. ${modData.title}`,
+      modData.description,
+      mIdx + 1
+    );
+
+    for (const lesson of modData.lessons) {
+      path2Lessons[lesson.slug] = await upsertLesson(
+        moduleRecord.id,
+        lesson.slug,
+        lesson.title,
+        lesson.description,
+        lesson.orderIndex + 1,
+        lesson.xpReward,
+        lesson.content
+      );
+    }
+  }
+
+  // Connect prerequisites for all Path 2 lessons (P2-L01 -> P2-L02 -> ... -> P2-L10)
+  for (const modData of path2Modules) {
+    for (const lesson of modData.lessons) {
+      for (const prereqSlug of lesson.prerequisites) {
+        if (path2Lessons[prereqSlug] && path2Lessons[lesson.slug]) {
+          await connectPrereq(
+            path2Lessons[lesson.slug].id,
+            path2Lessons[prereqSlug].id
+          );
+        }
+      }
+    }
+  }
+
+  // Migrate progress from legacy prototype lessons if they exist in the database
+  const legacyBinary = await prisma.lesson.findFirst({
+    where: { slug: "binary-fundamentals" },
+    include: { userProgress: true },
+  });
+  if (legacyBinary && path2Lessons["biner-8-bit"]) {
+    for (const prog of legacyBinary.userProgress) {
+      await prisma.userLessonProgress.upsert({
+        where: {
+          userId_lessonId: {
+            userId: prog.userId,
+            lessonId: path2Lessons["biner-8-bit"].id,
+          },
+        },
+        update: { status: prog.status, completedAt: prog.completedAt },
+        create: {
+          userId: prog.userId,
+          lessonId: path2Lessons["biner-8-bit"].id,
+          status: prog.status,
+          completedAt: prog.completedAt,
+        },
+      });
+    }
+    await prisma.module.deleteMany({
+      where: { pathId: path2.id, slug: "binary-ipv4-structure" },
+    });
+  }
+
+  const legacySubnetLab = await prisma.lesson.findFirst({
+    where: { slug: "subnet-calculator-lab" },
+    include: { userProgress: true },
+  });
+  if (legacySubnetLab && path2Lessons["network-broadcast"]) {
+    for (const prog of legacySubnetLab.userProgress) {
+      await prisma.userLessonProgress.upsert({
+        where: {
+          userId_lessonId: {
+            userId: prog.userId,
+            lessonId: path2Lessons["network-broadcast"].id,
+          },
+        },
+        update: { status: prog.status, completedAt: prog.completedAt },
+        create: {
+          userId: prog.userId,
+          lessonId: path2Lessons["network-broadcast"].id,
+          status: prog.status,
+          completedAt: prog.completedAt,
+        },
+      });
+    }
+    await prisma.module.deleteMany({
+      where: { pathId: path2.id, slug: "subnet-calculations" },
+    });
+  }
 
   // ==========================================
   // PATH 3: Switching, VLAN & Routing

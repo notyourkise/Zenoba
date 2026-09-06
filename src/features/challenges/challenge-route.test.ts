@@ -243,4 +243,218 @@ describe("POST /api/challenges/submit", () => {
     expect(data.passed).toBe(true);
     expect(data.xpResult.awarded).toBe(false);
   });
+
+  describe("school-room-allocation (Path 2 Capstone)", () => {
+    const validSchoolAllocations = [
+      {
+        roomId: "lab-tkj",
+        roomName: "Lab Komputer TKJ",
+        requiredHosts: 50,
+        prefix: 26,
+        networkAddress: "192.168.10.0",
+        gateway: "192.168.10.1",
+        broadcastAddress: "192.168.10.63",
+      },
+      {
+        roomId: "ruang-guru",
+        roomName: "Ruang Guru & Staff",
+        requiredHosts: 25,
+        prefix: 27,
+        networkAddress: "192.168.10.64",
+        gateway: "192.168.10.65",
+        broadcastAddress: "192.168.10.95",
+      },
+      {
+        roomId: "ruang-tu",
+        roomName: "Ruang Tata Usaha (TU)",
+        requiredHosts: 12,
+        prefix: 28,
+        networkAddress: "192.168.10.96",
+        gateway: "192.168.10.97",
+        broadcastAddress: "192.168.10.111",
+      },
+      {
+        roomId: "server-mgmt",
+        roomName: "Server & Manajemen Jaringan",
+        requiredHosts: 5,
+        prefix: 29,
+        networkAddress: "192.168.10.112",
+        gateway: "192.168.10.113",
+        broadcastAddress: "192.168.10.119",
+      },
+      {
+        roomId: "link-p2p",
+        roomName: "Link Point-to-Point Router-ke-Firewall",
+        requiredHosts: 2,
+        prefix: 30,
+        networkAddress: "192.168.10.120",
+        gateway: "192.168.10.121",
+        broadcastAddress: "192.168.10.123",
+      },
+    ];
+
+    const schoolSubmission = {
+      challengeId: "school-room-allocation",
+      baseNetwork: "192.168.10.0/24",
+      allocations: validSchoolAllocations,
+    };
+
+    it("evaluates school-room-allocation submission and awards 200 XP when passed", async () => {
+      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+        id: "user-2",
+        email: "student@example.com",
+      });
+
+      vi.mocked(xpLedger.awardXp).mockResolvedValueOnce({
+        awarded: true,
+        amount: 200,
+        totalXp: 450,
+        message: "+200 XP",
+      });
+
+      vi.mocked(prisma.challenge.findUnique).mockResolvedValueOnce({
+        id: "ch-2",
+        slug: "school-room-allocation",
+      } as any);
+
+      const req = new Request("http://localhost:3000/api/challenges/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(schoolSubmission),
+      });
+
+      const res = await challengeSubmitHandler(req);
+      const data = await res.json();
+
+      expect(res.status).toBe(200);
+      expect(data.passed).toBe(true);
+      expect(data.score).toBe(100);
+      expect(data.criteriaResults).toHaveLength(5);
+      expect(xpLedger.awardXp).toHaveBeenCalledWith(
+        "user-2",
+        200,
+        "CHALLENGE_SOLVED",
+        "challenge-school-room-allocation"
+      );
+
+      expect(prisma.assessmentAttempt.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            userId: "user-2",
+            assessmentId: "challenge-school-room-allocation",
+            score: 100,
+            passed: true,
+          }),
+        })
+      );
+
+      expect(prisma.challengeAttempt.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            userId: "user-2",
+            challengeId: "ch-2",
+            score: 100,
+            passed: true,
+          }),
+        })
+      );
+    });
+
+    it("rejects school-room-allocation with 403 when submitted as isPathFinal: true and user has incomplete lessons", async () => {
+      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+        id: "user-2",
+        email: "student@example.com",
+      });
+
+      // 10 lessons in path 2
+      const fakeLessons = Array.from({ length: 10 }, (_, i) => ({ id: `p2-lesson-${i + 1}` }));
+      vi.mocked(prisma.learningPath.findUnique).mockResolvedValueOnce({
+        id: "p2",
+        slug: "ipv4-subnetting",
+        modules: [
+          {
+            id: "m2",
+            lessons: fakeLessons,
+          },
+        ],
+      } as any);
+
+      // User has completed only 7 lessons
+      vi.mocked(prisma.userLessonProgress.findMany).mockResolvedValueOnce(
+        fakeLessons.slice(0, 7).map((l) => ({ lessonId: l.id })) as any
+      );
+
+      const req = new Request("http://localhost:3000/api/challenges/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...schoolSubmission,
+          isPathFinal: true,
+        }),
+      });
+
+      const res = await challengeSubmitHandler(req);
+      expect(res.status).toBe(403);
+      const data = await res.json();
+      expect(data.code).toBe("PREREQUISITES_INCOMPLETE");
+      expect(data.completedLessons).toBe(7);
+      expect(data.totalLessons).toBe(10);
+    });
+
+    it("allows school-room-allocation when user completed all 10 lessons in path 2", async () => {
+      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+        id: "user-2",
+        email: "student@example.com",
+      });
+
+      const fakeLessons = Array.from({ length: 10 }, (_, i) => ({ id: `p2-lesson-${i + 1}` }));
+      vi.mocked(prisma.learningPath.findUnique).mockResolvedValueOnce({
+        id: "p2",
+        slug: "ipv4-subnetting",
+        modules: [
+          {
+            id: "m2",
+            lessons: fakeLessons,
+          },
+        ],
+      } as any);
+
+      vi.mocked(prisma.userLessonProgress.findMany).mockResolvedValueOnce(
+        fakeLessons.map((l) => ({ lessonId: l.id })) as any
+      );
+
+      vi.mocked(xpLedger.awardXp).mockResolvedValueOnce({
+        awarded: true,
+        amount: 200,
+        totalXp: 500,
+        message: "+200 XP",
+      });
+
+      const req = new Request("http://localhost:3000/api/challenges/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...schoolSubmission,
+          isPathFinal: true,
+        }),
+      });
+
+      const res = await challengeSubmitHandler(req);
+      expect(res.status).toBe(200);
+      const data = await res.json();
+      expect(data.passed).toBe(true);
+      expect(data.isPathFinal).toBe(true);
+
+      expect(prisma.assessmentAttempt.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            userId: "user-2",
+            assessmentId: "path-ipv4-subnetting-final",
+            score: 100,
+            passed: true,
+          }),
+        })
+      );
+    });
+  });
 });

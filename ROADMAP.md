@@ -609,13 +609,13 @@ Verify P1 mastery and define safe mappings before reorganizing Paths 3–4 or ad
 
 ---
 
-## Milestone 10 — Core Networking Curriculum & Applied Practice — PLANNED
+## Milestone 10 — Core Networking Curriculum & Applied Practice — IN PROGRESS
 
 **Goal:** Deliver Paths 2–5 with measurable objectives, complete lessons, module gates, linked practice, and path-level troubleshooting evidence.
 
 **Entry:** M9 complete; S26 approves exact lesson/URL migration before path restructuring.
 
-### Sprint 27 — IPv4 & Subnetting Curriculum — PLANNED
+### Sprint 27 — IPv4 & Subnetting Curriculum — IMPLEMENTED
 
 **Owner:** Milestone 10 only.
 

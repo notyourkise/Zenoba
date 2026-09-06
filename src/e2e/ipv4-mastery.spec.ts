@@ -1,0 +1,131 @@
+import { expect, test } from "@playwright/test";
+import { createAndSignInLearner } from "./fixtures/learning-user";
+
+test.describe("IPv4 & Subnetting Curriculum Mastery (Sprint 27)", () => {
+  test("1. Enforces authentication on IPv4 learn path and capstone challenge routes", async ({
+    page,
+    request,
+  }) => {
+    // Unauthenticated access to Path 2 syllabus
+    await page.goto("/learn/ipv4-subnetting");
+    await expect(page).toHaveURL(/.*sign-in.*callbackUrl=%2Flearn%2Fipv4-subnetting/);
+
+    // Unauthenticated access to Path 2 Capstone Challenge
+    await page.goto("/challenges/school-room-allocation");
+    await expect(page).toHaveURL(/.*sign-in.*callbackUrl=%2Fchallenges%2Fschool-room-allocation/);
+
+    // Unauthenticated API submission rejection
+    const apiRes = await request.post("/api/challenges/submit", {
+      data: {
+        challengeId: "school-room-allocation",
+        allocations: [],
+      },
+    });
+    expect(apiRes.status()).toBe(401);
+  });
+
+  test("2. Displays all 5 modules, 10 lessons, and capstone challenge on Path 2 page", async ({
+    page,
+  }) => {
+    await createAndSignInLearner(page);
+
+    await page.goto("/learn/ipv4-subnetting");
+    await page.waitForLoadState("networkidle");
+
+    // Path header
+    await expect(page.getByRole("heading", { name: /IPv4 & Subnetting/i }).first()).toBeVisible();
+
+    // Verify 5 modules are rendered
+    await expect(page.getByText("Biner & Anatomi Struktur IPv4")).toBeVisible();
+    await expect(page.getByText("Klasifikasi & Jenis Alamat IPv4")).toBeVisible();
+    await expect(page.getByText("Subnet Mask & Notasi CIDR")).toBeVisible();
+    await expect(page.getByText("Kalkulasi Parameter Subnetting")).toBeVisible();
+    await expect(page.getByText("Pembagian Subnet (FLSM) & Desain VLSM")).toBeVisible();
+
+    // Verify Capstone Challenge banner is rendered
+    await expect(page.getByText("Desain Pembagian Subnet Multi-Ruangan Sekolah")).toBeVisible();
+    await expect(page.getByText(/Terkunci • Selesaikan 10 materi lagi/i)).toBeVisible();
+  });
+
+  test("3. Renders Lesson 1 with interactive binary converter and prevents answer leakage", async ({
+    page,
+  }) => {
+    await createAndSignInLearner(page);
+
+    await page.goto("/learn/ipv4-subnetting/biner-dan-ipv4/biner-8-bit");
+    await page.waitForLoadState("networkidle");
+
+    // Lesson Title
+    await expect(
+      page.getByRole("heading", { name: "Sistem Bilangan Biner 8-Bit" }).first()
+    ).toBeVisible();
+
+    // Learning outcomes section
+    await expect(page.getByRole("region", { name: /Capaian Pembelajaran Pelajaran/i })).toBeVisible();
+    await expect(page.getByText("BIN-L1-A")).toBeVisible();
+
+    // Interactive Binary Converter component
+    await expect(page.getByText(/Interactive 8-Bit Binary to Decimal Converter/i)).toBeVisible();
+
+    // Knowledge check block
+    const quiz = page.locator(".my-8").filter({ hasText: "Knowledge Check" }).first();
+    await expect(quiz).toBeVisible();
+
+    // Ensure server-only misconception feedback is not leaked in the initial DOM
+    const content = await page.content();
+    expect(content).not.toContain("misconceptionFeedback");
+    expect(content).not.toContain("Ingat urutan deret bobot 8-bit");
+  });
+
+  test("4. Formative quiz interaction in Lesson 1: incorrect retry and correct pass", async ({
+    page,
+  }) => {
+    await createAndSignInLearner(page);
+
+    await page.goto("/learn/ipv4-subnetting/biner-dan-ipv4/biner-8-bit");
+    await page.waitForLoadState("networkidle");
+
+    // Locate the first quiz block
+    const quiz = page.locator(".my-8").filter({ hasText: "Knowledge Check" }).first();
+    await expect(quiz).toBeVisible();
+
+    // 1. Submit incorrect answer (64 is option A, correct is 128)
+    await quiz.getByRole("button", { name: "64", exact: true }).click();
+    await quiz.getByRole("button", { name: "Kirim Jawaban" }).click();
+
+    // Verify feedback and retry button appear
+    await expect(quiz.getByRole("button", { name: "Coba Lagi" })).toBeVisible();
+
+    // 2. Retry with correct answer (128 is option B)
+    await quiz.getByRole("button", { name: "Coba Lagi" }).click();
+    await quiz.getByRole("button", { name: "128", exact: true }).click();
+    await quiz.getByRole("button", { name: "Kirim Jawaban" }).click();
+
+    // Verify pass feedback
+    await expect(quiz.getByText("Jawaban Anda tepat!")).toBeVisible();
+  });
+
+  test("5. Renders Capstone Challenge player with 5 room allocation forms", async ({
+    page,
+  }) => {
+    await createAndSignInLearner(page);
+
+    await page.goto("/challenges/school-room-allocation");
+    await page.waitForLoadState("networkidle");
+
+    // Header and description
+    await expect(
+      page.getByRole("heading", { name: "Desain Pembagian Subnet Multi-Ruangan SMK TKJ" }).first()
+    ).toBeVisible();
+
+    // Verify all 5 room cards are rendered
+    await expect(page.getByText("Lab Komputer TKJ")).toBeVisible();
+    await expect(page.getByText("Ruang Guru & Staff")).toBeVisible();
+    await expect(page.getByText("Ruang Tata Usaha (TU)")).toBeVisible();
+    await expect(page.getByText("Server & Manajemen Jaringan")).toBeVisible();
+    await expect(page.getByText("Link Point-to-Point Router-ke-Firewall")).toBeVisible();
+
+    // Submit button is present
+    await expect(page.getByRole("button", { name: /Kirim Solusi Subnetting/i })).toBeVisible();
+  });
+});

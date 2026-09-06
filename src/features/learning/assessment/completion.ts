@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db/client";
 import { welcomeFormativeQuestions } from "@/features/learning/assessment/welcome.server";
 import { foundationsFormativeQuestions } from "@/features/learning/assessment/foundations.server";
+import { ipv4FormativeQuestions } from "@/features/learning/assessment/ipv4.server";
 import { AssessmentNotFoundError } from "./errors";
 
 export interface LessonCompletionDecision {
@@ -57,6 +58,7 @@ export async function getLessonCompletionDecision(
   const allFormativeQuestions = [
     ...welcomeFormativeQuestions,
     ...foundationsFormativeQuestions,
+    ...ipv4FormativeQuestions,
   ];
   const requiredQuestions = allFormativeQuestions.filter(
     (q) => q.lessonSlug === lesson.slug

@@ -965,10 +965,10 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Exclusive owner:** M8. **Required context:** S21–23 merged work; actual CI/Playwright config; `src/e2e/lesson-loop.spec.ts`; AGENTS sprint/milestone gates.
 
-- [ ] Task 24.1: Add two-user authenticated E2E and isolated PostgreSQL/server setup.
-- [ ] Task 24.2: Review outcome coverage, responsive/accessibility behavior, legacy records, and dependent feature regressions.
-- [ ] Task 24.3: Run full gates, deliver PR/CI, obtain owner reference acceptance and verify merge synchronization.
-- [ ] Task 24.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
+- [x] Task 24.1: Add two-user authenticated E2E and isolated PostgreSQL/server setup.
+- [x] Task 24.2: Review outcome coverage, responsive/accessibility behavior, legacy records, and dependent feature regressions.
+- [x] Task 24.3: Run full gates, deliver PR/CI, obtain owner reference acceptance and verify merge synchronization.
+- [x] Task 24.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
 
 **Acceptance:** Fail→remediate→retry→pass→reload→unlock is verified; spoofed evidence denied; owner accepts before bulk authoring.
 

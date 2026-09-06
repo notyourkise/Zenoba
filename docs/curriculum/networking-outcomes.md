@@ -113,7 +113,7 @@ Path final: Small Office proposal covering requirement evidence, BoQ, topology, 
 
 ## Cross-path validation and migration
 
-Map current `switching-vlan-routing` content to Paths 3 and 4; keep old URLs resolving to the corresponding preserved lesson. Map current `network-services` into Path 4 without silently changing historical identity. Path 6 is a new instructional sequence, not proof that current Consultant UI has authored lessons. Preserve Path 1/2/5 slugs where possible. Exact redirect and progress mapping is reviewed in Sprint 26 before writing new path records.
+Map current `switching-vlan-routing` content to Paths 3 and 4; keep old URLs resolving to the corresponding preserved lesson. Map current `network-services` into Path 4 without silently changing historical identity. Path 6 is a new instructional sequence, not proof that current Consultant UI has authored lessons. Preserve Path 1/2/5 slugs where possible. Exact redirect and progress mapping is reviewed in Sprint 26 before writing new path records (see [Path Migration Contract](path-migration-mapping.md)).
 
 Each path final must test a new situation using already-taught knowledge. Lab/challenge completions reached through the catalog or a lesson use the same activity identity; no duplicated rewards. The graph must have no prerequisite cycle and no path that can award mastery without its required evidence.
 

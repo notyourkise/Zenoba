@@ -575,13 +575,13 @@ Prove the complete pilot with real isolated persistence and owner teaching revie
 
 ---
 
-## Milestone 9 — Network Foundations Curriculum Completion — IN PROGRESS
+## Milestone 9 — Network Foundations Curriculum Completion — IMPLEMENTED / READY FOR REVIEW
 
 **Goal:** Complete the remaining Network Foundations modules using the accepted reference and assess transfer through First Day as IT Support.
 
 **Entry:** M8 complete and owner-approved as the reference.
 
-### Sprint 25 — Network Foundations Content Expansion — IMPLEMENTED
+### Sprint 25 — Network Foundations Content Expansion — COMPLETE
 
 **Owner:** Milestone 9 only.
 
@@ -593,7 +593,7 @@ Author remaining P1 modules as complete learning experiences with individual out
 
 **Acceptance:** Every listed P1 lesson is authored; no heading-plus-reward lesson; no IP arithmetic assessed before Path 2.
 
-### Sprint 26 — Foundations Final Challenge & Path Migration Contract — PLANNED
+### Sprint 26 — Foundations Final Challenge & Path Migration Contract — IMPLEMENTED
 
 **Owner:** Milestone 9 only.
 

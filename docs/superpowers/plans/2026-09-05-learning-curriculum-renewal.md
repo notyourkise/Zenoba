@@ -164,18 +164,18 @@ Content-sprint test cycle: write failing coverage/scoring fixtures for the named
 
 ### Sprint 26 — Foundations Final Challenge & Path Migration Contract
 
-**Owner:** M9 only. **Status:** PLANNED; implementation not started.
+**Owner:** M9 only. **Status:** IMPLEMENTED; ready for review.
 
 **Goal:** Verify P1 mastery and define safe mappings before reorganizing Paths 3–4 or adding Path 6.
 
 **Required context:** S25 curriculum; `support-challenge.ts`, `/api/challenges/submit`, `queries.ts`, prerequisite graph, schema Course relationship.
 
-**Affected files/modules:** Existing challenge engine/API/tests; planned `docs/curriculum/path-migration-map.md`, `src/e2e/network-foundations-mastery.spec.ts`.
+**Affected files/modules:** Existing challenge engine/API/tests; `docs/curriculum/path-migration-mapping.md`, `src/app/(app)/challenges/[challengeSlug]/page.tsx`, `src/app/(app)/learn/[pathSlug]/page.tsx`.
 
-- [ ] **Task 26.1:** Align First Day as IT Support to P1 outcomes; grade inventory/topology/diagnosis evidence through a shared activity identity.
-- [ ] **Task 26.2:** Implement/test P1 final eligibility and persistence; keep standalone challenge replay from duplicating rewards.
-- [ ] **Task 26.3:** Inventory all old lesson IDs/URLs/progress and document explicit source→destination mapping for later paths; obtain review before writes.
-- [ ] **Task 26.4 — Review and delivery:** Apply the common verification gate, record actual outcome coverage and evidence, resolve Critical/High findings, update documentation, and complete owner PR review/merge before claiming sprint completion.
+- [x] **Task 26.1:** Align First Day as IT Support to P1 outcomes; grade inventory/topology/diagnosis evidence through a shared activity identity.
+- [x] **Task 26.2:** Implement/test P1 final eligibility and persistence; keep standalone challenge replay from duplicating rewards.
+- [x] **Task 26.3:** Inventory all old lesson IDs/URLs/progress and document explicit source→destination mapping for later paths; obtain review before writes.
+- [x] **Task 26.4 — Review and delivery:** Apply the common verification gate, record actual outcome coverage and evidence, resolve Critical/High findings, update documentation, and complete owner PR review/merge before claiming sprint completion.
 
 **Validation / acceptance:** P1 final rejects ineligible/spoofed attempts; all old links resolve; mappings retain progress and preserve FREE access.
 

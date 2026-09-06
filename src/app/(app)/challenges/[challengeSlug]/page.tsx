@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth";
 import { ChallengeRunner, ChallengeDef } from "@/features/challenges/components/challenge-runner";
+import { SupportChallengePlayer } from "@/features/challenges/components/support-challenge-player";
 
 const CHALLENGE_DETAILS: Record<string, ChallengeDef> = {
   "branch-office-down": {
@@ -68,9 +69,28 @@ const CHALLENGE_DETAILS: Record<string, ChallengeDef> = {
 
 export default async function ChallengeDetailPage(props: {
   params: Promise<{ challengeSlug: string }>;
+  searchParams?: Promise<{ isPathFinal?: string }>;
 }) {
   await getCurrentUser();
   const { challengeSlug } = await props.params;
+  const searchParams = props.searchParams ? await props.searchParams : undefined;
+  const isPathFinal = searchParams?.isPathFinal === "true";
+
+  if (challengeSlug === "first-day-it-support") {
+    return (
+      <div className="max-w-5xl mx-auto space-y-6 py-4">
+        <Link
+          href={isPathFinal ? "/learn/network-foundations" : "/challenges"}
+          className="inline-flex items-center text-xs font-bold text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
+        >
+          <ChevronLeft className="w-4 h-4 mr-1" />
+          {isPathFinal ? "Kembali ke Network Foundations" : "Kembali ke Katalog Tantangan"}
+        </Link>
+
+        <SupportChallengePlayer isPathFinal={isPathFinal} />
+      </div>
+    );
+  }
 
   const challenge = CHALLENGE_DETAILS[challengeSlug];
   if (!challenge) {

@@ -38,7 +38,7 @@ test.describe("Switching & LAN Curriculum Mastery (Sprint 28)", () => {
     await expect(page.getByRole("heading", { name: /Switching & LAN/i }).first()).toBeVisible();
 
     // Verify 4 modules are rendered
-    await expect(page.getByText("Ethernet & MAC Address")).toBeVisible();
+    await expect(page.getByText("Ethernet & Alamat MAC")).toBeVisible();
     await expect(page.getByText("Protokol ARP & Broadcast Domain")).toBeVisible();
     await expect(page.getByText("Segmentasi VLAN & Access Port")).toBeVisible();
     await expect(page.getByText("Trunking 802.1Q & Inter-VLAN Routing")).toBeVisible();
@@ -55,12 +55,12 @@ test.describe("Switching & LAN Curriculum Mastery (Sprint 28)", () => {
   }) => {
     await createAndSignInLearner(page);
 
-    await page.goto("/learn/switching-lan/ethernet-mac-address/struktur-frame-ethernet");
+    await page.goto("/learn/switching-lan/ethernet-dan-mac/ethernet-mac-address");
     await page.waitForLoadState("networkidle");
 
     // Lesson Title
     await expect(
-      page.getByRole("heading", { name: "Struktur Frame Ethernet II & Preamble" }).first()
+      page.getByRole("heading", { name: "Format Frame Ethernet & Alamat MAC" }).first()
     ).toBeVisible();
 
     // Learning outcomes section
@@ -74,7 +74,7 @@ test.describe("Switching & LAN Curriculum Mastery (Sprint 28)", () => {
     // Ensure server-only misconception feedback is not leaked in the initial DOM
     const content = await page.content();
     expect(content).not.toContain("misconceptionFeedback");
-    expect(content).not.toContain("Preamble dan SFD bertugas untuk sinkronisasi clock");
+    expect(content).not.toContain("Jangan tertukar dengan alamat IPv4 yang berukuran 32 bit");
   });
 
   test("4. Formative quiz interaction in Lesson 1: incorrect retry and correct pass", async ({
@@ -82,7 +82,7 @@ test.describe("Switching & LAN Curriculum Mastery (Sprint 28)", () => {
   }) => {
     await createAndSignInLearner(page);
 
-    await page.goto("/learn/switching-lan/ethernet-mac-address/struktur-frame-ethernet");
+    await page.goto("/learn/switching-lan/ethernet-dan-mac/ethernet-mac-address");
     await page.waitForLoadState("networkidle");
 
     // Locate the first quiz block
@@ -90,15 +90,15 @@ test.describe("Switching & LAN Curriculum Mastery (Sprint 28)", () => {
     await expect(quiz).toBeVisible();
 
     // 1. Submit incorrect answer
-    await quiz.getByRole("button", { name: /Destination MAC/i }).click();
+    await quiz.getByRole("button", { name: "32 bit (4 byte)", exact: true }).click();
     await quiz.getByRole("button", { name: "Kirim Jawaban" }).click();
 
     // Verify feedback and retry button appear
     await expect(quiz.getByRole("button", { name: "Coba Lagi" })).toBeVisible();
 
-    // 2. Retry with correct answer (Preamble & SFD)
+    // 2. Retry with correct answer (48 bit (6 byte))
     await quiz.getByRole("button", { name: "Coba Lagi" }).click();
-    await quiz.getByRole("button", { name: /Preamble & SFD/i }).click();
+    await quiz.getByRole("button", { name: "48 bit (6 byte)", exact: true }).click();
     await quiz.getByRole("button", { name: "Kirim Jawaban" }).click();
 
     // Verify pass feedback

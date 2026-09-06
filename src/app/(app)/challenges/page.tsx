@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Bug, ArrowRight, ShieldAlert, WifiOff, Network, Server } from "lucide-react";
 import { SupportChallengePlayer } from "@/features/challenges/components/support-challenge-player";
 import { SchoolRoomAllocationPlayer } from "@/features/challenges/components/school-room-allocation-player";
+import { StaffGuestVlanPlayer } from "@/features/challenges/components/staff-guest-vlan-player";
 
 const REAL_WORLD_CHALLENGES = [
   {
@@ -102,9 +103,18 @@ export default function ChallengesPage() {
       <div className="space-y-4 pt-6 border-t border-gray-200 dark:border-gray-700">
         <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
           <ShieldAlert className="w-4 h-4" />
-          <span>Capstone Subnetting & VLSM Simulation (Path 2)</span>
+          <span>Capstone Subnetting &amp; VLSM Simulation (Path 2)</span>
         </div>
         <SchoolRoomAllocationPlayer />
+      </div>
+
+      {/* Capstone Challenge Section: Path 3 */}
+      <div className="space-y-4 pt-6 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+          <ShieldAlert className="w-4 h-4" />
+          <span>Capstone Switching &amp; VLAN Repair Simulation (Path 3)</span>
+        </div>
+        <StaffGuestVlanPlayer />
       </div>
     </div>
   );

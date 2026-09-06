@@ -13,6 +13,7 @@ import {
 } from "@/features/learning/assessment/welcome.server";
 import { foundationsFormativeQuestions } from "@/features/learning/assessment/foundations.server";
 import { ipv4FormativeQuestions } from "@/features/learning/assessment/ipv4.server";
+import { switchingFormativeQuestions } from "@/features/learning/assessment/switching.server";
 import {
   AssessmentNotFoundError,
   AssessmentMismatchError,
@@ -28,6 +29,7 @@ export function findFormativeQuestion(quizId: string): PrivateQuizQuestion | nul
     welcomeFormativeQuestions.find((q) => q.id === quizId) ||
     foundationsFormativeQuestions.find((q) => q.id === quizId) ||
     ipv4FormativeQuestions.find((q) => q.id === quizId) ||
+    switchingFormativeQuestions.find((q) => q.id === quizId) ||
     null
   );
 }

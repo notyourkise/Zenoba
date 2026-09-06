@@ -18,6 +18,10 @@ import { addressTypesModuleData } from "../src/features/learning/content/ipv4-su
 import { maskCidrModuleData } from "../src/features/learning/content/ipv4-subnetting/mask-cidr";
 import { subnetCalculationsModuleData } from "../src/features/learning/content/ipv4-subnetting/subnet-calculations";
 import { vlsmDesignModuleData } from "../src/features/learning/content/ipv4-subnetting/vlsm-design";
+import { ethernetMacModuleData } from "../src/features/learning/content/switching-lan/ethernet-mac";
+import { arpBroadcastModuleData } from "../src/features/learning/content/switching-lan/arp-broadcast";
+import { vlanSegmentationModuleData } from "../src/features/learning/content/switching-lan/vlan-segmentation";
+import { accessTrunkModuleData } from "../src/features/learning/content/switching-lan/access-trunk";
 
 async function main() {
   console.log("🌱 Seeding Paths 1 to 5 (Full Curriculum)...");
@@ -251,39 +255,120 @@ async function main() {
   }
 
   // ==========================================
-  // PATH 3: Switching, VLAN & Routing
+  // PATH 3: Switching & LAN (Full 4 Modules, 8 Lessons)
   // ==========================================
   const path3 = await upsertPath(
-    "switching-vlan-routing",
-    "Switching, VLAN & Routing",
-    "Pahami cara switch mempelajari MAC address, segmentasi VLAN, dan penentuan rute tabel routing L3.",
+    "switching-lan",
+    "Switching & LAN",
+    "Pahami Ethernet frame, MAC address table, protokol ARP, segmentasi broadcast domain VLAN, serta konfigurasi Access Port dan 802.1Q Trunk.",
     "Network",
     3
   );
 
-  const mod11 = await upsertModule(path3.id, "switching-and-arp", "1. Switching & Protokol ARP", "Resolusi MAC dan cara kerja tabel CAM switch.", 1);
-  const l11_1 = await upsertLesson(mod11.id, "arp-resolution-flow", "Proses Resolusi Address Resolution Protocol (ARP)", "Simulasi Request Broadcast dan Reply Unicast.", 1, 100, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Proses Resolusi ARP" },
-      { type: "interactive", interactiveType: "arp_visualizer", config: {} },
-      { type: "reward", xp: 100, message: "Pelajaran ARP selesai!" },
-    ],
-  });
+  const path3Modules = [
+    ethernetMacModuleData,
+    arpBroadcastModuleData,
+    vlanSegmentationModuleData,
+    accessTrunkModuleData,
+  ];
 
-  const mod12 = await upsertModule(path3.id, "vlan-and-routing", "2. Segmentasi VLAN & Routing Table", "Isolasi broadcast domain dan Longest Prefix Match.", 2);
-  const l12_1 = await upsertLesson(mod12.id, "vlan-segmentation-practice", "Konfigurasi Port VLAN & Evaluasi Routing", "Simulasi Access Port dan Longest Prefix Match.", 1, 120, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Virtual LAN (VLAN)" },
-      { type: "interactive", interactiveType: "vlan_builder", config: {} },
-      { type: "heading", level: 3, text: "Tabel Routing L3" },
-      { type: "interactive", interactiveType: "routing_table", config: {} },
-      { type: "reward", xp: 120, message: "Pelajaran VLAN & Routing selesai!" },
-    ],
-  });
+  const path3Lessons: Record<string, { id: string }> = {};
 
-  await connectPrereq(l12_1.id, l11_1.id);
+  for (let mIdx = 0; mIdx < path3Modules.length; mIdx++) {
+    const modData = path3Modules[mIdx];
+    const moduleRecord = await upsertModule(
+      path3.id,
+      modData.slug,
+      `${mIdx + 1}. ${modData.title}`,
+      modData.description,
+      mIdx + 1
+    );
+
+    for (const lesson of modData.lessons) {
+      path3Lessons[lesson.slug] = await upsertLesson(
+        moduleRecord.id,
+        lesson.slug,
+        lesson.title,
+        lesson.description,
+        lesson.orderIndex + 1,
+        lesson.xpReward,
+        lesson.content
+      );
+    }
+  }
+
+  // Connect prerequisites for all Path 3 lessons (linear sequence)
+  for (const modData of path3Modules) {
+    for (const lesson of modData.lessons) {
+      for (const prereqSlug of lesson.prerequisites) {
+        if (path3Lessons[prereqSlug] && path3Lessons[lesson.slug]) {
+          await connectPrereq(
+            path3Lessons[lesson.slug].id,
+            path3Lessons[prereqSlug].id
+          );
+        }
+      }
+    }
+  }
+
+  // Migrate progress from legacy prototype lessons if they exist in the database
+  const legacyArp = await prisma.lesson.findFirst({
+    where: { slug: "arp-resolution-flow" },
+    include: { userProgress: true },
+  });
+  if (legacyArp && path3Lessons["arp-request-reply"]) {
+    for (const prog of legacyArp.userProgress) {
+      await prisma.userLessonProgress.upsert({
+        where: {
+          userId_lessonId: {
+            userId: prog.userId,
+            lessonId: path3Lessons["arp-request-reply"].id,
+          },
+        },
+        update: { status: prog.status, completedAt: prog.completedAt },
+        create: {
+          userId: prog.userId,
+          lessonId: path3Lessons["arp-request-reply"].id,
+          status: prog.status,
+          completedAt: prog.completedAt,
+        },
+      });
+    }
+  }
+
+  const legacyVlan = await prisma.lesson.findFirst({
+    where: { slug: "vlan-segmentation-practice" },
+    include: { userProgress: true },
+  });
+  if (legacyVlan && path3Lessons["broadcast-domain-vlan"]) {
+    for (const prog of legacyVlan.userProgress) {
+      await prisma.userLessonProgress.upsert({
+        where: {
+          userId_lessonId: {
+            userId: prog.userId,
+            lessonId: path3Lessons["broadcast-domain-vlan"].id,
+          },
+        },
+        update: { status: prog.status, completedAt: prog.completedAt },
+        create: {
+          userId: prog.userId,
+          lessonId: path3Lessons["broadcast-domain-vlan"].id,
+          status: prog.status,
+          completedAt: prog.completedAt,
+        },
+      });
+    }
+  }
+
+  // Clean up legacy path and modules if they exist
+  const legacyPath3 = await prisma.learningPath.findUnique({
+    where: { slug: "switching-vlan-routing" },
+  });
+  if (legacyPath3) {
+    await prisma.learningPath.delete({
+      where: { slug: "switching-vlan-routing" },
+    });
+  }
 
   // ==========================================
   // PATH 4: Network Services (Sprint 9)

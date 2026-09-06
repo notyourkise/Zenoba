@@ -36,15 +36,15 @@ test.describe("IPv4 & Subnetting Curriculum Mastery (Sprint 27)", () => {
     await expect(page.getByRole("heading", { name: /IPv4 & Subnetting/i }).first()).toBeVisible();
 
     // Verify 5 modules are rendered
-    await expect(page.getByText("Biner & Representasi IPv4")).toBeVisible();
+    await expect(page.getByText("Biner & Anatomi Struktur IPv4")).toBeVisible();
     await expect(page.getByText("Jenis Alamat IPv4")).toBeVisible();
     await expect(page.getByText("Netmask & Notasi CIDR")).toBeVisible();
     await expect(page.getByText("Kalkulasi Subnetting Presisi")).toBeVisible();
     await expect(page.getByText("Desain VLSM & Alokasi Jaringan")).toBeVisible();
 
     // Verify Capstone Challenge banner is rendered
-    await expect(page.getByText("Tantangan Akhir Path: School Multi-Room Subnet Allocation")).toBeVisible();
-    await expect(page.getByRole("link", { name: /Mulai Tantangan Capstone/i })).toBeVisible();
+    await expect(page.getByText("Desain Pembagian Subnet Multi-Ruangan Sekolah")).toBeVisible();
+    await expect(page.getByText(/Terkunci • Selesaikan 10 materi lagi/i)).toBeVisible();
   });
 
   test("3. Renders Lesson 1 with interactive binary converter and prevents answer leakage", async ({
@@ -57,15 +57,15 @@ test.describe("IPv4 & Subnetting Curriculum Mastery (Sprint 27)", () => {
 
     // Lesson Title
     await expect(
-      page.getByRole("heading", { name: "Konsep Dasar Biner & Nilai Tempat 8-Bit" }).first()
+      page.getByRole("heading", { name: "Sistem Bilangan Biner 8-Bit" }).first()
     ).toBeVisible();
 
     // Learning outcomes section
     await expect(page.getByRole("region", { name: /Capaian Pembelajaran Pelajaran/i })).toBeVisible();
-    await expect(page.getByText("P2-BIN-01")).toBeVisible();
+    await expect(page.getByText("BIN-L1-A")).toBeVisible();
 
     // Interactive Binary Converter component
-    await expect(page.getByText(/Kalkulator Konversi Biner 8-Bit Interaktif/i)).toBeVisible();
+    await expect(page.getByText(/Interactive 8-Bit Binary to Decimal Converter/i)).toBeVisible();
 
     // Knowledge check block
     const quiz = page.locator(".my-8").filter({ hasText: "Knowledge Check" }).first();
@@ -74,7 +74,7 @@ test.describe("IPv4 & Subnetting Curriculum Mastery (Sprint 27)", () => {
     // Ensure server-only misconception feedback is not leaked in the initial DOM
     const content = await page.content();
     expect(content).not.toContain("misconceptionFeedback");
-    expect(content).not.toContain("128 + 32 + 8 + 2");
+    expect(content).not.toContain("Bit paling kiri (bit ke-7) bernilai");
   });
 
   test("4. Formative quiz interaction in Lesson 1: incorrect retry and correct pass", async ({
@@ -89,16 +89,16 @@ test.describe("IPv4 & Subnetting Curriculum Mastery (Sprint 27)", () => {
     const quiz = page.locator(".my-8").filter({ hasText: "Knowledge Check" }).first();
     await expect(quiz).toBeVisible();
 
-    // 1. Submit incorrect answer
-    await quiz.getByRole("button", { name: "172" }).click();
+    // 1. Submit incorrect answer (64 is option A, correct is 128)
+    await quiz.getByRole("button", { name: "64", exact: true }).click();
     await quiz.getByRole("button", { name: "Kirim Jawaban" }).click();
 
     // Verify feedback and retry button appear
     await expect(quiz.getByRole("button", { name: "Coba Lagi" })).toBeVisible();
 
-    // 2. Retry with correct answer
+    // 2. Retry with correct answer (128 is option B)
     await quiz.getByRole("button", { name: "Coba Lagi" }).click();
-    await quiz.getByRole("button", { name: "170" }).click();
+    await quiz.getByRole("button", { name: "128", exact: true }).click();
     await quiz.getByRole("button", { name: "Kirim Jawaban" }).click();
 
     // Verify pass feedback
@@ -115,7 +115,7 @@ test.describe("IPv4 & Subnetting Curriculum Mastery (Sprint 27)", () => {
 
     // Header and description
     await expect(
-      page.getByRole("heading", { name: "School Multi-Room Subnet Allocation" }).first()
+      page.getByRole("heading", { name: "Desain Pembagian Subnet Multi-Ruangan SMK TKJ" }).first()
     ).toBeVisible();
 
     // Verify all 5 room cards are rendered
@@ -126,6 +126,6 @@ test.describe("IPv4 & Subnetting Curriculum Mastery (Sprint 27)", () => {
     await expect(page.getByText("Link Point-to-Point Router-ke-Firewall")).toBeVisible();
 
     // Submit button is present
-    await expect(page.getByRole("button", { name: /Kirim Evaluasi Alokasi/i })).toBeVisible();
+    await expect(page.getByRole("button", { name: /Kirim Solusi Subnetting/i })).toBeVisible();
   });
 });

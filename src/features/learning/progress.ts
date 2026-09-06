@@ -17,28 +17,51 @@ export async function startLessonProgress(
   status: LessonStatus;
 }> {
   // Fetch lesson prerequisites
-  const lesson = await prisma.lesson.findUnique({
-    where: { id: lessonId },
-    include: {
-      module: {
-        include: {
-          path: true,
+  const lesson =
+    (await prisma.lesson.findUnique({
+      where: { id: lessonId },
+      include: {
+        module: {
+          include: {
+            path: true,
+          },
         },
-      },
-      prerequisites: {
-        include: {
-          prerequisite: {
-            include: {
-              module: true,
+        prerequisites: {
+          include: {
+            prerequisite: {
+              include: {
+                module: true,
+              },
             },
           },
         },
+        userProgress: {
+          where: { userId },
+        },
       },
-      userProgress: {
-        where: { userId },
+    })) ||
+    (await prisma.lesson.findFirst?.({
+      where: { slug: lessonId },
+      include: {
+        module: {
+          include: {
+            path: true,
+          },
+        },
+        prerequisites: {
+          include: {
+            prerequisite: {
+              include: {
+                module: true,
+              },
+            },
+          },
+        },
+        userProgress: {
+          where: { userId },
+        },
       },
-    },
-  });
+    }));
 
   if (!lesson) {
     throw new Error("Lesson not found");
@@ -87,7 +110,7 @@ export async function startLessonProgress(
     where: {
       userId_lessonId: {
         userId,
-        lessonId,
+        lessonId: lesson.id,
       },
     },
     update: {
@@ -95,7 +118,7 @@ export async function startLessonProgress(
     },
     create: {
       userId,
-      lessonId,
+      lessonId: lesson.id,
       status: "IN_PROGRESS",
     },
   });
@@ -119,16 +142,27 @@ export async function completeLessonProgress(
   xpAwarded: number;
   totalXp: number;
 }> {
-  const lesson = await prisma.lesson.findUnique({
-    where: { id: lessonId },
-    include: {
-      module: {
-        include: {
-          path: true,
+  const lesson =
+    (await prisma.lesson.findUnique({
+      where: { id: lessonId },
+      include: {
+        module: {
+          include: {
+            path: true,
+          },
         },
       },
-    },
-  });
+    })) ||
+    (await prisma.lesson.findFirst?.({
+      where: { slug: lessonId },
+      include: {
+        module: {
+          include: {
+            path: true,
+          },
+        },
+      },
+    }));
 
   if (!lesson) {
     throw new Error("Lesson not found");
@@ -152,7 +186,7 @@ export async function completeLessonProgress(
     where: {
       userId_lessonId: {
         userId,
-        lessonId,
+        lessonId: lesson.id,
       },
     },
   });
@@ -164,7 +198,7 @@ export async function completeLessonProgress(
     where: {
       userId_lessonId: {
         userId,
-        lessonId,
+        lessonId: lesson.id,
       },
     },
     update: {
@@ -173,7 +207,7 @@ export async function completeLessonProgress(
     },
     create: {
       userId,
-      lessonId,
+      lessonId: lesson.id,
       status: "COMPLETED",
       completedAt,
     },

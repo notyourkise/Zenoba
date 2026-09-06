@@ -517,7 +517,7 @@ Read [curriculum design](docs/superpowers/specs/2026-09-05-learning-outcomes-and
 
 Historical Milestones 0–6 and their sprint delivery records remain intact. Their checked curriculum claims do not certify the renewed learning outcomes: the inspected seed contains 5 paths/13 modules/15 lessons, no quiz or summary blocks, and incomplete instructional content. New learning milestones repair and expand that experience within Networking; they do not activate future premium domains. Milestone 7 remains operationally open.
 
-## Milestone 8 — Learning Outcomes, Assessment Foundation & Welcome Pilot — PLANNED
+## Milestone 8 — Learning Outcomes, Assessment Foundation & Welcome Pilot — IMPLEMENTED / IN REVIEW
 
 **Goal:** Deliver Welcome to Networking as an owner-reviewed reference with explicit outcomes, accurate assessment, mandatory passing, retry, persistent evidence, and safe progression.
 
@@ -547,7 +547,7 @@ Only verified current-user answers/evidence can complete lessons or modules.
 
 **Acceptance:** Wrong nonempty answers fail; no direct completion bypass; duplicate events grant once; failed practical blocks module pass.
 
-### Sprint 23 — Welcome Lessons & Module Assessment Experience — IMPLEMENTED
+### Sprint 23 — Welcome Lessons & Module Assessment Experience — MERGED (PR #29)
 
 **Owner:** Milestone 8 only.
 
@@ -559,7 +559,7 @@ Deliver four complete beginner lessons plus final test/remediation in the existi
 
 **Acceptance:** All 8 lesson outcomes visibly taught/tested; keyboard/reduced-motion controls work; unresolved network request never shows success.
 
-### Sprint 24 — Pilot Integration, Teaching Review & Reference Approval — PLANNED
+### Sprint 24 — Pilot Integration, Teaching Review & Reference Approval — IMPLEMENTED
 
 **Owner:** Milestone 8 only.
 

@@ -75,6 +75,21 @@ jobs:
     name: Browser E2E Tests
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: netloka
+          POSTGRES_PASSWORD: netloka_ci_password
+          POSTGRES_DB: netloka
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     needs: [test]
 
     steps:
@@ -92,6 +107,16 @@ jobs:
 
       - name: Generate Prisma Client
         run: npm run db:generate
+
+      - name: Push database schema
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+        run: npx prisma db push
+
+      - name: Seed curriculum data
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+        run: npm run db:seed
 
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium

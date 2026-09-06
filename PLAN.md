@@ -1021,7 +1021,7 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Acceptance:** All P2 outcomes taught/assessed; worked example followed by independent values; invalid/overlapping plan fails.
 
-### Sprint 28 — Switching & LAN Curriculum — IMPLEMENTED / READY FOR REVIEW
+### Sprint 28 — Switching & LAN Curriculum — COMPLETE
 
 **Exclusive owner:** M10. **Required context:** S27 address outcomes; S26 approved mappings; matrix P3; Sprint 8 primitives and VLAN/ARP components.
 
@@ -1032,14 +1032,14 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Acceptance:** Expected L2 recipient/forwarding/isolation results are deterministic; required module evidence blocks premature final.
 
-### Sprint 29 — Routing & Services Curriculum
+### Sprint 29 — Routing & Services Curriculum — IMPLEMENTED / READY FOR REVIEW
 
 **Exclusive owner:** M10. **Required context:** S28 closeout; matrix P4; S26 mapping; routing table, DHCP/DNS/NAT/ICMP/terminal domain and API consumers.
 
-- [ ] Task 29.1: Author P4-L01–L10, separating gateway/routes, DHCP/DNS, NAT/PAT and transport/service outcomes.
-- [ ] Task 29.2: Map current routing/service lessons to the approved path structure and link reusable labs without duplication.
-- [ ] Task 29.3: Assess a failing named-service scenario; require diagnosis, corrected settings, and verified expected connectivity.
-- [ ] Task 29.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
+- [x] Task 29.1: Author P4-L01–L10, separating gateway/routes, DHCP/DNS, NAT/PAT and transport/service outcomes.
+- [x] Task 29.2: Map current routing/service lessons to the approved path structure and link reusable labs without duplication.
+- [x] Task 29.3: Assess a failing named-service scenario; require diagnosis, corrected settings, and verified expected connectivity.
+- [x] Task 29.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
 
 **Acceptance:** Correct next hop/return route, leases, name resolution and translation tested separately; no false pass on ping alone.
 

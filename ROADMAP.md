@@ -627,7 +627,7 @@ Students independently calculate and allocate valid IPv4 networks for stated hos
 
 **Acceptance:** All P2 outcomes taught/assessed; worked example followed by independent values; invalid/overlapping plan fails.
 
-### Sprint 28 — Switching & LAN Curriculum — IMPLEMENTED / READY FOR REVIEW
+### Sprint 28 — Switching & LAN Curriculum — COMPLETE
 
 **Owner:** Milestone 10 only.
 
@@ -639,7 +639,7 @@ Students reason about MAC/ARP forwarding and correctly segment an access/trunk L
 
 **Acceptance:** Expected L2 recipient/forwarding/isolation results are deterministic; required module evidence blocks premature final.
 
-### Sprint 29 — Routing & Services Curriculum — PLANNED
+### Sprint 29 — Routing & Services Curriculum — IMPLEMENTED / READY FOR REVIEW
 
 **Owner:** Milestone 10 only.
 

@@ -15,6 +15,11 @@ import { ethernetMacModuleData } from "./switching-lan/ethernet-mac";
 import { arpBroadcastModuleData } from "./switching-lan/arp-broadcast";
 import { vlanSegmentationModuleData } from "./switching-lan/vlan-segmentation";
 import { accessTrunkModuleData } from "./switching-lan/access-trunk";
+import { gatewayRouteModuleData } from "./routing-services/gateway-route";
+import { staticIntervlanModuleData } from "./routing-services/static-intervlan";
+import { dhcpDnsModuleData } from "./routing-services/dhcp-dns";
+import { natPatModuleData } from "./routing-services/nat-pat";
+import { transportServicesModuleData } from "./routing-services/transport-services";
 import type { CurriculumLesson, CurriculumModule } from "./schema";
 
 /**
@@ -76,6 +81,26 @@ const CURRICULUM_REGISTRY: Record<string, CurriculumModule> = {
 
   "access-dan-trunk": accessTrunkModuleData,
   "module-access-dan-trunk": accessTrunkModuleData,
+
+  // Path 4: Routing & Network Services
+  "gateway-dan-route": gatewayRouteModuleData,
+  "module-gateway-dan-route": gatewayRouteModuleData,
+
+  "static-intervlan": staticIntervlanModuleData,
+  "module-static-intervlan": staticIntervlanModuleData,
+
+  "dhcp-dns": dhcpDnsModuleData,
+  "module-dhcp-dns": dhcpDnsModuleData,
+  "dhcp-and-dns-services": dhcpDnsModuleData, // Legacy alias
+  "module-dhcp-and-dns-services": dhcpDnsModuleData,
+
+  "nat-pat": natPatModuleData,
+  "module-nat-pat": natPatModuleData,
+  "nat-pat-security": natPatModuleData, // Legacy alias
+  "module-nat-pat-security": natPatModuleData,
+
+  "transport-services": transportServicesModuleData,
+  "module-transport-services": transportServicesModuleData,
 };
 
 /**
@@ -86,6 +111,7 @@ const LESSON_SLUG_ALIASES: Record<string, string> = {
   "subnet-calculator-lab": "network-broadcast",
   "arp-resolution-flow": "arp-request-reply",
   "vlan-segmentation-practice": "broadcast-domain-vlan",
+  "nat-pat-translation": "pat-port-address-translation",
 };
 
 /**

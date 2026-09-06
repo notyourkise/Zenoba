@@ -3,6 +3,7 @@ import { welcomeFormativeQuestions } from "@/features/learning/assessment/welcom
 import { foundationsFormativeQuestions } from "@/features/learning/assessment/foundations.server";
 import { ipv4FormativeQuestions } from "@/features/learning/assessment/ipv4.server";
 import { switchingFormativeQuestions } from "@/features/learning/assessment/switching.server";
+import { servicesFormativeQuestions } from "@/features/learning/assessment/services.server";
 import { AssessmentNotFoundError } from "./errors";
 
 export interface LessonCompletionDecision {
@@ -61,6 +62,7 @@ export async function getLessonCompletionDecision(
     ...foundationsFormativeQuestions,
     ...ipv4FormativeQuestions,
     ...switchingFormativeQuestions,
+    ...servicesFormativeQuestions,
   ];
   const requiredQuestions = allFormativeQuestions.filter(
     (q) => q.lessonSlug === lesson.slug

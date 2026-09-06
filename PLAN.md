@@ -984,10 +984,10 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Exclusive owner:** M9. **Required context:** M8 reference review; matrix P1-M2–M8; original Sprint 5–6 coverage; device/topology/cable/OSI/encapsulation blocks.
 
-- [ ] Task 25.1: Author lessons P1-L05–L19 with concepts, worked examples, meaningful interaction, quiz explanations, and summaries.
-- [ ] Task 25.2: Map every module outcome to final concept/practical evidence and extend existing interactions only where required.
-- [ ] Task 25.3: Validate content graph and verify representative beginning/middle/end module journeys before full path release.
-- [ ] Task 25.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
+- [x] Task 25.1: Author lessons P1-L05–L19 with concepts, worked examples, meaningful interaction, quiz explanations, and summaries.
+- [x] Task 25.2: Map every module outcome to final concept/practical evidence and extend existing interactions only where required.
+- [x] Task 25.3: Validate content graph and verify representative beginning/middle/end module journeys before full path release.
+- [x] Task 25.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
 
 **Acceptance:** Every listed P1 lesson is authored; no heading-plus-reward lesson; no IP arithmetic assessed before Path 2.
 

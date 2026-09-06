@@ -11,6 +11,7 @@ import {
   PracticalCriterionResult,
   PrivateQuizQuestion,
 } from "@/features/learning/assessment/welcome.server";
+import { foundationsFormativeQuestions } from "@/features/learning/assessment/foundations.server";
 import {
   AssessmentNotFoundError,
   AssessmentMismatchError,
@@ -22,7 +23,11 @@ import {
  * Finds a formative quiz question by ID from server definitions.
  */
 export function findFormativeQuestion(quizId: string): PrivateQuizQuestion | null {
-  return welcomeFormativeQuestions.find((q) => q.id === quizId) || null;
+  return (
+    welcomeFormativeQuestions.find((q) => q.id === quizId) ||
+    foundationsFormativeQuestions.find((q) => q.id === quizId) ||
+    null
+  );
 }
 
 export interface QuizSubmissionParams {

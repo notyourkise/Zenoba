@@ -6,6 +6,13 @@
 import { prisma, closeDatabaseConnection } from "../src/lib/db/client";
 import { seedCommerceCatalog } from "./commerce-seed";
 import { welcomeModuleData } from "../src/features/learning/content/network-foundations/welcome";
+import { typesOfNetworksModuleData } from "../src/features/learning/content/network-foundations/types-of-networks";
+import { clientServerModuleData } from "../src/features/learning/content/network-foundations/client-server";
+import { topologyModuleData } from "../src/features/learning/content/network-foundations/topology";
+import { networkDevicesModuleData } from "../src/features/learning/content/network-foundations/devices";
+import { physicalMediaCablingModuleData } from "../src/features/learning/content/network-foundations/media-cabling";
+import { howDataTravelsModuleData } from "../src/features/learning/content/network-foundations/how-data-travels";
+import { osiTcpipModuleData } from "../src/features/learning/content/network-foundations/osi-tcpip";
 
 async function main() {
   console.log("🌱 Seeding Paths 1 to 5 (Full Curriculum)...");
@@ -55,7 +62,7 @@ async function main() {
   };
 
   // ==========================================
-  // PATH 1: Network Foundations
+  // PATH 1: Network Foundations (Full 8 Modules, 19 Lessons)
   // ==========================================
   const path1 = await upsertPath(
     "network-foundations",
@@ -65,70 +72,65 @@ async function main() {
     1
   );
 
-  const mod1 = await upsertModule(
-    path1.id,
-    welcomeModuleData.slug,
-    `1. ${welcomeModuleData.title}`,
-    welcomeModuleData.description,
-    1
-  );
+  const path1Modules = [
+    welcomeModuleData,
+    typesOfNetworksModuleData,
+    clientServerModuleData,
+    topologyModuleData,
+    networkDevicesModuleData,
+    physicalMediaCablingModuleData,
+    howDataTravelsModuleData,
+    osiTcpipModuleData,
+  ];
 
-  const welcomeLessons: Record<string, { id: string }> = {};
-  for (const lesson of welcomeModuleData.lessons) {
-    welcomeLessons[lesson.slug] = await upsertLesson(
-      mod1.id,
-      lesson.slug,
-      lesson.title,
-      lesson.description,
-      lesson.orderIndex + 1,
-      lesson.xpReward,
-      lesson.content
+  const path1Lessons: Record<string, { id: string }> = {};
+
+  for (let mIdx = 0; mIdx < path1Modules.length; mIdx++) {
+    const modData = path1Modules[mIdx];
+    const moduleRecord = await upsertModule(
+      path1.id,
+      modData.slug,
+      `${mIdx + 1}. ${modData.title}`,
+      modData.description,
+      mIdx + 1
     );
-  }
 
-  // Connect prerequisites for welcome lessons
-  for (const lesson of welcomeModuleData.lessons) {
-    for (const prereqSlug of lesson.prerequisites) {
-      if (welcomeLessons[prereqSlug] && welcomeLessons[lesson.slug]) {
-        await connectPrereq(
-          welcomeLessons[lesson.slug].id,
-          welcomeLessons[prereqSlug].id
-        );
-      }
+    // Clean up legacy placeholder lesson if it exists from previous prototypes
+    if (modData.slug === "physical-media-cabling") {
+      await prisma.lesson.deleteMany({
+        where: {
+          moduleId: moduleRecord.id,
+          slug: "crimping-standards-fiber",
+        },
+      });
+    }
+
+    for (const lesson of modData.lessons) {
+      path1Lessons[lesson.slug] = await upsertLesson(
+        moduleRecord.id,
+        lesson.slug,
+        lesson.title,
+        lesson.description,
+        lesson.orderIndex + 1,
+        lesson.xpReward,
+        lesson.content
+      );
     }
   }
 
-  const mod2 = await upsertModule(path1.id, "types-of-networks", "2. Types of Networks", "Klasifikasi jaringan LAN, MAN, WAN, SOHO & Enterprise.", 2);
-  const l2_1 = await upsertLesson(mod2.id, "lan-man-wan", "Klasifikasi Skala: LAN, MAN, & WAN", "Perbedaan Local Area Network, Metropolitan, dan Wide Area Network.", 1, 75, {
-    version: "1.0",
-    blocks: [{ type: "heading", level: 2, text: "Skala Geografis" }, { type: "reward", xp: 75, message: "Selesai!" }],
-  });
-
-  const mod4 = await upsertModule(path1.id, "network-topology", "4. Network Topology", "Analisis bentuk fisik dan ketahanan topologi jaringan.", 4);
-  const l4_1 = await upsertLesson(mod4.id, "bus-star-ring", "Topologi Bus, Star, dan Ring", "Karakteristik topologi klasik dan standar modern.", 1, 75, {
-    version: "1.0",
-    blocks: [{ type: "heading", level: 2, text: "Topologi Jaringan" }, { type: "interactive", interactiveType: "topology_explorer", config: {} }, { type: "reward", xp: 75, message: "Topologi selesai!" }],
-  });
-
-  const mod6 = await upsertModule(path1.id, "physical-media-cabling", "6. Physical Media & Cabling", "Standar media kabel tembaga dan serat optik.", 6);
-  const l6_2 = await upsertLesson(mod6.id, "crimping-standards-fiber", "Standar Crimping T568A/B & Fiber", "Praktek pinout RJ-45.", 2, 100, {
-    version: "1.0",
-    blocks: [{ type: "heading", level: 2, text: "Crimping RJ-45" }, { type: "interactive", interactiveType: "cable_order", config: {} }, { type: "reward", xp: 100, message: "Crimping selesai!" }],
-  });
-
-  const mod8 = await upsertModule(path1.id, "osi-tcpip-foundations", "8. OSI & TCP/IP Foundations", "Model referensi 7-Layer OSI dan protokol TCP/IP.", 8);
-  const l8_1 = await upsertLesson(mod8.id, "osi-seven-layers", "7 Layer Model Referensi OSI", "Menganalisis fungsi 7 Layer OSI.", 1, 120, {
-    version: "1.0",
-    blocks: [{ type: "heading", level: 2, text: "7 Layer OSI" }, { type: "interactive", interactiveType: "osi_stack", config: {} }, { type: "reward", xp: 120, message: "OSI selesai!" }],
-  });
-
-  const lastWelcomeLesson = welcomeLessons["simple-network-communication"];
-  if (lastWelcomeLesson) {
-    await connectPrereq(l2_1.id, lastWelcomeLesson.id);
+  // Connect prerequisites for all Path 1 lessons
+  for (const modData of path1Modules) {
+    for (const lesson of modData.lessons) {
+      for (const prereqSlug of lesson.prerequisites) {
+        if (path1Lessons[prereqSlug] && path1Lessons[lesson.slug]) {
+          await connectPrereq(
+            path1Lessons[lesson.slug].id,
+            path1Lessons[prereqSlug].id
+          );
+        }
+      }
+    }
   }
-  await connectPrereq(l4_1.id, l2_1.id);
-  await connectPrereq(l6_2.id, l4_1.id);
-  await connectPrereq(l8_1.id, l6_2.id);
 
   // ==========================================
   // PATH 2: IPv4 & Subnetting

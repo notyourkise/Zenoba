@@ -40,6 +40,23 @@ All notable project changes are recorded here.
 
 # 2026-09-06
 
+- [2026-09-06 20:50 WITA] [ADDED] [Milestone 9 / Sprint 25 / Network Foundations Content Expansion]
+  Delivered comprehensive curriculum content expansion for the remaining 7 modules of Path 1 (Network Foundations), creating 15 rich, fully authored lessons with zero placeholders:
+  - Task 25.1 (Authored Lessons P1-L05–L19): Authored complete pedagogically rich lessons with explicit learning outcomes, SMK TKJ context, concepts, interactive activities, formative quizzes with targeted misconception feedback, takeaways, and rewards across 7 modules:
+    * P1-M2 Types of Networks (`lan-man-wan`, `network-contexts-home-school-enterprise`)
+    * P1-M3 Client, Server & Communication (`client-server-roles`, `request-response-cycle`)
+    * P1-M4 Network Topology (`bus-star-ring`, `topology-fault-impact`)
+    * P1-M5 Network Devices (`nic-switch-router-ap`, `modem-firewall-server`)
+    * P1-M6 Physical Media & Cabling (`copper-twisted-pair-wireless`, `rj45-crimping-t568ab`, `fiber-optic-intro`)
+    * P1-M7 How Data Travels (`bits-frames-packets`, `unicast-broadcast-multicast`)
+    * P1-M8 OSI & TCP/IP Foundations (`osi-seven-layers`, `tcp-ip-and-encapsulation`)
+    Strictly respected curriculum guardrails: no IP arithmetic or subnetting introduced before Path 2.
+  - Task 25.2 (Server-Side Formative Assessment & Registry Integration): Created `src/features/learning/assessment/foundations.server.ts` containing 45 private formative quiz items with misconception feedback (3 per lesson) and zero client-side answer leakage. Wired definitions into `src/features/learning/assessment/service.ts` (`findFormativeQuestion`) and `src/features/learning/assessment/completion.ts` (`getLessonCompletionDecision`). Registered all 7 new modules in `src/features/learning/content/registry.ts`.
+  - Task 25.3 (Database Seeding & Prerequisite Chains): Updated `prisma/seed.ts` to cleanly loop and upsert all 8 modules and 19 lessons of Path 1 with their full rich content, establishing an unbroken sequential prerequisite chain (L01 -> L02 -> ... -> L19).
+  - Task 25.4 (Unit Tests & Quality Gates): Added 18 unit tests in `src/features/learning/content/network-foundations.test.ts` and `src/features/learning/assessment/foundations-assessment.test.ts` verifying schema conformance, evidence linkages, absence of placeholder blocks, and server grading accuracy. Verified full quality gate: `npm run db:generate`, `npm run lint` (0 errors), `npm run typecheck` (0 errors), vitest (69 files, 374 tests passing), `npm run build` (35 routes compiled), and `git diff --check` clean.
+  Files/areas: `src/features/learning/content/network-foundations/*`, `src/features/learning/content/registry.ts`, `src/features/learning/assessment/foundations.server.ts`, `src/features/learning/assessment/service.ts`, `src/features/learning/assessment/completion.ts`, `prisma/seed.ts`, `src/features/learning/content/network-foundations.test.ts`, `src/features/learning/assessment/foundations-assessment.test.ts`, `PLAN.md`, `ROADMAP.md`, `CHANGELOG.md`, `docs/HANDOFF.md`
+  Validation: `npm run db:generate`, `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm test` (69 test files, 374 tests passing), `npm run build` (35 routes compiled), `git diff --check` clean.
+
 - [2026-09-06 18:35 WITA] [ADDED] [Milestone 8 / Sprint 24 / Pilot Integration, Teaching Review & Reference Approval]
   Completed end-to-end authenticated validation, multi-user isolation verification, teaching quality review, and CI pipeline hardening for Welcome to Networking (Milestone 8 reference pilot):
   - Task 24.1 (Isolated Authenticated Journey & CI Services): Added comprehensive two-user authenticated Playwright E2E suite (`src/e2e/welcome-to-networking.spec.ts`) and learner authentication fixtures (`src/e2e/fixtures/learning-user.ts`). Updated `.github/workflows/ci.yml` `test-e2e` job with a dedicated `postgres:16-alpine` service container, schema push (`npx prisma db push`), and curriculum database seed (`npm run db:seed`). Updated `src/features/learning/progress.ts` to reliably resolve lessons by either semantic slug or internal ID.

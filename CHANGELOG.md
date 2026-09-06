@@ -38,6 +38,18 @@ All notable project changes are recorded here.
 
 ---
 
+# 2026-09-06
+
+- [2026-09-06 02:15 WITA] [ADDED] [Milestone 8 / Sprint 23 / Welcome Lessons & Module Assessment Experience]
+  Implemented interactive welcome lessons, deterministic connectivity practice, scoped learning outcomes display, and full module assessment player with remediation routing:
+  - Task 23.1: Surfaced explicit learning outcomes across module overview (`/learn/[pathSlug]`) and lesson view (`/learn/[pathSlug]/[moduleSlug]/[lessonSlug]`) via `LearningOutcomesBadge` and `LearningOutcomesList`. Attached curriculum outcomes to modules and lessons in `queries.ts` and `registry.ts`. Replaced generic success fallback with truthful state banners when content is missing or in preparation.
+  - Task 23.2: Built accessible, deterministic interactive practice components for beginner networking concepts: link toggling (`connectivity_toggle`), uplink failure handling (`uplink_toggle`), branch isolation (`branch_disconnect`), component classification (`classification`), role assignment (`role_assignment`), resource matching (`resource_match`), and protocol message sequence flow (`message_flow`). Created pure reachability evaluator in `src/features/learning/practice/connectivity/domain.ts` covering local network vs Internet and branch routing.
+  - Task 23.3: Delivered complete module assessment page (`/learn/[pathSlug]/[moduleSlug]/assessment`) and client player `ModuleAssessmentPlayer` with 3 instructional stages: briefing & passing rules, 10 concept questions + 3 interactive practical criteria, and comprehensive results breakdown (score, practical criteria status, unmet learning outcomes, and direct links to remedial lessons). Integrated final module assessment card on module overview and linked final lesson CTA to assessment.
+  - Task 23.4: Updated seed (`prisma/seed.ts`) with rich instructional data for all 4 Welcome to Networking lessons (L01–L04). Executed full quality verification suite (Prisma Client generate, TypeScript typecheck, ESLint, vitest unit/integration tests, Playwright E2E, Next.js Webpack production build, and git diff check).
+  Files/areas: `prisma/seed.ts`, `src/app/(app)/learn/[pathSlug]/page.tsx`, `src/app/(app)/learn/[pathSlug]/[moduleSlug]/[lessonSlug]/page.tsx`, `src/app/(app)/learn/[pathSlug]/[moduleSlug]/assessment/page.tsx`, `src/features/learning/types.ts`, `src/features/learning/queries.ts`, `src/features/learning/queries.test.ts`, `src/features/learning/content/registry.ts`, `src/features/learning/components/learning-outcomes.tsx`, `src/features/learning/components/learning-outcomes.test.tsx`, `src/features/learning/components/lesson-action-bar.tsx`, `src/features/learning/components/module-assessment-player.tsx`, `src/features/learning/components/module-assessment-player.test.tsx`, `src/features/learning/practice/connectivity/domain.ts`, `src/features/learning/practice/connectivity/domain.test.ts`, `src/features/learning/blocks/registry.tsx`, `src/features/learning/blocks/registry.test.tsx`, `src/features/learning/blocks/components/connectivity-toggle.tsx`, `src/features/learning/blocks/components/uplink-toggle.tsx`, `src/features/learning/blocks/components/concept-activity.tsx`, `PLAN.md`, `ROADMAP.md`, `CHANGELOG.md`, `docs/HANDOFF.md`
+  Validation: TypeScript typecheck (0 errors), ESLint (0 errors, 0 warnings), vitest (66 test files, 352 tests 100% green), Playwright E2E (`member-workspace.spec.ts`, 5/5 passed), Next.js production build (`next build --webpack`, 35 static pages generated), `git diff --check` clean.
+  Git: branch `codex/welcome-lessons-sprint-23`.
+
 # 2026-09-05
 
 - [2026-09-05 19:10 WITA] [ADDED] [Milestone 8 / Sprint 22 / Authoritative Assessment, Progression & XP]

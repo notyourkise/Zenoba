@@ -954,10 +954,10 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Exclusive owner:** M8. **Required context:** Sprint 21 content and S22 services; outcome matrix P1-M1; current lesson/path UI, visualizers, PRODUCT/DESIGN.
 
-- [ ] Task 23.1: Render scoped objectives and ordered instructional stages without generic success fallback.
-- [ ] Task 23.2: Implement beginner-safe connectivity practice and server-evaluated scenario evidence.
-- [ ] Task 23.3: Deliver final module test, outcome feedback, retry, and correct next-stage navigation.
-- [ ] Task 23.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
+- [x] Task 23.1: Render scoped objectives and ordered instructional stages without generic success fallback.
+- [x] Task 23.2: Implement beginner-safe connectivity practice and server-evaluated scenario evidence.
+- [x] Task 23.3: Deliver final module test, outcome feedback, retry, and correct next-stage navigation.
+- [x] Task 23.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
 
 **Acceptance:** All 8 lesson outcomes visibly taught/tested; keyboard/reduced-motion controls work; unresolved network request never shows success.
 

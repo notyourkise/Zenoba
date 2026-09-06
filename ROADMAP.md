@@ -535,7 +535,7 @@ A reviewed, versioned content/evidence contract and reproducible storage underpi
 
 **Acceptance:** Schema rejects incomplete outcomes; fresh and legacy DB fixtures preserve IDs; seed twice does not duplicate content.
 
-### Sprint 22 — Authoritative Assessment, Progression & XP — IMPLEMENTED
+### Sprint 22 — Authoritative Assessment, Progression & XP — MERGED (PR #28)
 
 **Owner:** Milestone 8 only.
 
@@ -547,7 +547,7 @@ Only verified current-user answers/evidence can complete lessons or modules.
 
 **Acceptance:** Wrong nonempty answers fail; no direct completion bypass; duplicate events grant once; failed practical blocks module pass.
 
-### Sprint 23 — Welcome Lessons & Module Assessment Experience — PLANNED
+### Sprint 23 — Welcome Lessons & Module Assessment Experience — IMPLEMENTED
 
 **Owner:** Milestone 8 only.
 

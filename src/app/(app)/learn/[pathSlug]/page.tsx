@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { getLearningPathDetail } from "@/features/learning/queries";
+import { LearningOutcomes } from "@/features/learning/components/learning-outcomes";
 import {
   CheckCircle2,
   Lock,
@@ -9,6 +10,7 @@ import {
   Clock,
   ArrowLeft,
   Award,
+  FileCheck,
 } from "lucide-react";
 
 interface PathDetailPageProps {
@@ -84,6 +86,13 @@ export default async function PathDetailPage({ params }: PathDetailPageProps) {
                 {module.completedCount} / {module.totalCount} Pelajaran ({module.progressPercent}%)
               </div>
             </div>
+
+            {/* Module Outcomes Section */}
+            {module.outcomes && module.outcomes.length > 0 && (
+              <div className="p-6 border-b border-gray-100 dark:border-gray-700/60 bg-white dark:bg-gray-800">
+                <LearningOutcomes outcomes={module.outcomes} scope="module" />
+              </div>
+            )}
 
             {/* Lessons List */}
             <div className="divide-y divide-gray-100 dark:divide-gray-700/60">
@@ -175,6 +184,55 @@ export default async function PathDetailPage({ params }: PathDetailPageProps) {
                 );
               })}
             </div>
+
+            {/* Final Module Assessment Section */}
+            {module.finalAssessment && (
+              <div className="p-5 bg-gradient-to-r from-blue-50/70 to-indigo-50/70 dark:from-blue-950/30 dark:to-indigo-950/30 border-t border-blue-100 dark:border-blue-900/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-start space-x-3.5">
+                  <div className="mt-0.5">
+                    <FileCheck className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <div className="flex items-center space-x-2">
+                      <h3 className="text-base font-bold text-gray-900 dark:text-white">
+                        {module.finalAssessment.title}
+                      </h3>
+                      <span className="text-xs font-bold px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
+                        Evaluasi Akhir Modul
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-600 dark:text-gray-300 mt-1 max-w-xl">
+                      {module.finalAssessment.description}
+                    </p>
+                    <div className="mt-2 flex items-center gap-3 text-[11px] text-gray-500 dark:text-gray-400">
+                      <span>
+                        {module.finalAssessment.conceptQuestionCount} Soal Konsep (Min {module.finalAssessment.conceptPassThreshold}/10)
+                      </span>
+                      <span>•</span>
+                      <span>
+                        {module.finalAssessment.practicalCriteriaCount} Kriteria Praktik (Wajib 100%)
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="sm:text-right flex-shrink-0">
+                  {module.completedCount >= module.totalCount ? (
+                    <Link
+                      href={`/learn/${path.slug}/${module.slug}/assessment`}
+                      className="inline-flex items-center px-4 py-2.5 text-xs font-bold rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm transition-colors"
+                    >
+                      Mulai Ujian Akhir
+                    </Link>
+                  ) : (
+                    <span className="inline-flex items-center text-xs font-medium text-gray-400 bg-gray-100 dark:bg-gray-700/80 px-3 py-1.5 rounded-lg cursor-not-allowed">
+                      <Lock className="w-3.5 h-3.5 mr-1" />
+                      Selesaikan {module.totalCount - module.completedCount} Pelajaran Lagi
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>

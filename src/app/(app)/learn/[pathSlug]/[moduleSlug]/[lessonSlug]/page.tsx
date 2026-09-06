@@ -5,7 +5,8 @@ import { getLessonDetail } from "@/features/learning/queries";
 import { startLessonProgress } from "@/features/learning/progress";
 import { LessonActionBar } from "@/features/learning/components/lesson-action-bar";
 import { LessonRenderer } from "@/features/learning/blocks/lesson-renderer";
-import { ArrowLeft, Lock, Award, BookOpen, AlertCircle } from "lucide-react";
+import { LearningOutcomes } from "@/features/learning/components/learning-outcomes";
+import { ArrowLeft, Lock, Award, AlertCircle } from "lucide-react";
 
 interface LessonPageProps {
   params: Promise<{
@@ -131,41 +132,56 @@ export default async function LessonPage({ params }: LessonPageProps) {
         </p>
       </div>
 
+      {/* Learning Outcomes Section */}
+      {lesson.outcomes && lesson.outcomes.length > 0 && (
+        <LearningOutcomes
+          outcomes={lesson.outcomes}
+          scope="lesson"
+          title={`Sasaran Kompetensi: ${lesson.title}`}
+        />
+      )}
+
       {/* Lesson Content Body */}
       <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-8 shadow-sm space-y-6">
         {lesson.content ? (
-          <LessonRenderer content={lesson.content} lessonId={lesson.id} />
-        ) : (
-          <div className="prose dark:prose-invert max-w-none text-sm leading-relaxed space-y-4">
-            <div className="p-4 bg-blue-50/60 dark:bg-blue-950/40 rounded-xl border border-blue-100 dark:border-blue-900 flex items-start space-x-3">
-              <BookOpen className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
-              <div className="text-xs text-blue-900 dark:text-blue-200 leading-relaxed">
-                <p className="font-semibold mb-1">Target Pembelajaran</p>
-                <p>
-                  Pelajari konsep inti dari <strong>{lesson.title}</strong>, pahami bagaimana data mengalir di dalam arsitektur jaringan, lalu selesaikan evaluasi pengetahuan untuk mendapatkan reward XP.
-                </p>
-              </div>
-            </div>
+          <>
+            <LessonRenderer content={lesson.content} lessonId={lesson.id} />
 
-            <div className="py-4 space-y-3">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                Ringkasan Konsep
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Jaringan komputer adalah sekumpulan perangkat otonom (komputer, server, router, switch) yang saling terhubung melalui media transmisi kabel maupun nirkabel untuk berbagi sumber daya, data, dan layanan komunikasi.
-              </p>
+            {/* Action Bar (Complete & Navigation) */}
+            <LessonActionBar
+              lessonId={lesson.id}
+              initialStatus={lesson.status}
+              pathSlug={path.slug}
+              assessmentUrl={
+                (!nextLesson || nextLesson.moduleSlug !== module.slug) &&
+                module.finalAssessment
+                  ? `/learn/${path.slug}/${module.slug}/assessment`
+                  : null
+              }
+              prevLesson={prevLesson}
+              nextLesson={nextLesson}
+            />
+          </>
+        ) : (
+          <div className="p-6 rounded-xl border border-amber-200 dark:border-amber-800/80 bg-amber-50/70 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 space-y-3">
+            <div className="flex items-center space-x-2">
+              <AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+              <h3 className="font-bold text-sm">Konten Sedang Dipersiapkan</h3>
+            </div>
+            <p className="text-xs text-amber-800 dark:text-amber-300 leading-relaxed">
+              Materi pelajaran terstruktur untuk tahap ini sedang dalam proses finalisasi kurikulum. Pelajaran yang belum memiliki materi resmi tidak dapat diselesaikan secara terverifikasi.
+            </p>
+            <div className="pt-2">
+              <Link
+                href={`/learn/${path.slug}`}
+                className="inline-flex items-center px-4 py-2 text-xs font-semibold rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4 mr-1.5" />
+                Kembali ke Modul
+              </Link>
             </div>
           </div>
         )}
-
-        {/* Action Bar (Complete & Navigation) */}
-        <LessonActionBar
-          lessonId={lesson.id}
-          initialStatus={lesson.status}
-          pathSlug={path.slug}
-          prevLesson={prevLesson}
-          nextLesson={nextLesson}
-        />
       </div>
     </div>
   );

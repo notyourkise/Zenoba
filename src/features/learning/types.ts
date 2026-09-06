@@ -19,6 +19,17 @@ export interface LessonWithStatus {
   completedAt?: Date | string | null;
   prerequisites: PrerequisiteInfo[];
   unmetPrerequisites: PrerequisiteInfo[];
+  outcomes?: Array<{ id: string; text: string; description?: string }>;
+}
+
+export interface ModuleFinalAssessmentInfo {
+  assessmentId: string;
+  title: string;
+  description: string;
+  conceptQuestionCount: number;
+  conceptPassThreshold: number;
+  practicalCriteriaCount: number;
+  practicalPassThreshold: number;
 }
 
 export interface ModuleWithLessons {
@@ -31,6 +42,8 @@ export interface ModuleWithLessons {
   progressPercent: number;
   completedCount: number;
   totalCount: number;
+  outcomes?: Array<{ id: string; text: string; description?: string }>;
+  finalAssessment?: ModuleFinalAssessmentInfo;
 }
 
 export interface LearningPathDetail {

@@ -10,6 +10,7 @@ interface LessonActionBarProps {
   lessonId: string;
   initialStatus: LessonStatus;
   pathSlug: string;
+  assessmentUrl?: string | null;
   prevLesson: {
     slug: string;
     title: string;
@@ -27,6 +28,7 @@ export function LessonActionBar({
   lessonId,
   initialStatus,
   pathSlug,
+  assessmentUrl,
   prevLesson,
   nextLesson,
 }: LessonActionBarProps) {
@@ -114,8 +116,16 @@ export function LessonActionBar({
             </button>
           )}
 
-          {/* Next Lesson Link */}
-          {nextLesson && (
+          {/* Next Lesson Link or Assessment Link */}
+          {status === "COMPLETED" && assessmentUrl ? (
+            <Link
+              href={assessmentUrl}
+              className="inline-flex items-center px-4 py-2.5 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm transition-colors"
+            >
+              Ujian Akhir Modul
+              <ArrowRight className="w-4 h-4 ml-1.5" />
+            </Link>
+          ) : nextLesson ? (
             nextLesson.status === "LOCKED" ? (
               <span
                 className="inline-flex items-center px-3 py-2 text-xs font-medium text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-lg cursor-not-allowed"
@@ -133,7 +143,7 @@ export function LessonActionBar({
                 <ArrowRight className="w-4 h-4 ml-1.5" />
               </Link>
             )
-          )}
+          ) : null}
         </div>
       </div>
     </div>

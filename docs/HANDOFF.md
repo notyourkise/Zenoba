@@ -1,61 +1,54 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-06 02:15 WITA**. Read AGENTS.md and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-09-06 17:25 WITA**. Read AGENTS.md and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
 
 ## 1. Current Task and Authority
 
 - Product: Interactive IT infrastructure learning platform; Networking is the first curriculum.
-- Milestone: **Milestone 8 — Learning Outcomes, Assessment Foundation & Welcome Pilot**.
-- Sprint: **Sprint 23 — Welcome Lessons & Module Assessment Experience**.
-- **Delivered Scope (Sprint 23):**
-  1. **Task 23.1:** Surfaced explicit learning outcomes across module overview (`/learn/[pathSlug]`) and lesson view (`/learn/[pathSlug]/[moduleSlug]/[lessonSlug]`) via `LearningOutcomesBadge` and `LearningOutcomesList`. Attached curriculum outcomes to modules and lessons in `queries.ts` and `registry.ts`. Replaced generic success fallback with truthful state banners when content is missing or in preparation.
-  2. **Task 23.2:** Built accessible, deterministic interactive practice components for beginner networking concepts: link toggling (`connectivity_toggle`), uplink failure handling (`uplink_toggle`), branch isolation (`branch_disconnect`), component classification (`classification`), role assignment (`role_assignment`), resource matching (`resource_match`), and protocol message sequence flow (`message_flow`). Created pure reachability evaluator in `src/features/learning/practice/connectivity/domain.ts` covering local network vs Internet and branch routing.
-  3. **Task 23.3:** Delivered complete module assessment page (`/learn/[pathSlug]/[moduleSlug]/assessment`) and client player `ModuleAssessmentPlayer` with 3 instructional stages: briefing & passing rules, 10 concept questions + 3 interactive practical criteria, and comprehensive results breakdown (score, practical criteria status, unmet learning outcomes, and direct links to remedial lessons). Integrated final module assessment card on module overview and linked final lesson CTA to assessment.
-  4. **Task 23.4:** Updated seed (`prisma/seed.ts`) with rich instructional data for all 4 Welcome to Networking lessons (L01–L04). Executed full quality verification suite (Prisma Client generate, TypeScript typecheck, ESLint, vitest unit/integration tests, Playwright E2E, Next.js Webpack production build, and git diff check).
-- **Phase:** Implemented and locally verified on branch `codex/welcome-lessons-sprint-23`. Ready to commit, push, create PR, and hand off to Abangku for review.
+- Milestone: **Milestone 7 / Pre-Launch UX & Auth Security Hardening**.
+- Task: **Authenticated Landing Page Redirect & Public Header Cleanup**.
+- **Delivered Scope:**
+  1. **Next.js Middleware Route Guard (`src/middleware.ts`):** Added `"/"` into `config.matcher`. When a valid, unrevoked session token exists, requests to `"/"` (along with `/sign-in` and `/sign-up`) are immediately redirected to `/dashboard`. Unauthenticated visitors and revoked sessions continue to access `"/"`.
+  2. **Server Component Defense-in-Depth (`src/app/page.tsx`):** In `Home` server component, if `await getCurrentUser()` returns an active user, it immediately invokes Next.js `redirect("/dashboard")`.
+  3. **Public Landing Header Cleanup (`src/components/navigation/app-header.tsx`):** Completely removed user dropdown menu, user avatar, and embedded `AccountModal`. Landing page header is now purely public, consistently displaying the visitor action buttons ("Masuk" and "Mulai Gratis"). Authenticated account and profile settings remain exclusively in the learner workspace shell.
+  4. **Quality Gates & Tests:** Added middleware unit tests in `src/middleware.test.ts`, page component tests in `src/app/page.test.tsx`, and updated `src/components/navigation/app-header.test.tsx`. Passed 100% of linting, typechecking, vitest tests (67 files, 356 tests), and production build.
+- **Phase:** Implemented and locally verified on branch `codex/landing-auth-redirect-cleanup`. Ready to commit, push, create PR, and notify Abangku for review.
 
 ## 2. Verified Repository Checkpoint
 
 | Item | Verified state |
 | --- | --- |
-| Main checkout | `C:/laragon/www/netloka`, branch `main` at `8a83765` |
-| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-welcome-lessons-sprint-23` |
-| Task branch | `codex/welcome-lessons-sprint-23` |
-| Base commit | `8a83765` (merge of PR #28: authoritative assessment Sprint 22) |
+| Main checkout | `C:/laragon/www/netloka`, branch `main` at `214762d` |
+| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-landing-auth-redirect-cleanup` |
+| Task branch | `codex/landing-auth-redirect-cleanup` |
+| Base commit | `214762d` (merge of PR #29: welcome lessons Sprint 23) |
 | Retained unrelated worktree | `C:/laragon/www/netloka/.worktrees/codex-fix-m0-sprint-0` (`docs/staging-progress`, do not delete) |
 
 ## 3. Implemented Files & Key Architectural Decisions
 
-1. **Curriculum Registry & Outcomes Display:**
-   - `src/features/learning/content/registry.ts`: Single point of lookup linking curriculum definitions (`welcomeModuleData`) into application queries.
-   - `src/features/learning/types.ts` & `src/features/learning/queries.ts`: Extended `ModuleWithLessons`, `LessonWithStatus`, and `ModuleFinalAssessmentInfo` with strongly-typed `outcomes` arrays.
-   - `src/features/learning/components/learning-outcomes.tsx`: Semantic badge and expandable accordion list for learning outcomes with accessibility labels.
-2. **Deterministic Practice Components (`src/features/learning/blocks/components/`):**
-   - `connectivity-toggle.tsx`: Interactive link toggle with live ping simulation for local and internet targets.
-   - `uplink-toggle.tsx`: ISP uplink toggle demonstrating failure modes and local gateway reachability.
-   - `concept-activity.tsx`: Accessible interactive activities for role assignment, resource matching, classification, and sequence message flows with reduced-motion support.
-   - `src/features/learning/practice/connectivity/domain.ts`: Pure functional reachability engine evaluating topology links without server shell or remote execution.
-3. **Module Final Assessment Player & Route:**
-   - `src/features/learning/components/module-assessment-player.tsx`: 3-stage assessment player with briefing, theory (10 questions), interactive practical simulation (3 criteria: P01, P02, P03), and granular result breakdown with remedial lesson links.
-   - `src/app/(app)/learn/[pathSlug]/[moduleSlug]/assessment/page.tsx`: Server component enforcing prerequisite barrier (all lessons complete), public question projection (no answer leakage), and passed attempt detection.
-   - `src/app/(app)/learn/[pathSlug]/page.tsx`: Module overview displaying learning outcomes and final assessment card (locked vs ready).
-   - `src/app/(app)/learn/[pathSlug]/[moduleSlug]/[lessonSlug]/page.tsx` & `src/features/learning/components/lesson-action-bar.tsx`: Lesson view with outcome badges, truthful missing-content state, and next CTA routing to final assessment on the last lesson.
-4. **Seed Content Enrichment:**
-   - `prisma/seed.ts`: Seeded rich content for all 4 Welcome to Networking lessons from `welcomeModuleData`, establishing complete alignment between database and curriculum registry.
+1. **`src/middleware.ts` & `src/middleware.test.ts`:**
+   - Evaluated root path `"/"` alongside `/sign-in` and `/sign-up` for active authenticated user redirect.
+   - Preserved access to `"/"` for anonymous visitors and revoked session tokens.
+2. **`src/app/page.tsx` & `src/app/page.test.tsx`:**
+   - Server-side guard prevents flashes of public marketing page for authenticated learners.
+   - Removed `user` prop pass to `AppHeader`.
+3. **`src/components/navigation/app-header.tsx` & `src/components/navigation/app-header.test.tsx`:**
+   - Removed `DropdownMenu`, `AccountModal`, and `user` state/imports from `AppHeader`.
+   - Header is strictly public, rendering "Masuk" and "Mulai Gratis" CTAs for both desktop and mobile views.
 
 ## 4. Quality Verification Evidence
 
 - `npm run db:generate`: Prisma Client 7.9.1 generated cleanly.
 - `npm run typecheck`: TypeScript compilation passed with 0 errors (`tsc --noEmit`).
 - `npm run lint`: ESLint passed with 0 errors and 0 warnings (`eslint .`).
-- `npm test`: Full vitest suite passed (66 test files, 352 tests 100% green).
-- Playwright E2E: `npx playwright test src/e2e/member-workspace.spec.ts --project=chromium` passed 5/5 tests.
+- `npm test`: Full vitest suite passed (67 test files, 356 tests 100% green).
 - `npm run build`: Production build (`next build --webpack`) succeeded, generating 35 static pages and dynamic assessment routes.
-- GitHub Actions CI: 5/5 jobs green on PR head `d06d66e` (Lint & Type Check, Test Suite, Browser E2E Tests, Production Build, Quality Gate).
-- PR: https://github.com/notyourkise/NetLoka/pull/29 (State: OPEN, Mergeable: CLEAN).
+- `git diff --check`: Clean (no whitespace errors).
 
 ## 5. Next Actions
 
-1. Await Abangku's review and merge of PR #29.
-2. Upon merge confirmation, sync `main` (`git pull --ff-only origin main`) and safely remove task branch/worktree.
-3. Proceed to **Sprint 24 — Pilot Integration, Teaching Review & Reference Approval**.
+1. Commit changes to `codex/landing-auth-redirect-cleanup`.
+2. Push branch to `origin/codex/landing-auth-redirect-cleanup`.
+3. Open pull request targeting `main` via `gh pr create`.
+4. Verify all GitHub Actions CI checks pass on the PR head.
+5. Notify Abangku for final review and merge.

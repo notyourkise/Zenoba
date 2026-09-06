@@ -36,7 +36,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(signInUrl);
   }
 
-  if (token && !isRevoked && (pathname === "/sign-in" || pathname === "/sign-up")) {
+  if (token && !isRevoked && (pathname === "/" || pathname === "/sign-in" || pathname === "/sign-up")) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
@@ -45,6 +45,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/",
     "/dashboard/:path*",
     "/learn/:path*",
     "/labs/:path*",

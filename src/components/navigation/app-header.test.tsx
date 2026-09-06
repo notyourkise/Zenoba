@@ -40,7 +40,7 @@ vi.mock("next/link", () => ({
 
 describe("AppHeader auth buttons", () => {
   test("uses compact sizing in desktop and mobile navigation", () => {
-    const { container, getByRole } = render(<AppHeader user={null} />);
+    const { container, getByRole } = render(<AppHeader />);
     const desktopSignIn = container.querySelector('a[href="/?auth=sign-in"]');
     const desktopSignUp = container.querySelector('a[href="/?auth=sign-up"]');
 
@@ -69,7 +69,7 @@ describe("AppHeader auth buttons", () => {
 
 describe("AppHeader IT infrastructure navigation", () => {
   test("presents available and soon learning domains without linking unavailable areas", () => {
-    render(<AppHeader user={null} />);
+    render(<AppHeader />);
 
     expect(screen.getByRole("button", { name: "Learn" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Labs" })).toBeInTheDocument();
@@ -105,7 +105,7 @@ describe("AppHeader IT infrastructure navigation", () => {
   });
 
   test("keeps mobile navigation aligned with the same product areas and soon roadmap", () => {
-    render(<AppHeader user={null} />);
+    render(<AppHeader />);
 
     fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
 
@@ -136,76 +136,23 @@ describe("AppHeader IT infrastructure navigation", () => {
   });
 });
 
-describe("AppHeader profile dropdown", () => {
-  test("opens dropdown with profile, settings, support, and logout", () => {
-    render(
-      <AppHeader
-        user={{
-          id: "usr_123",
-          name: "Dev Netloka",
-          email: "dev@netloka.biz.id",
-          role: "ADMIN",
-        }}
-      />,
-    );
+describe("AppHeader public authentication surface", () => {
+  test("never renders user profile dropdown or account modal", () => {
+    render(<AppHeader />);
 
-    const trigger = screen.getByRole("button", { name: "Menu akun" });
-    expect(trigger).toBeInTheDocument();
-    expect(screen.getByText("Dev Netloka")).toBeInTheDocument();
-
-    // Dropdown initially closed
+    expect(
+      screen.queryByRole("button", { name: "Menu akun" }),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText("Dev Netloka")).not.toBeInTheDocument();
     expect(screen.queryByRole("menu")).not.toBeInTheDocument();
 
-    // Click trigger to open
-    fireEvent.click(trigger);
+    expect(screen.getByRole("link", { name: /Masuk/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /Mulai Gratis/i }),
+    ).toBeInTheDocument();
 
-    expect(screen.getByRole("menu")).toBeVisible();
-    expect(screen.getByText("dev@netloka.biz.id")).toBeInTheDocument();
-
-    const profileItem = screen.getByRole("menuitem", { name: /Profile/i });
-    expect(profileItem).toBeInTheDocument();
-
-    const settingsItem = screen.getByRole("menuitem", { name: /Pengaturan/i });
-    expect(settingsItem).toBeInTheDocument();
-
-    const supportLink = screen.getByRole("menuitem", { name: /Bantuan/i });
-    expect(supportLink).toHaveAttribute("href", "/#faq");
-
-    const logoutItem = screen.getByRole("menuitem", { name: /Keluar/i });
-    expect(logoutItem).toBeInTheDocument();
-
-    // Click Profile item to open Account Modal
-    fireEvent.click(profileItem);
-    expect(screen.getByRole("dialog", { name: "Modal Akun" })).toBeVisible();
-    expect(screen.getByText("Profil Pengguna")).toBeVisible();
-
-    // Verify editable headline displays Developer for dev user and no streak text
-    expect(screen.getByText("Developer")).toBeVisible();
-    expect(screen.queryByText(/1 Hari Streak/i)).not.toBeInTheDocument();
-
-    // Verify flame button is removed from profile modal (streak is managed on dashboard)
-    expect(screen.queryByRole("button", { name: /Klaim api harian/i })).not.toBeInTheDocument();
-
-    // Switch to Pengaturan tab inside modal
-    fireEvent.click(screen.getByRole("button", { name: "Pengaturan" }));
-    expect(screen.getByText("Pengaturan Akun & Preferensi")).toBeVisible();
-
-    // Switch to Keamanan tab inside modal
-    fireEvent.click(screen.getByRole("button", { name: "Keamanan" }));
-    expect(screen.getByText("Keamanan Akun")).toBeVisible();
-    expect(screen.getByLabelText("Password Baru")).toBeVisible();
-    expect(screen.getByLabelText("Konfirmasi Password Baru")).toBeVisible();
-
-    // Switch to Sertifikat tab inside modal
-    fireEvent.click(screen.getByRole("button", { name: "Sertifikat" }));
-    expect(screen.getByText("Sertifikat Kelulusan & Kompetensi")).toBeVisible();
-
-    // Switch to Bantuan tab inside modal
-    fireEvent.click(screen.getByRole("button", { name: "Bantuan" }));
-    expect(screen.getByText("Pusat Bantuan & Panduan")).toBeVisible();
-
-    // Close modal via X button
-    fireEvent.click(screen.getByRole("button", { name: "Tutup modal" }));
-    expect(screen.queryByRole("dialog", { name: "Modal Akun" })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("dialog", { name: "Modal Akun" }),
+    ).not.toBeInTheDocument();
   });
 });

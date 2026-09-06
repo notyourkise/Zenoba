@@ -37,10 +37,10 @@ test.describe("IPv4 & Subnetting Curriculum Mastery (Sprint 27)", () => {
 
     // Verify 5 modules are rendered
     await expect(page.getByText("Biner & Anatomi Struktur IPv4")).toBeVisible();
-    await expect(page.getByText("Jenis Alamat IPv4")).toBeVisible();
-    await expect(page.getByText("Netmask & Notasi CIDR")).toBeVisible();
-    await expect(page.getByText("Kalkulasi Subnetting Presisi")).toBeVisible();
-    await expect(page.getByText("Desain VLSM & Alokasi Jaringan")).toBeVisible();
+    await expect(page.getByText("Klasifikasi & Jenis Alamat IPv4")).toBeVisible();
+    await expect(page.getByText("Subnet Mask & Notasi CIDR")).toBeVisible();
+    await expect(page.getByText("Kalkulasi Parameter Subnetting")).toBeVisible();
+    await expect(page.getByText("Pembagian Subnet (FLSM) & Desain VLSM")).toBeVisible();
 
     // Verify Capstone Challenge banner is rendered
     await expect(page.getByText("Desain Pembagian Subnet Multi-Ruangan Sekolah")).toBeVisible();
@@ -74,7 +74,7 @@ test.describe("IPv4 & Subnetting Curriculum Mastery (Sprint 27)", () => {
     // Ensure server-only misconception feedback is not leaked in the initial DOM
     const content = await page.content();
     expect(content).not.toContain("misconceptionFeedback");
-    expect(content).not.toContain("Bit paling kiri (bit ke-7) bernilai");
+    expect(content).not.toContain("Ingat urutan deret bobot 8-bit");
   });
 
   test("4. Formative quiz interaction in Lesson 1: incorrect retry and correct pass", async ({

@@ -609,13 +609,13 @@ Verify P1 mastery and define safe mappings before reorganizing Paths 3–4 or ad
 
 ---
 
-## Milestone 10 — Core Networking Curriculum & Applied Practice — IN PROGRESS
+## Milestone 10 — Core Networking Curriculum & Applied Practice — IMPLEMENTED / READY FOR REVIEW
 
 **Goal:** Deliver Paths 2–5 with measurable objectives, complete lessons, module gates, linked practice, and path-level troubleshooting evidence.
 
 **Entry:** M9 complete; S26 approves exact lesson/URL migration before path restructuring.
 
-### Sprint 27 — IPv4 & Subnetting Curriculum — IMPLEMENTED
+### Sprint 27 — IPv4 & Subnetting Curriculum — COMPLETE
 
 **Owner:** Milestone 10 only.
 
@@ -639,7 +639,7 @@ Students reason about MAC/ARP forwarding and correctly segment an access/trunk L
 
 **Acceptance:** Expected L2 recipient/forwarding/isolation results are deterministic; required module evidence blocks premature final.
 
-### Sprint 29 — Routing & Services Curriculum — IMPLEMENTED / READY FOR REVIEW
+### Sprint 29 — Routing & Services Curriculum — COMPLETE
 
 **Owner:** Milestone 10 only.
 
@@ -651,7 +651,7 @@ Students trace inter-subnet and named-service access with routing/DHCP/DNS/NAT e
 
 **Acceptance:** Correct next hop/return route, leases, name resolution and translation tested separately; no false pass on ping alone.
 
-### Sprint 30 — Wireless, Troubleshooting & Core Path Validation — PLANNED
+### Sprint 30 — Wireless, Troubleshooting & Core Path Validation — IMPLEMENTED / READY FOR REVIEW
 
 **Owner:** Milestone 10 only.
 

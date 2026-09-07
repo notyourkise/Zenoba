@@ -27,6 +27,10 @@ import { staticIntervlanModuleData } from "../src/features/learning/content/rout
 import { dhcpDnsModuleData } from "../src/features/learning/content/routing-services/dhcp-dns";
 import { natPatModuleData } from "../src/features/learning/content/routing-services/nat-pat";
 import { transportServicesModuleData } from "../src/features/learning/content/routing-services/transport-services";
+import { wirelessBasicsModuleData } from "../src/features/learning/content/wireless-troubleshooting/wireless-basics";
+import { wirelessSecurityModuleData } from "../src/features/learning/content/wireless-troubleshooting/wireless-security";
+import { diagnosticToolsModuleData } from "../src/features/learning/content/wireless-troubleshooting/diagnostic-tools";
+import { troubleshootingMethodologyModuleData } from "../src/features/learning/content/wireless-troubleshooting/troubleshooting-methodology";
 
 async function main() {
   console.log("🌱 Seeding Paths 1 to 5 (Full Curriculum)...");
@@ -500,40 +504,152 @@ async function main() {
   });
 
   // ==========================================
-  // PATH 5: Wireless & Troubleshooting (Sprint 9)
+  // PATH 5: Wireless & Troubleshooting (Full 4 Modules, 8 Lessons)
   // ==========================================
   const path5 = await upsertPath(
     "wireless-troubleshooting",
     "Wireless & Troubleshooting",
-    "Pelajari teknologi nirkabel Wi-Fi 6, frekuensi 2.4/5/6 GHz, keamanan WPA3, dan diagnostik CLI.",
+    "Kuasai karakteristik frekuensi nirkabel Wi-Fi 2.4/5/6 GHz, channel interference, WPA2/WPA3, isolasi jaringan tamu, utilitas CLI diagnostik, dan metodologi troubleshooting terstruktur.",
     "Wifi",
     5
   );
 
-  const mod15 = await upsertModule(path5.id, "wireless-technologies", "1. Teknologi Wi-Fi & Nirkabel", "Frekuensi gelombang radio, kanal, dan enkripsi.", 1);
-  const l15_1 = await upsertLesson(mod15.id, "wifi-bands-and-security", "Frekuensi 2.4GHz vs 5GHz & WPA3", "Interferensi kanal dan standar keamanan nirkabel.", 1, 100, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Karakteristik Frekuensi Wi-Fi" },
-      { type: "text", content: "Frekuensi 2.4 GHz memiliki jangkauan lebih jauh namun rentan interferensi, sedangkan 5 GHz & 6 GHz menawarkan bandwidth jauh lebih tinggi dengan jangkauan lebih pendek." },
-      { type: "callout", variant: "tip", title: "Keamanan Nirkabel", content: "Gunakan standar WPA3 atau WPA2-Enterprise untuk perlindungan dari serangan brute-force." },
-      { type: "reward", xp: 100, message: "Pelajaran nirkabel selesai!" },
-    ],
+  const path5Modules = [
+    wirelessBasicsModuleData,
+    wirelessSecurityModuleData,
+    diagnosticToolsModuleData,
+    troubleshootingMethodologyModuleData,
+  ];
+
+  const path5Lessons: Record<string, { id: string }> = {};
+
+  for (let mIdx = 0; mIdx < path5Modules.length; mIdx++) {
+    const modData = path5Modules[mIdx];
+    const moduleRecord = await upsertModule(
+      path5.id,
+      modData.slug,
+      `${mIdx + 1}. ${modData.title}`,
+      modData.description,
+      mIdx + 1
+    );
+
+    for (const lesson of modData.lessons) {
+      path5Lessons[lesson.slug] = await upsertLesson(
+        moduleRecord.id,
+        lesson.slug,
+        lesson.title,
+        lesson.description,
+        lesson.orderIndex + 1,
+        lesson.xpReward,
+        lesson.content
+      );
+    }
+  }
+
+  // Connect prerequisites for all Path 5 lessons (linear sequence)
+  for (const modData of path5Modules) {
+    for (const lesson of modData.lessons) {
+      for (const prereqSlug of lesson.prerequisites) {
+        if (path5Lessons[prereqSlug] && path5Lessons[lesson.slug]) {
+          await connectPrereq(
+            path5Lessons[lesson.slug].id,
+            path5Lessons[prereqSlug].id
+          );
+        }
+      }
+    }
+  }
+
+  // Migrate progress from legacy prototype lessons if they exist in the database
+  const legacyWifi = await prisma.lesson.findFirst({
+    where: { slug: "wifi-bands-and-security" },
+    include: { userProgress: true },
+  });
+  if (legacyWifi && path5Lessons["band-frekuensi-wifi"]) {
+    for (const prog of legacyWifi.userProgress) {
+      await prisma.userLessonProgress.upsert({
+        where: {
+          userId_lessonId: {
+            userId: prog.userId,
+            lessonId: path5Lessons["band-frekuensi-wifi"].id,
+          },
+        },
+        update: { status: prog.status, completedAt: prog.completedAt },
+        create: {
+          userId: prog.userId,
+          lessonId: path5Lessons["band-frekuensi-wifi"].id,
+          status: prog.status,
+          completedAt: prog.completedAt,
+        },
+      });
+    }
+    await prisma.lesson.deleteMany({
+      where: { slug: "wifi-bands-and-security" },
+    });
+  }
+
+  const legacyCli = await prisma.lesson.findFirst({
+    where: { slug: "terminal-diagnostics-lab" },
+    include: { userProgress: true },
+  });
+  if (legacyCli && path5Lessons["ipconfig-ping-diagnostic"]) {
+    for (const prog of legacyCli.userProgress) {
+      await prisma.userLessonProgress.upsert({
+        where: {
+          userId_lessonId: {
+            userId: prog.userId,
+            lessonId: path5Lessons["ipconfig-ping-diagnostic"].id,
+          },
+        },
+        update: { status: prog.status, completedAt: prog.completedAt },
+        create: {
+          userId: prog.userId,
+          lessonId: path5Lessons["ipconfig-ping-diagnostic"].id,
+          status: prog.status,
+          completedAt: prog.completedAt,
+        },
+      });
+    }
+    await prisma.lesson.deleteMany({
+      where: { slug: "terminal-diagnostics-lab" },
+    });
+  }
+
+  // Clean up legacy prototype modules if they exist
+  await prisma.module.deleteMany({
+    where: {
+      pathId: path5.id,
+      slug: { in: ["wireless-technologies", "cli-troubleshooting-tools"] },
+    },
   });
 
-  const mod16 = await upsertModule(path5.id, "cli-troubleshooting-tools", "2. Diagnostik Jaringan & CLI", "Praktik perintah diagnostik jaringan langsung.", 2);
-  const l16_1 = await upsertLesson(mod16.id, "terminal-diagnostics-lab", "Simulasi Perintah Diagnostik Jaringan", "Eksplorasi perintah ipconfig, ping, arp, tracert, nslookup, dan netstat.", 1, 150, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Terminal Diagnostik Interaktif" },
-      { type: "text", content: "Jalankan perintah diagnostik jaringan di bawah ini untuk memeriksa konfigurasi adapter, tabel ARP, dan konektivitas ICMP." },
-      { type: "interactive", interactiveType: "terminal", config: {} },
-      { type: "interactive", interactiveType: "icmp_ping", config: {} },
-      { type: "reward", xp: 150, message: "Selamat! Anda telah menguasai diagnostik jaringan dasar!" },
-    ],
+  // Seed Path 5 Capstone Challenge
+  await prisma.challenge.upsert({
+    where: { slug: "multi-incident-investigation" },
+    update: {
+      title: "Multi-Incident Network Investigation & Remediation",
+      description:
+        "Investigasi multi-insiden jaringan enterprise: diagnosis APIPA DHCP pool exhausted, perbaikan VLAN trunking, penyesuaian gateway kantor cabang, dan metodologi troubleshooting terstruktur.",
+      difficulty: "advanced",
+      xpReward: 200,
+      scenario: {
+        network: "192.168.0.0/16",
+        incidents: ["dhcp-apipa", "inter-vlan", "branch-gateway", "methodology"],
+      },
+    },
+    create: {
+      slug: "multi-incident-investigation",
+      title: "Multi-Incident Network Investigation & Remediation",
+      description:
+        "Investigasi multi-insiden jaringan enterprise: diagnosis APIPA DHCP pool exhausted, perbaikan VLAN trunking, penyesuaian gateway kantor cabang, dan metodologi troubleshooting terstruktur.",
+      difficulty: "advanced",
+      xpReward: 200,
+      scenario: {
+        network: "192.168.0.0/16",
+        incidents: ["dhcp-apipa", "inter-vlan", "branch-gateway", "methodology"],
+      },
+    },
   });
-
-  await connectPrereq(l16_1.id, l15_1.id);
 
   console.log("🌱 Seeding Course Commerce Catalog & Packages...");
   await seedCommerceCatalog(prisma);

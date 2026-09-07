@@ -20,6 +20,10 @@ import { staticIntervlanModuleData } from "./routing-services/static-intervlan";
 import { dhcpDnsModuleData } from "./routing-services/dhcp-dns";
 import { natPatModuleData } from "./routing-services/nat-pat";
 import { transportServicesModuleData } from "./routing-services/transport-services";
+import { wirelessBasicsModuleData } from "./wireless-troubleshooting/wireless-basics";
+import { wirelessSecurityModuleData } from "./wireless-troubleshooting/wireless-security";
+import { diagnosticToolsModuleData } from "./wireless-troubleshooting/diagnostic-tools";
+import { troubleshootingMethodologyModuleData } from "./wireless-troubleshooting/troubleshooting-methodology";
 import type { CurriculumLesson, CurriculumModule } from "./schema";
 
 /**
@@ -101,6 +105,23 @@ const CURRICULUM_REGISTRY: Record<string, CurriculumModule> = {
 
   "transport-services": transportServicesModuleData,
   "module-transport-services": transportServicesModuleData,
+
+  // Path 5: Wireless & Troubleshooting
+  "wireless-basics": wirelessBasicsModuleData,
+  "module-wireless-basics": wirelessBasicsModuleData,
+  "wireless-technologies": wirelessBasicsModuleData, // Legacy alias
+  "module-wireless-technologies": wirelessBasicsModuleData,
+
+  "wireless-security": wirelessSecurityModuleData,
+  "module-wireless-security": wirelessSecurityModuleData,
+
+  "diagnostic-tools": diagnosticToolsModuleData,
+  "module-diagnostic-tools": diagnosticToolsModuleData,
+  "cli-troubleshooting-tools": diagnosticToolsModuleData, // Legacy alias
+  "module-cli-troubleshooting-tools": diagnosticToolsModuleData,
+
+  "troubleshooting-methodology": troubleshootingMethodologyModuleData,
+  "module-troubleshooting-methodology": troubleshootingMethodologyModuleData,
 };
 
 /**
@@ -112,6 +133,8 @@ const LESSON_SLUG_ALIASES: Record<string, string> = {
   "arp-resolution-flow": "arp-request-reply",
   "vlan-segmentation-practice": "broadcast-domain-vlan",
   "nat-pat-translation": "pat-port-address-translation",
+  "wifi-bands-and-security": "band-frekuensi-wifi",
+  "terminal-diagnostics-lab": "ipconfig-ping-diagnostic",
 };
 
 /**

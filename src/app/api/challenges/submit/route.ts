@@ -5,6 +5,7 @@ import { evaluateSupportChallenge } from "@/features/challenges/support-challeng
 import { evaluateSchoolRoomAllocation } from "@/features/learning/practice/ipv4/room-allocation";
 import { evaluateVlanRepair } from "@/features/learning/practice/switching/vlan-repair";
 import { evaluateNamedServiceOutage } from "@/features/learning/practice/services/named-service-outage";
+import { evaluateMultiIncidentInvestigation } from "@/features/learning/practice/troubleshooting/multi-incident";
 import { awardXp } from "@/features/xp/ledger";
 import { prisma } from "@/lib/db/client";
 
@@ -50,11 +51,25 @@ const namedServiceOutageSchema = z.object({
   isPathFinal: z.boolean().optional(),
 });
 
+const multiIncidentInvestigationSchema = z.object({
+  challengeId: z.literal("multi-incident-investigation"),
+  apipaRootCause: z.string().min(1),
+  apipaCorrection: z.string().min(1),
+  interVlanRootCause: z.string().min(1),
+  interVlanCorrection: z.string().min(1),
+  gatewayRootCause: z.string().min(1),
+  gatewayCorrection: z.string().min(1),
+  troubleshootingPrincipleOption: z.string().min(1),
+  serviceVerificationOption: z.string().min(1),
+  isPathFinal: z.boolean().optional(),
+});
+
 const challengeSubmitSchema = z.discriminatedUnion("challengeId", [
   supportChallengeSchema,
   schoolRoomAllocationSchema,
   staffGuestVlanRepairSchema,
   namedServiceOutageSchema,
+  multiIncidentInvestigationSchema,
 ]);
 
 export async function POST(request: Request) {
@@ -589,6 +604,137 @@ export async function POST(request: Request) {
       try {
         const challenge = await prisma.challenge.findUnique({
           where: { slug: "named-service-outage" },
+          select: { id: true },
+        });
+
+        if (challenge) {
+          await prisma.challengeAttempt.create({
+            data: {
+              userId: user.id,
+              challengeId: challenge.id,
+              score: evaluation.score,
+              passed: evaluation.passed,
+              answers: {
+                submission: data,
+                criteriaResults: evaluation.criteriaResults,
+              } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+            },
+          });
+        }
+      } catch (challengeErr) {
+        console.error("Failed to record challenge attempt:", challengeErr);
+      }
+
+      return NextResponse.json({
+        passed: evaluation.passed,
+        score: evaluation.score,
+        maxScore: evaluation.maxScore,
+        feedback: evaluation.feedback,
+        criteriaResults: evaluation.criteriaResults,
+        unmetOutcomes: evaluation.unmetOutcomes,
+        xpResult,
+        isPathFinal: !!data.isPathFinal,
+      });
+    }
+
+    // =========================================================================
+    // Challenge 5: Multi-Incident Investigation & Remediation (Path 5 Capstone)
+    // =========================================================================
+    if (result.data.challengeId === "multi-incident-investigation") {
+      const data = result.data;
+
+      // Eligibility check when taken as Path 5 Final Assessment
+      if (data.isPathFinal) {
+        const path = await prisma.learningPath.findFirst({
+          where: { slug: "wireless-troubleshooting" },
+          include: {
+            modules: {
+              where: { published: true },
+              include: {
+                lessons: {
+                  where: { published: true },
+                  select: { id: true },
+                },
+              },
+            },
+          },
+        });
+
+        if (path) {
+          const pathLessonIds = path.modules.flatMap((m) =>
+            m.lessons.map((l) => l.id)
+          );
+          const totalLessons = pathLessonIds.length;
+
+          if (totalLessons > 0) {
+            const userCompletedRecords =
+              await prisma.userLessonProgress.findMany({
+                where: {
+                  userId: user.id,
+                  lessonId: { in: pathLessonIds },
+                  status: "COMPLETED",
+                },
+                select: { lessonId: true },
+              });
+
+            const completedCount = userCompletedRecords.length;
+
+            if (completedCount < totalLessons) {
+              return NextResponse.json(
+                {
+                  error:
+                    "Prasyarat belum terpenuhi. Anda harus menyelesaikan seluruh 8 pelajaran di Wireless & Troubleshooting sebelum mengambil Ujian Akhir Path.",
+                  code: "PREREQUISITES_INCOMPLETE",
+                  completedLessons: completedCount,
+                  totalLessons,
+                },
+                { status: 403 }
+              );
+            }
+          }
+        }
+      }
+
+      const evaluation = evaluateMultiIncidentInvestigation(data);
+
+      let xpResult = null;
+      if (evaluation.passed) {
+        xpResult = await awardXp(
+          user.id,
+          data.isPathFinal ? 200 : 150,
+          "CHALLENGE_SOLVED",
+          "challenge-multi-incident-investigation"
+        );
+      }
+
+      // Persist as AssessmentAttempt
+      const requestId = crypto.randomUUID();
+      const assessmentId = data.isPathFinal
+        ? "path-wireless-troubleshooting-final"
+        : "challenge-multi-incident-investigation";
+
+      try {
+        await prisma.assessmentAttempt.create({
+          data: {
+            userId: user.id,
+            assessmentId,
+            score: evaluation.score,
+            passed: evaluation.passed,
+            answersJson: {
+              submission: data,
+              criteriaResults: evaluation.criteriaResults,
+            } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+            requestId,
+          },
+        });
+      } catch (persistErr) {
+        console.error("Failed to record assessment attempt:", persistErr);
+      }
+
+      // Also record ChallengeAttempt for standalone challenge progress
+      try {
+        const challenge = await prisma.challenge.findUnique({
+          where: { slug: "multi-incident-investigation" },
           select: { id: true },
         });
 

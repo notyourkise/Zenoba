@@ -43,7 +43,7 @@ export default async function MyLearningPage() {
           {courses.map((course) => {
             const isFree = course.accessTier === "FREE";
             const targetHref = course.learningPathSlug
-              ? `/learning/${course.learningPathSlug}`
+              ? `/learn/${course.learningPathSlug}`
               : "/learn";
 
             return (

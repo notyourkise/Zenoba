@@ -79,6 +79,16 @@ const nextConfig: NextConfig = {
         destination: "/learn/network-services/:path*",
         permanent: true,
       },
+      {
+        source: "/learning",
+        destination: "/learn",
+        permanent: true,
+      },
+      {
+        source: "/learning/:path*",
+        destination: "/learn/:path*",
+        permanent: true,
+      },
     ];
   },
 };

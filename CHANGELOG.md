@@ -38,6 +38,14 @@ All notable project changes are recorded here.
 
 # 2026-09-07
 
+- [2026-09-07 20:29 WITA] [FIXED] [Workspace / My Learning / Route Alignment]
+  Fixed course card link in `/my-learning` and added fallback redirects:
+  - Corrected `targetHref` in `src/app/(app)/my-learning/page.tsx` from `/learning/${course.learningPathSlug}` to `/learn/${course.learningPathSlug}`.
+  - Added permanent redirects in `next.config.ts` from `/learning` and `/learning/:path*` to `/learn` and `/learn/:path*` to prevent any 404 on legacy or mistyped links.
+  - Added unit test suite in `src/app/(app)/my-learning/page.test.tsx` (3 tests) validating course card href resolution and empty state behavior.
+  Files/areas: `src/app/(app)/my-learning/page.tsx`, `next.config.ts`, `src/app/(app)/my-learning/page.test.tsx`, `CHANGELOG.md`, `docs/HANDOFF.md`
+  Validation: `npm run typecheck` (0 errors), `npm run lint` (0 errors, 0 warnings), `npm test` (84 test files, 476 tests passed), `npm run build` (35 routes compiled cleanly), `git diff --check` clean.
+
 - [2026-09-07 18:22 WITA] [REVIEW] [Milestone 12 / Sprint 33 / Premium Activation Entry-Gate Review]
   Executed authoritative entry-gate review for Milestone 12 (Premium Course & Payment Activation), verifying that commercial payment activation remains safely and deterministically blocked until business, legal, content, and provider prerequisites are independently satisfied:
   - Task 33.1 (Verify Published Premium Content, Access Guards, Pricing & Combo Packages): Audited entire curriculum registry (`src/features/learning/content/registry.ts`) and catalog seed (`prisma/commerce-seed.ts`). Verified that all 6 published Networking paths are permanently 100% FREE. All 7 future tracks (CCTV, Fiber Optic, VoIP, MikroTik, Cisco, Linux Server, Security) have zero published content, zero learning paths, and are marked `COMING_SOON`. All 10 commercial packages (7 Single, 3 Combo) have unannounced null pricing (`amountIdr: null`). Enforced domain invariants in `catalog-rules.ts` guaranteeing that premium courses cannot be AVAILABLE without published content and coming-soon packages cannot specify prices. Verified server-side entitlement guards in `src/features/commerce/access.ts` (`requireLearningPathAccess`) and order creation restrictions in `src/features/commerce/orders.ts`.

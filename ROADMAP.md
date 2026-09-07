@@ -701,13 +701,13 @@ Verify independent proposal work and the entire six-path curriculum.
 
 ---
 
-## Milestone 12 — Premium Course & Payment Activation — PLANNED
+## Milestone 12 — Premium Course & Payment Activation — IN PROGRESS
 
 **Goal:** Preserve the former M8 premium/provider activation scope, strictly after content/product/operator/provider and deployment gates.
 
 **Entry:** M7 operational gates and M8–M11 curriculum gates complete, real premium content and pricing separately approved, merchant/legal/provider prerequisites verified.
 
-### Sprint 33 — Premium Activation Entry-Gate Review — PLANNED
+### Sprint 33 — Premium Activation Entry-Gate Review — IMPLEMENTED / READY FOR REVIEW
 
 **Owner:** Milestone 12 only.
 

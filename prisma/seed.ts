@@ -35,6 +35,7 @@ import { requirementsAnalysisModuleData } from "../src/features/learning/content
 import { capacityProcurementModuleData } from "../src/features/learning/content/network-planning/capacity-procurement";
 import { topologyIpVlanDesignModuleData } from "../src/features/learning/content/network-planning/topology-ip-vlan-design";
 import { proposalReviewModuleData } from "../src/features/learning/content/network-planning/proposal-review";
+import { appliedCasesModuleData } from "../src/features/learning/content/network-planning/applied-cases";
 
 async function main() {
   console.log("🌱 Seeding Paths 1 to 5 (Full Curriculum)...");
@@ -656,7 +657,7 @@ async function main() {
   });
 
   // ==========================================
-  // PATH 6: Network Planning & IT Consultant (Modules 1-4, 8 Lessons)
+  // PATH 6: Network Planning & IT Consultant (Modules 1-5, 10 Lessons)
   // ==========================================
   const path6 = await upsertPath(
     "network-planning",
@@ -671,6 +672,7 @@ async function main() {
     capacityProcurementModuleData,
     topologyIpVlanDesignModuleData,
     proposalReviewModuleData,
+    appliedCasesModuleData,
   ];
 
   const path6Lessons: Record<string, { id: string }> = {};
@@ -712,10 +714,168 @@ async function main() {
     }
   }
 
+  console.log("🌱 Seeding IT Consultant Cases...");
+  await seedConsultantCases(prisma);
+
   console.log("🌱 Seeding Course Commerce Catalog & Packages...");
   await seedCommerceCatalog(prisma);
 
-  console.log("✅ Seed completed successfully for all 6 Paths (1 to 6) and Commerce Catalog!");
+  console.log("✅ Seed completed successfully for all 6 Paths (1 to 6), Consultant Cases, and Commerce Catalog!");
+}
+
+async function seedConsultantCases(prismaClient: typeof prisma) {
+  const cases = [
+    {
+      slug: "small-office-notaris",
+      title: "1. Kantor Notaris & PPAT (SOHO)",
+      clientName: "Kantor Notaris & PPAT H. Suryadi, S.H.",
+      clientType: "small-office",
+      description: "Perancangan jaringan LAN kantor notaris untuk 12 workstation staf, printer sharing, dan 2 Access Point Wi-Fi tamu.",
+      budget: 15000000,
+      difficulty: "Beginner",
+      orderIndex: 1,
+      requirements: {
+        wiredClientCount: 12,
+        apCount: 2,
+        requireVlan: false,
+        requirePoe: true,
+      },
+      constraints: {
+        maxBudget: 15000000,
+        minAccessPorts: 12,
+      },
+    },
+    {
+      slug: "warnet-gaming-center",
+      title: "2. Warnet & Esports Gaming Center",
+      clientName: "CyberArena Esports Cafe",
+      clientType: "warnet",
+      description: "Infrastruktur jaringan 30 PC Gaming dengan throughput tinggi, Dual-WAN ISP Failover, dan bandwidth management rendah latensi.",
+      budget: 25000000,
+      difficulty: "Intermediate",
+      orderIndex: 2,
+      requirements: {
+        wiredClientCount: 30,
+        apCount: 2,
+        requireVlan: false,
+        requireDualWan: true,
+        requirePoe: false,
+      },
+      constraints: {
+        maxBudget: 25000000,
+        minAccessPorts: 30,
+      },
+    },
+    {
+      slug: "medium-office-logistics",
+      title: "3. Kantor Logistik & Gudang Distribusi",
+      clientName: "PT Nusantara Express Logistics",
+      clientType: "medium-office",
+      description: "Jaringan 40 PC staf, server lokal, CCTV IP, dan segmentasi 3 VLAN (Staff, Server, Guest) dengan Wi-Fi 6.",
+      budget: 50000000,
+      difficulty: "Intermediate",
+      orderIndex: 3,
+      requirements: {
+        wiredClientCount: 40,
+        apCount: 3,
+        requireVlan: true,
+        requireDualWan: true,
+        requirePoe: true,
+        vlanList: [
+          { vlanId: 10, name: "Staff Operasional", requiredHosts: 40 },
+          { vlanId: 20, name: "Server & CCTV", requiredHosts: 10 },
+          { vlanId: 30, name: "Tamu (Guest)", requiredHosts: 30 },
+        ],
+      },
+      constraints: {
+        maxBudget: 50000000,
+        minAccessPorts: 40,
+      },
+    },
+    {
+      slug: "smk-tkj-school-lab",
+      title: "4. Laboratorium Jaringan Komputer SMK TKJ",
+      clientName: "SMK Negeri 1 Teknologi",
+      clientType: "school",
+      description: "Perancangan 2 Lab Komputer (@ 36 PC) + Ruang Guru & Server Room dengan arsitektur Core-Distribution Switch dan VLAN.",
+      budget: 75000000,
+      difficulty: "Advanced",
+      orderIndex: 4,
+      requirements: {
+        wiredClientCount: 72,
+        apCount: 4,
+        requireVlan: true,
+        requirePoe: true,
+        vlanList: [
+          { vlanId: 10, name: "Lab Komputer 1", requiredHosts: 36 },
+          { vlanId: 20, name: "Lab Komputer 2", requiredHosts: 36 },
+          { vlanId: 99, name: "Guru & Manajemen", requiredHosts: 20 },
+        ],
+      },
+      constraints: {
+        maxBudget: 75000000,
+        minAccessPorts: 72,
+      },
+    },
+    {
+      slug: "multi-floor-corporate",
+      title: "5. Gedung Korporat Multi-Lantai (3 Lantai)",
+      clientName: "Gedung Menara Finansial 3-Lantai",
+      clientType: "enterprise",
+      description: "Infrastruktur enterprise 100 node dengan backbone Fiber Optic 10G SFP+, Redundant Core Switch, dan Wi-Fi 6 multi-SSID.",
+      budget: 120000000,
+      difficulty: "Advanced",
+      orderIndex: 5,
+      requirements: {
+        wiredClientCount: 100,
+        apCount: 6,
+        requireVlan: true,
+        requireDualWan: true,
+        requirePoe: true,
+        vlanList: [
+          { vlanId: 10, name: "Lantai 1 Front Office", requiredHosts: 30 },
+          { vlanId: 20, name: "Lantai 2 Finance & HR", requiredHosts: 40 },
+          { vlanId: 30, name: "Lantai 3 Executive", requiredHosts: 30 },
+          { vlanId: 50, name: "Wi-Fi Tamu", requiredHosts: 50 },
+        ],
+      },
+      constraints: {
+        maxBudget: 120000000,
+        minAccessPorts: 100,
+      },
+    },
+  ];
+
+  for (const c of cases) {
+    await prismaClient.consultantCase.upsert({
+      where: { slug: c.slug },
+      update: {
+        title: c.title,
+        clientName: c.clientName,
+        clientType: c.clientType,
+        description: c.description,
+        budget: c.budget,
+        difficulty: c.difficulty,
+        orderIndex: c.orderIndex,
+        requirements: c.requirements,
+        constraints: c.constraints,
+        published: true,
+      },
+      create: {
+        slug: c.slug,
+        title: c.title,
+        clientName: c.clientName,
+        clientType: c.clientType,
+        description: c.description,
+        budget: c.budget,
+        difficulty: c.difficulty,
+        orderIndex: c.orderIndex,
+        requirements: c.requirements,
+        constraints: c.constraints,
+        published: true,
+      },
+    });
+  }
 }
 
 main()

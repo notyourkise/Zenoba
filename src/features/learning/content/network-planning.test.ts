@@ -6,6 +6,7 @@ import { requirementsAnalysisModuleData } from "./network-planning/requirements-
 import { capacityProcurementModuleData } from "./network-planning/capacity-procurement";
 import { topologyIpVlanDesignModuleData } from "./network-planning/topology-ip-vlan-design";
 import { proposalReviewModuleData } from "./network-planning/proposal-review";
+import { appliedCasesModuleData } from "./network-planning/applied-cases";
 
 describe("Path 6: Network Planning & IT Consultant Curriculum Content", () => {
   const allModules = [
@@ -13,18 +14,20 @@ describe("Path 6: Network Planning & IT Consultant Curriculum Content", () => {
     capacityProcurementModuleData,
     topologyIpVlanDesignModuleData,
     proposalReviewModuleData,
+    appliedCasesModuleData,
   ];
 
-  it("registers all 4 Path 6 modules in CURRICULUM_REGISTRY", () => {
+  it("registers all 5 Path 6 modules in CURRICULUM_REGISTRY", () => {
     expect(getCurriculumModule("requirements-analysis")).toBeDefined();
     expect(getCurriculumModule("capacity-procurement")).toBeDefined();
     expect(getCurriculumModule("topology-ip-vlan-design")).toBeDefined();
     expect(getCurriculumModule("proposal-review")).toBeDefined();
+    expect(getCurriculumModule("applied-cases")).toBeDefined();
   });
 
-  it("contains exactly 8 authored lessons across all 4 modules", () => {
+  it("contains exactly 10 authored lessons across all 5 modules", () => {
     const totalLessons = allModules.reduce((acc, m) => acc + m.lessons.length, 0);
-    expect(totalLessons).toBe(8);
+    expect(totalLessons).toBe(10);
     for (const mod of allModules) {
       expect(mod.lessons.length).toBe(2);
     }
@@ -111,6 +114,8 @@ describe("Path 6: Network Planning & IT Consultant Curriculum Content", () => {
       ["topology-ip-vlan-design", "perencanaan-ip-dan-vlan"],
       ["proposal-review", "dokumentasi-teknis-jaringan"],
       ["proposal-review", "review-desain-dan-revisi"],
+      ["applied-cases", "small-office-transfer"],
+      ["applied-cases", "komparasi-kasus-lanjutan"],
     ];
 
     for (const [modSlug, lesSlug] of slugs) {

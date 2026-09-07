@@ -28,6 +28,7 @@ import { requirementsAnalysisModuleData } from "./network-planning/requirements-
 import { capacityProcurementModuleData } from "./network-planning/capacity-procurement";
 import { topologyIpVlanDesignModuleData } from "./network-planning/topology-ip-vlan-design";
 import { proposalReviewModuleData } from "./network-planning/proposal-review";
+import { appliedCasesModuleData } from "./network-planning/applied-cases";
 import type { CurriculumLesson, CurriculumModule } from "./schema";
 
 /**
@@ -139,6 +140,9 @@ const CURRICULUM_REGISTRY: Record<string, CurriculumModule> = {
 
   "proposal-review": proposalReviewModuleData,
   "module-proposal-review": proposalReviewModuleData,
+
+  "applied-cases": appliedCasesModuleData,
+  "module-applied-cases": appliedCasesModuleData,
 };
 
 /**

@@ -4,8 +4,8 @@ import { findFormativeQuestion } from "./service";
 
 describe("Path 6: Network Planning & IT Consultant Assessment", () => {
   describe("Formative Assessment Questions (Server-Side)", () => {
-    it("contains exactly 24 formative questions across 8 lessons", () => {
-      expect(planningFormativeQuestions.length).toBe(24);
+    it("contains exactly 30 formative questions across 10 lessons", () => {
+      expect(planningFormativeQuestions.length).toBe(30);
 
       const expectedLessons = [
         "wawancara-klien",
@@ -16,6 +16,8 @@ describe("Path 6: Network Planning & IT Consultant Assessment", () => {
         "perencanaan-ip-dan-vlan",
         "dokumentasi-teknis-jaringan",
         "review-desain-dan-revisi",
+        "small-office-transfer",
+        "komparasi-kasus-lanjutan",
       ];
 
       for (const slug of expectedLessons) {
@@ -48,7 +50,7 @@ describe("Path 6: Network Planning & IT Consultant Assessment", () => {
       expect(q1).toBeDefined();
       expect(q1?.correctAnswer).toBe("opt-2");
 
-      const qLast = findFormativeQuestion("quiz-plan-l8-q3");
+      const qLast = findFormativeQuestion("quiz-plan-l10-q3");
       expect(qLast).toBeDefined();
       expect(qLast?.correctAnswer).toBe("opt-1");
 

@@ -1,8 +1,8 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth";
+import { prisma } from "@/lib/db/client";
 import { ConsultantWorkspace, CaseDef } from "@/features/consultant/components/consultant-workspace";
 
 const CASE_DETAILS: Record<string, CaseDef> = {
@@ -95,12 +95,69 @@ const CASE_DETAILS: Record<string, CaseDef> = {
 export default async function CaseDetailPage(props: {
   params: Promise<{ caseSlug: string }>;
 }) {
-  await getCurrentUser();
+  const user = await getCurrentUser();
   const { caseSlug } = await props.params;
 
   const caseData = CASE_DETAILS[caseSlug];
   if (!caseData) {
     notFound();
+  }
+
+  // Check prerequisite if this is an advanced case (cases 2-5)
+  let isLocked = false;
+  if (caseSlug !== "small-office-notaris") {
+    if (!user?.id) {
+      isLocked = true;
+    } else {
+      const foundationalPassed = await prisma.consultantProject.findFirst({
+        where: {
+          userId: user.id,
+          case: { slug: "small-office-notaris" },
+          passed: true,
+        },
+      });
+      isLocked = !foundationalPassed;
+    }
+  }
+
+  if (isLocked) {
+    return (
+      <div className="max-w-4xl mx-auto space-y-6 py-8">
+        <Link
+          href="/consultant"
+          className="inline-flex items-center text-xs font-bold text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
+        >
+          &larr; Kembali ke Katalog Kasus Konsultan
+        </Link>
+
+        <div className="p-8 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm space-y-4 text-center">
+          <div className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300">
+            Prasyarat Belum Terpenuhi
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            Akses Studi Kasus Masih Terkunci
+          </h1>
+          <p className="text-sm text-gray-600 dark:text-gray-400 max-w-lg mx-auto leading-relaxed">
+            Studi kasus <strong>{caseData.title}</strong> merupakan proyek lanjutan. Anda wajib menyelesaikan dan mendapatkan kelulusan (skor &ge; 70) pada studi kasus fondasi terlebih dahulu.
+          </p>
+
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link
+              href="/consultant/small-office-notaris"
+              className="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-sm"
+            >
+              Buka Studi Kasus Fondasi (SOHO Notaris) &rarr;
+            </Link>
+            <Link
+              href="/consultant"
+              className="px-6 py-2.5 rounded-xl text-xs font-bold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+            >
+              Kembali ke Katalog
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -109,8 +166,7 @@ export default async function CaseDetailPage(props: {
         href="/consultant"
         className="inline-flex items-center text-xs font-bold text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
       >
-        <ChevronLeft className="w-4 h-4 mr-1" />
-        Kembali ke Katalog Kasus Konsultan
+        &larr; Kembali ke Katalog Kasus Konsultan
       </Link>
 
       <ConsultantWorkspace caseData={caseData} />

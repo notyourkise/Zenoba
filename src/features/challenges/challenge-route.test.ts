@@ -17,6 +17,7 @@ vi.mock("@/lib/db/client", () => ({
   prisma: {
     learningPath: {
       findUnique: vi.fn(),
+      findFirst: vi.fn(),
     },
     userLessonProgress: {
       findMany: vi.fn(),
@@ -615,6 +616,175 @@ describe("POST /api/challenges/submit", () => {
           data: expect.objectContaining({
             userId: "user-3",
             assessmentId: "path-switching-lan-final",
+            score: 100,
+            passed: true,
+          }),
+        })
+      );
+    });
+  });
+
+  describe("Path 4: named-service-outage", () => {
+    const validOutageSubmission = {
+      challengeId: "named-service-outage",
+      dhcpDefaultGateway: "192.168.1.1",
+      dhcpDnsServer: "192.168.1.10",
+      natOverloadEnabled: true,
+      transportOutageReasonOption: "port-blocked-or-service-down",
+    };
+
+    it("evaluates named-service-outage submission and awards XP when passed in standalone mode", async () => {
+      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+        id: "user-4",
+        email: "u4@example.com",
+      });
+
+      vi.mocked(xpLedger.awardXp).mockResolvedValueOnce({
+        awarded: true,
+        amount: 150,
+        totalXp: 350,
+        message: "+150 XP",
+      });
+
+      vi.mocked(prisma.challenge.findUnique).mockResolvedValueOnce({
+        id: "ch-4",
+        slug: "named-service-outage",
+      } as any);
+
+      const req = new Request("http://localhost:3000/api/challenges/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(validOutageSubmission),
+      });
+
+      const res = await challengeSubmitHandler(req);
+      const data = await res.json();
+
+      expect(res.status).toBe(200);
+      expect(data.passed).toBe(true);
+      expect(data.score).toBe(100);
+      expect(data.criteriaResults).toHaveLength(4);
+      expect(xpLedger.awardXp).toHaveBeenCalledWith(
+        "user-4",
+        150,
+        "CHALLENGE_SOLVED",
+        "challenge-named-service-outage"
+      );
+
+      expect(prisma.assessmentAttempt.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            userId: "user-4",
+            assessmentId: "challenge-named-service-outage",
+            score: 100,
+            passed: true,
+          }),
+        })
+      );
+    });
+
+    it("blocks named-service-outage with 403 when prerequisites are incomplete as Path 4 Final", async () => {
+      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+        id: "user-4",
+        email: "u4@example.com",
+      });
+
+      const fakeLessons = Array.from({ length: 10 }, (_, i) => ({
+        id: `p4-l${i + 1}`,
+      }));
+
+      vi.mocked(prisma.learningPath.findFirst).mockResolvedValueOnce({
+        id: "path-4",
+        slug: "network-services",
+        modules: [
+          {
+            id: "m4",
+            lessons: fakeLessons,
+          },
+        ],
+      } as any);
+
+      // User has only completed 7 out of 10
+      vi.mocked(prisma.userLessonProgress.findMany).mockResolvedValueOnce(
+        fakeLessons.slice(0, 7).map((l) => ({ lessonId: l.id })) as any
+      );
+
+      const req = new Request("http://localhost:3000/api/challenges/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...validOutageSubmission,
+          isPathFinal: true,
+        }),
+      });
+
+      const res = await challengeSubmitHandler(req);
+      expect(res.status).toBe(403);
+      const data = await res.json();
+      expect(data.code).toBe("PREREQUISITES_INCOMPLETE");
+      expect(data.completedLessons).toBe(7);
+      expect(data.totalLessons).toBe(10);
+    });
+
+    it("allows named-service-outage and persists to path-network-services-final when all 10 Path 4 lessons completed", async () => {
+      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+        id: "user-4",
+        email: "u4@example.com",
+      });
+
+      const fakeLessons = Array.from({ length: 10 }, (_, i) => ({
+        id: `p4-l${i + 1}`,
+      }));
+
+      vi.mocked(prisma.learningPath.findFirst).mockResolvedValueOnce({
+        id: "path-4",
+        slug: "network-services",
+        modules: [
+          {
+            id: "m4",
+            lessons: fakeLessons,
+          },
+        ],
+      } as any);
+
+      // User has completed all 10
+      vi.mocked(prisma.userLessonProgress.findMany).mockResolvedValueOnce(
+        fakeLessons.map((l) => ({ lessonId: l.id })) as any
+      );
+
+      vi.mocked(xpLedger.awardXp).mockResolvedValueOnce({
+        awarded: true,
+        amount: 200,
+        totalXp: 550,
+        message: "+200 XP",
+      });
+
+      const req = new Request("http://localhost:3000/api/challenges/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...validOutageSubmission,
+          isPathFinal: true,
+        }),
+      });
+
+      const res = await challengeSubmitHandler(req);
+      expect(res.status).toBe(200);
+      const data = await res.json();
+      expect(data.passed).toBe(true);
+      expect(data.isPathFinal).toBe(true);
+      expect(xpLedger.awardXp).toHaveBeenCalledWith(
+        "user-4",
+        200,
+        "CHALLENGE_SOLVED",
+        "challenge-named-service-outage"
+      );
+
+      expect(prisma.assessmentAttempt.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            userId: "user-4",
+            assessmentId: "path-network-services-final",
             score: 100,
             passed: true,
           }),

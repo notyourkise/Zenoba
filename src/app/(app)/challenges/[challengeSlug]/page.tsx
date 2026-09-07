@@ -7,6 +7,7 @@ import { ChallengeRunner, ChallengeDef } from "@/features/challenges/components/
 import { SupportChallengePlayer } from "@/features/challenges/components/support-challenge-player";
 import { SchoolRoomAllocationPlayer } from "@/features/challenges/components/school-room-allocation-player";
 import { StaffGuestVlanPlayer } from "@/features/challenges/components/staff-guest-vlan-player";
+import { NamedServicePlayer } from "@/features/challenges/components/named-service-player";
 
 const CHALLENGE_DETAILS: Record<string, ChallengeDef> = {
   "branch-office-down": {
@@ -122,6 +123,22 @@ export default async function ChallengeDetailPage(props: {
         </Link>
 
         <StaffGuestVlanPlayer isPathFinal={isPathFinal} />
+      </div>
+    );
+  }
+
+  if (challengeSlug === "named-service-outage") {
+    return (
+      <div className="max-w-5xl mx-auto space-y-6 py-4">
+        <Link
+          href={isPathFinal ? "/learn/network-services" : "/challenges"}
+          className="inline-flex items-center text-xs font-bold text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
+        >
+          <ChevronLeft className="w-4 h-4 mr-1" />
+          {isPathFinal ? "Kembali ke Routing & Layanan Jaringan" : "Kembali ke Katalog Tantangan"}
+        </Link>
+
+        <NamedServicePlayer isPathFinal={isPathFinal} />
       </div>
     );
   }

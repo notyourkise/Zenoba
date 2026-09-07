@@ -22,6 +22,11 @@ import { ethernetMacModuleData } from "../src/features/learning/content/switchin
 import { arpBroadcastModuleData } from "../src/features/learning/content/switching-lan/arp-broadcast";
 import { vlanSegmentationModuleData } from "../src/features/learning/content/switching-lan/vlan-segmentation";
 import { accessTrunkModuleData } from "../src/features/learning/content/switching-lan/access-trunk";
+import { gatewayRouteModuleData } from "../src/features/learning/content/routing-services/gateway-route";
+import { staticIntervlanModuleData } from "../src/features/learning/content/routing-services/static-intervlan";
+import { dhcpDnsModuleData } from "../src/features/learning/content/routing-services/dhcp-dns";
+import { natPatModuleData } from "../src/features/learning/content/routing-services/nat-pat";
+import { transportServicesModuleData } from "../src/features/learning/content/routing-services/transport-services";
 
 async function main() {
   console.log("🌱 Seeding Paths 1 to 5 (Full Curriculum)...");
@@ -371,49 +376,128 @@ async function main() {
   }
 
   // ==========================================
-  // PATH 4: Network Services (Sprint 9)
+  // PATH 4: Routing & Network Services (Full 5 Modules, 10 Lessons)
   // ==========================================
   const path4 = await upsertPath(
     "network-services",
-    "Network Services & Security",
-    "Pelajari protokol esensial: DHCP, DNS, NAT/PAT, HTTP/HTTPS, dan manajemen port jaringan.",
+    "Routing & Network Services",
+    "Kuasai konsep routing IP, Default Gateway, Longest Prefix Match, rute statis, Inter-VLAN Routing, DHCP, DNS, NAT/PAT, dan protokol transport.",
     "Server",
     4
   );
 
-  const mod13 = await upsertModule(path4.id, "dhcp-and-dns-services", "1. Layanan DHCP & DNS", "Otomatisasi pengalamatan IP dan resolusi nama domain.", 1);
-  const l13_1 = await upsertLesson(mod13.id, "dhcp-dora-process", "Proses 4-Tahap DHCP (DORA)", "Discover, Offer, Request, dan Acknowledge.", 1, 100, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Alur Kerja Protokol DHCP (DORA)" },
-      { type: "text", content: "DHCP memungkinkan klien mendapatkan konfigurasi IP, subnet mask, default gateway, dan DNS server secara otomatis saat terhubung ke jaringan." },
-      { type: "interactive", interactiveType: "dhcp_dora", config: {} },
-      { type: "reward", xp: 100, message: "Pelajaran DHCP selesai!" },
-    ],
+  const path4Modules = [
+    gatewayRouteModuleData,
+    staticIntervlanModuleData,
+    dhcpDnsModuleData,
+    natPatModuleData,
+    transportServicesModuleData,
+  ];
+
+  const path4Lessons: Record<string, { id: string }> = {};
+
+  for (let mIdx = 0; mIdx < path4Modules.length; mIdx++) {
+    const modData = path4Modules[mIdx];
+    const moduleRecord = await upsertModule(
+      path4.id,
+      modData.slug,
+      `${mIdx + 1}. ${modData.title}`,
+      modData.description,
+      mIdx + 1
+    );
+
+    for (const lesson of modData.lessons) {
+      path4Lessons[lesson.slug] = await upsertLesson(
+        moduleRecord.id,
+        lesson.slug,
+        lesson.title,
+        lesson.description,
+        lesson.orderIndex + 1,
+        lesson.xpReward,
+        lesson.content
+      );
+    }
+  }
+
+  // Connect prerequisites for all Path 4 lessons (linear sequence)
+  for (const modData of path4Modules) {
+    for (const lesson of modData.lessons) {
+      for (const prereqSlug of lesson.prerequisites) {
+        if (path4Lessons[prereqSlug] && path4Lessons[lesson.slug]) {
+          await connectPrereq(
+            path4Lessons[lesson.slug].id,
+            path4Lessons[prereqSlug].id
+          );
+        }
+      }
+    }
+  }
+
+  // Migrate progress from legacy prototype lessons if they exist in the database
+  const legacyNat = await prisma.lesson.findFirst({
+    where: { slug: "nat-pat-translation" },
+    include: { userProgress: true },
+  });
+  if (legacyNat && path4Lessons["pat-port-address-translation"]) {
+    for (const prog of legacyNat.userProgress) {
+      await prisma.userLessonProgress.upsert({
+        where: {
+          userId_lessonId: {
+            userId: prog.userId,
+            lessonId: path4Lessons["pat-port-address-translation"].id,
+          },
+        },
+        update: { status: prog.status, completedAt: prog.completedAt },
+        create: {
+          userId: prog.userId,
+          lessonId: path4Lessons["pat-port-address-translation"].id,
+          status: prog.status,
+          completedAt: prog.completedAt,
+        },
+      });
+    }
+    await prisma.lesson.deleteMany({
+      where: { slug: "nat-pat-translation" },
+    });
+  }
+
+  // Clean up legacy prototype modules if they exist
+  await prisma.module.deleteMany({
+    where: {
+      pathId: path4.id,
+      slug: { in: ["dhcp-and-dns-services", "nat-pat-security"] },
+    },
   });
 
-  const l13_2 = await upsertLesson(mod13.id, "dns-query-resolution", "Hirarki Resolusi Domain DNS", "Root Server, TLD Server, dan Authoritative Record.", 2, 100, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Bagaimana DNS Menerjemahkan Nama Domain?" },
-      { type: "text", content: "DNS adalah buku telepon internet yang memetakan nama domain ramah manusia ke alamat IP server." },
-      { type: "interactive", interactiveType: "dns_query", config: {} },
-      { type: "reward", xp: 100, message: "Pelajaran DNS selesai!" },
-    ],
+  // Seed Path 4 Capstone Challenge
+  await prisma.challenge.upsert({
+    where: { slug: "named-service-outage" },
+    update: {
+      title: "Enterprise Named-Service Outage Diagnosis & Repair",
+      description:
+        "Investigasi kegagalan layanan jaringan kantor: default gateway salah, DNS resolver tidak aktif, NAT overload mati, dan analisis pemblokiran port web.",
+      difficulty: "intermediate",
+      xpReward: 150,
+      scenario: {
+        network: "192.168.1.0/24",
+        gateway: "192.168.1.1",
+        dns: "192.168.1.10",
+      },
+    },
+    create: {
+      slug: "named-service-outage",
+      title: "Enterprise Named-Service Outage Diagnosis & Repair",
+      description:
+        "Investigasi kegagalan layanan jaringan kantor: default gateway salah, DNS resolver tidak aktif, NAT overload mati, dan analisis pemblokiran port web.",
+      difficulty: "intermediate",
+      xpReward: 150,
+      scenario: {
+        network: "192.168.1.0/24",
+        gateway: "192.168.1.1",
+        dns: "192.168.1.10",
+      },
+    },
   });
-
-  const mod14 = await upsertModule(path4.id, "nat-pat-security", "2. NAT/PAT & Port Security", "Translasi IP privat ke publik dan pemetaan port.", 2);
-  const l14_1 = await upsertLesson(mod14.id, "nat-pat-translation", "Network Address Translation (NAT/PAT)", "Inside Local ke Inside Global port forwarding.", 1, 100, {
-    version: "1.0",
-    blocks: [
-      { type: "heading", level: 2, text: "Translasi Alamat Jaringan (NAT/PAT)" },
-      { type: "interactive", interactiveType: "nat_visualizer", config: {} },
-      { type: "reward", xp: 100, message: "Pelajaran NAT/PAT selesai!" },
-    ],
-  });
-
-  await connectPrereq(l13_2.id, l13_1.id);
-  await connectPrereq(l14_1.id, l13_2.id);
 
   // ==========================================
   // PATH 5: Wireless & Troubleshooting (Sprint 9)

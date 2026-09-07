@@ -4,6 +4,7 @@ import { z } from "zod";
 import { evaluateSupportChallenge } from "@/features/challenges/support-challenge";
 import { evaluateSchoolRoomAllocation } from "@/features/learning/practice/ipv4/room-allocation";
 import { evaluateVlanRepair } from "@/features/learning/practice/switching/vlan-repair";
+import { evaluateNamedServiceOutage } from "@/features/learning/practice/services/named-service-outage";
 import { awardXp } from "@/features/xp/ledger";
 import { prisma } from "@/lib/db/client";
 
@@ -40,10 +41,20 @@ const staffGuestVlanRepairSchema = z.object({
   isPathFinal: z.boolean().optional(),
 });
 
+const namedServiceOutageSchema = z.object({
+  challengeId: z.literal("named-service-outage"),
+  dhcpDefaultGateway: z.string(),
+  dhcpDnsServer: z.string(),
+  natOverloadEnabled: z.boolean(),
+  transportOutageReasonOption: z.string().min(1),
+  isPathFinal: z.boolean().optional(),
+});
+
 const challengeSubmitSchema = z.discriminatedUnion("challengeId", [
   supportChallengeSchema,
   schoolRoomAllocationSchema,
   staffGuestVlanRepairSchema,
+  namedServiceOutageSchema,
 ]);
 
 export async function POST(request: Request) {
@@ -440,6 +451,144 @@ export async function POST(request: Request) {
       try {
         const challenge = await prisma.challenge.findUnique({
           where: { slug: "staff-guest-vlan-repair" },
+          select: { id: true },
+        });
+
+        if (challenge) {
+          await prisma.challengeAttempt.create({
+            data: {
+              userId: user.id,
+              challengeId: challenge.id,
+              score: evaluation.score,
+              passed: evaluation.passed,
+              answers: {
+                submission: data,
+                criteriaResults: evaluation.criteriaResults,
+              } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+            },
+          });
+        }
+      } catch (challengeErr) {
+        console.error("Failed to record challenge attempt:", challengeErr);
+      }
+
+      return NextResponse.json({
+        passed: evaluation.passed,
+        score: evaluation.score,
+        maxScore: evaluation.maxScore,
+        feedback: evaluation.feedback,
+        criteriaResults: evaluation.criteriaResults,
+        unmetOutcomes: evaluation.unmetOutcomes,
+        xpResult,
+        isPathFinal: !!data.isPathFinal,
+      });
+    }
+
+    // =========================================================================
+    // Challenge 4: Named Service Outage (Path 4 Capstone)
+    // =========================================================================
+    if (result.data.challengeId === "named-service-outage") {
+      const data = result.data;
+
+      // Eligibility check when taken as Path 4 Final Assessment
+      if (data.isPathFinal) {
+        const path = await prisma.learningPath.findFirst({
+          where: {
+            OR: [{ slug: "network-services" }, { slug: "routing-services" }],
+          },
+          include: {
+            modules: {
+              where: { published: true },
+              include: {
+                lessons: {
+                  where: { published: true },
+                  select: { id: true },
+                },
+              },
+            },
+          },
+        });
+
+        if (path) {
+          const pathLessonIds = path.modules.flatMap((m) =>
+            m.lessons.map((l) => l.id)
+          );
+          const totalLessons = pathLessonIds.length;
+
+          if (totalLessons > 0) {
+            const userCompletedRecords =
+              await prisma.userLessonProgress.findMany({
+                where: {
+                  userId: user.id,
+                  lessonId: { in: pathLessonIds },
+                  status: "COMPLETED",
+                },
+                select: { lessonId: true },
+              });
+
+            const completedCount = userCompletedRecords.length;
+
+            if (completedCount < totalLessons) {
+              return NextResponse.json(
+                {
+                  error:
+                    "Prasyarat belum terpenuhi. Anda harus menyelesaikan seluruh 10 pelajaran di Routing & Layanan Jaringan sebelum mengambil Ujian Akhir Path.",
+                  code: "PREREQUISITES_INCOMPLETE",
+                  completedLessons: completedCount,
+                  totalLessons,
+                },
+                { status: 403 }
+              );
+            }
+          }
+        }
+      }
+
+      const evaluation = evaluateNamedServiceOutage({
+        dhcpDefaultGateway: data.dhcpDefaultGateway,
+        dhcpDnsServer: data.dhcpDnsServer,
+        natOverloadEnabled: data.natOverloadEnabled,
+        transportOutageReasonOption: data.transportOutageReasonOption,
+      });
+
+      let xpResult = null;
+      if (evaluation.passed) {
+        xpResult = await awardXp(
+          user.id,
+          data.isPathFinal ? 200 : 150,
+          "CHALLENGE_SOLVED",
+          "challenge-named-service-outage"
+        );
+      }
+
+      // Persist to AssessmentAttempt
+      const requestId = crypto.randomUUID();
+      const assessmentId = data.isPathFinal
+        ? "path-network-services-final"
+        : "challenge-named-service-outage";
+
+      try {
+        await prisma.assessmentAttempt.create({
+          data: {
+            userId: user.id,
+            assessmentId,
+            score: evaluation.score,
+            passed: evaluation.passed,
+            answersJson: {
+              submission: data,
+              criteriaResults: evaluation.criteriaResults,
+            } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+            requestId,
+          },
+        });
+      } catch (persistErr) {
+        console.error("Failed to record assessment attempt:", persistErr);
+      }
+
+      // Also record ChallengeAttempt for standalone challenge progress
+      try {
+        const challenge = await prisma.challenge.findUnique({
+          where: { slug: "named-service-outage" },
           select: { id: true },
         });
 

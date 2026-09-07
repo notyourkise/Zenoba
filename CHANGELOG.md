@@ -38,6 +38,15 @@ All notable project changes are recorded here.
 
 # 2026-09-07
 
+- [2026-09-07 20:58 WITA] [ADDED] [UI / Custom 404 Page & Session Fetch Hardening]
+  Implemented custom 404 page with Lottie animation and hardened NextAuth client session fetch:
+  - Created `src/components/effects/lottie-player.tsx` with dynamic client-side `lottie-web` loading, `prefers-reduced-motion` compliance, error fallback UI, accessible `role="img"`, and proper unmount destruction.
+  - Created `src/app/not-found.tsx` rendering `Page Not Found 404.json` Lottie animation, responsive cosmic dark / clean light layout, `AppHeader` integration, status badge, informative destination-unreachable copy, and pure text CTA navigation buttons (`/`, `/dashboard`, `/learn`) adhering to Section 5.6 icon policy.
+  - Added `refetchOnWindowFocus={false}` to `<SessionProvider>` in `src/app/providers.tsx` and ensured `NEXTAUTH_URL="http://localhost:3000"` in environment files, preventing `[next-auth][error][CLIENT_FETCH_ERROR] Failed to fetch` errors when alt-tabbing or switching window focus during development.
+  - Added unit test suites in `src/app/not-found.test.tsx` (3 tests) and `src/components/effects/lottie-player.test.tsx` (2 tests).
+  Files/areas: `src/components/effects/lottie-player.tsx`, `src/app/not-found.tsx`, `src/app/providers.tsx`, `src/components/effects/lottie-player.test.tsx`, `src/app/not-found.test.tsx`, `package.json`, `package-lock.json`, `CHANGELOG.md`, `docs/HANDOFF.md`
+  Validation: `npm run typecheck` (0 errors), `npm run lint` (0 errors, 0 warnings), `npm test` (86 test files, 481 tests passed), `npm run build` (prerendered `○ /_not-found` cleanly), `git diff --check` clean.
+
 - [2026-09-07 20:29 WITA] [FIXED] [Workspace / My Learning / Route Alignment]
   Fixed course card link in `/my-learning` and added fallback redirects:
   - Corrected `targetHref` in `src/app/(app)/my-learning/page.tsx` from `/learning/${course.learningPathSlug}` to `/learn/${course.learningPathSlug}`.

@@ -1092,14 +1092,14 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Dependency:** M7 operational gates and M8–M11 curriculum gates complete, real premium content and pricing separately approved, merchant/legal/provider prerequisites verified.
 
-### Sprint 33 — Premium Activation Entry-Gate Review
+### Sprint 33 — Premium Activation Entry-Gate Review — IMPLEMENTED / READY FOR REVIEW
 
 **Exclusive owner:** M12. **Required context:** Former M8 scope in ADR 0004 and archived commerce spec; M7 operational evidence; M8–M11 curriculum reviews.
 
-- [ ] Task 33.1: Verify actual published premium content, access guards, owner-approved price and valid premium Combo Package.
-- [ ] Task 33.2: Verify operator/privacy/merchant/tax readiness and private provider/staging configuration through approved channels.
-- [ ] Task 33.3: Record evidence and unresolved gates before authorizing provider implementation; no credentials in documentation.
-- [ ] Task 33.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
+- [x] Task 33.1: Verify actual published premium content, access guards, owner-approved price and valid premium Combo Package.
+- [x] Task 33.2: Verify operator/privacy/merchant/tax readiness and private provider/staging configuration through approved channels.
+- [x] Task 33.3: Record evidence and unresolved gates before authorizing provider implementation; no credentials in documentation.
+- [x] Task 33.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
 
 **Acceptance:** Every entry gate has current evidence; absent premium products keep milestone blocked from activation.
 

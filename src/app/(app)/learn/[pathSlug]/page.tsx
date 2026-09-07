@@ -416,6 +416,33 @@ export default async function PathDetailPage({ params }: PathDetailPageProps) {
           </div>
         </div>
       )}
+
+      {/* Path Final Section for Network Planning & IT Consultant */}
+      {path.slug === "network-planning" && (
+        <div className="bg-gradient-to-r from-blue-900/10 via-indigo-900/10 to-purple-900/10 dark:from-blue-950/40 dark:via-indigo-950/40 dark:to-purple-950/40 rounded-2xl border border-blue-200 dark:border-blue-800/60 p-6 sm:p-8 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <div className="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+                <span>Simulasi Proyek Praktik (IT Consultant Workspace)</span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                Workspace Perancangan Proyek Jaringan Nyata
+              </h3>
+              <p className="text-xs text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed">
+                Terapkan keterampilan analisis kebutuhan, kalkulasi port/AP/PoE, penyusunan BoQ, desain topologi hirarkis, alokasi IP/VLAN, dan audit proposal teknis pada studi kasus nyata (Kantor Notaris SOHO, Warnet Gaming, Logistik, Lab Sekolah, dan Gedung Korporat).
+              </p>
+            </div>
+            <div className="flex-shrink-0">
+              <Link
+                href="/consultant"
+                className="inline-flex items-center px-5 py-3 text-xs font-bold rounded-xl text-white bg-blue-600 hover:bg-blue-700 shadow-md transition-colors"
+              >
+                Buka Consultant Workspace
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

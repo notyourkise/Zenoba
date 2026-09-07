@@ -5,6 +5,7 @@ import { ipv4FormativeQuestions } from "@/features/learning/assessment/ipv4.serv
 import { switchingFormativeQuestions } from "@/features/learning/assessment/switching.server";
 import { servicesFormativeQuestions } from "@/features/learning/assessment/services.server";
 import { troubleshootingFormativeQuestions } from "@/features/learning/assessment/troubleshooting.server";
+import { planningFormativeQuestions } from "@/features/learning/assessment/planning.server";
 import { AssessmentNotFoundError } from "./errors";
 
 export interface LessonCompletionDecision {
@@ -65,6 +66,7 @@ export async function getLessonCompletionDecision(
     ...switchingFormativeQuestions,
     ...servicesFormativeQuestions,
     ...troubleshootingFormativeQuestions,
+    ...planningFormativeQuestions,
   ];
   const requiredQuestions = allFormativeQuestions.filter(
     (q) => q.lessonSlug === lesson.slug

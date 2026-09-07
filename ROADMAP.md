@@ -609,7 +609,7 @@ Verify P1 mastery and define safe mappings before reorganizing Paths 3–4 or ad
 
 ---
 
-## Milestone 10 — Core Networking Curriculum & Applied Practice — IMPLEMENTED / READY FOR REVIEW
+## Milestone 10 — Core Networking Curriculum & Applied Practice — COMPLETE
 
 **Goal:** Deliver Paths 2–5 with measurable objectives, complete lessons, module gates, linked practice, and path-level troubleshooting evidence.
 
@@ -651,7 +651,7 @@ Students trace inter-subnet and named-service access with routing/DHCP/DNS/NAT e
 
 **Acceptance:** Correct next hop/return route, leases, name resolution and translation tested separately; no false pass on ping alone.
 
-### Sprint 30 — Wireless, Troubleshooting & Core Path Validation — IMPLEMENTED / READY FOR REVIEW
+### Sprint 30 — Wireless, Troubleshooting & Core Path Validation — COMPLETE
 
 **Owner:** Milestone 10 only.
 
@@ -667,13 +667,13 @@ Students collect evidence and verify repairs across Paths 2–5.
 
 ---
 
-## Milestone 11 — Consultant Learning Path & Curriculum Validation — PLANNED
+## Milestone 11 — Consultant Learning Path & Curriculum Validation — IN PROGRESS
 
 **Goal:** Teach requirement analysis through proposal creation before independent Consultant work, then verify the full Networking journey.
 
 **Entry:** M10 complete; review existing M6 procurement/topology/scoring limitations before dependency work.
 
-### Sprint 31 — Consultant Preparation Learning Path — PLANNED
+### Sprint 31 — Consultant Preparation Learning Path — IMPLEMENTED / READY FOR REVIEW
 
 **Owner:** Milestone 11 only.
 

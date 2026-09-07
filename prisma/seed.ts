@@ -31,6 +31,10 @@ import { wirelessBasicsModuleData } from "../src/features/learning/content/wirel
 import { wirelessSecurityModuleData } from "../src/features/learning/content/wireless-troubleshooting/wireless-security";
 import { diagnosticToolsModuleData } from "../src/features/learning/content/wireless-troubleshooting/diagnostic-tools";
 import { troubleshootingMethodologyModuleData } from "../src/features/learning/content/wireless-troubleshooting/troubleshooting-methodology";
+import { requirementsAnalysisModuleData } from "../src/features/learning/content/network-planning/requirements-analysis";
+import { capacityProcurementModuleData } from "../src/features/learning/content/network-planning/capacity-procurement";
+import { topologyIpVlanDesignModuleData } from "../src/features/learning/content/network-planning/topology-ip-vlan-design";
+import { proposalReviewModuleData } from "../src/features/learning/content/network-planning/proposal-review";
 
 async function main() {
   console.log("🌱 Seeding Paths 1 to 5 (Full Curriculum)...");
@@ -651,10 +655,67 @@ async function main() {
     },
   });
 
+  // ==========================================
+  // PATH 6: Network Planning & IT Consultant (Modules 1-4, 8 Lessons)
+  // ==========================================
+  const path6 = await upsertPath(
+    "network-planning",
+    "Network Planning & IT Consultant",
+    "Pelajari analisis kebutuhan klien, kalkulasi kapasitas port/AP/PoE, penyusunan BoQ, desain topologi hirarkis, segmentasi VLAN, serta dokumentasi proposal teknis profesional.",
+    "Briefcase",
+    6
+  );
+
+  const path6Modules = [
+    requirementsAnalysisModuleData,
+    capacityProcurementModuleData,
+    topologyIpVlanDesignModuleData,
+    proposalReviewModuleData,
+  ];
+
+  const path6Lessons: Record<string, { id: string }> = {};
+
+  for (let mIdx = 0; mIdx < path6Modules.length; mIdx++) {
+    const modData = path6Modules[mIdx];
+    const moduleRecord = await upsertModule(
+      path6.id,
+      modData.slug,
+      `${mIdx + 1}. ${modData.title}`,
+      modData.description,
+      mIdx + 1
+    );
+
+    for (const lesson of modData.lessons) {
+      path6Lessons[lesson.slug] = await upsertLesson(
+        moduleRecord.id,
+        lesson.slug,
+        lesson.title,
+        lesson.description,
+        lesson.orderIndex + 1,
+        lesson.xpReward,
+        lesson.content
+      );
+    }
+  }
+
+  // Connect prerequisites for all Path 6 lessons (linear sequence)
+  for (const modData of path6Modules) {
+    for (const lesson of modData.lessons) {
+      for (const prereqSlug of lesson.prerequisites) {
+        if (path6Lessons[prereqSlug] && path6Lessons[lesson.slug]) {
+          await connectPrereq(
+            path6Lessons[lesson.slug].id,
+            path6Lessons[prereqSlug].id
+          );
+        }
+      }
+    }
+  }
+
   console.log("🌱 Seeding Course Commerce Catalog & Packages...");
   await seedCommerceCatalog(prisma);
 
-  console.log("✅ Seed completed successfully for all 5 Paths (1 to 5) and Commerce Catalog!");
+  console.log("✅ Seed completed successfully for all 6 Paths (1 to 6) and Commerce Catalog!");
 }
 
 main()

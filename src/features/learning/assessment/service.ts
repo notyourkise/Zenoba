@@ -16,6 +16,7 @@ import { ipv4FormativeQuestions } from "@/features/learning/assessment/ipv4.serv
 import { switchingFormativeQuestions } from "@/features/learning/assessment/switching.server";
 import { servicesFormativeQuestions } from "@/features/learning/assessment/services.server";
 import { troubleshootingFormativeQuestions } from "@/features/learning/assessment/troubleshooting.server";
+import { planningFormativeQuestions } from "@/features/learning/assessment/planning.server";
 import {
   AssessmentNotFoundError,
   AssessmentMismatchError,
@@ -34,6 +35,7 @@ export function findFormativeQuestion(quizId: string): PrivateQuizQuestion | nul
     switchingFormativeQuestions.find((q) => q.id === quizId) ||
     servicesFormativeQuestions.find((q) => q.id === quizId) ||
     troubleshootingFormativeQuestions.find((q) => q.id === quizId) ||
+    planningFormativeQuestions.find((q) => q.id === quizId) ||
     null
   );
 }

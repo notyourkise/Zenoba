@@ -1004,7 +1004,7 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Exit:** All P1 module outcomes taught and assessed, path final passed in authenticated E2E, old URLs/progress preserved, owner-reviewed curriculum mapping for later paths.
 
-## Milestone 10 — Core Networking Curriculum & Applied Practice — IN PROGRESS
+## Milestone 10 — Core Networking Curriculum & Applied Practice — COMPLETE
 
 **Goal:** Deliver Paths 2–5 with measurable objectives, complete lessons, module gates, linked practice, and path-level troubleshooting evidence.
 
@@ -1043,7 +1043,7 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Acceptance:** Correct next hop/return route, leases, name resolution and translation tested separately; no false pass on ping alone.
 
-### Sprint 30 — Wireless, Troubleshooting & Core Path Validation — IMPLEMENTED / READY FOR REVIEW
+### Sprint 30 — Wireless, Troubleshooting & Core Path Validation — COMPLETE
 
 **Exclusive owner:** M10. **Required context:** S27–29 evidence; matrix P5; current three challenge scenarios, terminal parser and evaluators.
 
@@ -1056,20 +1056,20 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Exit:** Each of Paths 2–5 passes its own content/domain/security/E2E gates; cross-path prerequisite graph has no missing evidence or cycles.
 
-## Milestone 11 — Consultant Learning Path & Curriculum Validation — PLANNED
+## Milestone 11 — Consultant Learning Path & Curriculum Validation — IN PROGRESS
 
 **Goal:** Teach requirement analysis through proposal creation before independent Consultant work, then verify the full Networking journey.
 
 **Dependency:** M10 complete; review existing M6 procurement/topology/scoring limitations before dependency work.
 
-### Sprint 31 — Consultant Preparation Learning Path
+### Sprint 31 — Consultant Preparation Learning Path — IMPLEMENTED / READY FOR REVIEW
 
 **Exclusive owner:** M11. **Required context:** M10 closeout; matrix P6-M1–M4; M6 procurement/BoQ/topology/IP/VLAN/scoring, existing saved projects.
 
-- [ ] Task 31.1: Author P6-L01–L08 with requirement analysis, capacity/procurement, topology/IP/VLAN, documentation and review.
-- [ ] Task 31.2: Add the reviewed instructional Path 6 and lesson/module assessments; retain FREE Networking behavior.
-- [ ] Task 31.3: Connect guided exercises to the existing Consultant workspace and review essential connectivity/security constraints in scoring.
-- [ ] Task 31.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
+- [x] Task 31.1: Author P6-L01–L08 with requirement analysis, capacity/procurement, topology/IP/VLAN, documentation and review.
+- [x] Task 31.2: Add the reviewed instructional Path 6 and lesson/module assessments; retain FREE Networking behavior.
+- [x] Task 31.3: Connect guided exercises to the existing Consultant workspace and review essential connectivity/security constraints in scoring.
+- [x] Task 31.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
 
 **Acceptance:** Each requirement has design evidence and acceptance test; budget success cannot conceal missing critical connectivity.
 

@@ -38,13 +38,14 @@ export async function createAndSignInLearner(
 
   // 2. Sign in via UI credentials auth modal
   await page.goto("/?auth=sign-in");
+  await page.waitForLoadState("networkidle");
   const emailInput = page.locator("#auth-email");
   await expect(emailInput).toBeVisible({ timeout: 10000 });
 
   await emailInput.fill(email);
   const passwordInput = page.locator("#auth-password");
   await passwordInput.fill(password);
-  await passwordInput.press("Enter");
+  await page.getByRole("button", { name: "Sign in" }).click();
 
   // 3. Wait for URL change to dashboard upon successful session establishment
   await page.waitForURL((url) => url.pathname.includes("/dashboard"), {

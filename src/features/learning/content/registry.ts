@@ -24,6 +24,10 @@ import { wirelessBasicsModuleData } from "./wireless-troubleshooting/wireless-ba
 import { wirelessSecurityModuleData } from "./wireless-troubleshooting/wireless-security";
 import { diagnosticToolsModuleData } from "./wireless-troubleshooting/diagnostic-tools";
 import { troubleshootingMethodologyModuleData } from "./wireless-troubleshooting/troubleshooting-methodology";
+import { requirementsAnalysisModuleData } from "./network-planning/requirements-analysis";
+import { capacityProcurementModuleData } from "./network-planning/capacity-procurement";
+import { topologyIpVlanDesignModuleData } from "./network-planning/topology-ip-vlan-design";
+import { proposalReviewModuleData } from "./network-planning/proposal-review";
 import type { CurriculumLesson, CurriculumModule } from "./schema";
 
 /**
@@ -122,6 +126,19 @@ const CURRICULUM_REGISTRY: Record<string, CurriculumModule> = {
 
   "troubleshooting-methodology": troubleshootingMethodologyModuleData,
   "module-troubleshooting-methodology": troubleshootingMethodologyModuleData,
+
+  // Path 6: Network Planning & IT Consultant
+  "requirements-analysis": requirementsAnalysisModuleData,
+  "module-requirements-analysis": requirementsAnalysisModuleData,
+
+  "capacity-procurement": capacityProcurementModuleData,
+  "module-capacity-procurement": capacityProcurementModuleData,
+
+  "topology-ip-vlan-design": topologyIpVlanDesignModuleData,
+  "module-topology-ip-vlan-design": topologyIpVlanDesignModuleData,
+
+  "proposal-review": proposalReviewModuleData,
+  "module-proposal-review": proposalReviewModuleData,
 };
 
 /**

@@ -67,4 +67,32 @@ describe("Consultant 5-Dimensional Scoring Engine", () => {
     expect(res.dimensions.security.score).toBe(0);
     expect(res.dimensions.security.feedback).toContain("unmanaged");
   });
+
+  it("fails proposal if router gateway is missing even if cost efficiency and other dimensions score high", () => {
+    const res = evaluateConsultantProject(smallOfficeRequirements, {
+      boqItems: [
+        // No router!
+        { deviceId: "switch-poe-24g-370w", quantity: 1 },
+        { deviceId: "ap-wifi6-ax3000", quantity: 2 },
+      ],
+    });
+
+    expect(res.passed).toBe(false);
+    expect(res.dimensions.technicalCorrectness.feedback).toContain("Kegagalan Kritis");
+    expect(res.dimensions.technicalCorrectness.feedback).toContain("Router gateway");
+  });
+
+  it("fails proposal if switch access ports are insufficient for wired clients", () => {
+    const res = evaluateConsultantProject(smallOfficeRequirements, {
+      boqItems: [
+        { deviceId: "router-sbr-5g", quantity: 1 },
+        { deviceId: "switch-unmanaged-8g", quantity: 1 }, // Only 8 ports for 12 clients!
+        { deviceId: "ap-wifi6-ax3000", quantity: 2 },
+      ],
+    });
+
+    expect(res.passed).toBe(false);
+    expect(res.dimensions.technicalCorrectness.feedback).toContain("Kegagalan Kritis");
+    expect(res.dimensions.technicalCorrectness.feedback).toContain("tidak mencukupi");
+  });
 });

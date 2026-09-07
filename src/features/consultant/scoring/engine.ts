@@ -167,8 +167,25 @@ export function evaluateConsultantProject(
     }
   }
 
+  // Essential Connectivity Constraints:
+  // Budget success or high scores in other dimensions cannot conceal missing critical connectivity.
+  const hasRouter = boq.hasRouter;
+  const hasSufficientPorts = boq.totalAccessPorts >= requirements.wiredClientCount;
+  const hasCriticalConnectivity = hasRouter && hasSufficientPorts;
+
+  if (!hasCriticalConnectivity) {
+    if (!hasRouter) {
+      techFeedback.unshift("Kegagalan Kritis: Proposal tidak menyertakan Router gateway untuk konektivitas dasar jaringan.");
+    }
+    if (!hasSufficientPorts) {
+      techFeedback.unshift(
+        `Kegagalan Kritis: Kapasitas port switch (${boq.totalAccessPorts}) tidak mencukupi untuk kebutuhan klien (${requirements.wiredClientCount}). Efisiensi biaya tidak dapat mengorbankan konektivitas esensial.`
+      );
+    }
+  }
+
   const totalScore = techScore + reqScore + costScore + scaleScore + secScore;
-  const passed = totalScore >= 70 && boq.isWithinBudget;
+  const passed = totalScore >= 70 && boq.isWithinBudget && hasCriticalConnectivity;
 
   return {
     passed,

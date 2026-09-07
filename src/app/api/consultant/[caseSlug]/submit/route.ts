@@ -89,6 +89,27 @@ export async function POST(
       return NextResponse.json({ error: "Studi kasus tidak ditemukan" }, { status: 404 });
     }
 
+    // Prerequisite proof gating: small-office-notaris is foundational. Cases 2-5 require passing case 1.
+    if (caseSlug !== "small-office-notaris") {
+      const foundationalPassed = await prisma.consultantProject.findFirst({
+        where: {
+          userId: user.id,
+          case: { slug: "small-office-notaris" },
+          passed: true,
+        },
+      });
+
+      if (!foundationalPassed) {
+        return NextResponse.json(
+          {
+            error:
+              "Prasyarat belum terpenuhi: Anda harus menyelesaikan dan lulus studi kasus fondasi SOHO Notaris terlebih dahulu.",
+          },
+          { status: 403 }
+        );
+      }
+    }
+
     const evaluation = evaluateConsultantProject(requirements, {
       boqItems: body.boqItems || [],
       vlanPlan: body.vlanPlan || [],
@@ -104,10 +125,28 @@ export async function POST(
       );
     }
 
-    // Link or create case in DB if exists
-    const dbCase = await prisma.consultantCase.findUnique({
+    // Link or create case in DB
+    let dbCase = await prisma.consultantCase.findUnique({
       where: { slug: caseSlug },
     });
+
+    if (!dbCase) {
+      dbCase = await prisma.consultantCase.create({
+        data: {
+          slug: caseSlug,
+          title: requirements.clientName,
+          clientName: requirements.clientName,
+          clientType: requirements.clientType,
+          description: `Studi kasus ${requirements.clientName} dengan pagu anggaran Rp ${requirements.budget.toLocaleString("id-ID")}.`,
+          budget: requirements.budget,
+          requirements: requirements as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+          constraints: { maxBudget: requirements.budget },
+          difficulty: "intermediate",
+          orderIndex: 1,
+          published: true,
+        },
+      });
+    }
 
     if (dbCase) {
       await prisma.consultantProject.create({
@@ -118,10 +157,22 @@ export async function POST(
           topologyData: body.topologyData || {},
           ipPlan: body.ipPlan || {},
           vlanPlan: body.vlanPlan || [],
-          compositeScore: evaluation.dimensions as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+          compositeScore: {
+            rubricVersion: "1.0",
+            totalScore: evaluation.totalScore,
+            maxTotalScore: evaluation.maxTotalScore,
+            dimensions: evaluation.dimensions,
+          } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
           score: evaluation.totalScore,
           passed: evaluation.passed,
-          feedback: evaluation.dimensions as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+          feedback: {
+            rubricVersion: "1.0",
+            passed: evaluation.passed,
+            summary: evaluation.passed
+              ? "Proposal disetujui klien"
+              : "Proposal perlu revisi spesifikasi teknis atau anggaran",
+            dimensions: evaluation.dimensions,
+          } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
         },
       });
     }
@@ -131,6 +182,7 @@ export async function POST(
       totalScore: evaluation.totalScore,
       maxTotalScore: evaluation.maxTotalScore,
       dimensions: evaluation.dimensions,
+      rubricVersion: "1.0",
       xpResult,
     });
   } catch (error) {

@@ -4,17 +4,9 @@ import React, { useState } from "react";
 import { DEVICE_CATALOG } from "../catalog/devices";
 import { BoQItem, calculateBoQ } from "../procurement/boq";
 import {
-  Briefcase,
-  Layers,
-  Network,
-  CheckCircle2,
-  AlertCircle,
   Plus,
   Minus,
-  RotateCcw,
-  Sparkles,
   Loader2,
-  Send,
 } from "lucide-react";
 
 export interface CaseDef {
@@ -111,9 +103,8 @@ export function ConsultantWorkspace({ caseData }: { caseData: CaseDef }) {
       {/* Workspace Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 dark:border-gray-700 pb-4">
         <div>
-          <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-1">
-            <Briefcase className="w-4 h-4" />
-            <span>IT Consultant Project • Budget Rp {caseData.budget.toLocaleString("id-ID")} • {caseData.difficulty}</span>
+          <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-1">
+            IT Consultant Project &bull; Budget Rp {caseData.budget.toLocaleString("id-ID")} &bull; {caseData.difficulty}
           </div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
             {caseData.title}
@@ -298,6 +289,7 @@ export function ConsultantWorkspace({ caseData }: { caseData: CaseDef }) {
                             type="button"
                             onClick={() => updateItemQty(device.id, -1)}
                             className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-gray-600 dark:text-gray-300"
+                            aria-label={`Kurangi jumlah ${device.name}`}
                           >
                             <Minus className="w-3 h-3" />
                           </button>
@@ -306,6 +298,7 @@ export function ConsultantWorkspace({ caseData }: { caseData: CaseDef }) {
                             type="button"
                             onClick={() => updateItemQty(device.id, 1)}
                             className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-gray-600 dark:text-gray-300"
+                            aria-label={`Tambah jumlah ${device.name}`}
                           >
                             <Plus className="w-3 h-3" />
                           </button>
@@ -325,10 +318,9 @@ export function ConsultantWorkspace({ caseData }: { caseData: CaseDef }) {
             <button
               type="button"
               onClick={handleReset}
-              className="text-xs text-gray-500 hover:text-gray-900 dark:hover:text-white flex items-center space-x-1"
+              className="text-xs text-gray-500 hover:text-gray-900 dark:hover:text-white"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Reset BoQ</span>
+              Reset BoQ
             </button>
 
             <button
@@ -336,7 +328,7 @@ export function ConsultantWorkspace({ caseData }: { caseData: CaseDef }) {
               onClick={() => setActiveTab("topology")}
               className="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm"
             >
-              Lanjutkan ke Tahap 3: Topologi →
+              Lanjutkan ke Tahap 3: Topologi &rarr;
             </button>
           </div>
         </div>
@@ -346,14 +338,13 @@ export function ConsultantWorkspace({ caseData }: { caseData: CaseDef }) {
       {activeTab === "topology" && (
         <div className="space-y-6">
           <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 space-y-4">
-            <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center space-x-2">
-              <Network className="w-4 h-4 text-indigo-600" />
-              <span>Struktur Arsitektur Topologi Proyek:</span>
+            <h3 className="text-sm font-bold text-gray-900 dark:text-white">
+              Struktur Arsitektur Topologi Proyek:
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center text-xs">
               <div className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm space-y-1">
-                <span className="font-bold block">1. WAN & Gateway</span>
+                <span className="font-bold block">1. WAN &amp; Gateway</span>
                 <span className="text-gray-500 block">Uplink ISP Router Gateway</span>
               </div>
               <div className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm space-y-1">
@@ -361,7 +352,7 @@ export function ConsultantWorkspace({ caseData }: { caseData: CaseDef }) {
                 <span className="text-gray-500 block">Managed Switch 802.1Q + PoE</span>
               </div>
               <div className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm space-y-1">
-                <span className="font-bold block">3. Endpoints & Wi-Fi 6 AP</span>
+                <span className="font-bold block">3. Endpoints &amp; Wi-Fi 6 AP</span>
                 <span className="text-gray-500 block">Workstations, CCTV, Access Points</span>
               </div>
             </div>
@@ -373,14 +364,14 @@ export function ConsultantWorkspace({ caseData }: { caseData: CaseDef }) {
               onClick={() => setActiveTab("boq")}
               className="text-xs text-gray-500 hover:text-gray-900"
             >
-              ← Kembali ke BoQ
+              &larr; Kembali ke BoQ
             </button>
             <button
               type="button"
               onClick={() => setActiveTab("ip_vlan")}
               className="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm"
             >
-              Lanjutkan ke Tahap 4: IP & VLAN →
+              Lanjutkan ke Tahap 4: IP &amp; VLAN &rarr;
             </button>
           </div>
         </div>
@@ -390,9 +381,8 @@ export function ConsultantWorkspace({ caseData }: { caseData: CaseDef }) {
       {activeTab === "ip_vlan" && (
         <div className="space-y-6">
           <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 space-y-4">
-            <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center space-x-2">
-              <Layers className="w-4 h-4 text-indigo-600" />
-              <span>Matriks Segmentasi VLAN & Alokasi Subnet:</span>
+            <h3 className="text-sm font-bold text-gray-900 dark:text-white">
+              Matriks Segmentasi VLAN &amp; Alokasi Subnet:
             </h3>
 
             <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700 text-xs">
@@ -454,12 +444,7 @@ export function ConsultantWorkspace({ caseData }: { caseData: CaseDef }) {
                 }`}
               >
                 <div className="flex items-center justify-between font-bold text-lg">
-                  <div className="flex items-center space-x-2">
-                    {result.passed ? (
-                      <CheckCircle2 className="w-7 h-7 text-green-600" />
-                    ) : (
-                      <AlertCircle className="w-7 h-7 text-red-600" />
-                    )}
+                  <div>
                     <span>{result.passed ? "Proposal Konsultan Diterima Klien!" : "Proposal Memerlukan Revisi"}</span>
                   </div>
                   <span className="text-2xl font-black">
@@ -468,9 +453,8 @@ export function ConsultantWorkspace({ caseData }: { caseData: CaseDef }) {
                 </div>
 
                 {result.xpResult?.awarded && (
-                  <div className="inline-flex items-center space-x-1.5 px-3 py-1 bg-green-200 dark:bg-green-900 text-green-900 dark:text-green-100 rounded-full text-xs font-bold">
-                    <Sparkles className="w-4 h-4 text-green-700" />
-                    <span>+{result.xpResult.amount} XP Ditambahkan ke Akun! Total: {result.xpResult.totalXp} XP</span>
+                  <div className="inline-block px-3 py-1 bg-green-200 dark:bg-green-900 text-green-900 dark:text-green-100 rounded-full text-xs font-bold">
+                    +{result.xpResult.amount} XP Ditambahkan ke Akun! Total: {result.xpResult.totalXp} XP
                   </div>
                 )}
               </div>
@@ -515,7 +499,7 @@ export function ConsultantWorkspace({ caseData }: { caseData: CaseDef }) {
               onClick={() => setActiveTab("boq")}
               className="text-xs text-gray-500 hover:text-gray-900"
             >
-              ← Ubah Rencana Pengadaan (BoQ)
+              &larr; Ubah Rencana Pengadaan (BoQ)
             </button>
 
             <button
@@ -530,10 +514,7 @@ export function ConsultantWorkspace({ caseData }: { caseData: CaseDef }) {
                   Mengevaluasi Proposal...
                 </>
               ) : (
-                <>
-                  <Send className="w-3.5 h-3.5 mr-1.5" />
-                  Kumpulkan Proposal Resmi (+250 XP)
-                </>
+                "Kumpulkan Proposal Resmi (+250 XP)"
               )}
             </button>
           </div>

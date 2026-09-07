@@ -1062,7 +1062,7 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Dependency:** M10 complete; review existing M6 procurement/topology/scoring limitations before dependency work.
 
-### Sprint 31 — Consultant Preparation Learning Path — IMPLEMENTED / READY FOR REVIEW
+### Sprint 31 — Consultant Preparation Learning Path — COMPLETE
 
 **Exclusive owner:** M11. **Required context:** M10 closeout; matrix P6-M1–M4; M6 procurement/BoQ/topology/IP/VLAN/scoring, existing saved projects.
 
@@ -1073,14 +1073,14 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Acceptance:** Each requirement has design evidence and acceptance test; budget success cannot conceal missing critical connectivity.
 
-### Sprint 32 — Consultant Capstone, Portfolio & Full Curriculum Review
+### Sprint 32 — Consultant Capstone, Portfolio & Full Curriculum Review — IMPLEMENTED / READY FOR REVIEW
 
 **Exclusive owner:** M11. **Required context:** S31 reviewed learning content; matrix P6-M5; five existing cases; portfolio persistence; all prior path reviews.
 
-- [ ] Task 32.1: Author P6-L09–L10 and final Small Office transfer scenario; introduce advanced cases only after prerequisite proof.
-- [ ] Task 32.2: Preserve proposal, case/rubric/content version, scoring evidence and feedback in portfolio; never silently regrade old work.
-- [ ] Task 32.3: Run full outcome/evidence coverage, authenticated end-to-end sample chain and domain regressions; record milestone review and owner acceptance.
-- [ ] Task 32.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
+- [x] Task 32.1: Author P6-L09–L10 and final Small Office transfer scenario; introduce advanced cases only after prerequisite proof.
+- [x] Task 32.2: Preserve proposal, case/rubric/content version, scoring evidence and feedback in portfolio; never silently regrade old work.
+- [x] Task 32.3: Run full outcome/evidence coverage, authenticated end-to-end sample chain and domain regressions; record milestone review and owner acceptance.
+- [x] Task 32.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
 
 **Acceptance:** All six paths have complete taught/assessed outcomes; portfolio reproduces historical results; no Critical/High finding open.
 

@@ -667,13 +667,13 @@ Students collect evidence and verify repairs across Paths 2–5.
 
 ---
 
-## Milestone 11 — Consultant Learning Path & Curriculum Validation — IN PROGRESS
+## Milestone 11 — Consultant Learning Path & Curriculum Validation — IMPLEMENTED / READY FOR REVIEW
 
 **Goal:** Teach requirement analysis through proposal creation before independent Consultant work, then verify the full Networking journey.
 
 **Entry:** M10 complete; review existing M6 procurement/topology/scoring limitations before dependency work.
 
-### Sprint 31 — Consultant Preparation Learning Path — IMPLEMENTED / READY FOR REVIEW
+### Sprint 31 — Consultant Preparation Learning Path — COMPLETE
 
 **Owner:** Milestone 11 only.
 
@@ -685,7 +685,7 @@ Students turn a client brief into a justified, testable network proposal.
 
 **Acceptance:** Each requirement has design evidence and acceptance test; budget success cannot conceal missing critical connectivity.
 
-### Sprint 32 — Consultant Capstone, Portfolio & Full Curriculum Review — PLANNED
+### Sprint 32 — Consultant Capstone, Portfolio & Full Curriculum Review — IMPLEMENTED / READY FOR REVIEW
 
 **Owner:** Milestone 11 only.
 

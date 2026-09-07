@@ -760,4 +760,192 @@ export const planningFormativeQuestions: PrivateQuizQuestion[] = [
     misconceptionFeedback:
       "Switch unmanaged tidak mengenali tag VLAN 802.1Q dan akan meneruskan paket broadcast ke seluruh port tanpa isolasi.",
   },
+
+  // =========================================================================
+  // Lesson 9: small-office-transfer (P6-L09)
+  // =========================================================================
+  {
+    id: "quiz-plan-l9-q1",
+    lessonSlug: "small-office-transfer",
+    outcomeId: "PLAN-L9-A",
+    question:
+      "Pada perancangan jaringan SOHO Kantor Notaris (12 PC staf, 1 network printer, dan 2 Access Point PoE), berapa jumlah port fisik minimum yang harus disediakan switch agar seluruh perangkat dapat terhubung?",
+    options: [
+      {
+        id: "opt-1",
+        text: "15 port kabel horizontal (12 PC + 1 printer + 2 AP) ditambah 1 port uplink router sehingga switch 16-port pas mencukupi.",
+      },
+      {
+        id: "opt-2",
+        text: "12 port saja karena printer dan AP dapat menggunakan Wi-Fi tanpa kabel.",
+      },
+      {
+        id: "opt-3",
+        text: "8 port cukup dengan menyambungkan kabel secara paralel bercabang.",
+      },
+      {
+        id: "opt-4",
+        text: "24 port wajib karena standar industri tidak mengizinkan switch 16 port.",
+      },
+    ],
+    correctAnswer: "opt-1",
+    explanation:
+      "Kebutuhan port fisik dihitung dari 12 workstation staf + 1 printer jaringan + 2 AP PoE = 15 titik kabel horizontal. Ditambah 1 port uplink ke router gateway, switch 16-port pas memenuhi seluruh kebutuhan.",
+    misconceptionFeedback:
+      "Mengabaikan port uplink ke router atau port untuk printer jaringan akan menyebabkan switch kekurangan port saat instalasi riil.",
+  },
+  {
+    id: "quiz-plan-l9-q2",
+    lessonSlug: "small-office-transfer",
+    outcomeId: "PLAN-L9-A",
+    question:
+      "Klien mengalokasikan anggaran Rp 15.000.000. Mengapa rekomendasi Switch Managed 16-port dengan 4-port PoE+ (harga Rp 3.200.000) lebih tepat dibandingkan membeli Switch 16-port Non-PoE (Rp 1.500.000) ditambah 2 PoE Injector terpisah?",
+    options: [
+      {
+        id: "opt-1",
+        text: "Switch terintegrasi PoE+ menghemat ruang rak (rackmount), mengurangi kabel daya liar di stopkontak, dan terlindungi UPS terpusat di dalam pagu anggaran.",
+      },
+      {
+        id: "opt-2",
+        text: "Karena switch non-PoE dilarang secara hukum digunakan di kantor hukum notaris.",
+      },
+      {
+        id: "opt-3",
+        text: "Karena PoE Injector tidak mampu mengalirkan daya listrik standar ke Access Point.",
+      },
+      {
+        id: "opt-4",
+        text: "Hanya untuk menghabiskan sisa anggaran klien agar konsultan mendapatkan komisi lebih besar.",
+      },
+    ],
+    correctAnswer: "opt-1",
+    explanation:
+      "Switch dengan port PoE+ bawaan memberikan keandalan daya terpusat dari rack 6U (didukung UPS), menghilangkan adaptor liar di plafon, dan menyederhanakan manajemen kabel.",
+    misconceptionFeedback:
+      "PoE injector terpisah sering kali menambah kekacauan stopkontak di ruang server dan tidak mendapatkan proteksi daya cadangan UPS secara terpusat.",
+  },
+  {
+    id: "quiz-plan-l9-q3",
+    lessonSlug: "small-office-transfer",
+    outcomeId: "PLAN-L9-B",
+    question:
+      "Pada perancangan keamanan Kantor Notaris, mengapa SSID Wi-Fi Tamu harus diarahkan ke VLAN 20 yang terpisah dari VLAN 10 Staf, bukan hanya menggunakan password Wi-Fi yang berbeda?",
+    options: [
+      {
+        id: "opt-1",
+        text: "Karena VLAN 20 memisahkan broadcast domain secara Layer 2 dan memungkinkan firewall router memblokir akses tamu ke PC staf serta printer akta.",
+      },
+      {
+        id: "opt-2",
+        text: "Karena password Wi-Fi yang berbeda otomatis memisahkan jalur kabel fisik.",
+      },
+      {
+        id: "opt-3",
+        text: "Agar smartphone tamu tidak dapat menggunakan koneksi internet sama sekali.",
+      },
+      {
+        id: "opt-4",
+        text: "Karena printer notaris hanya bisa mencetak jika terhubung ke VLAN 20.",
+      },
+    ],
+    correctAnswer: "opt-1",
+    explanation:
+      "Pemisahan SSID saja tanpa pemisahan VLAN masih menempatkan tamu dalam subnet yang sama dengan data akta staf. Tagging VLAN 802.1Q dan aturan firewall router menjamin isolasi total.",
+    misconceptionFeedback:
+      "Membedakan nama SSID tanpa konfigurasi VLAN (VLAN tagging) tetap menggabungkan lalu lintas data ke broadcast domain yang sama, sehingga rentan penyadapan (packet sniffing).",
+  },
+
+  // =========================================================================
+  // Lesson 10: komparasi-kasus-lanjutan (P6-L10)
+  // =========================================================================
+  {
+    id: "quiz-plan-l10-q1",
+    lessonSlug: "komparasi-kasus-lanjutan",
+    outcomeId: "PLAN-L10-A",
+    question:
+      "Dibandingkan dengan jaringan SOHO kantor notaris, fitur arsitektur jaringan manakah yang menjadi prioritas mutlak pada skenario CyberArena Warnet Gaming (30 PC)?",
+    options: [
+      {
+        id: "opt-1",
+        text: "Dual-WAN load balancing/failover otomatis dan bandwidth management/QoS untuk latensi stabil bebas bufferbloat.",
+      },
+      {
+        id: "opt-2",
+        text: "Segmentasi VLAN kompleks untuk 10 departemen kantor yang berbeda.",
+      },
+      {
+        id: "opt-3",
+        text: "Backbone Fiber Optic 10G SFP+ antar lantai gedung.",
+      },
+      {
+        id: "opt-4",
+        text: "Pengadaan Access Point berdensitas tinggi untuk ribuan smartphone tamu.",
+      },
+    ],
+    correctAnswer: "opt-1",
+    explanation:
+      "Warnet gaming berfokus pada kelancaran sesi game online: latensi rendah (<15ms), stabilitas jitter, dan ketersediaan koneksi internet ganda (Dual-WAN) agar pelanggan tidak disconnect saat salah satu ISP putus.",
+    misconceptionFeedback:
+      "Warnet 30 PC dalam satu ruangan tidak memerlukan backbone fiber optik multi-lantai atau segmentasi VLAN departemen yang rumit.",
+  },
+  {
+    id: "quiz-plan-l10-q2",
+    lessonSlug: "komparasi-kasus-lanjutan",
+    outcomeId: "PLAN-L10-A",
+    question:
+      "Pada skenario Gedung Korporat Multi-Lantai (3 Lantai, 100+ node), media transmisi manakah yang direkomendasikan untuk menghubungkan Core Switch di Ruang Server ke Distribution Switch di tiap lantai?",
+    options: [
+      {
+        id: "opt-1",
+        text: "Kabel Fiber Optic Multimode (OM3/OM4) dengan modul transceiver 10G SFP+ kebal interferensi lift dan jarak vertikal.",
+      },
+      {
+        id: "opt-2",
+        text: "Kabel telepon tembaga 2-core biasa.",
+      },
+      {
+        id: "opt-3",
+        text: "Wi-Fi repeater nirkabel antar jendela lantai.",
+      },
+      {
+        id: "opt-4",
+        text: "Kabel serial RS-232.",
+      },
+    ],
+    correctAnswer: "opt-1",
+    explanation:
+      "Backbone vertikal antar-lantai gedung korporat menuntut throughput tinggi (10 Gbps), kebal interferensi elektromagnetik dari lift/genset gedung, dan bebas dari limitasi jarak tembaga.",
+    misconceptionFeedback:
+      "Menggunakan Wi-Fi repeater atau kabel tembaga berkualitas rendah untuk jalur backbone vertikal gedung akan menciptakan choke-point dan latensi parah.",
+  },
+  {
+    id: "quiz-plan-l10-q3",
+    lessonSlug: "komparasi-kasus-lanjutan",
+    outcomeId: "PLAN-L10-B",
+    question:
+      "Mengapa platform Netloka mewajibkan siswa menyelesaikan dan meluluskan proyek fondasi Small Office Notaris sebelum membuka akses ke kasus skala menengah hingga enterprise?",
+    options: [
+      {
+        id: "opt-1",
+        text: "Untuk memastikan pemahaman prinsip dasar BoQ, PoE, kalkulasi port, dan segmentasi sebelum menghadapi kompleksitas redundansi HA dan multi-switch.",
+      },
+      {
+        id: "opt-2",
+        text: "Karena kasus enterprise memerlukan pembayaran biaya langganan tambahan.",
+      },
+      {
+        id: "opt-3",
+        text: "Agar siswa tidak cepat menyelesaikan seluruh studi kasus.",
+      },
+      {
+        id: "opt-4",
+        text: "Karena sistem database Netloka tidak mampu memproses dua proyek sekaligus.",
+      },
+    ],
+    correctAnswer: "opt-1",
+    explanation:
+      "Pedagogi scaffolded learning menuntut penguasaan fondasi kuat pada skala kecil (SOHO) agar siswa tidak kewalahan (cognitive overload) saat merancang arsitektur multi-VLAN dan multi-lantai.",
+    misconceptionFeedback:
+      "Penguncian prasyarat adalah metode pedagogis pembelajaran terstruktur untuk menjamin kompetensi bertahap, bukan pembatasan komersial.",
+  },
 ];

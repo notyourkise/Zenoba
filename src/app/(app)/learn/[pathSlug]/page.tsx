@@ -380,6 +380,42 @@ export default async function PathDetailPage({ params }: PathDetailPageProps) {
           </div>
         </div>
       )}
+
+      {/* Path Final Capstone Section for Wireless & Troubleshooting */}
+      {path.slug === "wireless-troubleshooting" && (
+        <div className="bg-gradient-to-r from-blue-900/10 via-indigo-900/10 to-purple-900/10 dark:from-blue-950/40 dark:via-indigo-950/40 dark:to-purple-950/40 rounded-2xl border border-blue-200 dark:border-blue-800/60 p-6 sm:p-8 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <div className="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+                <Award className="w-4 h-4" />
+                <span>Ujian Akhir Kelulusan Path (Path Capstone Challenge)</span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                Investigasi Multi-Insiden Jaringan &amp; Remediasi (Multi-Incident Investigation)
+              </h3>
+              <p className="text-xs text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed">
+                Uji keterampilan investigasi dan diagnosa komprehensif dari 4 modul Wireless &amp; Troubleshooting: analisis insiden kegagalan DHCP APIPA, pemulihan trunking inter-VLAN, koreksi gateway kantor cabang, serta penerapan metodologi troubleshooting terstruktur (Divide-and-Conquer / Bottom-Up).
+              </p>
+            </div>
+            <div className="flex-shrink-0">
+              {path.completedLessonsCount >= path.totalLessonsCount ? (
+                <Link
+                  href="/challenges/multi-incident-investigation?isPathFinal=true"
+                  className="inline-flex items-center px-5 py-3 text-xs font-bold rounded-xl text-white bg-blue-600 hover:bg-blue-700 shadow-md transition-colors"
+                >
+                  <PlayCircle className="w-4 h-4 mr-2" />
+                  Mulai Ujian Akhir Path
+                </Link>
+              ) : (
+                <div className="inline-flex items-center text-xs font-semibold text-gray-500 bg-gray-100 dark:bg-gray-800 px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700">
+                  <Lock className="w-4 h-4 mr-1.5 text-gray-400" />
+                  Terkunci • Selesaikan {path.totalLessonsCount - path.completedLessonsCount} materi lagi
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

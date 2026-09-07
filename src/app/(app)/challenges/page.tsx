@@ -5,6 +5,7 @@ import { SupportChallengePlayer } from "@/features/challenges/components/support
 import { SchoolRoomAllocationPlayer } from "@/features/challenges/components/school-room-allocation-player";
 import { StaffGuestVlanPlayer } from "@/features/challenges/components/staff-guest-vlan-player";
 import { NamedServicePlayer } from "@/features/challenges/components/named-service-player";
+import { MultiIncidentPlayer } from "@/features/challenges/components/multi-incident-player";
 
 const REAL_WORLD_CHALLENGES = [
   {
@@ -125,6 +126,15 @@ export default function ChallengesPage() {
           <span>Capstone Routing &amp; Network Services Simulation (Path 4)</span>
         </div>
         <NamedServicePlayer />
+      </div>
+
+      {/* Capstone Challenge Section: Path 5 */}
+      <div className="space-y-4 pt-6 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+          <ShieldAlert className="w-4 h-4" />
+          <span>Capstone Wireless &amp; Troubleshooting Simulation (Path 5)</span>
+        </div>
+        <MultiIncidentPlayer />
       </div>
     </div>
   );

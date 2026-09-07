@@ -8,6 +8,7 @@ import { SupportChallengePlayer } from "@/features/challenges/components/support
 import { SchoolRoomAllocationPlayer } from "@/features/challenges/components/school-room-allocation-player";
 import { StaffGuestVlanPlayer } from "@/features/challenges/components/staff-guest-vlan-player";
 import { NamedServicePlayer } from "@/features/challenges/components/named-service-player";
+import { MultiIncidentPlayer } from "@/features/challenges/components/multi-incident-player";
 
 const CHALLENGE_DETAILS: Record<string, ChallengeDef> = {
   "branch-office-down": {
@@ -139,6 +140,22 @@ export default async function ChallengeDetailPage(props: {
         </Link>
 
         <NamedServicePlayer isPathFinal={isPathFinal} />
+      </div>
+    );
+  }
+
+  if (challengeSlug === "multi-incident-investigation") {
+    return (
+      <div className="max-w-5xl mx-auto space-y-6 py-4">
+        <Link
+          href={isPathFinal ? "/learn/wireless-troubleshooting" : "/challenges"}
+          className="inline-flex items-center text-xs font-bold text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
+        >
+          <ChevronLeft className="w-4 h-4 mr-1" />
+          {isPathFinal ? "Kembali ke Wireless & Troubleshooting" : "Kembali ke Katalog Tantangan"}
+        </Link>
+
+        <MultiIncidentPlayer isPathFinal={isPathFinal} />
       </div>
     );
   }

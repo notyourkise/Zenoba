@@ -791,5 +791,161 @@ describe("POST /api/challenges/submit", () => {
         })
       );
     });
+
+    // =========================================================================
+    // Challenge 5: Multi-Incident Investigation & Remediation (Path 5 Capstone)
+    // =========================================================================
+    const validMultiIncidentSubmission = {
+      challengeId: "multi-incident-investigation",
+      apipaRootCause: "dhcp-pool-exhausted",
+      apipaCorrection: "expand-dhcp-scope-24",
+      interVlanRootCause: "missing-8021q-trunk",
+      interVlanCorrection: "reconfigure-port-trunk",
+      gatewayRootCause: "wrong-default-gateway",
+      gatewayCorrection: "restore-gateway-192-168-1-1",
+      troubleshootingPrincipleOption: "isolate-single-variable-with-rollback",
+      serviceVerificationOption: "verify-layer7-and-end-user-workflow",
+    };
+
+    it("evaluates multi-incident-investigation successfully and awards XP", async () => {
+      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+        id: "user-5",
+        email: "troubleshooter@example.com",
+      });
+
+      vi.mocked(xpLedger.awardXp).mockResolvedValueOnce({
+        awarded: true,
+        amount: 150,
+        totalXp: 750,
+        message: "+150 XP",
+      });
+
+      vi.mocked(prisma.challenge.findUnique).mockResolvedValueOnce({
+        id: "ch-multi-incident",
+        slug: "multi-incident-investigation",
+      } as any);
+
+      const req = new Request("http://localhost:3000/api/challenges/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(validMultiIncidentSubmission),
+      });
+
+      const res = await challengeSubmitHandler(req);
+      expect(res.status).toBe(200);
+      const data = await res.json();
+      expect(data.passed).toBe(true);
+      expect(data.score).toBe(100);
+      expect(data.criteriaResults.length).toBe(4);
+      expect(xpLedger.awardXp).toHaveBeenCalledWith(
+        "user-5",
+        150,
+        "CHALLENGE_SOLVED",
+        "challenge-multi-incident-investigation"
+      );
+    });
+
+    it("rejects multi-incident path final when user has not completed all 8 lessons", async () => {
+      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+        id: "user-5",
+        email: "troubleshooter@example.com",
+      });
+
+      const fakeLessons = Array.from({ length: 8 }, (_, i) => ({ id: `p5-lesson-${i + 1}` }));
+      vi.mocked(prisma.learningPath.findFirst).mockResolvedValueOnce({
+        id: "p5",
+        slug: "wireless-troubleshooting",
+        modules: [
+          {
+            id: "m5",
+            lessons: fakeLessons,
+          },
+        ],
+      } as any);
+
+      // User has completed only 5
+      vi.mocked(prisma.userLessonProgress.findMany).mockResolvedValueOnce(
+        fakeLessons.slice(0, 5).map((l) => ({ lessonId: l.id })) as any
+      );
+
+      const req = new Request("http://localhost:3000/api/challenges/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...validMultiIncidentSubmission,
+          isPathFinal: true,
+        }),
+      });
+
+      const res = await challengeSubmitHandler(req);
+      expect(res.status).toBe(403);
+      const data = await res.json();
+      expect(data.code).toBe("PREREQUISITES_INCOMPLETE");
+      expect(data.completedLessons).toBe(5);
+      expect(data.totalLessons).toBe(8);
+    });
+
+    it("allows multi-incident path final when user completed all 8 lessons, awards 200 XP", async () => {
+      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+        id: "user-5",
+        email: "troubleshooter@example.com",
+      });
+
+      const fakeLessons = Array.from({ length: 8 }, (_, i) => ({ id: `p5-lesson-${i + 1}` }));
+      vi.mocked(prisma.learningPath.findFirst).mockResolvedValueOnce({
+        id: "p5",
+        slug: "wireless-troubleshooting",
+        modules: [
+          {
+            id: "m5",
+            lessons: fakeLessons,
+          },
+        ],
+      } as any);
+
+      // User has completed all 8
+      vi.mocked(prisma.userLessonProgress.findMany).mockResolvedValueOnce(
+        fakeLessons.map((l) => ({ lessonId: l.id })) as any
+      );
+
+      vi.mocked(xpLedger.awardXp).mockResolvedValueOnce({
+        awarded: true,
+        amount: 200,
+        totalXp: 950,
+        message: "+200 XP",
+      });
+
+      const req = new Request("http://localhost:3000/api/challenges/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...validMultiIncidentSubmission,
+          isPathFinal: true,
+        }),
+      });
+
+      const res = await challengeSubmitHandler(req);
+      expect(res.status).toBe(200);
+      const data = await res.json();
+      expect(data.passed).toBe(true);
+      expect(data.isPathFinal).toBe(true);
+      expect(xpLedger.awardXp).toHaveBeenCalledWith(
+        "user-5",
+        200,
+        "CHALLENGE_SOLVED",
+        "challenge-multi-incident-investigation"
+      );
+
+      expect(prisma.assessmentAttempt.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            userId: "user-5",
+            assessmentId: "path-wireless-troubleshooting-final",
+            score: 100,
+            passed: true,
+          }),
+        })
+      );
+    });
   });
 });

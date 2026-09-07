@@ -69,6 +69,16 @@ const nextConfig: NextConfig = {
         destination: "/learn/switching-lan/:path*",
         permanent: true,
       },
+      {
+        source: "/learn/routing-services",
+        destination: "/learn/network-services",
+        permanent: true,
+      },
+      {
+        source: "/learn/routing-services/:path*",
+        destination: "/learn/network-services/:path*",
+        permanent: true,
+      },
     ];
   },
 };

@@ -1032,7 +1032,7 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Acceptance:** Expected L2 recipient/forwarding/isolation results are deterministic; required module evidence blocks premature final.
 
-### Sprint 29 — Routing & Services Curriculum — IMPLEMENTED / READY FOR REVIEW
+### Sprint 29 — Routing & Services Curriculum — COMPLETE
 
 **Exclusive owner:** M10. **Required context:** S28 closeout; matrix P4; S26 mapping; routing table, DHCP/DNS/NAT/ICMP/terminal domain and API consumers.
 
@@ -1043,14 +1043,14 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Acceptance:** Correct next hop/return route, leases, name resolution and translation tested separately; no false pass on ping alone.
 
-### Sprint 30 — Wireless, Troubleshooting & Core Path Validation
+### Sprint 30 — Wireless, Troubleshooting & Core Path Validation — IMPLEMENTED / READY FOR REVIEW
 
 **Exclusive owner:** M10. **Required context:** S27–29 evidence; matrix P5; current three challenge scenarios, terminal parser and evaluators.
 
-- [ ] Task 30.1: Author P5-L01–L08 with wireless tradeoffs, guest security, tool choice and diagnostic method.
-- [ ] Task 30.2: Tie observable command/evidence state to diagnosis and repair; map current challenges to taught outcomes.
-- [ ] Task 30.3: Run cross-path new-user/returning-user regression, content coverage, migration consistency and milestone review.
-- [ ] Task 30.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
+- [x] Task 30.1: Author P5-L01–L08 with wireless tradeoffs, guest security, tool choice and diagnostic method.
+- [x] Task 30.2: Tie observable command/evidence state to diagnosis and repair; map current challenges to taught outcomes.
+- [x] Task 30.3: Run cross-path new-user/returning-user regression, content coverage, migration consistency and milestone review.
+- [x] Task 30.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
 
 **Acceptance:** Diagnosis plus expected restored behavior required; outcome graph remains acyclic; all P2–P5 path finals verified.
 

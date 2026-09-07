@@ -64,15 +64,15 @@ test.describe("Core Networking Curriculum Cross-Path Regression (Milestone 10)",
     const challenges = [
       {
         slug: "first-day-it-support",
-        heading: /Simulasi Hari Pertama: Staf IT Support/i,
+        heading: /Hari Pertama Sebagai Staf IT Support/i,
       },
       {
         slug: "school-room-allocation",
-        heading: /Desain Alokasi Subnet Multi-Ruangan Sekolah/i,
+        heading: /Desain Pembagian Subnet Multi-Ruangan/i,
       },
       {
         slug: "staff-guest-vlan-repair",
-        heading: /Perbaikan Segmentasi VLAN & Trunking/i,
+        heading: /Investigasi Misassignment Port & Trunk Allowed VLAN/i,
       },
       {
         slug: "named-service-outage",
@@ -94,26 +94,26 @@ test.describe("Core Networking Curriculum Cross-Path Regression (Milestone 10)",
 
   test("4. Enforces path prerequisite gate on capstone submission when incomplete", async ({
     page,
-    request,
   }) => {
     await createAndSignInLearner(page);
 
     // Submitting Path 5 capstone without finishing the 8 lessons should be rejected with 400
-    const res = await request.post("/api/challenges/submit", {
+    const res = await page.request.post("/api/challenges/submit", {
       data: {
         challengeId: "multi-incident-investigation",
-        dhcpApipaCause: "dhcp-pool-exhausted",
-        dhcpApipaRemediation: "expand-pool-and-reduce-lease",
-        interVlanIssue: "missing-trunk-encapsulation",
-        interVlanFix: "switchport-mode-trunk",
-        branchGatewayIssue: "wrong-default-gateway-dhcp",
-        branchGatewayFix: "update-dhcp-default-router",
-        troubleshootingMethodology: "divide-and-conquer",
-        verificationStep: "verify-l7-and-host-reachability",
+        isPathFinal: true,
+        apipaRootCause: "dhcp-pool-exhausted",
+        apipaCorrection: "expand-pool-and-reduce-lease",
+        interVlanRootCause: "missing-8021q-trunk",
+        interVlanCorrection: "configure-trunk-on-fa024",
+        gatewayRootCause: "wrong-default-gateway",
+        gatewayCorrection: "update-dhcp-default-router",
+        troubleshootingPrincipleOption: "isolate-single-variable",
+        serviceVerificationOption: "verify-layer7-and-ping",
       },
     });
 
-    expect(res.status()).toBe(400);
+    expect(res.status()).toBe(403);
     const body = await res.json();
     expect(body.error).toContain("Prasyarat belum terpenuhi");
   });

@@ -65,7 +65,7 @@ test.describe("Wireless & Troubleshooting Curriculum Mastery (Sprint 30)", () =>
 
     // Lesson Title
     await expect(
-      page.getByRole("heading", { name: "Karakteristik Frekuensi Wi-Fi: 2.4 GHz vs 5 GHz vs 6 GHz" }).first()
+      page.getByRole("heading", { name: "Karakteristik Frekuensi Wi-Fi: 2.4 GHz, 5 GHz & 6 GHz" }).first()
     ).toBeVisible();
 
     // Learning outcomes section
@@ -95,7 +95,7 @@ test.describe("Wireless & Troubleshooting Curriculum Mastery (Sprint 30)", () =>
     await expect(quiz).toBeVisible();
 
     // 1. Submit incorrect answer
-    await quiz.getByRole("button", { name: "Pita 5 GHz memiliki daya tembus beton lebih kuat", exact: true }).click();
+    await quiz.getByRole("button", { name: "Daya pancar pemancar 2.4 GHz diatur 10 kali lebih kuat oleh standar regulasi internasional", exact: true }).click();
     await quiz.getByRole("button", { name: "Kirim Jawaban" }).click();
 
     // Verify feedback and retry button appear
@@ -103,7 +103,7 @@ test.describe("Wireless & Troubleshooting Curriculum Mastery (Sprint 30)", () =>
 
     // 2. Retry with correct answer
     await quiz.getByRole("button", { name: "Coba Lagi" }).click();
-    await quiz.getByRole("button", { name: "Pita 2.4 GHz memiliki jangkauan lebih luas dan kemampuan penetrasi", exact: false }).click();
+    await quiz.getByRole("button", { name: "Panjang gelombang 2.4 GHz lebih panjang sehingga mengalami redaman penyerapan energi (attenuation) lebih kecil pada materi padat", exact: true }).click();
     await quiz.getByRole("button", { name: "Kirim Jawaban" }).click();
 
     // Verify pass feedback

@@ -48,9 +48,9 @@ export async function createAndSignInLearner(
 
   // 3. Wait for URL change to dashboard upon successful session establishment
   await page.waitForURL((url) => url.pathname.includes("/dashboard"), {
-    timeout: 15000,
+    timeout: 30000,
   });
-  await expect(page.getByLabel("Navigasi Utama Workspace")).toBeVisible({ timeout: 10000 });
+  await expect(page.getByLabel("Navigasi Utama Workspace")).toBeVisible({ timeout: 15000 });
 
   return { id: userId, email, password, name };
 }

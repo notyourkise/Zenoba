@@ -38,6 +38,17 @@ All notable project changes are recorded here.
 
 # 2026-09-07
 
+- [2026-09-07 08:42 WITA] [FIXED] [Milestone 10 / Sprint 30 / E2E Cross-Path & Regression Alignment]
+  Aligned E2E regression locators, challenge input schema, and redirects:
+  - Fixed capstone challenge headings in `src/e2e/core-networking-regression.spec.ts` to match localized headings across all 5 capstone players.
+  - Aligned `/api/challenges/submit` payload in E2E tests with `multiIncidentInvestigationSchema` keys (`apipaRootCause`, `apipaCorrection`, `interVlanRootCause`, `interVlanCorrection`, `gatewayRootCause`, `gatewayCorrection`, `troubleshootingPrincipleOption`, `serviceVerificationOption`) using authenticated `page.request.post`.
+  - Updated prerequisite validation assertion in E2E tests to expect HTTP 403 Forbidden.
+  - Increased cold-start auth timeout in `src/e2e/fixtures/learning-user.ts` to 30s for resilient dev-mode session establishment.
+  - Added Next.js permanent redirect in `next.config.ts` from `/learn/routing-services` to `/learn/network-services`.
+  - Cleaned up unused state in `src/features/challenges/components/multi-incident-player.tsx` for zero ESLint warnings.
+  Files/areas: `next.config.ts`, `src/e2e/core-networking-regression.spec.ts`, `src/e2e/fixtures/learning-user.ts`, `src/e2e/wireless-troubleshooting-mastery.spec.ts`, `src/features/challenges/components/multi-incident-player.tsx`, `CHANGELOG.md`, `docs/HANDOFF.md`
+  Validation: `src/e2e/core-networking-regression.spec.ts` (4 passed), `src/e2e/wireless-troubleshooting-mastery.spec.ts` (5 passed), `npm run typecheck` (0 errors), `npm run lint` (0 errors, 0 warnings), `npm test` (80 test files, 451 tests passed), `npm run build` (35 routes passed).
+
 - [2026-09-07 08:15 WITA] [ADDED] [Milestone 10 / Sprint 30 / Wireless, Troubleshooting & Core Path Validation]
   Authored complete 4-module, 8-lesson Wireless & Troubleshooting curriculum with 24 server-validated formative assessments, interactive practice integration, deterministic Multi-Incident Network Investigation & Remediation capstone challenge, seed migration, and cross-path end-to-end regression coverage across Paths 1–5:
   - Task 30.1 (Author P5-L01–L08 & Formative Assessments): Authored 4 complete modules with 8 lessons under `src/features/learning/content/wireless-troubleshooting/` (`wireless-basics.ts`, `wireless-security.ts`, `diagnostic-tools.ts`, `troubleshooting-methodology.ts`) with zero placeholder content, rich SMK TKJ pedagogical context, interactive activities, and key summaries. Created 24 server-evaluated formative quiz items with misconception explanations in `src/features/learning/assessment/troubleshooting.server.ts` with zero client answer leakage. Registered modules and legacy aliases (`wireless-technologies`, `cli-troubleshooting-tools`, `wifi-bands-and-security` -> `band-frekuensi-wifi`, `terminal-diagnostics-lab` -> `ipconfig-ping-diagnostic`) in `src/features/learning/content/registry.ts`. Integrated into `service.ts` (`findFormativeQuestion`) and `completion.ts` (`getLessonCompletionDecision`).

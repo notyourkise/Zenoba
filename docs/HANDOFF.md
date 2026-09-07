@@ -1,45 +1,44 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-07 22:49 WITA**. Read AGENTS.md and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-09-07 23:25 WITA**. Read AGENTS.md and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
 
 ## 1. Current Task and Authority
 
 - Product: Interactive IT infrastructure learning platform; Networking is the first curriculum.
-- Milestone: **Milestone 12 — Premium Course & Payment Activation** (IN PROGRESS).
-- Task: **Redesign Custom 404 Page to Pure White Full-Screen Lottie Layout**.
-- **Delivered Scope:**
-  1. Updated `src/app/not-found.tsx` to render a full-screen pure white canvas (`fixed inset-0 z-50 min-h-screen w-screen bg-white`) without headers, footers, cosmic background, buttons, or extra HTML copy.
-  2. Sized the `public/GIF/Page Not Found 404.json` Lottie animation to very large dimensions (`max-w-[1400px] aspect-[3/2] max-h-[94vh]`), letting its built-in vector graphics and typography speak for themselves cleanly.
-  3. Updated unit test suite `src/app/not-found.test.tsx` (3 tests) validating the pure white full-screen container, large animation element, and complete absence of extraneous buttons/text.
-  4. Verified full quality gates:
-     - Typecheck: TypeScript 0 errors (`tsc --noEmit`).
-     - Lint: ESLint 0 errors, 0 warnings (`eslint .`).
-     - Tests: Vitest 86 test files, 481 tests passed (100% green).
-     - Build: Production Next.js build prerendered `○ /_not-found` cleanly.
-     - Git diff: Whitespace checks clean (`git diff --check`).
-- **Phase:** Ready for commit, push to GitHub, PR creation, and CI verification.
+- Approved planning direction: improve learning quality, learner comfort, and security before gateway, production, deployment, and live payment work.
+- Task: **Developer Portal, Internal Learner, and Learner Experience Design**.
+- Delivered planning scope:
+  1. Defined `LEARNER`, `INTERNAL_LEARNER`, and `DEVELOPER` boundaries with VPS-only privileged role provisioning.
+  2. Defined shared login and database-authoritative routing to separate learner and developer dashboards.
+  3. Designed a read-only developer operations portal plus password-and-2FA elevated entitlement grant/revoke with atomic audit evidence.
+  4. Prioritized learner resume, queue, autosave, remediation, mastery, and curriculum analytics improvements.
+  5. Proposed Milestones 13–15, leaving gateway, production, deployment, and payment activation in the final milestone.
+- **Phase:** Design specification written for owner review. No application implementation or canonical roadmap rewrite has started.
 
 ## 2. Verified Repository Checkpoint
 
 | Item | Verified state |
 | --- | --- |
-| Main checkout | `C:/laragon/www/netloka`, branch `main` at `d7ab46e` |
-| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-pure-white-404` |
-| Task branch | `codex/pure-white-404` |
-| Base commit | `d7ab46e` (Merge pull request #42 from notyourkise/codex/custom-404-page) |
+| Main checkout | `C:/laragon/www/netloka`, branch `main` last observed at `5541617` |
+| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-developer-portal-planning` |
+| Task branch | `codex/developer-portal-planning` |
+| Base commit | `5541617` (Merge pull request #43 from notyourkise/codex/pure-white-404) |
 | Retained unrelated worktree | `C:/laragon/www/netloka/.worktrees/codex-fix-m0-sprint-0` (`docs/staging-progress`, do not delete) |
 
-## 3. Implemented Files
+## 3. Planning Files
 
-1. `src/app/not-found.tsx`: Redesigned pure white full-screen 404 page with large Lottie animation.
-2. `src/app/not-found.test.tsx`: Updated unit tests for pure white layout.
-3. `CHANGELOG.md`: Logged UI change with WITA timestamp.
-4. `docs/HANDOFF.md`: Updated snapshot.
+1. `docs/superpowers/specs/2026-09-07-developer-portal-and-learner-experience-design.md`: Approved decisions and proposed architecture/roadmap sequence.
+2. `CHANGELOG.md`: Planning record.
+3. `docs/HANDOFF.md`: Current planning checkpoint.
 
-## 4. Next Actions
+## 4. Verification and Boundaries
 
-1. Commit changes to `codex/pure-white-404`.
-2. Push branch to `origin/codex/pure-white-404`.
-3. Open PR targeting `main`.
-4. Monitor and verify all CI jobs pass.
-5. Notify Abangku for review and merge.
+- Documentation-only change; application code, schema, migration, dependencies, deployment, and payment behavior are unchanged.
+- Live Git evidence supersedes the previous handoff: PR #43 is already merged in base commit `5541617`.
+- Design self-review, documentation consistency review, and `git diff --check` passed before committing the planning checkpoint.
+
+## 5. Next Actions
+
+1. Abangku reviews the written design specification and requests corrections or approves it.
+2. After approval, use the required planning workflow to write the detailed implementation plan and synchronize `ROADMAP.md`, `PLAN.md`, `README.md`, and relevant technical-debt status.
+3. Keep application implementation, database migration, deployment, and payment work out of this planning branch unless separately authorized.

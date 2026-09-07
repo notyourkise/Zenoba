@@ -38,6 +38,12 @@ All notable project changes are recorded here.
 
 # 2026-09-07
 
+- [2026-09-07 23:25 WITA] [DOCS] [Milestone 13–15 / Developer Operations, Learner Quality & Final Release Sequencing]
+  Recorded the owner-approved design for a VPS-provisioned `DEVELOPER` role, analytics-excluded `INTERNAL_LEARNER`, shared login with server-authoritative role routing, isolated read-only developer operations portal, password-plus-2FA elevated entitlement management, immutable audit/security evidence, learner comfort/mastery improvements, and roadmap sequencing that moves gateway, production, deployment, and live payment work to the final milestone.
+  Files/areas: `docs/superpowers/specs/2026-09-07-developer-portal-and-learner-experience-design.md`, `docs/HANDOFF.md`
+  Validation: documentation scope and approved decisions reviewed; application code, schema, migration, deployment, and payment behavior unchanged.
+  Git: `codex/developer-portal-planning`
+
 - [2026-09-07 22:49 WITA] [CHANGED] [UI / Custom 404 Page / Pure White Full-Screen Lottie Layout]
   Redesigned custom 404 page according to explicit user preference:
   - Configured `src/app/not-found.tsx` to render a full-screen pure white canvas (`fixed inset-0 z-50 min-h-screen w-screen bg-white`) without headers, footers, cosmic backgrounds, buttons, or extra HTML copy.

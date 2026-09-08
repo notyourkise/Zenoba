@@ -66,6 +66,7 @@ describe("auth helpers", () => {
           name: true,
           email: true,
           role: true,
+          authVersion: true,
           image: true,
           headline: true,
           streakCount: true,

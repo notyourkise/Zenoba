@@ -1,6 +1,6 @@
 # Developer Portal, Internal Learner, and Learner Experience Design
 
-Status: Owner-approved direction; written specification awaiting final owner review
+Status: Owner approved; detailed implementation planning authorized on 2026-09-08 WITA
 
 Decision date: 2026-09-07 WITA
 

@@ -1,5 +1,7 @@
 # Milestone 12 — Premium Activation Entry-Gate Review
 
+> **Sequencing update (2026-09-08):** This completed gate evidence remains valid, but references below to provider work in Sprint 34 are historical. Current `ROADMAP.md` moves provider verification and controlled activation to Milestone 15 / Sprint 42, after Milestones 13–14 and the persistent-security/staging/recovery gates.
+
 - **Review Date:** 2026-09-07 18:21 WITA
 - **Milestone:** Milestone 12 — Premium Course & Payment Activation
 - **Sprint:** Sprint 33 — Premium Activation Entry-Gate Review

@@ -8,7 +8,7 @@ web
 
 ## Users
 
-Siswa SMK bidang teknologi informasi, mahasiswa, pemula IT infrastructure, serta pembelajar yang mempersiapkan diri untuk peran network engineer, system administrator, cloud/DevOps, cybersecurity, dan teknisi infrastruktur lapangan.
+Siswa SMK bidang teknologi informasi, mahasiswa, pemula IT infrastructure, serta pembelajar yang mempersiapkan diri untuk peran network engineer, system administrator, cloud/DevOps, cybersecurity, dan teknisi infrastruktur lapangan. Arah yang telah disetujui juga membedakan `INTERNAL_LEARNER` milik operator untuk pengujian kurikulum dan `DEVELOPER` untuk observabilitas serta administrasi terbatas; keduanya hanya dapat ditetapkan melalui VPS CLI.
 
 ## Product Purpose
 
@@ -48,19 +48,19 @@ Networking merupakan learning domain pertama yang sudah tersedia. Server & Linux
 
 ## Evidence on Hand
 
-- Seed pada baseline `a95b025` mendefinisikan 5 learning paths, 13 modules, dan 15 lessons. Konten belum memenuhi loop pembelajaran lengkap; jumlah ini bukan hasil query database pengguna.
+- Registry kurikulum pada baseline sesudah PR #39 mendefinisikan 6 learning paths, 31 modules, 62 lessons, 186 formative quizzes, dan 6 capstones. Jumlah ini berasal dari validasi source registry, bukan query database pengguna atau bukti deployment.
 - 7 Modul Interactive Labs dengan validator input deterministik.
 - 3 Skenario Troubleshooting Challenges dengan simulator jaringan.
 - 5 Studi Kasus Konsultan Proyek TI (Notaris SOHO, Warnet Gaming, Logistik Gudang, Lab SMK TKJ, Gedung Korporat Multi-Lantai).
 - Riwayat hasil pengujian ada di `CHANGELOG.md`; jumlah test dan CI yang lulus tidak membuktikan kelengkapan materi atau seluruh perjalanan authenticated.
 
-## Planned Learning Outcomes and Progression
+## Learning Outcomes and Next Quality Program
 
 Disetujui pemilik pada 2026-09-05: mulai dari module **Welcome to Networking** sebagai contoh untuk module berikutnya. Setiap path, module, dan lesson menampilkan **Capaian Pembelajaran** menggunakan kata kerja yang bisa diamati, misalnya "Siswa dapat membedakan jaringan lokal dan akses Internet pada skenario berbagi printer".
 
-Alur yang direncanakan: introduction/capaian → konsep → contoh terbimbing → visualisasi → interaksi/praktik → quiz → rangkuman → penyelesaian terverifikasi. Quiz lesson dan tes akhir module wajib lulus untuk melanjutkan; siswa boleh mengulang dan mendapat remediasi. Angka ambang kelulusan serta transisi progress pengguna lama masih membutuhkan review detail sebelum implementasi.
+Alur yang telah diimplementasikan: introduction/capaian → konsep → contoh terbimbing → visualisasi → interaksi/praktik → quiz → rangkuman → penyelesaian terverifikasi. Quiz lesson dan tes akhir module memakai evidence server-authoritative dan retry/remediation.
 
-Milestone 8–11 memperbaiki pengalaman pembelajaran Networking; Milestone 12 mempertahankan gate aktivasi premium/payment sebelumnya. Setiap sprint hanya dimiliki satu milestone. Matriks capaian dan cakupan lesson berada di [networking outcomes](docs/curriculum/networking-outcomes.md), dengan spesifikasi di [curriculum design](docs/superpowers/specs/2026-09-05-learning-outcomes-and-curriculum-design.md). Status seluruh pengalaman baru ini **planned**, bukan klaim fitur yang sudah tersedia.
+Milestones 8–11 telah memperbaiki pengalaman pembelajaran Networking; Milestone 12 menyelesaikan review gate komersial tanpa mengaktifkan pembayaran. Milestone 13 merencanakan developer/internal roles, Milestone 14 meningkatkan continuity/mastery, dan Milestone 15 menempatkan gateway/deployment/production/live payment paling akhir. Lihat [approved design](docs/superpowers/specs/2026-09-07-developer-portal-and-learner-experience-design.md).
 
 ## Product Principles
 

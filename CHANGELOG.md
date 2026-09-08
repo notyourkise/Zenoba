@@ -42,7 +42,7 @@ All notable project changes are recorded here.
   Added executable TDD-oriented plans for developer/internal accounts, learner continuity/mastery, and the final production/commercial release; synchronized canonical roadmap/product/design/technical-debt status with merged PR #27–#40; made Milestone 13 / Sprint 34 the next task and kept gateway, deployment, production, and live payment last in Milestone 15.
   Files/areas: `ROADMAP.md`, `PLAN.md`, `README.md`, `PRODUCT.md`, `DESIGN.md`, `docs/TECHNICAL_DEBT.md`, `docs/superpowers/specs/2026-09-07-developer-portal-and-learner-experience-design.md`, `docs/superpowers/plans/2026-09-08-*.md`, `docs/HANDOFF.md`
   Validation: documentation/source-path consistency review and `git diff --check`; application code, schema, migrations, external configuration, deployment, and payment behavior unchanged.
-  Git: pending
+  Git: `3f290df` on `codex/developer-portal-planning`; PR pending
 
 # 2026-09-07
 

@@ -1,51 +1,59 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-08 08:53 WITA**. Read AGENTS.md and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-09-08 10:14 WITA**. Read AGENTS.md and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
 
 ## 1. Current Task and Authority
 
 - Product: Interactive IT infrastructure learning platform; Networking is the first curriculum.
-- Approved planning direction: improve learning quality, learner comfort, and security before gateway, production, deployment, and live payment work.
-- Task: **Milestones 13–15 detailed implementation planning and canonical roadmap synchronization**.
-- Delivered planning scope:
-  1. Defined `LEARNER`, `INTERNAL_LEARNER`, and `DEVELOPER` boundaries with VPS-only privileged role provisioning.
-  2. Defined shared login and database-authoritative routing to separate learner and developer dashboards.
-  3. Designed a read-only developer operations portal plus password-and-2FA elevated entitlement grant/revoke with atomic audit evidence.
-  4. Prioritized learner resume, queue, autosave, remediation, mastery, and curriculum analytics improvements.
-  5. Proposed Milestones 13–15, leaving gateway, production, deployment, and payment activation in the final milestone.
-- **Phase:** Approved design converted into detailed plans and canonical documentation; documentation-only PR delivery pending/under review. No application implementation has started.
+- Active milestone/sprint: **Milestone 13 / Sprint 34 — Role, Persistence, and Authorization Foundation**.
+- Task: **Task 34.1: Reconcile fresh/upgrade migration history before adding privileged-role persistence**.
+- Scope delivered:
+  1. Reconciled database migration history by establishing the comprehensive baseline migration `20260908090000_developer_operations_baseline` (tested and verified from empty via `prisma migrate deploy`).
+  2. Implemented `UserRole` enum (`LEARNER`, `INTERNAL_LEARNER`, `DEVELOPER`) and added `authVersion`, `lastLoginAt`, and `lastActiveAt` to the `User` model.
+  3. Added persistence models for developer operations and security audit logging: `DeveloperElevationSession`, `DeveloperAuditEvent`, and `SecurityEvent`.
+  4. Implemented pure role boundary helpers in `src/features/authorization/role.ts` (`isLearnerRole`, `isDeveloperRole`, `isPrivilegedRole`).
+  5. Published operational migration runbook in `docs/operations/migration-baseline-runbook.md`.
+  6. Updated CI workflow `.github/workflows/ci.yml` to apply database migrations via `npm run db:deploy`.
+  7. Added unit and persistence contract tests in `src/features/authorization/`.
+- **Phase:** Implemented and locally verified against disposable test database and project gates. Ready for PR creation.
 
 ## 2. Verified Repository Checkpoint
 
 | Item | Verified state |
 | --- | --- |
-| Main checkout | `C:/laragon/www/netloka`, branch `main` last observed at `5541617` |
-| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-developer-portal-planning` |
-| Task branch | `codex/developer-portal-planning` |
-| Base commit | `5541617` (Merge pull request #43 from notyourkise/codex/pure-white-404) |
-| Latest planning commit | `3f290dfa2bf4505498fe3ae1d41c6e5c9c2c181c` |
-| Pull request | [PR #44](https://github.com/notyourkise/NetLoka/pull/44), open against `main`; mergeable when last checked |
+| Main checkout | `C:/laragon/www/netloka`, branch `main` at `afa2c2d` |
+| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-sprint-34-role-persistence` |
+| Task branch | `codex/sprint-34-role-persistence` |
+| Base commit | `afa2c2d` (Merge pull request #44 from notyourkise/codex/developer-portal-planning) |
 | Retained unrelated worktree | `C:/laragon/www/netloka/.worktrees/codex-fix-m0-sprint-0` (`docs/staging-progress`, do not delete) |
+| Background dev server | `task-3530` active and healthy on `http://localhost:3000` |
 
-## 3. Planning Files
+## 3. Key Files Changed / Added
 
-1. `docs/superpowers/specs/2026-09-07-developer-portal-and-learner-experience-design.md`: Owner-approved product/security design.
-2. `docs/superpowers/plans/2026-09-08-developer-operations-and-internal-accounts.md`: Milestone 13 / Sprints 34–36 executable plan.
-3. `docs/superpowers/plans/2026-09-08-learner-experience-and-mastery.md`: Milestone 14 / Sprints 37–39 executable plan.
-4. `docs/superpowers/plans/2026-09-08-final-production-and-commercial-release.md`: Milestone 15 / Sprints 40–42 gated release plan.
-5. `ROADMAP.md`, `PLAN.md`, `README.md`, `PRODUCT.md`, `DESIGN.md`, and `docs/TECHNICAL_DEBT.md`: synchronized source-of-truth status and next entry point.
+1. `prisma/schema.prisma`: Added `UserRole` enum, updated `User`, added `DeveloperElevationSession`, `DeveloperAuditEvent`, `SecurityEvent`.
+2. `prisma/migrations/20260908090000_developer_operations_baseline/migration.sql`: Reproducible baseline DDL.
+3. `src/features/authorization/role.ts` & `role.test.ts`: Canonical app roles and type-guard functions.
+4. `src/features/authorization/persistence.test.ts`: Model contract assertions.
+5. `docs/operations/migration-baseline-runbook.md`: Standard operational runbook for migrations.
+6. `.github/workflows/ci.yml`: Uses `npm run db:deploy` instead of `prisma db push`.
+7. `scripts/create-user.ts`: Strongly typed with `UserRole`.
+8. `PLAN.md` & `CHANGELOG.md`: Progress tracking and immutable WITA changelog record.
 
-## 4. Verification and Boundaries
+## 4. Verification Evidence
 
-- Documentation-only change; application code, schema, migration, dependencies, deployment, and payment behavior are unchanged.
-- Live Git evidence supersedes the previous handoff: PR #43 is already merged in base commit `5541617`.
-- The current migration history is not fresh-database reproducible; Milestone 13 / Task 34.1 is the required evidence gate before privileged-role persistence.
-- Merged Git evidence supersedes stale planning labels: curriculum PR #27–#39 and gate review PR #40 are present on current `main` history.
-- Documentation scope, changed relative Markdown links, and `git diff --check` passed for commit `3f290df`; application suites were omitted because no executable/schema/config files changed.
-- PR #44 was created through GitHub CLI. Its initial head `5b3e226` was mergeable and the `Lint & Type Check` job was pending; verify the latest head/check before making any readiness claim.
+- `npx prisma migrate deploy` on disposable test database: **Passed** (1 migration applied cleanly from empty).
+- `npm run db:seed` on fresh database: **Passed** (idempotent across consecutive runs).
+- `npm run db:generate`: **Passed**.
+- `npm run typecheck`: **Passed** (0 errors).
+- `npm run lint`: **Passed** (0 warnings/errors).
+- `npm test`: **Passed** (88 test files / 491 tests passed).
+- `git diff --check`: **Passed** (0 whitespace/formatting errors).
+- Background dev server: **Healthy** (`/api/health` 200 OK).
 
 ## 5. Next Actions
 
-1. Abangku reviews and merges the documentation PR; Anto must not merge it.
-2. After merge/synchronization and a new explicit implementation request, start Milestone 13 / Sprint 34 / Task 34.1 from its detailed plan in a new isolated branch/worktree.
-3. Keep application code, schema/migrations, external configuration, deployment, gateway, and payment behavior out of this planning branch.
+1. Commit and push task branch `codex/sprint-34-role-persistence`.
+2. Open PR via `gh pr create` targeting `main`.
+3. Verify all 5 CI jobs green on GitHub Actions.
+4. Submit PR for review and merge by Abangku.
+5. After merge and synchronization, proceed to Task 34.2 (Server-authoritative role guards and immediate role enforcement).

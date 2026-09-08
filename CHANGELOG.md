@@ -38,6 +38,19 @@ All notable project changes are recorded here.
 
 # 2026-09-08
 
+- [2026-09-08 10:14 WITA] [ADDED] [Milestone 13 / Sprint 34 / Task 34.1]
+  Reconciled database migration baseline and added privileged-role persistence models:
+  - Replaced broken migration history (empty init + unlinked password reset tokens) with authoritative, fresh-database reproducible baseline migration `20260908090000_developer_operations_baseline`.
+  - Defined `enum UserRole { LEARNER, INTERNAL_LEARNER, DEVELOPER }` in Prisma schema and updated `User` model with typed role, `authVersion` (default 1), `lastLoginAt`, and `lastActiveAt`.
+  - Added persistence models for developer operations and audit logging: `DeveloperElevationSession`, `DeveloperAuditEvent`, and `SecurityEvent`.
+  - Implemented role helper module `src/features/authorization/role.ts` with `APP_ROLES`, `isLearnerRole`, `isDeveloperRole`, and `isPrivilegedRole`.
+  - Added comprehensive migration runbook in `docs/operations/migration-baseline-runbook.md` with instructions for fresh deployment and safe local development reconciliation without data loss.
+  - Updated CI workflow `.github/workflows/ci.yml` to apply migrations via `npm run db:deploy` instead of `prisma db push`.
+  - Added unit and persistence contract tests in `src/features/authorization/` (10 tests).
+  Files/areas: `prisma/schema.prisma`, `prisma/migrations/20260908090000_developer_operations_baseline/migration.sql`, `src/features/authorization/role.ts`, `src/features/authorization/role.test.ts`, `src/features/authorization/persistence.test.ts`, `docs/operations/migration-baseline-runbook.md`, `.github/workflows/ci.yml`, `scripts/create-user.ts`, `PLAN.md`
+  Validation: `npx prisma migrate deploy` on disposable test database, `npm run db:seed` idempotent verification, `npm run db:generate`, `npm run typecheck`, `npm run lint`, full test suite passed (88 files / 491 tests), background dev server healthy.
+  Git: `codex/sprint-34-role-persistence`
+
 - [2026-09-08 08:38 WITA] [DOCS] [Milestones 13–15 / Implementation Planning]
   Added executable TDD-oriented plans for developer/internal accounts, learner continuity/mastery, and the final production/commercial release; synchronized canonical roadmap/product/design/technical-debt status with merged PR #27–#40; made Milestone 13 / Sprint 34 the next task and kept gateway, deployment, production, and live payment last in Milestone 15.
   Files/areas: `ROADMAP.md`, `PLAN.md`, `README.md`, `PRODUCT.md`, `DESIGN.md`, `docs/TECHNICAL_DEBT.md`, `docs/superpowers/specs/2026-09-07-developer-portal-and-learner-experience-design.md`, `docs/superpowers/plans/2026-09-08-*.md`, `docs/HANDOFF.md`

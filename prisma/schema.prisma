@@ -10,6 +10,12 @@ datasource db {
   provider = "postgresql"
 }
 
+enum UserRole {
+  LEARNER
+  INTERNAL_LEARNER
+  DEVELOPER
+}
+
 // ====================
 // Authentication Models
 // ====================
@@ -24,7 +30,10 @@ model User {
   headline       String?   @default("Siswa SMK TKJ - IT Infrastructure")
   streakCount    Int       @default(1)
   lastStreakDate String?
-  role           String    @default("LEARNER") // LEARNER | ADMIN
+  role           UserRole  @default(LEARNER)
+  authVersion    Int       @default(1)
+  lastLoginAt    DateTime?
+  lastActiveAt   DateTime?
   twoFactorEnabled     Boolean   @default(false)
   twoFactorSecret      String?
   twoFactorBackupCodes String?   @db.Text
@@ -43,6 +52,7 @@ model User {
   passwordResetTokens PasswordResetToken[]
   orders              Order[]
   entitlements        Entitlement[]
+  developerElevationSessions DeveloperElevationSession[]
 
   @@map("users")
 }
@@ -520,4 +530,58 @@ model Entitlement {
   @@unique([userId, courseId])
   @@index([userId, state])
   @@map("entitlements")
+}
+
+// ===================================
+// Developer Operations & Audit Models
+// ===================================
+
+model DeveloperElevationSession {
+  id          String    @id @default(cuid())
+  userId      String
+  tokenHash   String    @unique
+  authVersion Int
+  issuedAt    DateTime  @default(now())
+  lastUsedAt  DateTime?
+  expiresAt   DateTime
+  revokedAt   DateTime?
+  ipHash      String?
+  userAgent   String?   @db.Text
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
+  @@map("developer_elevation_sessions")
+}
+
+model DeveloperAuditEvent {
+  id            String   @id @default(cuid())
+  actorUserId   String?
+  targetUserId  String?
+  actorKind     String
+  action        String
+  reason        String?  @db.Text
+  requestId     String   @unique
+  correlationId String
+  beforeState   Json?
+  afterState    Json?
+  result        String
+  createdAt     DateTime @default(now())
+
+  @@index([actorUserId, createdAt])
+  @@index([targetUserId, createdAt])
+  @@index([action, createdAt])
+  @@map("developer_audit_events")
+}
+
+model SecurityEvent {
+  id        String   @id @default(cuid())
+  userId    String?
+  type      String
+  severity  String
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([type, createdAt])
+  @@map("security_events")
 }

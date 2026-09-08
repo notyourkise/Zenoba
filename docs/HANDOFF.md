@@ -1,6 +1,6 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-08 08:52 WITA**. Read AGENTS.md and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-09-08 08:53 WITA**. Read AGENTS.md and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
 
 ## 1. Current Task and Authority
 
@@ -24,6 +24,7 @@ Last updated: **2026-09-08 08:52 WITA**. Read AGENTS.md and verify live Git/PR/C
 | Task branch | `codex/developer-portal-planning` |
 | Base commit | `5541617` (Merge pull request #43 from notyourkise/codex/pure-white-404) |
 | Latest planning commit | `3f290dfa2bf4505498fe3ae1d41c6e5c9c2c181c` |
+| Pull request | [PR #44](https://github.com/notyourkise/NetLoka/pull/44), open against `main`; mergeable when last checked |
 | Retained unrelated worktree | `C:/laragon/www/netloka/.worktrees/codex-fix-m0-sprint-0` (`docs/staging-progress`, do not delete) |
 
 ## 3. Planning Files
@@ -41,7 +42,7 @@ Last updated: **2026-09-08 08:52 WITA**. Read AGENTS.md and verify live Git/PR/C
 - The current migration history is not fresh-database reproducible; Milestone 13 / Task 34.1 is the required evidence gate before privileged-role persistence.
 - Merged Git evidence supersedes stale planning labels: curriculum PR #27–#39 and gate review PR #40 are present on current `main` history.
 - Documentation scope, changed relative Markdown links, and `git diff --check` passed for commit `3f290df`; application suites were omitted because no executable/schema/config files changed.
-- PR/CI evidence remains pending until the branch is pushed and the documentation PR is created.
+- PR #44 was created through GitHub CLI. Its initial head `5b3e226` was mergeable and the `Lint & Type Check` job was pending; verify the latest head/check before making any readiness claim.
 
 ## 5. Next Actions
 

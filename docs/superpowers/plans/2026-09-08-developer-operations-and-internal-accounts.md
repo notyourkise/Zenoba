@@ -359,16 +359,16 @@ git commit -m "feat(auth): add audited VPS role provisioning"
 - Consumes: `getPostLoginDestination`, `requireLearnerActor`, `requireDeveloperActor`.
 - Produces: one fixed callback route and strict workspace route behavior.
 
-- [ ] **Step 1: Add redirect and cross-workspace tests**
+- [x] **Step 1: Add redirect and cross-workspace tests**
 
 Assert both login modes use `/continue`, the server page sends developer to `/developer`, learners to `/dashboard`, developer requests to `/learn` are denied, and learner requests to `/developer` are denied.
 
-- [ ] **Step 2: Confirm expected failures**
+- [x] **Step 2: Confirm expected failures**
 
 Run: `npx vitest run src/features/auth/components/auth-modal.test.tsx src/app/(auth)/continue/page.test.tsx src/middleware.test.ts`
 Expected: FAIL before the route and matchers exist.
 
-- [ ] **Step 3: Implement server redirect and optimistic middleware routing**
+- [x] **Step 3: Implement server redirect and optimistic middleware routing**
 
 ```tsx
 export default async function ContinuePage() {
@@ -380,13 +380,13 @@ export default async function ContinuePage() {
 
 Keep database authorization in layouts/APIs because Next.js documents middleware/proxy as an optimistic check, not full session management.
 
-- [ ] **Step 4: Run focused tests and authenticated routing E2E**
+- [x] **Step 4: Run focused tests and authenticated routing E2E**
 
 Run: `npx vitest run src/middleware.test.ts src/features/auth src/app/(auth)/continue/page.test.tsx`
 Run: `npx playwright test src/e2e/member-workspace.spec.ts --project=chromium`
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/app src/features/auth src/middleware.ts src/middleware.test.ts

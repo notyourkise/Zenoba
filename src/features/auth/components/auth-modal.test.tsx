@@ -97,12 +97,78 @@ describe("AuthModal", () => {
     );
   });
 
+  it("routes successful credentials sign-in to /continue", async () => {
+    vi.mocked(signIn).mockResolvedValue({
+      error: null,
+      status: 200,
+      ok: true,
+      url: null,
+    });
+    render(
+      <AuthModal
+        mode="sign-in"
+        googleEnabled
+      />,
+    );
+
+    fireEvent.change(screen.getByLabelText("Email"), {
+      target: { value: "learner@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText("Password"), {
+      target: { value: "Password123!" },
+    });
+    fireEvent.submit(screen.getByRole("form", { name: "Sign in" }));
+
+    await waitFor(() => expect(router.push).toHaveBeenCalledWith("/continue"));
+  });
+
+  it("routes Google sign-in to /continue", () => {
+    render(
+      <AuthModal
+        mode="sign-in"
+        googleEnabled
+      />,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /Continue with Google/i }));
+
+    expect(signIn).toHaveBeenCalledWith("google", { callbackUrl: "/continue" });
+  });
+
+  it("preserves safe callbackUrl when routing to /continue", async () => {
+    vi.mocked(signIn).mockResolvedValue({
+      error: null,
+      status: 200,
+      ok: true,
+      url: null,
+    });
+    render(
+      <AuthModal
+        mode="sign-in"
+        googleEnabled
+        callbackUrl="/learn"
+      />,
+    );
+
+    fireEvent.change(screen.getByLabelText("Email"), {
+      target: { value: "learner@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText("Password"), {
+      target: { value: "Password123!" },
+    });
+    fireEvent.submit(screen.getByRole("form", { name: "Sign in" }));
+
+    await waitFor(() =>
+      expect(router.push).toHaveBeenCalledWith("/continue?callbackUrl=%2Flearn"),
+    );
+  });
+
   it.each([
     "https://attacker.example/steal",
     "//attacker.example/steal",
     "/\\attacker.example/steal",
     "/\t/attacker.example/steal",
-  ])("rejects unsafe callback %j after credentials sign-in", async (callbackUrl) => {
+  ])("rejects unsafe callback %j after credentials sign-in and defaults to /continue", async (callbackUrl) => {
     vi.mocked(signIn).mockResolvedValue({
       error: null,
       status: 200,
@@ -125,7 +191,7 @@ describe("AuthModal", () => {
     });
     fireEvent.submit(screen.getByRole("form", { name: "Sign in" }));
 
-    await waitFor(() => expect(router.push).toHaveBeenCalledWith("/dashboard"));
+    await waitFor(() => expect(router.push).toHaveBeenCalledWith("/continue"));
   });
 
   it("closes on Escape without leaving the landing page", () => {

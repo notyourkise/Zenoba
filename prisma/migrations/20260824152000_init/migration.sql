@@ -1,2 +1,0 @@
--- This is an empty migration.
--- Sprint 0 establishes migration history before application models are added.

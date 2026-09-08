@@ -10,9 +10,9 @@
 
 **Spec:** `ROADMAP.md`
 
-**Current planning checkpoint (2026-09-05):** Milestone 7 remains operationally open. The next owner-selected learning target is Milestone 8 / Sprint 21, leading to the Welcome to Networking reference module. Milestones 8–11 and Sprints 21–32 are planned learning renewal; premium activation moves from former M8 to M12 / S33–34. See the detailed renewal section below.
+**Current planning checkpoint (2026-09-08):** Curriculum Sprints 21–32 and commercial gate review Sprint 33 are merged. The next implementation target is Milestone 13 / Sprint 34: migration and authorization foundations for VPS-only privileged roles. Milestone 14 improves learner continuity/mastery. Gateway, production, deployment, and live payment are deliberately last in Milestone 15.
 
-**Evidence correction:** Historical checked tasks remain delivery history, not proof of current pedagogical completeness. At main `a95b025`, the seed defines 5 paths/13 modules/15 lessons with no quiz/summary blocks; completion is not assessment-gated and quiz submission does not call the real answer evaluator. New plans explicitly repair these gaps. Original Sprint 4/5/7–9 content-completion statements must not be used to skip content review.
+**Evidence correction:** Historical checked tasks remain delivery history, not proof of current deployment. The `a95b025` inspection found 5 paths/13 modules/15 lessons and non-authoritative completion; merged PR #27–#39 subsequently repaired assessment/progression and expanded the registry to 6 paths/31 modules/62 lessons/186 formative quizzes/6 capstones. Staging/production and migration reproducibility remain unverified.
 
 ## Global Constraints
 
@@ -752,9 +752,9 @@ Seed:
 
 ---
 
-# Milestone 7 — Production Readiness & MVP Launch 🚧 ACTIVE
+# Milestone 7 — Production Readiness Foundation — IMPLEMENTED BASELINE / LIVE RELEASE DEFERRED TO M15
 
-## Sprint 15 — Quality, Security & Deployment 🚧 IN PROGRESS
+## Sprint 15 — Quality, Security & Deployment — IMPLEMENTED BASELINE / EXTERNAL VERIFICATION DEFERRED
 
 ### Required verification
 
@@ -784,7 +784,7 @@ Seed:
 
 ---
 
-## Sprint 16 — MVP Stabilization & Feature Refinement 🚧 ACTIVE
+## Sprint 16 — MVP Stabilization & Feature Refinement — IMPLEMENTED BASELINE / PRE-LAUNCH GATES DEFERRED
 
 - [x] Triage launch issues by severity (Quality gate passed 100%).
 - [x] Fix critical/high issues before feature work.
@@ -860,9 +860,9 @@ Seed:
 - [x] Review final migration, transaction/idempotency design, security/secret handling, authorization, UI diff, and documentation; resolve Critical/High findings.
 - [x] Update ROADMAP, PLAN, CHANGELOG (WITA), HANDOFF, ADRs, README only when facts change; deliver a focused PR via `gh`, verify every applicable latest-head CI job, and wait for owner review/merge.
 
-### Deferred activation — Milestone 12 (formerly Milestone 8)
+### Deferred activation — Milestone 15 (reviewed in Milestone 12; historically former Milestone 8)
 
-- [ ] Do not add Midtrans credentials, production Dynamic QRIS, active premium price, checkout, or provider webhook until all Milestone 12 entry gates (formerly M8 in the historical commerce design) and `ROADMAP.md` are independently verified.
+- [ ] Do not add Midtrans credentials, production Dynamic QRIS, active premium price, checkout, or provider webhook until Milestone 15 and every retained Milestone 12 entry gate are independently verified.
 
 ---
 
@@ -916,13 +916,13 @@ Seed:
 
 ---
 
-# Learning Curriculum Renewal — Planned Milestones 8–12
+# Learning Curriculum Renewal and Approved Next Program — Milestones 8–15
 
-Owner-approved direction (2026-09-05): explicit outcomes at path/module/lesson levels; Welcome to Networking first; quiz per lesson and combined module final with pass-before-advance and retries; move premium activation after learning renewal. All work below is planned, not implemented. Each sprint belongs to exactly one milestone.
+Milestones 8–11 were implemented and merged through PR #27–#39; Sprint 33's entry-gate review merged in PR #40 and did not authorize payment activation. The owner-approved next direction adds isolated developer/internal roles and learner-quality work before all gateway, deployment, production, and live-payment tasks. Each sprint belongs to exactly one milestone.
 
 Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curriculum-renewal.md), [pilot tasks](docs/superpowers/plans/2026-09-05-welcome-to-networking.md), [design](docs/superpowers/specs/2026-09-05-learning-outcomes-and-curriculum-design.md), [outcome matrix](docs/curriculum/networking-outcomes.md).
 
-## Milestone 8 — Learning Outcomes, Assessment Foundation & Welcome Pilot — PLANNED
+## Milestone 8 — Learning Outcomes, Assessment Foundation & Welcome Pilot — COMPLETE / MERGED
 
 **Goal:** Deliver Welcome to Networking as an owner-reviewed reference with explicit outcomes, accurate assessment, mandatory passing, retry, persistent evidence, and safe progression.
 
@@ -974,7 +974,7 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Exit:** Four complete lessons, full outcome-to-evidence coverage, authentic database/E2E proof, preserved legacy identities, no Critical/High findings, and owner acceptance of the reusable reference.
 
-## Milestone 9 — Network Foundations Curriculum Completion — IMPLEMENTED / READY FOR REVIEW
+## Milestone 9 — Network Foundations Curriculum Completion — COMPLETE / MERGED
 
 **Goal:** Complete the remaining Network Foundations modules using the accepted reference and assess transfer through First Day as IT Support.
 
@@ -1056,7 +1056,7 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Exit:** Each of Paths 2–5 passes its own content/domain/security/E2E gates; cross-path prerequisite graph has no missing evidence or cycles.
 
-## Milestone 11 — Consultant Learning Path & Curriculum Validation — IN PROGRESS
+## Milestone 11 — Consultant Learning Path & Curriculum Validation — COMPLETE / MERGED
 
 **Goal:** Teach requirement analysis through proposal creation before independent Consultant work, then verify the full Networking journey.
 
@@ -1073,7 +1073,7 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Acceptance:** Each requirement has design evidence and acceptance test; budget success cannot conceal missing critical connectivity.
 
-### Sprint 32 — Consultant Capstone, Portfolio & Full Curriculum Review — IMPLEMENTED / READY FOR REVIEW
+### Sprint 32 — Consultant Capstone, Portfolio & Full Curriculum Review — COMPLETE / MERGED (PR #39)
 
 **Exclusive owner:** M11. **Required context:** S31 reviewed learning content; matrix P6-M5; five existing cases; portfolio persistence; all prior path reviews.
 
@@ -1086,13 +1086,13 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Exit:** Path 6 and retained proposal evidence verified; all six paths have outcome coverage and a reviewed curriculum-level regression report.
 
-## Milestone 12 — Premium Course & Payment Activation — PLANNED
+## Milestone 12 — Commercial Readiness Gate Review — COMPLETE / BLOCKED FROM ACTIVATION
 
-**Goal:** Preserve the former M8 premium/provider activation scope, strictly after content/product/operator/provider and deployment gates.
+**Goal:** Review the former M8 premium/provider entry gates without implementing or activating a payment provider.
 
 **Dependency:** M7 operational gates and M8–M11 curriculum gates complete, real premium content and pricing separately approved, merchant/legal/provider prerequisites verified.
 
-### Sprint 33 — Premium Activation Entry-Gate Review — IMPLEMENTED / READY FOR REVIEW
+### Sprint 33 — Premium Activation Entry-Gate Review — COMPLETE / MERGED (PR #40)
 
 **Exclusive owner:** M12. **Required context:** Former M8 scope in ADR 0004 and archived commerce spec; M7 operational evidence; M8–M11 curriculum reviews.
 
@@ -1103,20 +1103,95 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Acceptance:** Every entry gate has current evidence; absent premium products keep milestone blocked from activation.
 
-### Sprint 34 — Provider Verification & Controlled Release
+**Exit result:** Review completed, but absent real premium products/pricing and unverified operator/provider/deployment prerequisites keep activation blocked. No live payment or deployment action is authorized.
 
-**Exclusive owner:** M12. **Required context:** S33 evidence; existing sandbox contract/order/entitlement tests; latest official provider documentation and M7 deployment runbook.
+## Milestone 13 — Developer Operations and Internal Accounts — PLANNED / NEXT
 
-- [ ] Task 34.1: Prepare and obtain owner review of exact provider adapter/webhook/reconciliation implementation plan with live-vs-sandbox boundaries.
-- [ ] Task 34.2: Verify provider sandbox and staging amount/signature/idempotency/reconciliation cases with isolated data, then review operational refund/dispute handling.
-- [ ] Task 34.3: Enable production only with explicit owner authorization; run post-deploy smoke/monitoring and record release/recovery evidence.
-- [ ] Task 34.4: Full relevant validation, documentation, internal review, current-head PR/CI, owner merge, and synchronization.
+Detailed executable plan: [Developer Operations and Internal Accounts](docs/superpowers/plans/2026-09-08-developer-operations-and-internal-accounts.md).
 
-**Acceptance:** Provider event—not client redirect—controls entitlement; all release gates and operator actions recorded.
+### Sprint 34 — Role, Persistence, and Authorization Foundation
 
-**Exit:** Only owner-authorized real premium products and provider integration can satisfy commercial activation; no readiness inferred from free curriculum completion.
+- [ ] Task 34.1: Reconcile fresh/upgrade migration history before adding privileged-role persistence.
+- [ ] Task 34.2: Add central database-authoritative role guards and immediate role enforcement.
+- [ ] Task 34.3: Force public email/Google registration to `LEARNER`; prohibit Google login for developers.
+- [ ] Task 34.4: Add the only privileged provisioning path: a VPS CLI with explicit target, role, actor, and reason.
+- [ ] Task 34.5: Route the shared login to isolated learner/developer workspaces.
+- [ ] Task 34.6: Give `INTERNAL_LEARNER` full learning access while excluding it from business/learner analytics.
 
-Exact pilot steps, planned files/contracts, risks, test fixtures, and commands are in the linked pilot plan. Numeric assessment thresholds and legacy bridge policy require owner review before implementation; the mandatory passing/retry direction is already approved. Later content sprints follow the accepted reference and matrix, then refresh exact implementation contracts at their entry gate. No live payment/deployment action is authorized by this planning update.
+**Acceptance:** No public/UI/HTTP path can grant a privileged role; stale JWT role cannot bypass current database role; developer and learner surfaces deny each other; internal learner access does not pollute cohorts.
+
+### Sprint 35 — Read-Only Developer Portal
+
+- [ ] Task 35.1: Build explicit, privacy-safe read models for overview, users, package/order history, learning, curriculum, system, security, and account views.
+- [ ] Task 35.2: Build the separate `/developer` shell and responsive/read-only pages with safe empty/error/loading states.
+- [ ] Task 35.3: Verify query performance, authorization, accessibility, responsive behavior, and safe logging.
+
+**Acceptance:** Developer sees operational and user/package context without raw secrets, raw learner answers, curriculum mutation, shell access, or system mutation.
+
+### Sprint 36 — Elevation, Entitlements, and Audit
+
+- [ ] Task 36.1: Persist safe activity/security events and immutable audit records.
+- [ ] Task 36.2: Add mandatory developer 2FA and password-plus-2FA elevated sessions with ten-minute expiry.
+- [ ] Task 36.3: Implement atomic package grant/revoke with a written reason; preserve all order history.
+- [ ] Task 36.4: Complete security review, authenticated E2E, full gates, PR/CI, owner review/merge, and synchronization.
+
+**Exit:** Role provisioning, workspace isolation, internal cohort behavior, developer read views, elevation, entitlement changes, and audit evidence are verified with no open Critical/High findings.
+
+## Milestone 14 — Learner Experience and Mastery Quality — PLANNED
+
+Detailed executable plan: [Learner Experience and Mastery Quality](docs/superpowers/plans/2026-09-08-learner-experience-and-mastery.md).
+
+### Sprint 37 — Continuity and Daily Comfort
+
+- [ ] Task 37.1: Add exact resume and a deterministic prioritized learning queue.
+- [ ] Task 37.2: Add safe autosave drafts that never create progress/XP/evidence.
+- [ ] Task 37.3: Standardize lesson navigation and public error behavior.
+- [ ] Task 37.4: Add typed curriculum search and ownership-scoped bookmarks.
+
+### Sprint 38 — Mastery, Remediation, and Feedback
+
+- [ ] Task 38.1: Derive learner mastery from current authoritative evidence.
+- [ ] Task 38.2: Add remediation mapping/center and integrate it into the queue.
+- [ ] Task 38.3: Add privacy-safe outcome/item analytics excluding internal/developer cohorts.
+- [ ] Task 38.4: Improve Consultant feedback without silently regrading historical work.
+
+### Sprint 39 — Spaced Review and Learner-Quality Acceptance
+
+- [ ] Task 39.1: Add deterministic, idempotent spaced-review scheduling.
+- [ ] Task 39.2: Run accessibility, responsive, performance, offline/error, and authenticated E2E regression.
+- [ ] Task 39.3: Complete the milestone review, full gates, PR/CI, owner review/merge, and synchronization.
+
+**Exit:** Learners can resume, recover drafts, search/bookmark, understand mastery/remediation, receive useful Consultant feedback, and complete due reviews through accessible, server-authoritative flows.
+
+## Milestone 15 — Final Production and Commercial Release — PLANNED / LAST
+
+Detailed executable plan: [Final Production and Commercial Release](docs/superpowers/plans/2026-09-08-final-production-and-commercial-release.md).
+
+### Sprint 40 — Persistent Security and Release Baseline
+
+- [ ] Task 40.1: Replace in-memory session revocation with shared PostgreSQL persistence.
+- [ ] Task 40.2: Replace in-memory password-reset abuse controls with a multi-instance-safe limiter.
+- [ ] Task 40.3: Remove dangerous OAuth account linking and verify live email/OAuth in isolated staging.
+- [ ] Task 40.4: Rehearse fresh/upgrade migrations, dependency/security checks, and backup-based rollback.
+
+### Sprint 41 — Staging, Recovery, and Operational Readiness
+
+- [ ] Task 41.1: Finalize factual operator/privacy/payment/incident runbooks.
+- [ ] Task 41.2: Deploy and verify an explicitly authorized isolated staging environment.
+- [ ] Task 41.3: Prove backup, restore, rollback, and incident drills outside production.
+- [ ] Task 41.4: Complete a production-like non-payment rehearsal and owner review.
+
+### Sprint 42 — Midtrans Gateway and Controlled Commercial Activation
+
+- [ ] Task 42.1: Refresh and approve the exact Dynamic QRIS/provider boundary from current official documentation.
+- [ ] Task 42.2: Implement the server-only adapter, verified/idempotent webhook processing, and VPS reconciliation CLI.
+- [ ] Task 42.3: Verify sandbox and staging success/failure/expiry/replay/reconciliation flows.
+- [ ] Task 42.4: Request separate explicit owner authorization for production deployment and live-payment activation.
+- [ ] Task 42.5: Complete post-release smoke/monitoring/recovery review and synchronize evidence.
+
+**Exit:** Persistent security controls, migrations, staging, recovery, operator/legal/catalog gates, provider integrity, and separately authorized production/live activation are independently evidenced. Gateway and deployment remain the last work performed.
+
+Exact files, interfaces, TDD steps, risks, test fixtures, and verification commands are in the three linked 2026-09-08 implementation plans. Planning approval does not authorize implementation, external configuration, deployment, or live payment.
 
 ---
 

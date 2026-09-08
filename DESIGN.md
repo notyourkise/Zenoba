@@ -136,6 +136,14 @@ Palet warna Netloka dirancang untuk mendukung dual-theme (Light & Dark) dengan k
 
 Domain yang belum tersedia ditampilkan sebagai item noninteraktif dengan label `Soon`. Jangan membuat tautan atau route placeholder untuk domain tersebut.
 
+### Planned role-specific workspaces
+
+- Satu form login melayani semua akun; role database menentukan tujuan setelah login, bukan pilihan role di form.
+- `LEARNER` dan `INTERNAL_LEARNER` memakai workspace learner yang memprioritaskan lanjut belajar, antrean, progres, mastery, dan remediation.
+- `DEVELOPER` memakai shell `/developer` terpisah yang memprioritaskan system/user/package/curriculum health; jangan menampilkan kartu progres belajar learner.
+- Developer web tetap read-only untuk curriculum dan system operations. Aksi grant/revoke entitlement harus tampil sebagai alur terpisah dengan elevated authentication, reason tertulis, konfirmasi target/paket, serta hasil audit.
+- Jangan menyediakan kontrol UI untuk promosi role. Empty/loading/error/denied states wajib eksplisit, responsif, dan dapat dioperasikan dengan keyboard.
+
 - **Layout Legal:** Satu kolom terpusat selebar `min(100%, 74ch)`, gutter horizontal (1.5rem), tinggi minimum (100svh), serta scrollbar native tanpa smooth scrolling. Padding atas/bawah (2rem/4rem) menjadi (3rem/6rem) mulai lebar viewport (768px). Navigasi kembali mendahului artikel; tautan antardokumen mengikutinya. Tidak memakai navbar atau footer marketing di halaman legal.
 
 ## Elevation & Depth

@@ -1,5 +1,7 @@
 # Learning Curriculum Renewal Implementation Plan
 
+> **Superseded sequencing notice (2026-09-08):** Milestones 8–11 and Sprint 33 are merged. The former provider Sprint 34 below is retained as historical planning context but is no longer executable; `ROADMAP.md` and `PLAN.md` now assign Sprint 34 to Milestone 13 and move gateway/deployment/production/live payment to Milestone 15 / Sprint 42. Use the three 2026-09-08 plans for future work.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans for task-by-task work after the relevant design is approved. Steps use checkbox (`- [ ]`) syntax for tracking. This is a multi-milestone program plan; the pilot has a separate detailed implementation plan. Do not execute later scopes from the existence of this file.
 
 **Goal:** Deliver outcome-driven Networking education from introductory lessons to independently assessed Consultant projects, starting with one owner-reviewed reference module.

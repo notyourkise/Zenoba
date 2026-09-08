@@ -6,7 +6,7 @@
 
 **Domain:** `netloka.biz.id`  
 **Architecture:** Modular monolith (Next.js + TypeScript + PostgreSQL)  
-**Development status:** Milestones 0–6 historically implemented; Milestone 7 operationally active; learning renewal planned in Milestones 8–11; staging/production not verified for the current feature set
+**Development status:** Milestones 0–6 historically implemented; curriculum renewal through Milestone 11 and the Milestone 12 gate review are merged; Milestone 13 privileged operations is planned next; staging/production remains unverified and deliberately last
 
 **Timezone:** WITA / GMT+8
 
@@ -25,17 +25,17 @@ Netloka is an interactive IT infrastructure learning platform for SMK TKJ studen
 3. **Challenges** — scenario-based troubleshooting without step-by-step handholding
 4. **Consultant** — case-based IT consultant simulation (procurement, topology, IP/VLAN planning, scoring)
 
-### Planned learning curriculum renewal
+### Current learning baseline and planned quality program
 
-The next learning target is **Welcome to Networking** as a four-lesson reference module. The planned experience shows **Capaian Pembelajaran** at path, module, and lesson levels, then introduction, concept, worked example, visualization, practice, quiz, summary, and server-verified completion. Lesson quizzes and module final assessments must be passed, with retries and remediation. These are planned requirements, not current production capabilities.
+The Networking curriculum renewal is implemented in the typed registry: six paths, 31 modules, 62 lessons, 186 formative quizzes, and six capstones. Lessons and module assessments use server-authoritative evidence and gated progression. This is repository evidence, not a claim that staging or production is deployed.
 
-- Milestone 8 / Sprints 21–24: contracts, assessment/progress repair, Welcome lessons, and reference validation.
-- Milestone 9 / Sprints 25–26: complete Network Foundations and its final challenge.
-- Milestone 10 / Sprints 27–30: IPv4, Switching, Routing/Services, and Wireless/Troubleshooting curriculum.
-- Milestone 11 / Sprints 31–32: Consultant learning path and full curriculum validation.
-- Milestone 12 / Sprints 33–34: premium/payment activation, renumbered from M8 and still separately gated.
+- Milestones 8–11 / Sprints 21–32: merged curriculum, assessments, six paths, and Consultant validation.
+- Milestone 12 / Sprint 33: merged commercial entry-gate review; activation remains blocked.
+- Milestone 13 / Sprints 34–36: VPS-only privileged roles, separate developer portal, internal learner, elevation, and audit.
+- Milestone 14 / Sprints 37–39: resume/queue/autosave, search/bookmarks, mastery/remediation, feedback, and spaced review.
+- Milestone 15 / Sprints 40–42: persistent security, staging/recovery, Midtrans, production, deployment, and live payment—last and separately gated.
 
-Read the [curriculum outcome matrix](docs/curriculum/networking-outcomes.md), [design](docs/superpowers/specs/2026-09-05-learning-outcomes-and-curriculum-design.md), [program plan](docs/superpowers/plans/2026-09-05-learning-curriculum-renewal.md), and [Welcome pilot plan](docs/superpowers/plans/2026-09-05-welcome-to-networking.md). Current seed coverage is 5 paths/13 modules/15 lessons; it does not yet implement the complete planned learning loop. Existing migration history also requires reconciliation before claiming fresh-database setup reproducibility; see [technical debt](docs/TECHNICAL_DEBT.md).
+Read the [approved developer/learner design](docs/superpowers/specs/2026-09-07-developer-portal-and-learner-experience-design.md) and its detailed [developer](docs/superpowers/plans/2026-09-08-developer-operations-and-internal-accounts.md), [learner quality](docs/superpowers/plans/2026-09-08-learner-experience-and-mastery.md), and [final release](docs/superpowers/plans/2026-09-08-final-production-and-commercial-release.md) plans. Migration history still requires reconciliation before fresh-database reproducibility can be claimed; see [technical debt](docs/TECHNICAL_DEBT.md).
 
 ---
 
@@ -294,12 +294,15 @@ Use `.env.example` with safe placeholders instead.
 | M4 | Addressing & Core Networking | ✅ Complete |
 | M5 | Labs & Challenges | ✅ Complete |
 | M6 | IT Consultant Mode | ✅ Complete |
-| M7 | Production Readiness & MVP Launch | 🚧 Active — feature stabilization and deployment pending |
-| M8 | Learning Outcomes & Welcome Pilot (S21–24) | Planned — first learning target |
-| M9 | Network Foundations Completion (S25–26) | Planned — after pilot acceptance |
-| M10 | Core Networking Curriculum (S27–30) | Planned — Paths 2–5 |
-| M11 | Consultant Learning & Curriculum Validation (S31–32) | Planned |
-| M12 | Premium & Payment Activation (S33–34; formerly M8) | Planned — separate activation gates |
+| M7 | Production Readiness Foundation | Application foundation merged; live operations moved to M15 |
+| M8 | Learning Outcomes & Welcome Pilot (S21–24) | Complete / merged |
+| M9 | Network Foundations Completion (S25–26) | Complete / merged |
+| M10 | Core Networking Curriculum (S27–30) | Complete / merged |
+| M11 | Consultant Learning & Curriculum Validation (S31–32) | Complete / merged |
+| M12 | Commercial Readiness Gate Review (S33) | Complete / merged; activation blocked |
+| M13 | Developer Operations & Internal Accounts (S34–36) | Planned next |
+| M14 | Learner Experience & Mastery Quality (S37–39) | Planned |
+| M15 | Final Production & Commercial Release (S40–42) | Planned last / gated |
 
 See [ROADMAP.md](ROADMAP.md) for detailed milestones and sprints.
 

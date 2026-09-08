@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
 import { isSessionRevoked } from "@/features/auth/session-revocation";
+import { getPostLoginDestination } from "@/features/auth/post-login";
 
 export async function middleware(request: NextRequest) {
   const secret = process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET;
@@ -37,7 +38,8 @@ export async function middleware(request: NextRequest) {
   }
 
   if (token && !isRevoked && (pathname === "/" || pathname === "/sign-in" || pathname === "/sign-up")) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    const destination = getPostLoginDestination(token.role as string);
+    return NextResponse.redirect(new URL(destination, request.url));
   }
 
   return NextResponse.next();

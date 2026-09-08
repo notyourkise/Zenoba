@@ -127,4 +127,36 @@ describe("POST /api/auth/register", () => {
       })
     );
   });
+
+  it("ignores privileged role in public registration payload", async () => {
+    vi.mocked(prisma.user.findUnique).mockResolvedValueOnce(null);
+    vi.mocked(prisma.user.create).mockResolvedValueOnce({
+      id: "new-user-id",
+      email: "learner@example.test",
+      name: null,
+      role: "LEARNER",
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
+
+    const req = new Request("http://localhost:3000/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: "learner@example.test",
+        password: "ValidPassword123!",
+        role: "DEVELOPER",
+      }),
+    });
+
+    const res = await registerHandler(req);
+    expect(res.status).toBe(201);
+    expect(prisma.user.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          email: "learner@example.test",
+          role: "LEARNER",
+        }),
+      })
+    );
+  });
 });

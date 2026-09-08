@@ -52,6 +52,11 @@ export function buildAuthProviders(
           throw new Error("Invalid email or password");
         }
 
+        // Developer accounts strictly require enabled 2FA
+        if (user.role === "DEVELOPER" && !user.twoFactorEnabled) {
+          throw new Error("Developer accounts must have two-factor authentication enabled");
+        }
+
         // 2FA Verification Check
         if (user.twoFactorEnabled) {
           const rawCode = credentials.code?.trim();
@@ -106,7 +111,6 @@ export function buildAuthProviders(
       GoogleProvider({
         clientId: environment.GOOGLE_CLIENT_ID!.trim(),
         clientSecret: environment.GOOGLE_CLIENT_SECRET!.trim(),
-        allowDangerousEmailAccountLinking: true,
       }),
     );
   }
@@ -125,6 +129,20 @@ export const authOptions: NextAuthOptions = {
   },
   providers: buildAuthProviders(),
   callbacks: {
+    async signIn({ user, account }) {
+      if (account?.provider === "google") {
+        if (!user.email) return false;
+        const normalizedEmail = user.email.toLowerCase().trim();
+        const existingUser = await prisma.user.findUnique({
+          where: { email: normalizedEmail },
+          select: { role: true },
+        });
+        if (existingUser?.role === "DEVELOPER") {
+          return false;
+        }
+      }
+      return true;
+    },
     async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id;

@@ -38,6 +38,19 @@ All notable project changes are recorded here.
 
 # 2026-09-08
 
+- [2026-09-08 11:58 WITA] [SECURITY] [Milestone 13 / Sprint 34 / Task 34.3]
+  Hardened public registration role assignment and enforced credentials-only login for developers:
+  - Enforced safe default `role: "LEARNER"` in `src/app/api/auth/register/route.ts` and verified client-supplied role payloads are strictly ignored.
+  - Removed `allowDangerousEmailAccountLinking: true` from `GoogleProvider` in `src/features/auth/auth.ts` to prevent automatic linking of unverified accounts.
+  - Implemented `signIn` callback in `authOptions` that blocks Google sign-in if the database user has `role: "DEVELOPER"`.
+  - Enforced mandatory two-factor authentication for developer credentials login in `CredentialsProvider.authorize`; credentials login rejects developer accounts without enabled 2FA.
+  - Implemented `getPostLoginDestination(role, callbackUrl)` in `src/features/auth/post-login.ts` to ensure developers default to `/developer` and learners to `/dashboard`, preventing cross-workspace leakage during redirect.
+  - Integrated `getPostLoginDestination` into `src/middleware.ts` for authenticated redirect routing.
+  - Added unit tests in `auth-route.test.ts`, `auth-options.test.ts`, `post-login.test.ts`, and `middleware.test.ts` (17 new test cases).
+  Files/areas: `src/app/api/auth/register/route.ts`, `src/features/auth/auth.ts`, `src/features/auth/post-login.ts`, `src/features/auth/post-login.test.ts`, `src/features/auth/auth-route.test.ts`, `src/features/auth/auth-options.test.ts`, `src/middleware.ts`, `src/middleware.test.ts`, `PLAN.md`
+  Validation: `npm run typecheck`, `npm run lint`, full test suite passed (90 test files / 522 tests), dev server healthy.
+  Git: `codex/sprint-34-safe-registration`
+
 - [2026-09-08 10:46 WITA] [ADDED] [Milestone 13 / Sprint 34 / Task 34.2]
   Implemented server-authoritative role guards and immediate role enforcement:
   - Added `Actor` interface and `AuthorizationError` class with HTTP status mapping (401 / 403) in `src/features/authorization/types.ts`.

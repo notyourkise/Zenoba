@@ -104,6 +104,20 @@ describe("Middleware Route Guard & Session Invalidation (TD-01 & TD-08)", () => 
     expect(res.headers.get("location")).toBe("https://netloka.biz.id/dashboard");
   });
 
+  it("redirects authenticated DEVELOPER away from / to /developer", async () => {
+    vi.mocked(getToken).mockResolvedValue({
+      id: "dev-1",
+      role: "DEVELOPER",
+      iat: Math.floor(Date.now() / 1000),
+    });
+
+    const req = createMockRequest("/");
+    const res = await middleware(req);
+
+    expect(res.status).toBe(307);
+    expect(res.headers.get("location")).toBe("https://netloka.biz.id/developer");
+  });
+
   it("allows users with revoked sessions to access /sign-in", async () => {
     const revocationTimeMs = 200000;
     revokeUserSessions("user-revoked", revocationTimeMs);

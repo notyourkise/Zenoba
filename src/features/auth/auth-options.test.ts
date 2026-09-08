@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { describe, expect, it, beforeEach } from "vitest";
+import { describe, expect, it, beforeEach, vi } from "vitest";
 import {
   authOptions,
   buildAuthProviders,
@@ -9,6 +9,21 @@ import {
   revokeUserSessions,
   clearRevokedSessions,
 } from "@/features/auth/session-revocation";
+import { prisma } from "@/lib/db/client";
+
+vi.mock("@/lib/db/client", () => ({
+  prisma: {
+    user: {
+      findUnique: vi.fn(),
+      update: vi.fn(),
+    },
+  },
+}));
+
+vi.mock("@/features/auth/password", () => ({
+  verifyPassword: vi.fn().mockResolvedValue(true),
+  hashPassword: vi.fn().mockResolvedValue("mocked-hash"),
+}));
 
 describe("authentication provider configuration", () => {
   beforeEach(() => {
@@ -39,6 +54,16 @@ describe("authentication provider configuration", () => {
         GOOGLE_CLIENT_SECRET: "client-secret",
       }).map((provider) => provider.id),
     ).toEqual(["credentials", "google"]);
+  });
+
+  it("does not allow dangerous email account linking in Google provider", () => {
+    const providers = buildAuthProviders({
+      GOOGLE_CLIENT_ID: "client-id",
+      GOOGLE_CLIENT_SECRET: "client-secret",
+    });
+    const google = providers.find((provider) => provider.id === "google") as any;
+    expect(google).toBeDefined();
+    expect(google.allowDangerousEmailAccountLinking).toBeFalsy();
   });
 
   describe("NextAuth callbacks", () => {
@@ -127,6 +152,123 @@ describe("authentication provider configuration", () => {
 
       expect(result.user).toBeUndefined();
       expect(result.expires).toBe(new Date(0).toISOString());
+    });
+
+    describe("signIn callback", () => {
+      it("rejects Google sign-in when database user is DEVELOPER", async () => {
+        const signInCallback = authOptions.callbacks?.signIn as any;
+        expect(signInCallback).toBeDefined();
+
+        vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
+          id: "dev-1",
+          email: "dev@netloka.biz.id",
+          role: "DEVELOPER",
+        } as any);
+
+        const allowed = await signInCallback({
+          user: { email: "dev@netloka.biz.id" },
+          account: { provider: "google" },
+        });
+
+        expect(allowed).toBe(false);
+        expect(prisma.user.findUnique).toHaveBeenCalledWith({
+          where: { email: "dev@netloka.biz.id" },
+          select: { role: true },
+        });
+      });
+
+      it("allows Google sign-in when database user is LEARNER", async () => {
+        const signInCallback = authOptions.callbacks?.signIn as any;
+        expect(signInCallback).toBeDefined();
+
+        vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
+          id: "learner-1",
+          email: "learner@netloka.biz.id",
+          role: "LEARNER",
+        } as any);
+
+        const allowed = await signInCallback({
+          user: { email: "learner@netloka.biz.id" },
+          account: { provider: "google" },
+        });
+
+        expect(allowed).toBe(true);
+      });
+
+      it("allows Google sign-in when user does not exist in database yet (new registration)", async () => {
+        const signInCallback = authOptions.callbacks?.signIn as any;
+        expect(signInCallback).toBeDefined();
+
+        vi.mocked(prisma.user.findUnique).mockResolvedValueOnce(null);
+
+        const allowed = await signInCallback({
+          user: { email: "newuser@example.com" },
+          account: { provider: "google" },
+        });
+
+        expect(allowed).toBe(true);
+      });
+
+      it("allows credentials sign-in in signIn callback", async () => {
+        const signInCallback = authOptions.callbacks?.signIn as any;
+        expect(signInCallback).toBeDefined();
+
+        const allowed = await signInCallback({
+          user: { email: "user@example.com" },
+          account: { provider: "credentials" },
+        });
+
+        expect(allowed).toBe(true);
+      });
+    });
+  });
+
+  describe("CredentialsProvider authorize", () => {
+    it("rejects DEVELOPER credentials login if twoFactorEnabled is false", async () => {
+      const provider = buildAuthProviders({}).find(
+        (p) => p.id === "credentials",
+      ) as any;
+
+      const authorizeFn = provider.options?.authorize ?? provider.authorize;
+
+      vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
+        id: "dev-1",
+        email: "dev@netloka.biz.id",
+        passwordHash: "valid-hash",
+        role: "DEVELOPER",
+        twoFactorEnabled: false,
+      } as any);
+
+      await expect(
+        authorizeFn({
+          email: "dev@netloka.biz.id",
+          password: "ValidPassword123!",
+        }),
+      ).rejects.toThrow(/two-factor|2FA/i);
+    });
+
+    it("requires 2FA code (throws 2FA_REQUIRED) for DEVELOPER login when code is omitted", async () => {
+      const provider = buildAuthProviders({}).find(
+        (p) => p.id === "credentials",
+      ) as any;
+
+      const authorizeFn = provider.options?.authorize ?? provider.authorize;
+
+      vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
+        id: "dev-1",
+        email: "dev@netloka.biz.id",
+        passwordHash: "valid-hash",
+        role: "DEVELOPER",
+        twoFactorEnabled: true,
+        twoFactorSecret: "SECRET",
+      } as any);
+
+      await expect(
+        authorizeFn({
+          email: "dev@netloka.biz.id",
+          password: "ValidPassword123!",
+        }),
+      ).rejects.toThrow("2FA_REQUIRED");
     });
   });
 });

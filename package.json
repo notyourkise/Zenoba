@@ -20,6 +20,7 @@
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
     "db:verify": "tsx scripts/verify-db.ts",
+    "user:set-role": "tsx scripts/set-user-role.ts",
     "docker:up": "docker compose up -d --build",
     "docker:down": "docker compose down",
     "docker:seed": "docker compose exec app npx prisma db push && docker compose exec app npm run db:seed"

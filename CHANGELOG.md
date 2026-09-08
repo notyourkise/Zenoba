@@ -38,6 +38,19 @@ All notable project changes are recorded here.
 
 # 2026-09-08
 
+- [2026-09-08 14:24 WITA] [ADDED] [Milestone 13 / Sprint 34 / Task 34.4]
+  Implemented audited VPS-only role provisioning CLI and service:
+  - Created `src/features/authorization/role-management.ts` providing `setUserRole` and `setUserRoleFromCli` with transactional safety.
+  - Enforced preconditions for developer promotion: target account must possess an existing password hash and enabled two-factor authentication (`twoFactorEnabled: true`).
+  - Added automatic session revocation on role mutation: increments `authVersion` and revokes active developer elevation sessions.
+  - Recorded immutable audit log entry in `DeveloperAuditEvent` with `actorKind: "CLI_OPERATOR"`, `action: "ROLE_CHANGE"`, operator, reason, and request ID.
+  - Implemented headless/interactive CLI script in `scripts/set-user-role.ts` with confirmation requirement, target email match, and redacted details.
+  - Added `"user:set-role": "tsx scripts/set-user-role.ts"` npm script.
+  - Added unit test coverage for service and CLI runner (`role-management.test.ts` and `set-user-role.test.ts`, 11 tests).
+  Files/areas: `src/features/authorization/role-management.ts`, `src/features/authorization/role-management.test.ts`, `scripts/set-user-role.ts`, `scripts/set-user-role.test.ts`, `package.json`, `vitest.config.ts`, `docs/superpowers/plans/2026-09-08-developer-operations-and-internal-accounts.md`
+  Validation: `npm run typecheck`, `npm run lint`, full test suite (92 test files / 533 tests passed), `npm run build` passed.
+  Git: `codex/sprint-34-role-cli`
+
 - [2026-09-08 11:58 WITA] [SECURITY] [Milestone 13 / Sprint 34 / Task 34.3]
   Hardened public registration role assignment and enforced credentials-only login for developers:
   - Enforced safe default `role: "LEARNER"` in `src/app/api/auth/register/route.ts` and verified client-supplied role payloads are strictly ignored.

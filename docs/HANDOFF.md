@@ -1,59 +1,54 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-08 10:14 WITA**. Read AGENTS.md and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-09-08 10:46 WITA**. Read AGENTS.md and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
 
 ## 1. Current Task and Authority
 
 - Product: Interactive IT infrastructure learning platform; Networking is the first curriculum.
 - Active milestone/sprint: **Milestone 13 / Sprint 34 — Role, Persistence, and Authorization Foundation**.
-- Task: **Task 34.1: Reconcile fresh/upgrade migration history before adding privileged-role persistence**.
+- Task: **Task 34.2: Add central database-authoritative role guards and immediate role enforcement**.
 - Scope delivered:
-  1. Reconciled database migration history by establishing the comprehensive baseline migration `20260908090000_developer_operations_baseline` (tested and verified from empty via `prisma migrate deploy`).
-  2. Implemented `UserRole` enum (`LEARNER`, `INTERNAL_LEARNER`, `DEVELOPER`) and added `authVersion`, `lastLoginAt`, and `lastActiveAt` to the `User` model.
-  3. Added persistence models for developer operations and security audit logging: `DeveloperElevationSession`, `DeveloperAuditEvent`, and `SecurityEvent`.
-  4. Implemented pure role boundary helpers in `src/features/authorization/role.ts` (`isLearnerRole`, `isDeveloperRole`, `isPrivilegedRole`).
-  5. Published operational migration runbook in `docs/operations/migration-baseline-runbook.md`.
-  6. Updated CI workflow `.github/workflows/ci.yml` to apply database migrations via `npm run db:deploy`.
-  7. Added unit and persistence contract tests in `src/features/authorization/`.
-- **Phase:** Implemented and locally verified against disposable test database and project gates. Ready for PR creation.
+  1. Defined `Actor` interface, `WorkspaceArea`, and `AuthorizationError` in `src/features/authorization/types.ts`.
+  2. Implemented `getFreshActor()`, `requireFreshActor()`, `requireDeveloperActor()`, `requireLearnerActor()`, and `requireActorForArea()` in `src/features/authorization/guards.ts`.
+  3. Enforced mutual boundary isolation between developer and learner workspaces.
+  4. Enforced live database checks over stale JWT claims without exposing sensitive credentials.
+  5. Re-exported authorization guards and types through `src/lib/auth.ts`.
+  6. Added comprehensive unit tests in `src/features/authorization/guards.test.ts` (14 tests).
+- **Phase:** Implemented and locally verified against all project quality gates. Ready for PR creation.
 
 ## 2. Verified Repository Checkpoint
 
 | Item | Verified state |
 | --- | --- |
-| Main checkout | `C:/laragon/www/netloka`, branch `main` at `afa2c2d` |
-| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-sprint-34-role-persistence` |
-| Task branch | `codex/sprint-34-role-persistence` |
-| Base commit | `afa2c2d` (Merge pull request #44 from notyourkise/codex/developer-portal-planning) |
+| Main checkout | `C:/laragon/www/netloka`, branch `main` at `5e5f01e` |
+| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-sprint-34-role-guards` |
+| Task branch | `codex/sprint-34-role-guards` |
+| Base commit | `5e5f01e` (Merge pull request #45 from notyourkise/codex/sprint-34-role-persistence) |
 | Retained unrelated worktree | `C:/laragon/www/netloka/.worktrees/codex-fix-m0-sprint-0` (`docs/staging-progress`, do not delete) |
 | Background dev server | `task-3530` active and healthy on `http://localhost:3000` |
 
 ## 3. Key Files Changed / Added
 
-1. `prisma/schema.prisma`: Added `UserRole` enum, updated `User`, added `DeveloperElevationSession`, `DeveloperAuditEvent`, `SecurityEvent`.
-2. `prisma/migrations/20260908090000_developer_operations_baseline/migration.sql`: Reproducible baseline DDL.
-3. `src/features/authorization/role.ts` & `role.test.ts`: Canonical app roles and type-guard functions.
-4. `src/features/authorization/persistence.test.ts`: Model contract assertions.
-5. `docs/operations/migration-baseline-runbook.md`: Standard operational runbook for migrations.
-6. `.github/workflows/ci.yml`: Uses `npm run db:deploy` instead of `prisma db push`.
-7. `scripts/create-user.ts`: Strongly typed with `UserRole`.
-8. `PLAN.md` & `CHANGELOG.md`: Progress tracking and immutable WITA changelog record.
+1. `src/features/authorization/types.ts`: `Actor`, `WorkspaceArea`, `AuthorizationError`.
+2. `src/features/authorization/guards.ts`: Server-authoritative role guards and actor loaders.
+3. `src/features/authorization/guards.test.ts`: Guard tests covering isolation, errors, and stale role prevention.
+4. `src/lib/auth.ts`: Integrated `authVersion` projection and re-exported guards.
+5. `src/lib/auth.test.ts`: Updated findUnique select assertion.
+6. `PLAN.md` & `CHANGELOG.md`: Progress tracking and immutable WITA changelog record.
 
 ## 4. Verification Evidence
 
-- `npx prisma migrate deploy` on disposable test database: **Passed** (1 migration applied cleanly from empty).
-- `npm run db:seed` on fresh database: **Passed** (idempotent across consecutive runs).
 - `npm run db:generate`: **Passed**.
 - `npm run typecheck`: **Passed** (0 errors).
 - `npm run lint`: **Passed** (0 warnings/errors).
-- `npm test`: **Passed** (88 test files / 491 tests passed).
-- `git diff --check`: **Passed** (0 whitespace/formatting errors).
+- `npm test`: **Passed** (89 test files / 505 tests passed).
+- `git diff --check`: **Passed** (0 formatting/whitespace errors).
 - Background dev server: **Healthy** (`/api/health` 200 OK).
 
 ## 5. Next Actions
 
-1. Commit and push task branch `codex/sprint-34-role-persistence`.
+1. Commit and push task branch `codex/sprint-34-role-guards`.
 2. Open PR via `gh pr create` targeting `main`.
 3. Verify all 5 CI jobs green on GitHub Actions.
 4. Submit PR for review and merge by Abangku.
-5. After merge and synchronization, proceed to Task 34.2 (Server-authoritative role guards and immediate role enforcement).
+5. After merge and synchronization, proceed to Task 34.3 (Force public email/Google registration to `LEARNER`; prohibit Google login for developers).

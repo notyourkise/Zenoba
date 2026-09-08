@@ -38,6 +38,19 @@ All notable project changes are recorded here.
 
 # 2026-09-08
 
+- [2026-09-08 10:46 WITA] [ADDED] [Milestone 13 / Sprint 34 / Task 34.2]
+  Implemented server-authoritative role guards and immediate role enforcement:
+  - Added `Actor` interface and `AuthorizationError` class with HTTP status mapping (401 / 403) in `src/features/authorization/types.ts`.
+  - Implemented `getFreshActor()`, `requireFreshActor()`, `requireDeveloperActor()`, `requireLearnerActor()`, and `requireActorForArea()` in `src/features/authorization/guards.ts`.
+  - Enforced mutual workspace boundary isolation: developers are strictly forbidden from learner workspaces, and learners/internal learners are strictly forbidden from developer workspaces.
+  - Implemented database-authoritative role validation that queries live database state, ensuring stale JWT roles cannot bypass revoked or altered permissions.
+  - Ensured sensitive credential fields (`passwordHash`, `twoFactorSecret`, `twoFactorBackupCodes`, tokens) are never exposed in actor projections.
+  - Re-exported authorization guards and types through `src/lib/auth.ts`.
+  - Added unit tests covering unauthenticated access, cross-workspace rejection, and stale role overrides in `src/features/authorization/guards.test.ts` (14 tests).
+  Files/areas: `src/features/authorization/types.ts`, `src/features/authorization/guards.ts`, `src/features/authorization/guards.test.ts`, `src/lib/auth.ts`, `src/lib/auth.test.ts`, `PLAN.md`
+  Validation: `npm run typecheck`, `npm run lint`, full test suite passed (89 test files / 505 tests), dev server healthy.
+  Git: `codex/sprint-34-role-guards`
+
 - [2026-09-08 10:14 WITA] [ADDED] [Milestone 13 / Sprint 34 / Task 34.1]
   Reconciled database migration baseline and added privileged-role persistence models:
   - Replaced broken migration history (empty init + unlinked password reset tokens) with authoritative, fresh-database reproducible baseline migration `20260908090000_developer_operations_baseline`.

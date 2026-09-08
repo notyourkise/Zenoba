@@ -26,6 +26,7 @@ export async function getCurrentUser() {
         name: true,
         email: true,
         role: true,
+        authVersion: true,
         image: true,
         headline: true,
         streakCount: true,
@@ -38,6 +39,7 @@ export async function getCurrentUser() {
         ...session.user,
         name: dbUser.name,
         role: dbUser.role,
+        authVersion: dbUser.authVersion,
         image: dbUser.image,
         headline: dbUser.headline,
         streakCount: dbUser.streakCount,
@@ -63,3 +65,14 @@ export async function isAuthenticated(): Promise<boolean> {
   const session = await getSession();
   return !!session?.user;
 }
+
+// Re-export centralized server-authoritative role guards and actor types
+export {
+  getFreshActor,
+  requireFreshActor,
+  requireDeveloperActor,
+  requireLearnerActor,
+  requireActorForArea,
+} from "@/features/authorization/guards";
+export { AuthorizationError } from "@/features/authorization/types";
+export type { Actor, WorkspaceArea } from "@/features/authorization/types";

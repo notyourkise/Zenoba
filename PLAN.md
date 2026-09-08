@@ -1112,7 +1112,7 @@ Detailed executable plan: [Developer Operations and Internal Accounts](docs/supe
 ### Sprint 34 — Role, Persistence, and Authorization Foundation
 
 - [x] Task 34.1: Reconcile fresh/upgrade migration history before adding privileged-role persistence.
-- [ ] Task 34.2: Add central database-authoritative role guards and immediate role enforcement.
+- [x] Task 34.2: Add central database-authoritative role guards and immediate role enforcement.
 - [ ] Task 34.3: Force public email/Google registration to `LEARNER`; prohibit Google login for developers.
 - [ ] Task 34.4: Add the only privileged provisioning path: a VPS CLI with explicit target, role, actor, and reason.
 - [ ] Task 34.5: Route the shared login to isolated learner/developer workspaces.

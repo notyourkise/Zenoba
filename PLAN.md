@@ -1113,7 +1113,7 @@ Detailed executable plan: [Developer Operations and Internal Accounts](docs/supe
 
 - [x] Task 34.1: Reconcile fresh/upgrade migration history before adding privileged-role persistence.
 - [x] Task 34.2: Add central database-authoritative role guards and immediate role enforcement.
-- [ ] Task 34.3: Force public email/Google registration to `LEARNER`; prohibit Google login for developers.
+- [x] Task 34.3: Force public email/Google registration to `LEARNER`; prohibit Google login for developers.
 - [ ] Task 34.4: Add the only privileged provisioning path: a VPS CLI with explicit target, role, actor, and reason.
 - [ ] Task 34.5: Route the shared login to isolated learner/developer workspaces.
 - [ ] Task 34.6: Give `INTERNAL_LEARNER` full learning access while excluding it from business/learner analytics.

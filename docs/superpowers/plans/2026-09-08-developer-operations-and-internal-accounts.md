@@ -305,16 +305,16 @@ git commit -m "fix(auth): prevent privileged public account creation"
 - Produces: `setUserRoleFromCli({ email, role, operator, reason, requestId })`.
 - Consumes: role persistence, auth version, audit event, existing session/elevation invalidation services.
 
-- [ ] **Step 1: Write service tests**
+- [x] **Step 1: Write service tests**
 
 Test ordinary promotion, developer precondition failure without password/2FA, auth-version increment, elevation revocation, unknown email, and immutable CLI audit evidence.
 
-- [ ] **Step 2: Confirm failure**
+- [x] **Step 2: Confirm failure**
 
 Run: `npx vitest run src/features/authorization/role-management.test.ts scripts/set-user-role.test.ts`
 Expected: FAIL because the service and CLI do not exist.
 
-- [ ] **Step 3: Implement the transaction and interactive CLI**
+- [x] **Step 3: Implement the transaction and interactive CLI**
 
 ```ts
 export type RoleChangeInput = {
@@ -330,12 +330,12 @@ The CLI accepts email/role, prompts for operator and reason, prints a redacted b
 
 Add: `"user:set-role": "tsx scripts/set-user-role.ts"`.
 
-- [ ] **Step 4: Verify CLI behavior using a mocked/disposable database**
+- [x] **Step 4: Verify CLI behavior using a mocked/disposable database**
 
 Run: `npx vitest run src/features/authorization/role-management.test.ts scripts/set-user-role.test.ts`
 Expected: PASS; no HTTP route is introduced.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add scripts/set-user-role.ts scripts/set-user-role.test.ts src/features/authorization package.json package-lock.json

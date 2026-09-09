@@ -70,6 +70,33 @@ describe("entitlements", () => {
       );
       expect(access).toBe("DENIED");
     });
+
+    it("returns INTERNAL for user with INTERNAL_LEARNER role without checking entitlements", async () => {
+      const mockPrisma = {
+        course: {
+          findUnique: vi.fn().mockResolvedValue({
+            id: "c-prem",
+            accessTier: "PREMIUM",
+          }),
+        },
+        user: {
+          findUnique: vi.fn().mockResolvedValue({
+            id: "user-internal",
+            role: "INTERNAL_LEARNER",
+          }),
+        },
+        entitlement: {
+          findUnique: vi.fn(),
+        },
+      };
+
+      const access = await resolveCourseAccess(
+        { userId: "user-internal", courseId: "c-prem" },
+        mockPrisma as never,
+      );
+      expect(access).toBe("INTERNAL");
+      expect(mockPrisma.entitlement.findUnique).not.toHaveBeenCalled();
+    });
   });
 
   describe("getMyLearning", () => {
@@ -98,6 +125,47 @@ describe("entitlements", () => {
       const learning = await getMyLearning("user-1", mockPrisma as never);
       expect(learning.courses).toHaveLength(2);
       expect(learning.courses.map((c) => c.slug)).toEqual(["networking", "mikrotik"]);
+    });
+
+    it("returns all available courses for INTERNAL_LEARNER without requiring entitlements", async () => {
+      const mockPrisma = {
+        user: {
+          findUnique: vi.fn().mockResolvedValue({
+            id: "user-internal",
+            role: "INTERNAL_LEARNER",
+          }),
+        },
+        course: {
+          findMany: vi.fn().mockResolvedValue([
+            {
+              id: "c-1",
+              slug: "networking",
+              title: "Network Foundations",
+              accessTier: "FREE",
+              track: "foundation",
+              description: null,
+              learningPath: { slug: "network-foundations" },
+            },
+            {
+              id: "c-2",
+              slug: "mikrotik",
+              title: "MikroTik Certified",
+              accessTier: "PREMIUM",
+              track: "certification",
+              description: "Desc",
+              learningPath: { slug: "mikrotik-path" },
+            },
+          ]),
+        },
+        entitlement: {
+          findMany: vi.fn(),
+        },
+      };
+
+      const learning = await getMyLearning("user-internal", mockPrisma as never);
+      expect(learning.courses).toHaveLength(2);
+      expect(learning.courses.map((c) => c.slug)).toEqual(["networking", "mikrotik"]);
+      expect(mockPrisma.entitlement.findMany).not.toHaveBeenCalled();
     });
   });
 

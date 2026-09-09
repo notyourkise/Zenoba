@@ -33,6 +33,18 @@ export async function requireLearningPathAccess(
     return;
   }
 
+  // Internal learners receive access to all courses without requiring entitlements
+  const user = prisma.user
+    ? await prisma.user.findUnique({
+        where: { id: userId },
+        select: { role: true },
+      })
+    : null;
+
+  if (user?.role === "INTERNAL_LEARNER") {
+    return;
+  }
+
   // Premium course requires active entitlement
   const entitlement = await prisma.entitlement.findUnique({
     where: {

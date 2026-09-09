@@ -101,4 +101,72 @@ describe("requireLearningPathAccess", () => {
       message: "Akses kursus premium diperlukan",
     });
   });
+
+  it("allows access to premium path when user has INTERNAL_LEARNER role without active entitlement", async () => {
+    const mockPrisma = {
+      learningPath: {
+        findUnique: vi.fn().mockResolvedValue({
+          id: "path-cctv",
+          slug: "cctv-course",
+          commerceCourse: {
+            id: "c-cctv",
+            slug: "cctv",
+            accessTier: "PREMIUM",
+          },
+        }),
+      },
+      user: {
+        findUnique: vi.fn().mockResolvedValue({
+          id: "user-internal",
+          role: "INTERNAL_LEARNER",
+        }),
+      },
+      entitlement: {
+        findUnique: vi.fn(),
+      },
+    };
+
+    await expect(
+      requireLearningPathAccess(
+        { userId: "user-internal", pathSlug: "cctv-course" },
+        mockPrisma as never,
+      ),
+    ).resolves.toBeUndefined();
+    expect(mockPrisma.entitlement.findUnique).not.toHaveBeenCalled();
+  });
+
+  it("rejects access to premium path when user has standard LEARNER role and lacks active entitlement", async () => {
+    const mockPrisma = {
+      learningPath: {
+        findUnique: vi.fn().mockResolvedValue({
+          id: "path-cctv",
+          slug: "cctv-course",
+          commerceCourse: {
+            id: "c-cctv",
+            slug: "cctv",
+            accessTier: "PREMIUM",
+          },
+        }),
+      },
+      user: {
+        findUnique: vi.fn().mockResolvedValue({
+          id: "user-learner",
+          role: "LEARNER",
+        }),
+      },
+      entitlement: {
+        findUnique: vi.fn().mockResolvedValue(null),
+      },
+    };
+
+    await expect(
+      requireLearningPathAccess(
+        { userId: "user-learner", pathSlug: "cctv-course" },
+        mockPrisma as never,
+      ),
+    ).rejects.toMatchObject({
+      code: "COURSE_ACCESS_DENIED",
+      message: "Akses kursus premium diperlukan",
+    });
+  });
 });

@@ -36,6 +36,19 @@ All notable project changes are recorded here.
   Git: commit SHA and/or PR number when available
 ```
 
+# 2026-09-09
+
+- [2026-09-09 13:28 WITA] [ADDED] [Milestone 13 / Sprint 34 / Task 34.6]
+  Implemented analytics-safe all-course access for internal learners:
+  - Created `src/features/analytics/cohort.ts` defining `ORDINARY_LEARNER_FILTER = { role: "LEARNER" }` and `isAnalyticsLearner(role)` guard function to prevent metric and cohort pollution from `INTERNAL_LEARNER` and `DEVELOPER` accounts.
+  - Extended `resolveCourseAccess` result union to `"FREE" | "ENTITLED" | "INTERNAL" | "DENIED"`, granting `"INTERNAL"` access to `INTERNAL_LEARNER` role accounts without generating synthetic orders or fake entitlements.
+  - Extended `getMyLearning` to return all catalog-available courses for `INTERNAL_LEARNER` accounts without requiring active entitlements.
+  - Updated `requireLearningPathAccess` in `src/features/commerce/access.ts` to permit `INTERNAL_LEARNER` accounts to access premium learning paths without active entitlements while preserving learning gates.
+  - Added unit test suites in `cohort.test.ts`, `access.test.ts`, and `entitlements.test.ts` (9 new test assertions, total 559 unit tests passed).
+  Files/areas: `src/features/analytics/cohort.ts`, `src/features/analytics/cohort.test.ts`, `src/features/commerce/access.ts`, `src/features/commerce/access.test.ts`, `src/features/commerce/entitlements.ts`, `src/features/commerce/entitlements.test.ts`, `docs/superpowers/plans/2026-09-08-developer-operations-and-internal-accounts.md`
+  Validation: `npm run typecheck`, `npm run lint`, full unit test suite (95 test files / 559 tests passed), `npm run build` passed.
+  Git: `codex/sprint-34-internal-access`
+
 # 2026-09-08
 
 - [2026-09-08 22:52 WITA] [ADDED] [Milestone 13 / Sprint 34 / Task 34.5]

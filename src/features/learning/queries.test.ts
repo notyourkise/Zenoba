@@ -17,6 +17,9 @@ vi.mock("@/lib/db/client", () => ({
     entitlement: {
       findUnique: vi.fn(),
     },
+    user: {
+      findUnique: vi.fn(),
+    },
   },
 }));
 
@@ -259,6 +262,33 @@ describe("Learning Queries", () => {
       ).rejects.toMatchObject({
         code: "COURSE_ACCESS_DENIED",
       });
+    });
+
+    it("allows access to premium path when user has INTERNAL_LEARNER role without entitlement", async () => {
+      vi.mocked(prisma.learningPath.findUnique).mockResolvedValueOnce({
+        id: "path-cctv",
+        slug: "cctv-course",
+        title: "CCTV Course",
+        published: true,
+        commerceCourse: {
+          id: "c-cctv",
+          accessTier: "PREMIUM",
+        },
+        modules: [],
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } as any);
+
+      vi.mocked(prisma.userLessonProgress.findMany).mockResolvedValueOnce([]);
+      vi.mocked(prisma.entitlement.findUnique).mockResolvedValueOnce(null);
+      vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
+        id: "user-internal",
+        role: "INTERNAL_LEARNER",
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } as any);
+
+      const result = await getLearningPathDetail("cctv-course", "user-internal");
+      expect(result).not.toBeNull();
+      expect(result?.id).toBe("path-cctv");
     });
   });
 });

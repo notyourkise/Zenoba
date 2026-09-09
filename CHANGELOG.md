@@ -38,6 +38,15 @@ All notable project changes are recorded here.
 
 # 2026-09-09
 
+- [2026-09-09 16:41 WITA] [FIXED] [Milestone 13 / Sprint 34 / Task 34.7]
+  Routed learning-path detail access through the shared role-aware access policy for internal learners:
+  - Updated `requireLearningPathAccess` in `src/features/commerce/access.ts` to accept optional preloaded `commerceCourse`, avoiding redundant queries when course metadata is already in context.
+  - Replaced ad-hoc `entitlement.findUnique` check in `getLearningPathDetail()` (`src/features/learning/queries.ts`) with `requireLearningPathAccess`, granting `INTERNAL_LEARNER` accounts full access to premium learning paths without requiring synthetic entitlements.
+  - Added unit test in `src/features/learning/queries.test.ts` verifying `INTERNAL_LEARNER` access to premium paths without entitlement checks (560 total unit tests passing).
+  Files/areas: `src/features/commerce/access.ts`, `src/features/learning/queries.ts`, `src/features/learning/queries.test.ts`, `PLAN.md`
+  Validation: `npm run typecheck`, `npm run lint`, full unit test suite (95 test files / 560 tests passed), `npm run build` passed.
+  Git: `codex/sprint-34-internal-path-access`
+
 - [2026-09-09 14:49 WITA] [DOCS] [Milestone 13 / Sprint 34 factual reconciliation]
   Reconciled roadmap, plan, product, technical-debt, curriculum, archived commerce, and handoff documentation against synchronized `main` after PR #50. Sprint 34 Tasks 34.1–34.6 are recorded as merged through PR #45–#50, while two post-merge High authorization findings remain open as Tasks 34.7–34.9 before Sprint 35. Corrected the current curriculum evidence from the stale 62 lessons/186 quizzes to 65 lessons/195 formative quizzes, recorded the completed fresh migration baseline and removal of unsafe OAuth linking, and retained honest limits for legacy upgrade and live integration verification. Payment/provider/deployment/live activation is consistently assigned as the final scope in Milestone 15 / Sprint 42. Historical entries remain unchanged.
   Files/areas: `ROADMAP.md`, `PLAN.md`, `README.md`, `PRODUCT.md`, `docs/TECHNICAL_DEBT.md`, `docs/HANDOFF.md`, curriculum validation, commerce planning/ADR records

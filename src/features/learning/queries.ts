@@ -9,7 +9,10 @@ import {
   LessonWithStatus,
   ModuleWithLessons,
 } from "./types";
-import { CourseAccessDeniedError } from "@/features/commerce/access";
+import {
+  CourseAccessDeniedError,
+  requireLearningPathAccess,
+} from "@/features/commerce/access";
 import { getCurriculumModule } from "./content/registry";
 
 /**
@@ -125,23 +128,19 @@ export async function getLearningPathDetail(
     return null;
   }
 
-  // Entitlement guard for premium courses
+  // Entitlement & role-aware access guard for premium courses
   if (path.commerceCourse && path.commerceCourse.accessTier === "PREMIUM") {
-    const entitlement = userId
-      ? await prisma.entitlement.findUnique({
-          where: {
-            userId_courseId: {
-              userId,
-              courseId: path.commerceCourse.id,
-            },
-          },
-          select: { state: true },
-        })
-      : null;
-
-    if (!entitlement || entitlement.state !== "ACTIVE") {
+    if (!userId) {
       throw new CourseAccessDeniedError();
     }
+    await requireLearningPathAccess(
+      {
+        userId,
+        pathSlug: path.slug,
+        commerceCourse: path.commerceCourse,
+      },
+      prisma,
+    );
   }
 
   // Fetch all user progress records if logged in

@@ -15,20 +15,32 @@ export class CourseAccessDeniedError extends Error {
  * - Requires active entitlement if linked to a PREMIUM course.
  */
 export async function requireLearningPathAccess(
-  { userId, pathSlug }: { userId: string; pathSlug: string },
+  {
+    userId,
+    pathSlug,
+    commerceCourse,
+  }: {
+    userId: string;
+    pathSlug: string;
+    commerceCourse?: { id: string; accessTier: string } | null;
+  },
   prisma: PrismaClient = defaultPrisma,
 ): Promise<void> {
-  const path = await prisma.learningPath.findUnique({
-    where: { slug: pathSlug },
-    include: { commerceCourse: true },
-  });
+  const course =
+    commerceCourse !== undefined
+      ? commerceCourse
+      : (
+          await prisma.learningPath.findUnique({
+            where: { slug: pathSlug },
+            include: { commerceCourse: true },
+          })
+        )?.commerceCourse;
 
-  if (!path || !path.commerceCourse) {
+  if (!course) {
     // Uncommercialized path: free to access in current MVP scope
     return;
   }
 
-  const course = path.commerceCourse;
   if (course.accessTier === "FREE") {
     return;
   }

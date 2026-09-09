@@ -4,7 +4,7 @@
 
 Accepted
 
-Planning update (2026-09-05): the owner approved inserting learning renewal Milestones 8–11. References to premium activation as "Milestone 8" below are historical and now mean **Milestone 12** in [ROADMAP.md](../../ROADMAP.md). All original provider/product/legal/deployment gates remain in force; no commercial schema or activation behavior changes in this documentation task.
+Planning update (2026-09-09): references to premium activation as "Milestone 8" below are historical. The gates were reviewed without activation in Milestone 12; real provider implementation and controlled activation are deliberately last in **Milestone 15 / Sprint 42** in [ROADMAP.md](../../ROADMAP.md). All original provider/product/legal/deployment gates remain in force.
 
 ## Context
 
@@ -35,7 +35,7 @@ Netloka provides interactive IT infrastructure learning, with Networking as its 
 4. **Idempotent Payment Lifecycle:**
    - Every provider payment event is logged as a `PaymentEvent` with a unique provider event ID before mutation.
    - Duplicate or replayed webhook events are processed idempotently (returning success without duplicating entitlements).
-   - In Sprint 17, payments are development-only using an internal `SandboxGateway`. Real payment providers (Midtrans/QRIS) and merchant credentials are deferred to Milestone 8.
+   - In Sprint 17, payments are development-only using an internal `SandboxGateway`. Real payment providers (Midtrans/QRIS) and merchant credentials are deferred to Milestone 15 / Sprint 42.
 
 5. **Entitlement & Access Guard:**
    - Entitlements grant lifetime access (`ACTIVE` / `REVOKED`) mapped to `(userId, courseId)`.
@@ -49,5 +49,5 @@ Netloka provides interactive IT infrastructure learning, with Networking as its 
 
 - Learning modules remain decoupled from billing.
 - Networking remains permanently accessible to all learners.
-- Zero risk of unauthorized access or price tampering from client requests.
-- Transparent upgrade path to Midtrans/QRIS in Milestone 8.
+- Server-side access and price authority is the required boundary against client-request tampering; implementation still requires endpoint-level authorization review.
+- Transparent upgrade path to Midtrans/QRIS in Milestone 15 / Sprint 42.

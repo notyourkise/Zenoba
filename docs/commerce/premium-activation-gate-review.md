@@ -1,9 +1,9 @@
 # Milestone 12 — Premium Activation Entry-Gate Review
 
-> **Sequencing update (2026-09-08):** This completed gate evidence remains valid, but references below to provider work in Sprint 34 are historical. Current `ROADMAP.md` moves provider verification and controlled activation to Milestone 15 / Sprint 42, after Milestones 13–14 and the persistent-security/staging/recovery gates.
+> **Sequencing update (2026-09-09):** This completed gate evidence remains valid. Earlier references to provider work in Sprint 34 were historical and have been reconciled: current `ROADMAP.md` places provider verification and controlled activation in Milestone 15 / Sprint 42, after Milestones 13–14 and the persistent-security/staging/recovery gates.
 
 - **Review Date:** 2026-09-07 18:21 WITA
-- **Milestone:** Milestone 12 — Premium Course & Payment Activation
+- **Milestone:** Milestone 12 — Commercial Readiness Gate Review
 - **Sprint:** Sprint 33 — Premium Activation Entry-Gate Review
 - **Status:** COMPLETED — COMMERCIAL ACTIVATION SAFELY BLOCKED
 - **Auditor:** Anto (AI Pair Programmer)
@@ -13,18 +13,18 @@
 
 ## 1. Executive Summary & Decision
 
-This document records the formal entry-gate review for **Milestone 12 (Premium Course & Payment Activation)** as specified in `ROADMAP.md` and `PLAN.md`.
+This document records the formal entry-gate review for **Milestone 12 (Commercial Readiness Gate Review)** as specified in `ROADMAP.md` and `PLAN.md`.
 
 ### Verdict: **COMMERCIAL ACTIVATION IS SAFELY BLOCKED**
 
 In accordance with architectural principles (ADR 0004) and roadmap invariants:
-1. **Zero Published Premium Content:** All current published curriculum modules (Paths 1 to 6, covering 31 modules, 62 lessons, 186 formative quizzes, and 6 capstones) belong to **Networking** and are permanently **100% FREE**. No premium learning paths, modules, or lessons have been authored or published for any roadmap-scoped track (CCTV, Fiber Optic, VoIP, MikroTik, Cisco, Linux Server, Security).
+1. **Zero Published Premium Content:** All current published curriculum modules (Paths 1 to 6, covering 31 modules, 65 lessons, 195 formative quizzes, and 6 capstones) belong to **Networking** and are permanently **100% FREE**. No premium learning paths, modules, or lessons have been authored or published for any roadmap-scoped track (CCTV, Fiber Optic, VoIP, MikroTik, Cisco, Linux Server, Security).
 2. **Pricing Unapproved & Unannounced:** All commercial packages (7 Single Course packages, 3 Combo packages) are cataloged as `COMING_SOON` with `amountIdr: null` ("Price announced at launch"). No pricing has been approved by the owner.
 3. **No Commercial Products Sellable:** Under domain catalog invariants, a premium course cannot be `AVAILABLE` without a published, linked `LearningPath`. Consequently, no purchase order can be created by learners.
 4. **Legal, Merchant, & Tax Prerequisites Incomplete:** Legal policies (`/terms`, `/privacy-policy`) remain in development status per ADR 0003; operational business entity registration, merchant onboarding (Midtrans), tax compliance (PPN), and dedicated privacy contact are not yet configured.
 5. **No Production Payment Gateway:** The codebase strictly utilizes an internal `SandboxGateway`. No Midtrans credentials, SDK, or live webhook endpoints exist in the production environment or server configuration.
 
-**Conclusion:** Sprint 34 (Provider Verification & Controlled Release) **must not execute live payment activation** until real premium content is authored, owner-approved pricing is published, and merchant legal prerequisites are satisfied.
+**Conclusion:** Sprint 42 (Midtrans Gateway and Controlled Commercial Activation) **must not execute live payment activation** until real premium content is authored, owner-approved pricing is published, and merchant legal prerequisites are satisfied.
 
 ---
 
@@ -139,7 +139,7 @@ In accordance with architectural principles (ADR 0004) and roadmap invariants:
   - Webhook Endpoint:
     - `/api/commerce/sandbox/events/route.ts` exists for development testing only, protected by `SANDBOX_PAYMENT_EVENT_SECRET`.
     - No production Midtrans webhook handler (`/api/commerce/webhooks/midtrans`) exists.
-- **Gate Status:** **BLOCKED (Provider integration deferred to Sprint 34)**.
+- **Gate Status:** **BLOCKED (provider integration deferred to the final payment sprint, Milestone 15 / Sprint 42)**.
 
 ---
 
@@ -167,9 +167,9 @@ In accordance with architectural principles (ADR 0004) and roadmap invariants:
 
 ---
 
-## 4. Conditions for Authorizing Sprint 34
+## 4. Conditions for Authorizing Sprint 42
 
-Sprint 34 (*Provider Verification & Controlled Release*) may be authorized **only after**:
+Sprint 42 (*Midtrans Gateway and Controlled Commercial Activation*) may be authorized **only after**:
 1. Abangku approves authoring and publishing at least one real premium course (e.g., MikroTik MTCNA or CCTV Surveillance).
 2. Abangku sets and approves the official IDR pricing for single courses and combo bundles.
 3. Operator entity, merchant onboarding on Midtrans, and production legal/privacy policies are formalized.

@@ -16,6 +16,8 @@ This design authorizes planning work, not deployment, real database mutation, au
 
 Baseline inspected: `a95b025860b8c1788f8fbf48f8d98cd34929da4d` on main, merge of PR #25. No database was queried to count learner content.
 
+> **Historical evidence note (2026-09-09):** The table below describes only the named `a95b025` snapshot. Current repository facts are 6 paths/31 modules/65 lessons/195 formative quizzes/6 capstones, and Sprint 34 added a complete fresh-database migration baseline used by CI. Retained-database upgrade rehearsal remains pending.
+
 Read `AGENTS.md`, `ROADMAP.md`, `PLAN.md`, current `CHANGELOG.md`, `docs/HANDOFF.md`, `README.md`, `PRODUCT.md`, and `DESIGN.md` before execution. Then read these boundaries:
 
 | Evidence | Source | Implication |

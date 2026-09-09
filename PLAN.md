@@ -10,9 +10,9 @@
 
 **Spec:** `ROADMAP.md`
 
-**Current planning checkpoint (2026-09-08):** Curriculum Sprints 21–32 and commercial gate review Sprint 33 are merged. The next implementation target is Milestone 13 / Sprint 34: migration and authorization foundations for VPS-only privileged roles. Milestone 14 improves learner continuity/mastery. Gateway, production, deployment, and live payment are deliberately last in Milestone 15.
+**Current planning checkpoint (2026-09-09):** Curriculum Sprints 21–32, commercial gate review Sprint 33, and Sprint 34 Tasks 34.1–34.6 are merged. Milestone 13 remains active because Sprint 34 closure review found two High authorization gaps that must be corrected before Sprint 35. Sprint 35 is otherwise the next planned feature sprint. Milestone 14 improves learner continuity/mastery. Gateway, production, deployment, and live payment are deliberately last in Milestone 15 / Sprint 42.
 
-**Evidence correction:** Historical checked tasks remain delivery history, not proof of current deployment. The `a95b025` inspection found 5 paths/13 modules/15 lessons and non-authoritative completion; merged PR #27–#39 subsequently repaired assessment/progression and expanded the registry to 6 paths/31 modules/62 lessons/186 formative quizzes/6 capstones. Staging/production and migration reproducibility remain unverified.
+**Evidence correction:** Historical checked tasks remain delivery history, not proof of current deployment. The `a95b025` inspection found 5 paths/13 modules/15 lessons and non-authoritative completion; merged PR #27–#39 subsequently repaired assessment/progression. A current source-registry recount verifies 6 paths/31 modules/65 lessons/195 formative quizzes/6 capstones. A complete fresh-database baseline now exists and CI applies it with `db:deploy`; retained-database upgrade rehearsal and staging/production remain unverified.
 
 ## Global Constraints
 
@@ -1105,18 +1105,26 @@ Canonical detail: [program plan](docs/superpowers/plans/2026-09-05-learning-curr
 
 **Exit result:** Review completed, but absent real premium products/pricing and unverified operator/provider/deployment prerequisites keep activation blocked. No live payment or deployment action is authorized.
 
-## Milestone 13 — Developer Operations and Internal Accounts — PLANNED / NEXT
+## Milestone 13 — Developer Operations and Internal Accounts — ACTIVE
 
 Detailed executable plan: [Developer Operations and Internal Accounts](docs/superpowers/plans/2026-09-08-developer-operations-and-internal-accounts.md).
 
 ### Sprint 34 — Role, Persistence, and Authorization Foundation
 
-- [x] Task 34.1: Reconcile fresh/upgrade migration history before adding privileged-role persistence.
+- [x] Task 34.1: Establish a complete fresh-database baseline, switch CI to migration deployment, and document the still-unverified retained-database upgrade procedure before adding privileged-role persistence.
 - [x] Task 34.2: Add central database-authoritative role guards and immediate role enforcement.
 - [x] Task 34.3: Force public email/Google registration to `LEARNER`; prohibit Google login for developers.
-- [ ] Task 34.4: Add the only privileged provisioning path: a VPS CLI with explicit target, role, actor, and reason.
-- [ ] Task 34.5: Route the shared login to isolated learner/developer workspaces.
-- [ ] Task 34.6: Give `INTERNAL_LEARNER` full learning access while excluding it from business/learner analytics.
+- [x] Task 34.4: Add the only privileged provisioning path: a VPS CLI with explicit target, role, actor, and reason.
+- [x] Task 34.5: Route the shared login to isolated learner/developer workspaces.
+- [x] Task 34.6: Give `INTERNAL_LEARNER` full learning access while excluding it from business/learner analytics.
+
+**Merged evidence:** PR #45–#50 are merged into `main`; PR #50 completed the sequence at merge commit `2f383b9` with all five applicable CI jobs passing.
+
+**Sprint 34 closure findings — must resolve before Sprint 35 implementation:**
+
+- [ ] Task 34.7: Route learning-path detail access through the shared role-aware access policy so `INTERNAL_LEARNER` receives the promised all-course access when premium paths exist.
+- [ ] Task 34.8: Enforce `requireLearnerActor()` / the centralized learner-area role boundary on learner mutation APIs so a `DEVELOPER` cannot bypass workspace isolation through direct requests.
+- [ ] Task 34.9: Add focused regression coverage, rerun the relevant/full gates, complete Sprint 34 review, and deliver through PR/CI and owner merge.
 
 **Acceptance:** No public/UI/HTTP path can grant a privileged role; stale JWT role cannot bypass current database role; developer and learner surfaces deny each other; internal learner access does not pollute cohorts.
 
@@ -1171,7 +1179,7 @@ Detailed executable plan: [Final Production and Commercial Release](docs/superpo
 
 - [ ] Task 40.1: Replace in-memory session revocation with shared PostgreSQL persistence.
 - [ ] Task 40.2: Replace in-memory password-reset abuse controls with a multi-instance-safe limiter.
-- [ ] Task 40.3: Remove dangerous OAuth account linking and verify live email/OAuth in isolated staging.
+- [ ] Task 40.3: Reverify that unsafe OAuth email linking remains disabled and verify live email/OAuth in isolated staging.
 - [ ] Task 40.4: Rehearse fresh/upgrade migrations, dependency/security checks, and backup-based rollback.
 
 ### Sprint 41 — Staging, Recovery, and Operational Readiness

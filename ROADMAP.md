@@ -5,7 +5,7 @@
 > **Product:** Interactive IT infrastructure learning platform
 > **Primary audience:** SMK TKJ students, beginners, and learners preparing for practical network, sysadmin, security, cloud, and field-infrastructure work
 > **Core experience:** Learn → Interact → Practice → Challenge → Consultant Project  
-> **Status:** Milestones 0–6 historically delivered; Milestone 7 application foundation implemented with live operations deferred; Milestones 8–11 and Sprint 33 merged; Milestone 13 is the next planned implementation; gateway, deployment, production, and live payment remain last in Milestone 15
+> **Status:** Milestones 0–6 historically delivered; Milestone 7 application foundation implemented with live operations deferred; Milestones 8–12 and Sprint 34 merged; Milestone 13 remains active with Sprint 34 closure findings open and Sprint 35 next; gateway, deployment, production, and live payment remain last in Milestone 15 / Sprint 42
 > **Timezone for project logs:** WITA / GMT+8
 
 ---
@@ -511,7 +511,7 @@ Flame, quote placement, sidebar CLI icon, and wave refinements. Subsequent card-
 
 ## Curriculum renewal — implemented baseline and next owner-approved direction
 
-The owner-approved curriculum renewal was implemented and merged through PR #27–#39. The current typed registry contains six paths, 31 modules, 62 lessons, 186 formative quizzes, and six capstones. This evidence supersedes the pre-renewal inspection snapshot without rewriting its historical record.
+The owner-approved curriculum renewal was implemented and merged through PR #27–#39. A current source-registry recount contains six paths, 31 modules, 65 lessons, 195 formative quizzes, and six capstones. This evidence corrects the stale post-renewal totals without rewriting their historical record.
 
 Read [curriculum design](docs/superpowers/specs/2026-09-05-learning-outcomes-and-curriculum-design.md), [outcome matrix](docs/curriculum/networking-outcomes.md), [program plan](docs/superpowers/plans/2026-09-05-learning-curriculum-renewal.md), and [Welcome pilot plan](docs/superpowers/plans/2026-09-05-welcome-to-networking.md).
 
@@ -731,18 +731,22 @@ Required gates remain: real published access-guarded premium content; owner-appr
 
 ---
 
-## Milestone 13 — Developer Operations and Internal Accounts — PLANNED / NEXT
+## Milestone 13 — Developer Operations and Internal Accounts — ACTIVE
 
 **Goal:** Add VPS-only privileged roles, an isolated developer portal, internal learner access, safe read models, and elevated audited entitlement management.
 
-### Sprint 34 — Role, Persistence, and Authorization Foundation — PLANNED
+### Sprint 34 — Role, Persistence, and Authorization Foundation — IMPLEMENTATION MERGED / REVIEW FINDINGS OPEN
 
 - Reconcile the migration baseline before adding typed `LEARNER`, `INTERNAL_LEARNER`, and `DEVELOPER` roles.
 - Force every public email/Google registration to `LEARNER`; allow privileged assignment only through a VPS CLI.
 - Route the shared login by database-authoritative role and isolate developer and learner workspaces.
 - Give internal learners full curriculum access while excluding them from learner/business analytics.
 
-### Sprint 35 — Read-Only Developer Portal — PLANNED
+**Merged evidence:** Tasks 34.1–34.6 were merged through PR #45–#50; local `main` synchronized to merge commit `2f383b9`, and all five applicable PR #50 CI jobs passed.
+
+**Closure findings:** Sprint 34 is not closed yet. The direct learning-path detail query does not consistently reuse the shared internal-learner access resolver for future premium paths, and learner mutation APIs do not yet enforce the centralized learner-role guard against direct developer requests. These High findings must be resolved and verified before dependent Sprint 35 work.
+
+### Sprint 35 — Read-Only Developer Portal — PLANNED / NEXT AFTER SPRINT 34 FINDINGS
 
 - Add an independent `/developer` shell and read-only overview, users, access/package history, learning analytics, curriculum health, system health, security, and account views.
 - Keep curriculum/source and system operations read-only on the web; operational changes remain VPS-only.
@@ -813,7 +817,7 @@ Reviewed M0–M6 foundation + merged M7 application baseline
     → M15 / S40–42: persistent security, staging/recovery, gateway and controlled release
 ```
 
-M7 application work remains historical evidence; its staging/production exit criteria are now owned by M15. M13 is the next implementation milestone. A sprint has exactly one milestone owner; later milestones require the preceding review gates. Gateway, production, deployment, and live payment are deliberately last.
+M7 application work remains historical evidence; its staging/production exit criteria are now owned by M15. M13 is active: Sprint 34 closure findings precede Sprint 35. A sprint has exactly one milestone owner; later milestones require the preceding review gates. Gateway, production, deployment, and live payment are deliberately last in Sprint 42.
 
 ---
 

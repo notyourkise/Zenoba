@@ -1,9 +1,9 @@
 ﻿# Comprehensive Networking Curriculum Validation Report
 
-**Document Version:** 1.0  
-**Timestamp:** 2026-09-07 WITA  
+**Document Version:** 1.1
+**Timestamp:** 2026-09-09 WITA
 **Scope:** Milestone 11 (Consultant Learning Path & Curriculum Validation) — Sprint 32  
-**Curriculum Status:** Full 6-Path Networking Track Complete & Verified (31 Modules, 62 Lessons, 186 Formative Quizzes, 6 Capstones)
+**Curriculum Status:** Full 6-Path Networking Track Complete & Verified (31 Modules, 65 Lessons, 195 Formative Quizzes, 6 Capstones)
 
 ---
 
@@ -22,30 +22,30 @@ Every lesson provides deterministic interactions and real-world reasoning rather
 
 | Path | Title | Modules | Lessons | Quizzes | Capstone / Practical Lab |
 | :--- | :--- | :---: | :---: | :---: | :--- |
-| **Path 1** | Network Foundations | 8 | 16 | 48 | First Day as IT Support |
+| **Path 1** | Network Foundations | 8 | 19 | 57 | First Day as IT Support |
 | **Path 2** | IPv4 & Subnetting | 5 | 10 | 30 | School Subnetting & VLSM Allocation |
 | **Path 3** | Switching & LAN | 4 | 8 | 24 | VLAN Segmentation & Trunk Diagnosis |
 | **Path 4** | Routing & Network Services | 5 | 10 | 30 | Service & Routing Fault Isolation |
 | **Path 5** | Wireless & Troubleshooting | 4 | 8 | 24 | Safe Diagnostic Terminal & Wi-Fi Optimization |
 | **Path 6** | Network Planning & IT Consultant | 5 | 10 | 30 | Consultant Capstone & Multi-Dimensional Portfolio |
-| **Total** | **Full Networking Curriculum** | **31** | **62** | **186** | **6 Capstones / Simulations** |
+| **Total** | **Full Networking Curriculum** | **31** | **65** | **195** | **6 Capstones / Simulations** |
 
 ---
 
 ## 3. Path-by-Path Detailed Validation
 
-### Path 1: Network Foundations (M1–M8, 16 Lessons)
+### Path 1: Network Foundations (M1–M8, 19 Lessons)
 - **Path Outcome:** Siswa dapat menjelaskan hubungan perangkat, media, dan aliran data untuk membaca serta menganalisis jaringan lokal sederhana.
 - **Module Structure:**
-  1. `welcome-to-networking`: P1-L01 (Apa Itu Jaringan Komputer), P1-L02 (Jaringan di Sekitar Kita)
-  2. `types-of-networks`: P1-L03 (LAN, MAN, WAN), P1-L04 (Rumah, Sekolah, Perusahaan)
-  3. `client-server`: P1-L05 (Peran Client & Server), P1-L06 (Request dan Response)
-  4. `network-topology`: P1-L07 (Bus, Star, Ring), P1-L08 (Dampak Kegagalan Topologi)
-  5. `network-devices`: P1-L09 (NIC, Switch, Router, AP), P1-L10 (Modem, Firewall, Server)
-  6. `physical-media`: P1-L11 (Kabel Tembaga & Nirkabel), P1-L12 (RJ-45 & Standar T568A/B)
-  7. `how-data-travels`: P1-L13 (Bit, Frame, Packet), P1-L14 (Unicast, Broadcast, Multicast)
-  8. `osi-tcpip`: P1-L15 (7 Lapisan OSI), P1-L16 (TCP/IP & Enkapsulasi)
-- **Assessment Evidence:** 48 formative multiple-choice questions in `foundations.server.ts`.
+  1. `welcome-to-networking`: P1-L01 (Apa Itu Jaringan Komputer), P1-L02 (Perangkat Jaringan di Sekitar Kita), P1-L03 (Berbagi Sumber Daya dalam Jaringan), P1-L04 (Bagaimana Perangkat Saling Berbicara)
+  2. `types-of-networks`: P1-L05 (LAN, MAN, WAN), P1-L06 (Rumah, Sekolah, Perusahaan)
+  3. `client-server`: P1-L07 (Peran Client & Server), P1-L08 (Request dan Response)
+  4. `network-topology`: P1-L09 (Bus, Star, Ring), P1-L10 (Dampak Kegagalan Topologi)
+  5. `network-devices`: P1-L11 (NIC, Switch, Router, AP), P1-L12 (Modem, Firewall, Server)
+  6. `physical-media`: P1-L13 (Kabel Tembaga & Nirkabel), P1-L14 (RJ-45 & Standar T568A/B), P1-L15 (Pengenalan Serat Optik)
+  7. `how-data-travels`: P1-L16 (Bit, Frame, Packet), P1-L17 (Unicast, Broadcast, Multicast)
+  8. `osi-tcpip`: P1-L18 (7 Lapisan OSI), P1-L19 (TCP/IP & Enkapsulasi)
+- **Assessment Evidence:** 57 formative multiple-choice questions in `foundations.server.ts`.
 - **Capstone:** *First Day as IT Support* — interactive diagnosis of faulty link, device inventory, and local vs Internet reachability.
 
 ### Path 2: IPv4 & Subnetting (M1–M5, 10 Lessons)
@@ -136,7 +136,7 @@ Every lesson provides deterministic interactions and real-world reasoning rather
 
 - **Unit Tests:** All content registry tests, assessment bank tests, and procurement engine tests pass.
 - **End-to-End Tests:** Playwright suite `consultant-learning.spec.ts` verifies lesson navigation, formative quizzes, prerequisite gating, proposal submission, and portfolio record rendering.
-- **Prisma Schema & Database Seed:** 6 courses, 31 modules, 62 lessons, and 5 consultant cases seeded successfully.
+- **Prisma Schema & Database Seed:** deterministic seed covers 6 learning paths, 31 modules, 65 lessons, and 5 consultant cases; the current counts were verified from the typed source registry.
 - **Build & Quality Gates:** TypeScript typecheck, ESLint, Vitest, and Next.js production build pass cleanly.
 
 ---

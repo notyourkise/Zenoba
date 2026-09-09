@@ -4,7 +4,7 @@ Dokumen pencatatan hutang teknis (*technical debt*), area refaktor masa depan, d
 
 ---
 
-## 1. Status Hutang Teknis Saat Ini (Pra-Milestone 13 / Pra-Peluncuran MVP)
+## 1. Status Hutang Teknis Saat Ini (Milestone 13 Aktif / Pra-Peluncuran MVP)
 
 | ID | Kategori | Deskripsi | Dampak | Status Resolusi |
 |---|---|---|---|---|
@@ -25,13 +25,15 @@ Dokumen pencatatan hutang teknis (*technical debt*), area refaktor masa depan, d
 
 Pre-launch legal readiness: **TD-10 — High before collecting public learner data:** Terms and Privacy Policy now describe the development implementation, but are not a compliance certification. Confirm the operator's identity and reachable privacy contact; define lawful processing bases, consent evidence where required (including child/guardian safeguards), retention/deletion/export handling, deployed processors/locations, and international-transfer safeguards. Do not label link clicks or login as recorded consent. Also verify Google OAuth token storage/revocation against provider policy before activation. See `docs/decisions/0003-legal-pages-and-policy-boundaries.md`. No public deployment is authorized by this documentation.
 
-## 2. Learning curriculum inspection follow-up (updated 2026-09-08)
+## 2. Learning curriculum inspection follow-up (updated 2026-09-09)
 
 - **TD-11 — Resolved in merged Milestone 8:** PR #28 added server-authoritative assessment/progression/XP, PR #29 delivered the Welcome experience, and PR #31 completed authenticated pilot integration. Historical `a95b025` findings remain valid for that revision only.
-- **TD-12 — High for reproducible persistence, still open:** Initial migration is empty and the subsequent reset-token migration assumes `users` already exists, while current schema includes learning/commerce models without a complete creation history. Reconcile fresh and sanitized-upgrade paths on disposable databases in Milestone 13 / Task 34.1 before any privileged-role schema. Never repair a real user database without agreed scope.
-- **TD-13 — Resolved for repository curriculum evidence:** PR #32–#39 expanded and validated the typed curriculum to six paths, 31 modules, 62 lessons, 186 formative quizzes, and six capstones with authenticated coverage. This does not prove staging/production deployment.
+- **TD-12 — Partially resolved; retained-upgrade proof still open:** Sprint 34 / Task 34.1 replaced the broken historical chain with a complete fresh-database baseline and CI now applies it through `db:deploy`. Fresh CI deployment is evidenced; the documented retained-database reconciliation procedure has not been rehearsed against an explicitly approved representative retained database. Never repair or rewrite a real user database without agreed scope.
+- **TD-13 — Resolved for repository curriculum evidence:** A current source-registry recount verifies six paths, 31 modules, 65 lessons, 195 formative quizzes, and six capstones with authenticated coverage. This does not prove staging/production deployment.
 - **TD-14 — High before multi-instance/production operation:** Session revocation and password-reset rate limiting are process-local. Milestone 15 / Sprint 40 owns shared PostgreSQL-backed enforcement and failure behavior.
-- **TD-15 — High before public OAuth:** NextAuth currently enables dangerous email account linking. Milestone 13 removes it while adding role-safe registration; Milestone 15 verifies real Google OAuth and SMTP in isolated staging.
+- **TD-15 — Partially resolved; live integration proof still open:** Sprint 34 removed unsafe automatic OAuth email linking and forces public registration to `LEARNER`. Milestone 15 / Sprint 40 must reverify that policy and prove real Google OAuth plus SMTP in isolated staging before public activation.
+- **TD-16 — High before Sprint 35:** `getLearningPathDetail()` performs a direct premium-entitlement check instead of consistently reusing the shared role-aware access policy, so future premium paths may deny the promised all-course access to `INTERNAL_LEARNER`.
+- **TD-17 — High before Sprint 35:** Learner mutation APIs authenticate a user but do not consistently enforce the centralized learner-role boundary. UI routing blocks developer navigation, but direct requests from a `DEVELOPER` must also be rejected server-side.
 
 ## 3. Rencana Jalur Ekstensi Pasca-MVP (*Future Tracks*)
 

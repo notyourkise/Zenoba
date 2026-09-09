@@ -48,7 +48,7 @@ Networking merupakan learning domain pertama yang sudah tersedia. Server & Linux
 
 ## Evidence on Hand
 
-- Registry kurikulum pada baseline sesudah PR #39 mendefinisikan 6 learning paths, 31 modules, 62 lessons, 186 formative quizzes, dan 6 capstones. Jumlah ini berasal dari validasi source registry, bukan query database pengguna atau bukti deployment.
+- Registry kurikulum saat ini mendefinisikan 6 learning paths, 31 modules, 65 lessons, 195 formative quizzes, dan 6 capstones. Jumlah ini berasal dari validasi source registry, bukan query database pengguna atau bukti deployment.
 - 7 Modul Interactive Labs dengan validator input deterministik.
 - 3 Skenario Troubleshooting Challenges dengan simulator jaringan.
 - 5 Studi Kasus Konsultan Proyek TI (Notaris SOHO, Warnet Gaming, Logistik Gudang, Lab SMK TKJ, Gedung Korporat Multi-Lantai).
@@ -60,7 +60,7 @@ Disetujui pemilik pada 2026-09-05: mulai dari module **Welcome to Networking** s
 
 Alur yang telah diimplementasikan: introduction/capaian → konsep → contoh terbimbing → visualisasi → interaksi/praktik → quiz → rangkuman → penyelesaian terverifikasi. Quiz lesson dan tes akhir module memakai evidence server-authoritative dan retry/remediation.
 
-Milestones 8–11 telah memperbaiki pengalaman pembelajaran Networking; Milestone 12 menyelesaikan review gate komersial tanpa mengaktifkan pembayaran. Milestone 13 merencanakan developer/internal roles, Milestone 14 meningkatkan continuity/mastery, dan Milestone 15 menempatkan gateway/deployment/production/live payment paling akhir. Lihat [approved design](docs/superpowers/specs/2026-09-07-developer-portal-and-learner-experience-design.md).
+Milestones 8–11 telah memperbaiki pengalaman pembelajaran Networking; Milestone 12 menyelesaikan review gate komersial tanpa mengaktifkan pembayaran. Milestone 13 aktif: fondasi developer/internal roles Sprint 34 telah merged tetapi closure findings authorization masih terbuka; developer portal, elevation, dan audit belum dijalankan. Milestone 14 meningkatkan continuity/mastery, dan Milestone 15 menempatkan gateway/deployment/production/live payment paling akhir pada Sprint 42. Lihat [approved design](docs/superpowers/specs/2026-09-07-developer-portal-and-learner-experience-design.md).
 
 ## Product Principles
 

@@ -2,9 +2,9 @@
 
 **Status:** Approved product design; planning documentation only. No application code, schema migration, payment credential, or production payment activation is authorized by this document.
 **Date:** 2026-09-03
-**Scope:** Milestone 7 / Sprint 17 planned, and Milestone 8 activation gates
+**Scope:** Historical Milestone 7 / Sprint 17 design and payment-activation gates now assigned to Milestone 15 / Sprint 42
 
-> Historical numbering update (2026-09-05): the owner-approved roadmap now assigns the premium activation scope referenced as M8 in this document to **Milestone 12**, after learning renewal M8–M11. Original activation gates remain unchanged. See [ROADMAP.md](../../../ROADMAP.md).
+> Historical numbering update (2026-09-09): the activation scope referenced as M8 in this document was reviewed in **Milestone 12** without implementation. Provider implementation and controlled activation are now deliberately last in **Milestone 15 / Sprint 42**. Original activation gates remain unchanged. See [ROADMAP.md](../../../ROADMAP.md).
 **Owner decisions recorded:** hybrid lifetime catalog; Networking free; Single Course and Combo Package products; combos contain two or more premium courses only; premium tracks are sellable only after their learning content is available; unreleased offers show `Coming soon` and `Price announced at launch`; catalog management begins with repository seed/config; Dynamic QRIS is deferred until merchant readiness; refunds are handled outside the application.
 
 ## 1. Purpose and scope
@@ -143,7 +143,7 @@ Phase 2 adds `MidtransGateway`, one Dynamic QRIS per server-created order, priva
 | 17.4 Sandbox lifecycle | Provider contract, non-production sandbox, idempotent paid event, expiry/cancellation behavior. | Browser/client success cannot grant access; duplicate events grant once; fixture purchase grants correct lifetime courses. |
 | 17.5 Review and delivery | Complete docs, code review, relevant test suites, responsive/accessibility review, PR and CI. | All applicable local checks and all workflow jobs are green for the PR head; no Critical/High finding remains. |
 
-### Milestone 8 — Premium Course & Payment Activation
+### Historical Premium Course & Payment Activation Scope — NOW MILESTONE 15 / SPRINT 42
 
 **Goal:** Safely sell the first real premium learning content only when business, legal, product, and provider prerequisites are independently true.
 
@@ -155,7 +155,7 @@ Entry gates:
 4. Midtrans account/configuration and secrets are supplied privately; no exposed/reused credential is accepted.
 5. Staging database, webhook endpoint, monitoring, backup/restore, and deployment gates from Milestone 7 are verified.
 
-Workstreams: provider adapter implementation, Midtrans sandbox verification, isolated staging verification, controlled live QRIS enablement, reconciliation/dispute/refund operational runbook, post-deploy smoke verification, then production availability. Milestone 8 does not start merely because Sprint 17 code exists.
+Workstreams: provider adapter implementation, Midtrans sandbox verification, isolated staging verification, controlled live QRIS enablement, reconciliation/dispute/refund operational runbook, post-deploy smoke verification, then production availability. Milestone 15 / Sprint 42 does not start merely because Sprint 17 code exists.
 
 ## 7. Testing and review strategy
 
@@ -185,5 +185,5 @@ Every future agent working on this design must:
 - A client callback, redirect, or local storage status cannot prove payment. Verified provider events and idempotent transactions are mandatory.
 - A catalog can be visible before content exists, but an unavailable premium course cannot have a clickable purchase path or price.
 - Current UI/account data may contain client-local preferences. These cannot be used for entitlement or payment truth.
-- The current payment phase has no merchant credentials and no live database/email/payment verification. It must remain development-only until Milestone 8 gates are satisfied.
+- The current payment phase has no merchant credentials and no live database/email/payment verification. It must remain development-only until Milestone 15 / Sprint 42 gates are satisfied.
 - Refund, customer support, disputes, and legal/tax obligations require an operational policy before production payment, not an implied database flag.

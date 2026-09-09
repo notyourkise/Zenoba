@@ -313,17 +313,17 @@ Content-sprint test cycle: write failing coverage/scoring fixtures for the named
 
 **Risk / boundary:** Full curriculum completion is not premium product readiness or deployment evidence.
 
-## Milestone 12 — Premium Course & Payment Activation
+## Milestone 12 — Commercial Readiness Gate Review — COMPLETE / ACTIVATION BLOCKED
 
 **Entry:** M7 operational gates and M8–M11 curriculum gates complete, real premium content and pricing separately approved, merchant/legal/provider prerequisites verified.
 
-**Goal:** Preserve the former M8 premium/provider activation scope, strictly after content/product/operator/provider and deployment gates.
+**Goal:** Review and preserve the former M8 premium/provider entry gates without implementing a provider or activating payment.
 
 **Exit:** Only owner-authorized real premium products and provider integration can satisfy commercial activation; no readiness inferred from free curriculum completion.
 
 ### Sprint 33 — Premium Activation Entry-Gate Review
 
-**Owner:** M12 only. **Status:** PLANNED; implementation not started.
+**Owner:** M12. **Status:** COMPLETE / MERGED (PR #40); activation remains blocked.
 
 **Goal:** Determine whether commercial activation prerequisites are independently satisfied.
 
@@ -331,18 +331,18 @@ Content-sprint test cycle: write failing coverage/scoring fixtures for the named
 
 **Affected files/modules:** Existing `docs/decisions/0004-member-workspace-course-commerce.md`, commerce spec; planned `docs/decisions/premium-activation-readiness.md`.
 
-- [ ] **Task 33.1:** Verify actual published premium content, access guards, owner-approved price and valid premium Combo Package.
-- [ ] **Task 33.2:** Verify operator/privacy/merchant/tax readiness and private provider/staging configuration through approved channels.
-- [ ] **Task 33.3:** Record evidence and unresolved gates before authorizing provider implementation; no credentials in documentation.
-- [ ] **Task 33.4 — Review and delivery:** Apply the common verification gate, record actual outcome coverage and evidence, resolve Critical/High findings, update documentation, and complete owner PR review/merge before claiming sprint completion.
+- [x] **Task 33.1:** Verify actual published premium content, access guards, owner-approved price and valid premium Combo Package.
+- [x] **Task 33.2:** Verify operator/privacy/merchant/tax readiness and private provider/staging configuration through approved channels.
+- [x] **Task 33.3:** Record evidence and unresolved gates before authorizing provider implementation; no credentials in documentation.
+- [x] **Task 33.4 — Review and delivery:** Apply the common verification gate, record actual outcome coverage and evidence, resolve Critical/High findings, update documentation, and complete owner PR review/merge before claiming sprint completion.
 
 **Validation / acceptance:** Every entry gate has current evidence; absent premium products keep milestone blocked from activation.
 
 **Risk / boundary:** Free Networking completion does not meet premium course availability; no automatic live credential request.
 
-### Sprint 34 — Provider Verification & Controlled Release
+### Historical Provider Verification & Controlled Release Scope — MOVED TO MILESTONE 15 / SPRINT 42
 
-**Owner:** M12 only. **Status:** PLANNED; implementation not started.
+**Current owner:** M15 / Sprint 42 only. **Status:** PLANNED; implementation not started.
 
 **Goal:** Execute only the separately approved provider activation/release design after all entry gates pass.
 
@@ -350,10 +350,10 @@ Content-sprint test cycle: write failing coverage/scoring fixtures for the named
 
 **Affected files/modules:** Existing `src/features/commerce/`, deployment docs; exact provider code paths belong to the separately approved activation design.
 
-- [ ] **Task 34.1:** Prepare and obtain owner review of exact provider adapter/webhook/reconciliation implementation plan with live-vs-sandbox boundaries.
-- [ ] **Task 34.2:** Verify provider sandbox and staging amount/signature/idempotency/reconciliation cases with isolated data, then review operational refund/dispute handling.
-- [ ] **Task 34.3:** Enable production only with explicit owner authorization; run post-deploy smoke/monitoring and record release/recovery evidence.
-- [ ] **Task 34.4 — Review and delivery:** Apply the common verification gate, record actual outcome coverage and evidence, resolve Critical/High findings, update documentation, and complete owner PR review/merge before claiming sprint completion.
+- [ ] **Task 42.1:** Prepare and obtain owner review of the exact provider adapter/webhook/reconciliation implementation plan with live-vs-sandbox boundaries.
+- [ ] **Task 42.2:** Verify provider sandbox and staging amount/signature/idempotency/reconciliation cases with isolated data, then review operational refund/dispute handling.
+- [ ] **Task 42.3:** Enable production only with explicit owner authorization; run post-deploy smoke/monitoring and record release/recovery evidence.
+- [ ] **Task 42.4 — Review and delivery:** Apply the common verification gate, record actual outcome coverage and evidence, resolve Critical/High findings, update documentation, and complete owner PR review/merge before claiming sprint completion.
 
 **Validation / acceptance:** Provider event—not client redirect—controls entitlement; all release gates and operator actions recorded.
 
@@ -367,6 +367,6 @@ Content-sprint test cycle: write failing coverage/scoring fixtures for the named
 - [ ] Actual end-to-end authenticated assessment/persistence evidence exists; mocked or anonymous checks are explicitly distinguished.
 - [ ] Numeric thresholds and legacy bridge policy are accepted before pilot behavior is coded.
 - [ ] Owner accepts the Welcome reference before remaining modules start.
-- [ ] M12 renumbering does not weaken the former M8 activation gates.
+- [ ] Moving provider implementation to M15 / Sprint 42 does not weaken the former activation gates reviewed in M12.
 
 **Next action:** Owner reviews the detailed design and pilot acceptance defaults. Then begin Sprint 21 on a fresh verified task branch; do not continue old Sprint 20 UI polish or already-merged security PR #25 from stale handoff text.

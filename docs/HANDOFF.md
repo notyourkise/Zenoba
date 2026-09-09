@@ -1,55 +1,52 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-09 13:28 WITA**. Read AGENTS.md and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-09-09 15:31 WITA**. Read `AGENTS.md` and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
 
 ## 1. Current Task and Authority
 
-- Product: Interactive IT infrastructure learning platform; Networking is the first curriculum.
-- Active milestone/sprint: **Milestone 13 / Sprint 34 — Role, Persistence, and Authorization Foundation**.
-- Task: **Task 34.6: Give internal learners all-course access without analytics pollution** (Sprint 34 complete).
-- Scope delivered:
-  1. Created `src/features/analytics/cohort.ts` with `ORDINARY_LEARNER_FILTER = { role: "LEARNER" }` and `isAnalyticsLearner(role)` guard function to prevent metric and cohort pollution from `INTERNAL_LEARNER` and `DEVELOPER` accounts.
-  2. Extended `resolveCourseAccess` result union to `"FREE" | "ENTITLED" | "INTERNAL" | "DENIED"`, granting `"INTERNAL"` access to `INTERNAL_LEARNER` role accounts without generating synthetic orders or fake entitlements.
-  3. Extended `getMyLearning` to return all catalog-available courses for `INTERNAL_LEARNER` accounts without requiring active entitlements.
-  4. Hardened `requireLearningPathAccess` in `src/features/commerce/access.ts` to grant course access to `INTERNAL_LEARNER` accounts while preserving learning gates.
-  5. Added comprehensive test coverage in `cohort.test.ts`, `access.test.ts`, and `entitlements.test.ts` (9 new assertions, total 95 test files / 559 unit tests passing).
-- **Phase:** Implemented and locally verified against all quality gates. Ready for PR creation.
+- Product: Interactive IT infrastructure learning platform; Networking is the first available curriculum.
+- Active milestone/sprint: **Milestone 13 / Sprint 34 closure review**. Sprint 34 Tasks 34.1–34.6 are merged; Milestone 13 remains active.
+- Approved task: synchronize documentation with repository facts only. Do not modify application source until the documentation is consistent.
+- Owner decision: real payment/provider/deployment/live activation remains the final product work in **Milestone 15 / Sprint 42**.
+- Current phase: documentation reconciliation committed and published as PR #51 for Abangku's review; no source code changed.
 
 ## 2. Verified Repository Checkpoint
 
 | Item | Verified state |
 | --- | --- |
-| Main checkout | `C:/laragon/www/netloka`, branch `main` at `0ce28fb` |
-| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-sprint-34-internal-access` |
-| Task branch | `codex/sprint-34-internal-access` |
-| Base commit | `0ce28fb` (Merge pull request #49 from notyourkise/codex/sprint-34-workspace-routing) |
-| Retained unrelated worktree | `C:/laragon/www/netloka/.worktrees/codex-fix-m0-sprint-0` (`docs/staging-progress`, do not delete) |
-| Background dev server | `task-5778` active and healthy on `http://localhost:3000` |
+| Main checkout | `C:/laragon/www/netloka`, clean `main` at `2f383b9` |
+| Origin | `origin/main` at `2f383b9`; local `main` synchronized by fast-forward |
+| Current docs worktree | `C:/laragon/www/netloka/.worktrees/codex-docs-factual-sync` |
+| Current docs branch/base | `codex/docs-factual-sync`, content commit `80a4b17`, based on `2f383b9` |
+| Documentation PR | [PR #51](https://github.com/notyourkise/NetLoka/pull/51), targeting `main` |
+| Sprint 34 delivery | PR #45–#50 merged; PR #50 merge commit `2f383b9`, head `9985451` |
+| Latest CI evidence | All five applicable PR #50 jobs passed |
+| Retained worktrees | `codex-sprint-34-internal-access` and unrelated `codex-fix-m0-sprint-0`; neither was removed |
 
-## 3. Key Files Changed / Added
+## 3. Reconciled Facts
 
-1. `src/features/analytics/cohort.ts`: Cohort filter `ORDINARY_LEARNER_FILTER` and `isAnalyticsLearner` helper.
-2. `src/features/analytics/cohort.test.ts`: Unit tests for cohort filtering and role exclusion.
-3. `src/features/commerce/access.ts`: Hardened `requireLearningPathAccess` to permit `INTERNAL_LEARNER` role.
-4. `src/features/commerce/access.test.ts`: Added tests asserting `INTERNAL_LEARNER` bypass and standard learner entitlement enforcement.
-5. `src/features/commerce/entitlements.ts`: Extended `resolveCourseAccess` to include `"INTERNAL"` and updated `getMyLearning` for `INTERNAL_LEARNER`.
-6. `src/features/commerce/entitlements.test.ts`: Added tests for `INTERNAL` access resolution and `getMyLearning` course inclusion.
-7. `docs/superpowers/plans/2026-09-08-developer-operations-and-internal-accounts.md`: Marked Task 6 steps complete.
-8. `CHANGELOG.md`: Appended entry for 2026-09-09 with WITA timestamp.
+- Curriculum source registry: **6 paths, 31 modules, 65 lessons, 195 formative quizzes, 6 capstones**.
+- Fresh database migration baseline exists and CI uses `db:deploy`; retained-database upgrade rehearsal remains unverified.
+- Unsafe OAuth email linking was removed in Sprint 34; real OAuth/SMTP staging verification remains pending for Sprint 40.
+- Sprint 35 (read-only developer portal), Sprint 36 (elevation/entitlement mutation/audit), Milestone 14, and Milestone 15 remain unimplemented.
+- Historical changelog entries remain untouched; current corrections are appended rather than rewriting history.
 
-## 4. Verification Evidence
+## 4. Sprint 34 Closure Findings
 
-- `npm run typecheck`: **Passed** (0 errors).
-- `npm run lint`: **Passed** (0 warnings/errors).
-- `npm test`: **Passed** (95 test files / 559 tests passed).
-- `npm run build`: **Passed** (production build succeeded, all 36 static/dynamic routes compiled).
-- `git diff --check`: **Passed** (0 whitespace errors).
-- Background dev server: **Healthy** (`task-5778` active on `localhost:3000`).
+- **High:** `src/features/learning/queries.ts` performs premium access in `getLearningPathDetail()` without consistently reusing the shared internal-learner policy. This can deny future premium paths to `INTERNAL_LEARNER` despite the Sprint 34 contract.
+- **High:** learner mutation APIs authenticate users but do not consistently call the centralized learner-role guard. Middleware/layout isolation does not prevent direct API requests by a `DEVELOPER`.
+- These findings are tracked as `PLAN.md` Tasks 34.7–34.9 and TD-16/TD-17. Resolve them before Sprint 35 implementation.
 
-## 5. Next Actions
+## 5. Verification Evidence and Limits
 
-1. Commit and push task branch `codex/sprint-34-internal-access`.
-2. Open PR via `gh pr create` targeting `main`.
-3. Verify all 5 CI jobs green on GitHub Actions.
-4. Submit PR for review and merge by Abangku.
-5. After merge and synchronization, proceed to Sprint 35 (Read-Only Developer Portal).
+- Before documentation edits, `npm run db:generate` passed using a safe placeholder `DATABASE_URL` because secrets were intentionally not copied into the isolated worktree.
+- Before documentation edits, `npm test` passed: **95 files / 559 tests**. The health test exercised its expected degraded database path because no local task database was configured.
+- PR #50 evidence: lint/typecheck, tests, E2E, build, and quality gate all passed on its latest head.
+- PR #51 evidence for content commit `80a4b17`: lint/typecheck, Test Suite, Browser E2E, Production Build, and Quality Gate all passed in run `34322958655`; recheck the latest PR head after any handoff/review update.
+- Documentation scope, links, stale-fact patterns, payment sequencing, malformed-text sentinels, complete diff, and `git diff --check` were reviewed successfully.
+- Dependency installation reported 10 audit findings (4 moderate, 4 high, 2 critical); no dependency or lockfile changes were made and no automatic remediation was attempted.
+
+## 6. Next Actions
+
+1. Abangku reviews and merges PR #51; Anto must not merge it.
+2. After the documentation PR is merged and `main` is synchronized, plan and implement Sprint 34 Tasks 34.7–34.9 before starting Sprint 35.

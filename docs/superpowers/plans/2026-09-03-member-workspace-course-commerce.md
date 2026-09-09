@@ -4,9 +4,9 @@
 
 **Goal:** Deliver the first authenticated learner workspace and a server-authoritative, provider-neutral foundation for lifetime course access, while keeping Networking free and leaving the locked public landing/auth experience untouched.
 
-**Architecture:** Extend the modular monolith with `src/features/commerce/`. Prisma/PostgreSQL are the authority for catalog, immutable order snapshots, payment-event idempotency, and entitlements. Only the protected `(app)` layout becomes a workspace shell with a sidebar/drawer. The public `/` page and public `AppHeader` behavior remain unchanged. A non-production sandbox exercises the payment state machine through server-only APIs; no browser state can produce a paid order or entitlement. Midtrans/QRIS is deferred to Milestone 8.
+**Architecture:** Extend the modular monolith with `src/features/commerce/`. Prisma/PostgreSQL are the authority for catalog, immutable order snapshots, payment-event idempotency, and entitlements. Only the protected `(app)` layout becomes a workspace shell with a sidebar/drawer. The public `/` page and public `AppHeader` behavior remain unchanged. A non-production sandbox exercises the payment state machine through server-only APIs; no browser state can produce a paid order or entitlement. Midtrans/QRIS is deferred to the final release scope now assigned to Milestone 15 / Sprint 42.
 
-> Historical numbering update (2026-09-05): premium activation called M8 throughout this archived plan now belongs to **Milestone 12**, following owner-approved learning renewal M8–M11. This changes numbering only, not the original activation gates. See [ROADMAP.md](../../../ROADMAP.md).
+> Historical numbering update (2026-09-09): premium activation called M8 throughout this archived plan was later reviewed in **Milestone 12** without activation. Provider implementation and controlled activation now belong only to the final **Milestone 15 / Sprint 42**. This changes sequencing, not the original activation gates. See [ROADMAP.md](../../../ROADMAP.md).
 
 **Tech Stack:** Next.js 16.3 App Router, React 19, TypeScript 5, Prisma 7/PostgreSQL, NextAuth.js 4, Zod, Tailwind CSS 4, `next-themes`, Vitest/Testing Library, Playwright.
 
@@ -180,7 +180,7 @@ Existing Networking lessons, labs, challenges, and consultant cases are free. Do
 
 - [ ] **Run RED:** `npm test -- src/features/commerce/components/catalog-grid.test.tsx src/features/commerce/components/order-list.test.tsx`.
 - [ ] **Implement server pages.** Each calls `getCurrentUser` and owner-scoped query. Rebuild dashboard as concise workspace Overview—continue learning, progress, active packages, recent orders, recommendation—without `CosmicBackground`. My Learning shows free Networking plus entitled premium paths only.
-- [ ] **Keep current products completely passive.** Do not make a checkout page/UI while all package records remain coming-soon. Task 5 API stays infrastructure-only until Milestone 8 has real available content/products.
+- [ ] **Keep current products completely passive.** Do not make a checkout page/UI while all package records remain coming-soon. Task 5 API stays infrastructure-only until the Milestone 15 / Sprint 42 gates have real available content/products.
 - [ ] **Run GREEN:** same command — correct statuses and no fake purchase path.
 
 **Commit:** `feat: add learner catalog and ownership pages`
@@ -224,7 +224,7 @@ Existing Networking lessons, labs, challenges, and consultant cases are free. Do
 
   Run Firefox/WebKit locally when installed; CI currently covers Chromium only. Record pass/fail/limitations truthfully.
 - [ ] **Review full diff.** Inspect migration, endpoints, transaction/idempotency, owner scoping, sandbox production denial, secrets/raw payloads, public file no-diff, responsive/sidebar/drawer behavior, focus/labels/contrast, and dark/light workspace. Resolve all Critical/High findings.
-- [ ] **Update records.** Mark plan checkboxes only with evidence; append WITA changelog; update handoff with branch/commit/worktree/checks/limits. Keep Sprint 17/Milestone 7 in progress and Milestone 8 deferred until user review/merge and gates.
+- [ ] **Update records.** Mark plan checkboxes only with evidence; append WITA changelog; update handoff with branch/commit/worktree/checks/limits. Keep Sprint 17/Milestone 7 in progress and the current Milestone 15 / Sprint 42 activation scope deferred until user review/merge and gates.
 - [ ] **Create review PR only when asked/authorized.** Verify `gh auth status`/`gh repo view`, commit/push isolated branch, create one structured `gh pr create --base main`, inspect every applicable workflow/current head, and wait for Abangku's review. Include migration/rollback notes, UI screenshots, test evidence, and no-live-payment limit. Never merge, auto-merge, approve, or deploy.
 
 **Commits:** `test: cover member workspace commerce flows`; `docs: record sprint 17 verification`

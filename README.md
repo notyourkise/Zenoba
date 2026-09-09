@@ -6,7 +6,7 @@
 
 **Domain:** `netloka.biz.id`  
 **Architecture:** Modular monolith (Next.js + TypeScript + PostgreSQL)  
-**Development status:** Milestones 0–6 historically implemented; curriculum renewal through Milestone 11 and the Milestone 12 gate review are merged; Milestone 13 privileged operations is planned next; staging/production remains unverified and deliberately last
+**Development status:** Milestones 0–6 are historically implemented; the Milestone 7 application baseline, Milestones 8–12, and Sprint 34 are merged; Milestone 13 remains active with Sprint 34 authorization-review findings open and Sprint 35 planned next; staging/production and live payment remain unverified and deliberately last in Sprint 42
 
 **Timezone:** WITA / GMT+8
 
@@ -27,15 +27,15 @@ Netloka is an interactive IT infrastructure learning platform for SMK TKJ studen
 
 ### Current learning baseline and planned quality program
 
-The Networking curriculum renewal is implemented in the typed registry: six paths, 31 modules, 62 lessons, 186 formative quizzes, and six capstones. Lessons and module assessments use server-authoritative evidence and gated progression. This is repository evidence, not a claim that staging or production is deployed.
+The Networking curriculum renewal is implemented in the typed registry: six paths, 31 modules, 65 lessons, 195 formative quizzes, and six capstones. Lessons and module assessments use server-authoritative evidence and gated progression. This is repository evidence, not a claim that staging or production is deployed.
 
 - Milestones 8–11 / Sprints 21–32: merged curriculum, assessments, six paths, and Consultant validation.
 - Milestone 12 / Sprint 33: merged commercial entry-gate review; activation remains blocked.
-- Milestone 13 / Sprints 34–36: VPS-only privileged roles, separate developer portal, internal learner, elevation, and audit.
+- Milestone 13 / Sprints 34–36: Sprint 34 role/persistence/routing/internal-access implementation is merged with closure findings open; the separate developer portal, elevation, and audit remain pending.
 - Milestone 14 / Sprints 37–39: resume/queue/autosave, search/bookmarks, mastery/remediation, feedback, and spaced review.
 - Milestone 15 / Sprints 40–42: persistent security, staging/recovery, Midtrans, production, deployment, and live payment—last and separately gated.
 
-Read the [approved developer/learner design](docs/superpowers/specs/2026-09-07-developer-portal-and-learner-experience-design.md) and its detailed [developer](docs/superpowers/plans/2026-09-08-developer-operations-and-internal-accounts.md), [learner quality](docs/superpowers/plans/2026-09-08-learner-experience-and-mastery.md), and [final release](docs/superpowers/plans/2026-09-08-final-production-and-commercial-release.md) plans. Migration history still requires reconciliation before fresh-database reproducibility can be claimed; see [technical debt](docs/TECHNICAL_DEBT.md).
+Read the [approved developer/learner design](docs/superpowers/specs/2026-09-07-developer-portal-and-learner-experience-design.md) and its detailed [developer](docs/superpowers/plans/2026-09-08-developer-operations-and-internal-accounts.md), [learner quality](docs/superpowers/plans/2026-09-08-learner-experience-and-mastery.md), and [final release](docs/superpowers/plans/2026-09-08-final-production-and-commercial-release.md) plans. Fresh-database migration reproducibility is implemented in CI; retained-database upgrade rehearsal remains pending. See [technical debt](docs/TECHNICAL_DEBT.md).
 
 ---
 

@@ -27,6 +27,8 @@
 
 ## Sprint 34 — Role, Persistence, and Authorization Foundation
 
+> **Delivery update (2026-09-09):** Tasks 1–6 were merged through PR #45–#50. Sprint closure remains open because post-merge review found two High authorization gaps: the learning-path detail query must reuse the internal-learner access policy, and learner mutation APIs must enforce the centralized learner-role boundary. `PLAN.md` Tasks 34.7–34.9 own those corrections before Sprint 35 implementation.
+
 ### Task 1: Reconcile the migration baseline and add privileged-role persistence
 
 **Files:**
@@ -45,7 +47,7 @@
 - Produces: Prisma `UserRole`; `APP_ROLES`; `isLearnerRole(role)`; `isDeveloperRole(role)`.
 - Produces persistence for `DeveloperElevationSession`, `DeveloperAuditEvent`, and `SecurityEvent` used by later tasks.
 
-- [ ] **Step 1: Write failing role-contract tests**
+- [x] **Step 1: Write failing role-contract tests**
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -61,12 +63,12 @@ describe("role boundaries", () => {
 });
 ```
 
-- [ ] **Step 2: Run the focused test and confirm the missing-module failure**
+- [x] **Step 2: Run the focused test and confirm the missing-module failure**
 
 Run: `npx vitest run src/features/authorization/role.test.ts`
 Expected: FAIL because `src/features/authorization/role.ts` does not exist.
 
-- [ ] **Step 3: Add the enum and focused persistence models**
+- [x] **Step 3: Add the enum and focused persistence models**
 
 ```prisma
 enum UserRole {
@@ -130,12 +132,14 @@ Update `User.role` to `UserRole @default(LEARNER)` and add `authVersion Int @def
 
 - [ ] **Step 4: Establish the migration-history evidence gate**
 
+Delivery note: the fresh-database baseline and runbook were merged, but inspection/rehearsal against an explicitly approved retained environment has not been evidenced, so the complete step remains open.
+
 Read `_prisma_migrations` from each explicitly approved retained environment without mutation and compare checksums/schema with Git. If any retained environment applied the old files, do not rewrite or delete them; document and obtain a separate owner-approved forward/baselining procedure. If no retained environment uses them, create the reviewed complete baseline from empty. In both cases, the fresh path must succeed with `prisma migrate deploy` and a sanitized legacy fixture must prove schema/data parity. Never run `migrate reset` against retained data.
 
 Run: `npx prisma migrate diff --from-empty --to-schema prisma/schema.prisma --script`
 Expected: complete SQL for every current model, not only the new developer tables.
 
-- [ ] **Step 5: Change CI from schema push to migration deployment**
+- [x] **Step 5: Change CI from schema push to migration deployment**
 
 ```yaml
 - name: Apply database migrations
@@ -148,12 +152,14 @@ Keep seed after migration. Add a second disposable legacy-fixture job or script 
 
 - [ ] **Step 6: Verify persistence gates**
 
+Delivery note: fresh deployment and generated persistence coverage passed in CI; the representative retained/legacy identity-preservation portion remains unverified.
+
 Run: `npm run db:generate`
 Run: `npx vitest run src/features/authorization/role.test.ts src/features/authorization/persistence.test.ts`
 Run on disposable DB: `npm run db:deploy && npm run db:seed && npm run db:seed`
 Expected: generated enum types, fresh migration success, idempotent second seed, and preserved legacy fixture identities.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add prisma src/features/authorization .github/workflows/ci.yml
@@ -174,7 +180,7 @@ git commit -m "feat(auth): establish role and audit persistence"
 - Produces: `Actor`, `requireDeveloperActor()`, `requireLearnerActor()`, `getFreshActor()`.
 - Consumes: Prisma `UserRole` and existing `getSession()`.
 
-- [ ] **Step 1: Write failing guard tests for unauthenticated, stale-role, and cross-workspace access**
+- [x] **Step 1: Write failing guard tests for unauthenticated, stale-role, and cross-workspace access**
 
 ```ts
 expect(await requireActorForArea("developer", developerActor)).toMatchObject({
@@ -188,12 +194,12 @@ await expect(
 ).rejects.toMatchObject({ code: "FORBIDDEN" });
 ```
 
-- [ ] **Step 2: Confirm failure**
+- [x] **Step 2: Confirm failure**
 
 Run: `npx vitest run src/features/authorization/guards.test.ts`
 Expected: FAIL because the centralized guards do not exist.
 
-- [ ] **Step 3: Implement explicit projections and fresh database checks**
+- [x] **Step 3: Implement explicit projections and fresh database checks**
 
 ```ts
 export interface Actor {
@@ -214,12 +220,12 @@ export async function requireDeveloperActor(): Promise<Actor> {
 
 Do not return password, OAuth, reset, session, or 2FA-secret fields.
 
-- [ ] **Step 4: Run focused tests**
+- [x] **Step 4: Run focused tests**
 
 Run: `npx vitest run src/features/authorization/guards.test.ts src/lib/auth.test.ts`
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/features/authorization src/lib/auth.ts src/lib/auth.test.ts
@@ -242,7 +248,7 @@ git commit -m "feat(auth): enforce database-backed workspace roles"
 - Produces: `getPostLoginDestination(role): "/dashboard" | "/developer"`.
 - Consumes: fresh database role and existing password/TOTP verification.
 
-- [ ] **Step 1: Add malicious role-payload and OAuth-profile tests**
+- [x] **Step 1: Add malicious role-payload and OAuth-profile tests**
 
 ```ts
 it("ignores privileged role in public registration", async () => {
@@ -263,12 +269,12 @@ it("ignores privileged role in public registration", async () => {
 
 Also assert a database `DEVELOPER` is rejected from Google sign-in and credentials sign-in requires enabled 2FA.
 
-- [ ] **Step 2: Run and observe failure**
+- [x] **Step 2: Run and observe failure**
 
 Run: `npx vitest run src/features/auth/auth-route.test.ts src/features/auth/auth-options.test.ts src/features/auth/post-login.test.ts`
 Expected: FAIL because role forcing and role destinations are incomplete.
 
-- [ ] **Step 3: Implement safe defaults and remove automatic email linking**
+- [x] **Step 3: Implement safe defaults and remove automatic email linking**
 
 Set `role: "LEARNER"` explicitly on credentials registration. Remove `allowDangerousEmailAccountLinking: true`. In the sign-in callback, load the database user and reject Google account use when `role === "DEVELOPER"`.
 
@@ -278,12 +284,12 @@ export function getPostLoginDestination(role: UserRole) {
 }
 ```
 
-- [ ] **Step 4: Run focused auth tests**
+- [x] **Step 4: Run focused auth tests**
 
 Run: `npx vitest run src/features/auth`
 Expected: PASS with public users always ordinary learners.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/app/api/auth/register/route.ts src/features/auth

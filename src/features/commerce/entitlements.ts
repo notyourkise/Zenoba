@@ -39,7 +39,7 @@ export interface MyOrderItem {
 export async function resolveCourseAccess(
   { userId, courseId }: { userId: string; courseId: string },
   prisma: PrismaClient = defaultPrisma,
-): Promise<"FREE" | "ENTITLED" | "DENIED"> {
+): Promise<"FREE" | "ENTITLED" | "INTERNAL" | "DENIED"> {
   const course = await prisma.course.findUnique({
     where: { id: courseId },
     select: { id: true, accessTier: true },
@@ -47,6 +47,17 @@ export async function resolveCourseAccess(
 
   if (!course) return "DENIED";
   if (course.accessTier === "FREE") return "FREE";
+
+  const user = prisma.user
+    ? await prisma.user.findUnique({
+        where: { id: userId },
+        select: { role: true },
+      })
+    : null;
+
+  if (user?.role === "INTERNAL_LEARNER") {
+    return "INTERNAL";
+  }
 
   const entitlement = await prisma.entitlement.findUnique({
     where: {
@@ -69,6 +80,33 @@ export async function getMyLearning(
   userId: string,
   prisma: PrismaClient = defaultPrisma,
 ): Promise<MyLearningView> {
+  const user = prisma.user
+    ? await prisma.user.findUnique({
+        where: { id: userId },
+        select: { role: true },
+      })
+    : null;
+
+  if (user?.role === "INTERNAL_LEARNER") {
+    const allCourses = await prisma.course.findMany({
+      where: { catalogStatus: "AVAILABLE" },
+      include: { learningPath: { select: { slug: true } } },
+      orderBy: { orderIndex: "asc" },
+    });
+
+    return {
+      courses: allCourses.map((c) => ({
+        id: c.id,
+        slug: c.slug,
+        title: c.title,
+        track: c.track,
+        accessTier: c.accessTier as "FREE" | "PREMIUM",
+        learningPathSlug: c.learningPath?.slug,
+        description: c.description,
+      })),
+    };
+  }
+
   const [freeCourses, userEntitlements] = await Promise.all([
     prisma.course.findMany({
       where: { accessTier: "FREE", catalogStatus: "AVAILABLE" },

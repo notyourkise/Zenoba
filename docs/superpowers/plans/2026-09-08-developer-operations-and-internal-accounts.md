@@ -409,7 +409,7 @@ git commit -m "feat(auth): route accounts into isolated workspaces"
 - Produces: `ORDINARY_LEARNER_FILTER = { role: "LEARNER" }` and `isAnalyticsLearner(role)`.
 - Consumes: fresh user role in course-access decisions.
 
-- [ ] **Step 1: Write failing internal-access and exclusion tests**
+- [x] **Step 1: Write failing internal-access and exclusion tests**
 
 ```ts
 expect(
@@ -422,20 +422,20 @@ expect(isAnalyticsLearner("INTERNAL_LEARNER")).toBe(false);
 expect(isAnalyticsLearner("LEARNER")).toBe(true);
 ```
 
-- [ ] **Step 2: Confirm failure**
+- [x] **Step 2: Confirm failure**
 
 Run: `npx vitest run src/features/commerce/access.test.ts src/features/commerce/entitlements.test.ts src/features/analytics/cohort.test.ts`.
 
-- [ ] **Step 3: Implement one shared role-aware access path**
+- [x] **Step 3: Implement one shared role-aware access path**
 
 Extend the result union to `"FREE" | "ENTITLED" | "INTERNAL" | "DENIED"`. Query only user role and entitlement state. Do not create fake orders or entitlements for internal learners.
 
-- [ ] **Step 4: Run commerce and learning-access regressions**
+- [x] **Step 4: Run commerce and learning-access regressions**
 
 Run: `npx vitest run src/features/commerce src/features/learning/queries.test.ts src/features/learning/progress.test.ts`
 Expected: ordinary learner behavior unchanged; internal access passes.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/features/commerce src/features/analytics

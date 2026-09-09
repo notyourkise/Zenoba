@@ -1122,7 +1122,7 @@ Detailed executable plan: [Developer Operations and Internal Accounts](docs/supe
 
 **Sprint 34 closure findings — must resolve before Sprint 35 implementation:**
 
-- [ ] Task 34.7: Route learning-path detail access through the shared role-aware access policy so `INTERNAL_LEARNER` receives the promised all-course access when premium paths exist.
+- [x] Task 34.7: Route learning-path detail access through the shared role-aware access policy so `INTERNAL_LEARNER` receives the promised all-course access when premium paths exist.
 - [ ] Task 34.8: Enforce `requireLearnerActor()` / the centralized learner-area role boundary on learner mutation APIs so a `DEVELOPER` cannot bypass workspace isolation through direct requests.
 - [ ] Task 34.9: Add focused regression coverage, rerun the relevant/full gates, complete Sprint 34 review, and deliver through PR/CI and owner merge.
 

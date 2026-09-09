@@ -42,7 +42,7 @@ All notable project changes are recorded here.
   Reconciled roadmap, plan, product, technical-debt, curriculum, archived commerce, and handoff documentation against synchronized `main` after PR #50. Sprint 34 Tasks 34.1–34.6 are recorded as merged through PR #45–#50, while two post-merge High authorization findings remain open as Tasks 34.7–34.9 before Sprint 35. Corrected the current curriculum evidence from the stale 62 lessons/186 quizzes to 65 lessons/195 formative quizzes, recorded the completed fresh migration baseline and removal of unsafe OAuth linking, and retained honest limits for legacy upgrade and live integration verification. Payment/provider/deployment/live activation is consistently assigned as the final scope in Milestone 15 / Sprint 42. Historical entries remain unchanged.
   Files/areas: `ROADMAP.md`, `PLAN.md`, `README.md`, `PRODUCT.md`, `docs/TECHNICAL_DEBT.md`, `docs/HANDOFF.md`, curriculum validation, commerce planning/ADR records
   Validation: pre-edit unit baseline 95 files / 559 tests passed; changed-file scope, local links, stale-fact patterns, payment sequencing, malformed-text sentinels, complete diff, and `git diff --check` reviewed successfully
-  Git: pending
+  Git: `80a4b17`; PR #51
 
 - [2026-09-09 13:28 WITA] [ADDED] [Milestone 13 / Sprint 34 / Task 34.6]
   Implemented analytics-safe all-course access for internal learners:

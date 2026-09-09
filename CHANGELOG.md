@@ -38,6 +38,17 @@ All notable project changes are recorded here.
 
 # 2026-09-08
 
+- [2026-09-08 22:52 WITA] [ADDED] [Milestone 13 / Sprint 34 / Task 34.5]
+  Routed authentication flows into isolated workspaces via `/continue` and enforced boundary route guards:
+  - Created `src/app/(auth)/continue/page.tsx` server redirect route that resolves live database actor using `getFreshActor()` and directs developers to `/developer` and learners to `/dashboard` (preserving safe callbackUrls).
+  - Updated `src/features/auth/components/auth-modal.tsx` so both credentials and Google sign-in methods route through `/continue` while preserving requested safe callbackUrls.
+  - Hardened `src/middleware.ts` with optimistic boundary isolation: denies developer access to learner routes and denies learner access to `/developer`, redirecting unauthenticated requests on `/developer` to sign-in modal with callbackUrl.
+  - Hardened `src/app/(app)/layout.tsx` by integrating `requireLearnerActor()` for database-authoritative learner workspace enforcement.
+  - Added unit test suites for `ContinuePage` (`page.test.tsx`), `AppLayout` (`layout.test.tsx`), and cross-workspace assertions in `middleware.test.ts` and `auth-modal.test.tsx` (17 new test assertions).
+  Files/areas: `src/app/(auth)/continue/page.tsx`, `src/app/(auth)/continue/page.test.tsx`, `src/app/(app)/layout.tsx`, `src/app/(app)/layout.test.tsx`, `src/features/auth/components/auth-modal.tsx`, `src/features/auth/components/auth-modal.test.tsx`, `src/middleware.ts`, `src/middleware.test.ts`, `docs/superpowers/plans/2026-09-08-developer-operations-and-internal-accounts.md`
+  Validation: `npm run typecheck`, `npm run lint`, full unit test suite (94 test files / 550 tests passed), `npm run build` passed, `member-workspace.spec.ts` E2E passed.
+  Git: `codex/sprint-34-workspace-routing`
+
 - [2026-09-08 14:24 WITA] [ADDED] [Milestone 13 / Sprint 34 / Task 34.4]
   Implemented audited VPS-only role provisioning CLI and service:
   - Created `src/features/authorization/role-management.ts` providing `setUserRole` and `setUserRoleFromCli` with transactional safety.

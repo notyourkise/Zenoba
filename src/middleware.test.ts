@@ -147,4 +147,57 @@ describe("Middleware Route Guard & Session Invalidation (TD-01 & TD-08)", () => 
 
     expect(res.status).toBe(200);
   });
+
+  it("denies DEVELOPER requests to learner route /learn and redirects to /developer", async () => {
+    vi.mocked(getToken).mockResolvedValue({
+      id: "dev-1",
+      role: "DEVELOPER",
+      iat: Math.floor(Date.now() / 1000),
+    });
+
+    const req = createMockRequest("/learn");
+    const res = await middleware(req);
+
+    expect(res.status).toBe(307);
+    expect(res.headers.get("location")).toBe("https://netloka.biz.id/developer");
+  });
+
+  it("denies LEARNER requests to /developer and redirects to /dashboard", async () => {
+    vi.mocked(getToken).mockResolvedValue({
+      id: "learner-1",
+      role: "LEARNER",
+      iat: Math.floor(Date.now() / 1000),
+    });
+
+    const req = createMockRequest("/developer");
+    const res = await middleware(req);
+
+    expect(res.status).toBe(307);
+    expect(res.headers.get("location")).toBe("https://netloka.biz.id/dashboard");
+  });
+
+  it("redirects unauthenticated requests on /developer to sign-in modal with callbackUrl", async () => {
+    vi.mocked(getToken).mockResolvedValue(null);
+
+    const req = createMockRequest("/developer");
+    const res = await middleware(req);
+
+    expect(res.status).toBe(307);
+    const location = res.headers.get("location");
+    expect(location).toContain("/?auth=sign-in");
+    expect(location).toContain("callbackUrl=%2Fdeveloper");
+  });
+
+  it("allows authenticated DEVELOPER to access /developer", async () => {
+    vi.mocked(getToken).mockResolvedValue({
+      id: "dev-1",
+      role: "DEVELOPER",
+      iat: Math.floor(Date.now() / 1000),
+    });
+
+    const req = createMockRequest("/developer");
+    const res = await middleware(req);
+
+    expect(res.status).toBe(200);
+  });
 });

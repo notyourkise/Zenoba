@@ -25,6 +25,14 @@ function safeCallbackUrl(callbackUrl?: string): string {
   return getSafeAuthCallback(callbackUrl) ?? "/dashboard";
 }
 
+function getContinueDestination(callbackUrl?: string): string {
+  const safe = callbackUrl ? getSafeAuthCallback(callbackUrl) : null;
+  if (safe) {
+    return `/continue?callbackUrl=${encodeURIComponent(safe)}`;
+  }
+  return "/continue";
+}
+
 function authHref(mode: AuthMode, callbackUrl?: string): string {
   const parameters = new URLSearchParams({ auth: mode });
   if (callbackUrl) {
@@ -77,7 +85,7 @@ export function AuthModal({
   if (!mode) return null;
 
   const isSignIn = mode === "sign-in";
-  const destination = safeCallbackUrl(callbackUrl);
+  const destination = getContinueDestination(callbackUrl);
 
   const containFocus = (event: ReactKeyboardEvent<HTMLDivElement>) => {
     if (event.key !== "Tab") return;
@@ -177,7 +185,7 @@ export function AuthModal({
 
       const parameters = new URLSearchParams({
         auth: "sign-in",
-        ...(callbackUrl ? { callbackUrl: destination } : {}),
+        ...(callbackUrl ? { callbackUrl: safeCallbackUrl(callbackUrl) } : {}),
         registered: "true",
       });
       router.replace(`/?${parameters.toString()}`);

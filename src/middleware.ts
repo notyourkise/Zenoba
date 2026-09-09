@@ -37,6 +37,22 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(signInUrl);
   }
 
+  if (pathname === "/developer" || pathname.startsWith("/developer/")) {
+    if (!token || isRevoked) {
+      const signInUrl = new URL("/", request.url);
+      signInUrl.searchParams.set("auth", "sign-in");
+      signInUrl.searchParams.set("callbackUrl", pathname);
+      return NextResponse.redirect(signInUrl);
+    }
+    if (token.role !== "DEVELOPER") {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+  }
+
+  if (token && !isRevoked && token.role === "DEVELOPER" && isProtected) {
+    return NextResponse.redirect(new URL("/developer", request.url));
+  }
+
   if (token && !isRevoked && (pathname === "/" || pathname === "/sign-in" || pathname === "/sign-up")) {
     const destination = getPostLoginDestination(token.role as string);
     return NextResponse.redirect(new URL(destination, request.url));
@@ -61,5 +77,7 @@ export const config = {
     "/orders/:path*",
     "/sign-in",
     "/sign-up",
+    "/developer",
+    "/developer/:path*",
   ],
 };

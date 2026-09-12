@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
+import { requireLearnerActor, AuthorizationError } from "@/lib/auth";
 import { evaluateConsultantProject, ConsultantCaseRequirements } from "@/features/consultant/scoring/engine";
 import { awardXp } from "@/features/xp/ledger";
 import { prisma } from "@/lib/db/client";
@@ -76,10 +76,7 @@ export async function POST(
   props: { params: Promise<{ caseSlug: string }> }
 ) {
   try {
-    const user = await getCurrentUser();
-    if (!user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const user = await requireLearnerActor();
 
     const { caseSlug } = await props.params;
     const body = await request.json();
@@ -186,6 +183,13 @@ export async function POST(
       xpResult,
     });
   } catch (error) {
+    if (error instanceof AuthorizationError) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: error.status }
+      );
+    }
+
     console.error("Consultant submit error:", error);
     return NextResponse.json(
       { error: "Failed to evaluate consultant project proposal" },

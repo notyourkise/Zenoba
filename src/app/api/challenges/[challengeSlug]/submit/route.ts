@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
+import { requireLearnerActor, AuthorizationError } from "@/lib/auth";
 import { evaluateChallengeDiagnosis } from "@/features/challenges/engine";
 import { awardXp } from "@/features/xp/ledger";
 import { prisma } from "@/lib/db/client";
@@ -9,10 +9,7 @@ export async function POST(
   props: { params: Promise<{ challengeSlug: string }> }
 ) {
   try {
-    const user = await getCurrentUser();
-    if (!user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const actor = await requireLearnerActor();
 
     const { challengeSlug } = await props.params;
     const body = await request.json();
@@ -25,7 +22,7 @@ export async function POST(
     let xpResult = null;
     if (evaluation.passed) {
       xpResult = await awardXp(
-        user.id,
+        actor.id,
         150,
         "CHALLENGE_SOLVED",
         `challenge-${challengeSlug}`
@@ -40,7 +37,7 @@ export async function POST(
     if (challenge) {
       await prisma.challengeAttempt.create({
         data: {
-          userId: user.id,
+          userId: actor.id,
           challengeId: challenge.id,
           score: evaluation.score,
           passed: evaluation.passed,
@@ -58,6 +55,13 @@ export async function POST(
       xpResult,
     });
   } catch (error) {
+    if (error instanceof AuthorizationError) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: error.status }
+      );
+    }
+
     console.error("Challenge submit error:", error);
     return NextResponse.json(
       { error: "Failed to submit challenge diagnosis" },

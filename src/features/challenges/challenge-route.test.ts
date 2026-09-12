@@ -5,9 +5,13 @@ import * as authLib from "@/lib/auth";
 import * as xpLedger from "@/features/xp/ledger";
 import { prisma } from "@/lib/db/client";
 
-vi.mock("@/lib/auth", () => ({
-  getCurrentUser: vi.fn(),
-}));
+vi.mock("@/lib/auth", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/lib/auth")>();
+  return {
+    ...actual,
+    requireLearnerActor: vi.fn(),
+  };
+});
 
 vi.mock("@/features/xp/ledger", () => ({
   awardXp: vi.fn(),
@@ -47,7 +51,9 @@ describe("POST /api/challenges/submit", () => {
   };
 
   it("returns 401 when unauthorized", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce(null);
+    vi.mocked(authLib.requireLearnerActor).mockRejectedValueOnce(
+      new authLib.AuthorizationError("UNAUTHENTICATED", "Authentication required")
+    );
 
     const req = new Request("http://localhost:3000/api/challenges/submit", {
       method: "POST",
@@ -59,8 +65,25 @@ describe("POST /api/challenges/submit", () => {
     expect(res.status).toBe(401);
   });
 
+  it("returns 403 when actor is DEVELOPER", async () => {
+    vi.mocked(authLib.requireLearnerActor).mockRejectedValueOnce(
+      new authLib.AuthorizationError("FORBIDDEN", "Learner workspace access required")
+    );
+
+    const req = new Request("http://localhost:3000/api/challenges/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(validPassingSubmission),
+    });
+
+    const res = await challengeSubmitHandler(req);
+    expect(res.status).toBe(403);
+    const data = await res.json();
+    expect(data.error).toBe("Learner workspace access required");
+  });
+
   it("evaluates submission and awards XP when passed in standalone mode", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce({ role: "LEARNER" as const, authVersion: 1, twoFactorEnabled: false, name: "Learner",
       id: "user-1",
       email: "u@example.com",
     });
@@ -121,7 +144,7 @@ describe("POST /api/challenges/submit", () => {
   });
 
   it("rejects with 403 when submitted as isPathFinal: true and user has incomplete lessons", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce({ role: "LEARNER" as const, authVersion: 1, twoFactorEnabled: false, name: "Learner",
       id: "user-1",
       email: "u@example.com",
     });
@@ -163,7 +186,7 @@ describe("POST /api/challenges/submit", () => {
   });
 
   it("accepts and awards XP when submitted as isPathFinal: true and all 19 lessons are completed", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce({ role: "LEARNER" as const, authVersion: 1, twoFactorEnabled: false, name: "Learner",
       id: "user-1",
       email: "u@example.com",
     });
@@ -220,7 +243,7 @@ describe("POST /api/challenges/submit", () => {
   });
 
   it("handles idempotent replay gracefully when XP has already been awarded", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce({ role: "LEARNER" as const, authVersion: 1, twoFactorEnabled: false, name: "Learner",
       id: "user-1",
       email: "u@example.com",
     });
@@ -301,7 +324,7 @@ describe("POST /api/challenges/submit", () => {
     };
 
     it("evaluates school-room-allocation submission and awards 200 XP when passed", async () => {
-      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+      vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce({ role: "LEARNER" as const, authVersion: 1, twoFactorEnabled: false, name: "Learner",
         id: "user-2",
         email: "student@example.com",
       });
@@ -362,7 +385,7 @@ describe("POST /api/challenges/submit", () => {
     });
 
     it("rejects school-room-allocation with 403 when submitted as isPathFinal: true and user has incomplete lessons", async () => {
-      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+      vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce({ role: "LEARNER" as const, authVersion: 1, twoFactorEnabled: false, name: "Learner",
         id: "user-2",
         email: "student@example.com",
       });
@@ -403,7 +426,7 @@ describe("POST /api/challenges/submit", () => {
     });
 
     it("allows school-room-allocation when user completed all 10 lessons in path 2", async () => {
-      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+      vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce({ role: "LEARNER" as const, authVersion: 1, twoFactorEnabled: false, name: "Learner",
         id: "user-2",
         email: "student@example.com",
       });
@@ -468,7 +491,7 @@ describe("POST /api/challenges/submit", () => {
     };
 
     it("evaluates staff-guest-vlan-repair submission and awards 150 XP when passed", async () => {
-      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+      vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce({ role: "LEARNER" as const, authVersion: 1, twoFactorEnabled: false, name: "Learner",
         id: "user-3",
         email: "switchmaster@example.com",
       });
@@ -529,7 +552,7 @@ describe("POST /api/challenges/submit", () => {
     });
 
     it("rejects staff-guest-vlan-repair with 403 when submitted as isPathFinal: true and user has incomplete lessons", async () => {
-      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+      vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce({ role: "LEARNER" as const, authVersion: 1, twoFactorEnabled: false, name: "Learner",
         id: "user-3",
         email: "switchmaster@example.com",
       });
@@ -568,7 +591,7 @@ describe("POST /api/challenges/submit", () => {
     });
 
     it("allows staff-guest-vlan-repair when user completed all 8 lessons in path 3", async () => {
-      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+      vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce({ role: "LEARNER" as const, authVersion: 1, twoFactorEnabled: false, name: "Learner",
         id: "user-3",
         email: "switchmaster@example.com",
       });
@@ -634,7 +657,7 @@ describe("POST /api/challenges/submit", () => {
     };
 
     it("evaluates named-service-outage submission and awards XP when passed in standalone mode", async () => {
-      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+      vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce({ role: "LEARNER" as const, authVersion: 1, twoFactorEnabled: false, name: "Learner",
         id: "user-4",
         email: "u4@example.com",
       });
@@ -684,7 +707,7 @@ describe("POST /api/challenges/submit", () => {
     });
 
     it("blocks named-service-outage with 403 when prerequisites are incomplete as Path 4 Final", async () => {
-      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+      vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce({ role: "LEARNER" as const, authVersion: 1, twoFactorEnabled: false, name: "Learner",
         id: "user-4",
         email: "u4@example.com",
       });
@@ -727,7 +750,7 @@ describe("POST /api/challenges/submit", () => {
     });
 
     it("allows named-service-outage and persists to path-network-services-final when all 10 Path 4 lessons completed", async () => {
-      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+      vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce({ role: "LEARNER" as const, authVersion: 1, twoFactorEnabled: false, name: "Learner",
         id: "user-4",
         email: "u4@example.com",
       });
@@ -808,7 +831,7 @@ describe("POST /api/challenges/submit", () => {
     };
 
     it("evaluates multi-incident-investigation successfully and awards XP", async () => {
-      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+      vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce({ role: "LEARNER" as const, authVersion: 1, twoFactorEnabled: false, name: "Learner",
         id: "user-5",
         email: "troubleshooter@example.com",
       });
@@ -846,7 +869,7 @@ describe("POST /api/challenges/submit", () => {
     });
 
     it("rejects multi-incident path final when user has not completed all 8 lessons", async () => {
-      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+      vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce({ role: "LEARNER" as const, authVersion: 1, twoFactorEnabled: false, name: "Learner",
         id: "user-5",
         email: "troubleshooter@example.com",
       });
@@ -886,7 +909,7 @@ describe("POST /api/challenges/submit", () => {
     });
 
     it("allows multi-incident path final when user completed all 8 lessons, awards 200 XP", async () => {
-      vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
+      vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce({ role: "LEARNER" as const, authVersion: 1, twoFactorEnabled: false, name: "Learner",
         id: "user-5",
         email: "troubleshooter@example.com",
       });

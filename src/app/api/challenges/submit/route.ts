@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
+import { requireLearnerActor, AuthorizationError } from "@/lib/auth";
 import { z } from "zod";
 import { evaluateSupportChallenge } from "@/features/challenges/support-challenge";
 import { evaluateSchoolRoomAllocation } from "@/features/learning/practice/ipv4/room-allocation";
@@ -74,10 +74,7 @@ const challengeSubmitSchema = z.discriminatedUnion("challengeId", [
 
 export async function POST(request: Request) {
   try {
-    const user = await getCurrentUser();
-    if (!user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const user = await requireLearnerActor();
 
     const body = await request.json();
     const result = challengeSubmitSchema.safeParse(body);
@@ -773,6 +770,13 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   } catch (error) {
+    if (error instanceof AuthorizationError) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: error.status }
+      );
+    }
+
     console.error("Challenge submit error:", error);
     return NextResponse.json(
       { error: "Failed to evaluate challenge submission" },

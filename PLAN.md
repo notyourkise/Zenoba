@@ -1130,7 +1130,7 @@ Detailed executable plan: [Developer Operations and Internal Accounts](docs/supe
 
 ### Sprint 35 — Read-Only Developer Portal
 
-- [ ] Task 35.1: Build explicit, privacy-safe read models for overview, users, package/order history, learning, curriculum, system, security, and account views.
+- [x] Task 35.1: Build explicit, privacy-safe read models for overview, users, package/order history, learning, curriculum, system, security, and account views.
 - [ ] Task 35.2: Build the separate `/developer` shell and responsive/read-only pages with safe empty/error/loading states.
 - [ ] Task 35.3: Verify query performance, authorization, accessibility, responsive behavior, and safe logging.
 

@@ -38,6 +38,25 @@ All notable project changes are recorded here.
 
 # 2026-09-13
 
+- [2026-09-13 01:04 WITA] [ADDED] [Milestone 13 / Sprint 35 / Task 35.2]
+  Built the separate `/developer` operational workspace shell and responsive read-only pages with safe error, loading, and empty states:
+  - Created `src/features/developer/components/developer-shell.tsx`: text-led, keyboard-accessible, responsive navigation shell with active state indicators (`aria-current="page"`), developer identity & role badge, and mobile drawer without decorative icons or emojis.
+  - Implemented `/developer` layout (`src/app/(developer)/developer/layout.tsx`): protected by `requireDeveloperActor()`, rejecting unauthenticated requests with `401` and non-developer learners with `403 Forbidden`.
+  - Implemented `/developer` loading and error states (`loading.tsx`, `error.tsx`): accessible skeleton loading and privacy-safe error boundary without raw SQL/stack trace leakage.
+  - Implemented 7 server-rendered operational pages:
+    - Overview (`/developer`): metrics cards for ordinary vs internal learners, 7d/30d cohorts, 7d active learners, database latency, and curriculum summary.
+    - User Directory (`/developer/users`): search with query sanitization, role filter, pagination, and empty state.
+    - User Detail (`/developer/users/[userId]`): user profile, progress summary, active vs revoked entitlements, and immutable order history with complete secret redaction.
+    - Access & Package History (`/developer/access`): governance posture and Sprint 36 elevation roadmap notice.
+    - Curriculum Health (`/developer/curriculum`): catalog validation, integrity checks, and learning path breakdowns.
+    - System Health (`/developer/system`): database connectivity, Node.js runtime, memory allocation (RSS, Heap), and redacted environment checklist.
+    - Security Posture (`/developer/security`): workspace isolation guarantees, secret redaction invariants, and cohort filtering rules.
+    - Developer Account (`/developer/account`): active developer session identity, 2FA status, and session posture.
+  - Added comprehensive test coverage (`developer-shell.test.tsx`, `developer-pages.test.tsx`), bringing total test suite to 104 files and 612 passing tests.
+  Files/areas: `src/app/(developer)/`, `src/features/developer/components/`, `PLAN.md`
+  Validation: `npm run typecheck` passed (0 errors), `npm run lint` passed (0 warnings), `npm test` passed (104 test files / 612 tests passed), `npm run build` passed (43 routes compiled), `git diff --check` passed.
+  Git: `codex/sprint-35-developer-shell`
+
 - [2026-09-13 00:31 WITA] [ADDED] [Milestone 13 / Sprint 35 / Task 35.1]
   Built explicit, privacy-safe read models for developer portal overview, users, curriculum, and system:
   - Created `src/features/developer/overview/queries.ts` (`getDeveloperOverview`): aggregates ordinary vs internal learners, 7d/30d registration cohorts, 7d active learners, database latency/health, and curriculum summary via fault-tolerant `Promise.allSettled`.

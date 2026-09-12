@@ -36,6 +36,19 @@ All notable project changes are recorded here.
   Git: commit SHA and/or PR number when available
 ```
 
+# 2026-09-13
+
+- [2026-09-13 00:31 WITA] [ADDED] [Milestone 13 / Sprint 35 / Task 35.1]
+  Built explicit, privacy-safe read models for developer portal overview, users, curriculum, and system:
+  - Created `src/features/developer/overview/queries.ts` (`getDeveloperOverview`): aggregates ordinary vs internal learners, 7d/30d registration cohorts, 7d active learners, database latency/health, and curriculum summary via fault-tolerant `Promise.allSettled`.
+  - Created `src/features/developer/users/queries.ts` (`searchDeveloperUsers`, `getDeveloperUserDetail`, `getDeveloperUserPackageHistory`): supports bounded search (capped at 50, minimum 2 characters), strict projection completely omitting sensitive secrets (`passwordHash`, `twoFactorSecret`, backup codes, tokens), progress aggregation, and package/entitlement history distinguishing active vs revoked access.
+  - Created `src/features/developer/curriculum/health.ts` (`getCurriculumHealth`): validates curriculum integrity across 6 paths, 31 modules, 65 lessons, 195 formative quizzes, and 6 capstones.
+  - Created `src/features/developer/system/health.ts` (`getSystemHealth`): provides database connectivity check, memory metrics, uptime, and redacted environment inspection without exposing raw credentials.
+  - Added unit test suites covering all read models and secret-omission invariants (102 test files / 596 tests passing).
+  Files/areas: `src/features/developer/`, `PLAN.md`
+  Validation: `npm run typecheck`, `npm run lint`, `npm test` (102 test files / 596 tests passed), `npm run build` passed, `git diff --check`.
+  Git: `codex/sprint-35-read-models`
+
 # 2026-09-12
 
 - [2026-09-12 23:54 WITA] [SPRINT] [Milestone 13 / Sprint 34 / Task 34.9]

@@ -38,6 +38,17 @@ All notable project changes are recorded here.
 
 # 2026-09-12
 
+- [2026-09-12 23:54 WITA] [SPRINT] [Milestone 13 / Sprint 34 / Task 34.9]
+  Completed Sprint 34 closure review, resolved outstanding authorization findings, and verified all quality gates:
+  - Formally closed Sprint 34 (Role, Persistence, and Authorization Foundation). Tasks 34.1–34.8 merged via PR #45–#53.
+  - Resolved TD-16 (Task 34.7 / PR #52): `getLearningPathDetail()` consistently delegates to `requireLearningPathAccess` granting internal learners all-course access.
+  - Resolved TD-17 (Task 34.8 / PR #53): Enforced `requireLearnerActor()` across all 7 learner mutation APIs, denying `DEVELOPER` accounts with `403 Forbidden` (`Learner workspace access required`).
+  - Re-executed and verified full test gates: 98 test files / 579 unit/integration tests passed, typecheck passed (0 errors), lint passed (0 warnings), production build succeeded (36 routes compiled), and `git diff --check` passed.
+  - Advanced roadmap status to Sprint 35 (Read-Only Developer Portal) as the active next sprint.
+  Files/areas: `docs/TECHNICAL_DEBT.md`, `ROADMAP.md`, `PLAN.md`, `CHANGELOG.md`, `docs/HANDOFF.md`
+  Validation: `npm run typecheck`, `npm run lint`, `npm test` (98 test files / 579 tests passed), `npm run build` passed, `git diff --check`.
+  Git: `codex/sprint-34-closure`
+
 - [2026-09-12 23:16 WITA] [SECURITY] [Milestone 13 / Sprint 34 / Task 34.8]
   Enforced database-authoritative role boundary (`requireLearnerActor`) across all 7 learner mutation endpoints:
   - Protected `POST /api/learning/progress`, `POST /api/learning/quiz/submit`, `POST /api/learning/assessment/module`, `POST /api/labs/[labSlug]/submit`, `POST /api/challenges/submit`, `POST /api/challenges/[challengeSlug]/submit`, and `POST /api/consultant/[caseSlug]/submit`.

@@ -1118,15 +1118,15 @@ Detailed executable plan: [Developer Operations and Internal Accounts](docs/supe
 - [x] Task 34.5: Route the shared login to isolated learner/developer workspaces.
 - [x] Task 34.6: Give `INTERNAL_LEARNER` full learning access while excluding it from business/learner analytics.
 
-**Merged evidence:** PR #45–#50 are merged into `main`; PR #50 completed the sequence at merge commit `2f383b9` with all five applicable CI jobs passing.
+**Merged evidence:** Tasks 34.1–34.8 are merged into `main` via PR #45–#53 (PR #53 completed at merge commit `eca9066` with all applicable CI jobs passing).
 
-**Sprint 34 closure findings — must resolve before Sprint 35 implementation:**
+**Sprint 34 closure findings — resolved:**
 
-- [x] Task 34.7: Route learning-path detail access through the shared role-aware access policy so `INTERNAL_LEARNER` receives the promised all-course access when premium paths exist.
-- [x] Task 34.8: Enforce `requireLearnerActor()` / the centralized learner-area role boundary on learner mutation APIs so a `DEVELOPER` cannot bypass workspace isolation through direct requests.
-- [ ] Task 34.9: Add focused regression coverage, rerun the relevant/full gates, complete Sprint 34 review, and deliver through PR/CI and owner merge.
+- [x] Task 34.7: Route learning-path detail access through the shared role-aware access policy so `INTERNAL_LEARNER` receives the promised all-course access when premium paths exist. (Merged in PR #52).
+- [x] Task 34.8: Enforce `requireLearnerActor()` / the centralized learner-area role boundary on learner mutation APIs so a `DEVELOPER` cannot bypass workspace isolation through direct requests. (Merged in PR #53).
+- [x] Task 34.9: Add focused regression coverage, rerun the relevant/full gates, complete Sprint 34 review, and deliver through PR/CI and owner merge.
 
-**Acceptance:** No public/UI/HTTP path can grant a privileged role; stale JWT role cannot bypass current database role; developer and learner surfaces deny each other; internal learner access does not pollute cohorts.
+**Acceptance:** No public/UI/HTTP path can grant a privileged role; stale JWT role cannot bypass current database role; developer and learner surfaces deny each other; internal learner access does not pollute cohorts. All criteria satisfied and verified.
 
 ### Sprint 35 — Read-Only Developer Portal
 

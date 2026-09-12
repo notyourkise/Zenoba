@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { getCurrentUser } from "@/lib/auth";
+import { requireLearnerActor, AuthorizationError } from "@/lib/auth";
 import {
   startLessonProgress,
   completeLessonProgress,
@@ -15,10 +15,7 @@ const progressSchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    const user = await getCurrentUser();
-    if (!user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const actor = await requireLearnerActor();
 
     const body = await request.json();
     const result = progressSchema.safeParse(body);
@@ -33,7 +30,7 @@ export async function POST(request: Request) {
     const { lessonId, action } = result.data;
 
     if (action === "start") {
-      const progress = await startLessonProgress(user.id, lessonId);
+      const progress = await startLessonProgress(actor.id, lessonId);
       return NextResponse.json({
         message: "Lesson started",
         progress,
@@ -41,7 +38,7 @@ export async function POST(request: Request) {
     }
 
     if (action === "complete") {
-      const progress = await completeLessonProgress(user.id, lessonId);
+      const progress = await completeLessonProgress(actor.id, lessonId);
       return NextResponse.json({
         message: "Lesson completed",
         progress,
@@ -50,6 +47,13 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });
   } catch (error) {
+    if (error instanceof AuthorizationError) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: error.status }
+      );
+    }
+
     if (error instanceof CourseAccessDeniedError) {
       return NextResponse.json(
         { error: error.message, code: error.code },

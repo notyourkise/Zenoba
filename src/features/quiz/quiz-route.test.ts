@@ -10,9 +10,13 @@ import {
 } from "@/features/learning/assessment/errors";
 import { CourseAccessDeniedError } from "@/features/commerce/access";
 
-vi.mock("@/lib/auth", () => ({
-  getCurrentUser: vi.fn(),
-}));
+vi.mock("@/lib/auth", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/lib/auth")>();
+  return {
+    ...actual,
+    requireLearnerActor: vi.fn(),
+  };
+});
 
 vi.mock("@/features/learning/assessment/service", () => ({
   submitQuizAttempt: vi.fn(),
@@ -23,8 +27,19 @@ describe("POST /api/learning/quiz/submit", () => {
     vi.clearAllMocks();
   });
 
+  const mockLearnerActor = {
+    id: "u-1",
+    email: "u@example.com",
+    name: "Learner One",
+    role: "LEARNER" as const,
+    authVersion: 1,
+    twoFactorEnabled: false,
+  };
+
   it("returns 401 when unauthorized", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce(null);
+    vi.mocked(authLib.requireLearnerActor).mockRejectedValueOnce(
+      new authLib.AuthorizationError("UNAUTHENTICATED", "Authentication required")
+    );
 
     const req = new Request("http://localhost:3000/api/learning/quiz/submit", {
       method: "POST",
@@ -40,11 +55,29 @@ describe("POST /api/learning/quiz/submit", () => {
     expect(res.status).toBe(401);
   });
 
-  it("returns 400 when body payload is missing required fields", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
-      id: "u-1",
-      email: "u@example.com",
+  it("returns 403 when actor is DEVELOPER", async () => {
+    vi.mocked(authLib.requireLearnerActor).mockRejectedValueOnce(
+      new authLib.AuthorizationError("FORBIDDEN", "Learner workspace access required")
+    );
+
+    const req = new Request("http://localhost:3000/api/learning/quiz/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        lessonId: "intro-to-networking",
+        quizId: "quiz-wn-l1-q1",
+        answer: "opt-b",
+      }),
     });
+
+    const res = await quizSubmitHandler(req);
+    expect(res.status).toBe(403);
+    const data = await res.json();
+    expect(data.error).toBe("Learner workspace access required");
+  });
+
+  it("returns 400 when body payload is missing required fields", async () => {
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce(mockLearnerActor);
 
     const req = new Request("http://localhost:3000/api/learning/quiz/submit", {
       method: "POST",
@@ -57,10 +90,7 @@ describe("POST /api/learning/quiz/submit", () => {
   });
 
   it("returns 404 when question or lesson is not found", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
-      id: "u-1",
-      email: "u@example.com",
-    });
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce(mockLearnerActor);
 
     vi.mocked(assessmentService.submitQuizAttempt).mockRejectedValueOnce(
       new AssessmentNotFoundError("Pertanyaan kuis 'unknown' tidak ditemukan.")
@@ -81,10 +111,7 @@ describe("POST /api/learning/quiz/submit", () => {
   });
 
   it("returns 400 when quiz belongs to another lesson", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
-      id: "u-1",
-      email: "u@example.com",
-    });
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce(mockLearnerActor);
 
     vi.mocked(assessmentService.submitQuizAttempt).mockRejectedValueOnce(
       new AssessmentMismatchError("Kuis tidak terdaftar dalam materi ini.")
@@ -105,10 +132,7 @@ describe("POST /api/learning/quiz/submit", () => {
   });
 
   it("returns 403 when lesson is locked", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
-      id: "u-1",
-      email: "u@example.com",
-    });
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce(mockLearnerActor);
 
     vi.mocked(assessmentService.submitQuizAttempt).mockRejectedValueOnce(
       new AssessmentLockedError("Materi masih terkunci.")
@@ -129,10 +153,7 @@ describe("POST /api/learning/quiz/submit", () => {
   });
 
   it("returns 403 when learning path access is denied", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
-      id: "u-1",
-      email: "u@example.com",
-    });
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce(mockLearnerActor);
 
     vi.mocked(assessmentService.submitQuizAttempt).mockRejectedValueOnce(
       new CourseAccessDeniedError("Access denied")
@@ -153,10 +174,7 @@ describe("POST /api/learning/quiz/submit", () => {
   });
 
   it("returns 409 when requestId has conflict with different answer payload", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
-      id: "u-1",
-      email: "u@example.com",
-    });
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce(mockLearnerActor);
 
     vi.mocked(assessmentService.submitQuizAttempt).mockRejectedValueOnce(
       new AssessmentConflictError("Request ID telah digunakan untuk pengiriman berbeda.")
@@ -177,11 +195,8 @@ describe("POST /api/learning/quiz/submit", () => {
     expect(res.status).toBe(409);
   });
 
-  it("returns 200 with passed: true and score 10 on correct submission", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
-      id: "u-1",
-      email: "u@example.com",
-    });
+  it("returns 200 with passed: true and score 10 on correct submission for LEARNER", async () => {
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce(mockLearnerActor);
 
     vi.mocked(assessmentService.submitQuizAttempt).mockResolvedValueOnce({
       passed: true,
@@ -223,11 +238,46 @@ describe("POST /api/learning/quiz/submit", () => {
     });
   });
 
-  it("returns 200 with passed: false on nonempty wrong answer", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
-      id: "u-1",
-      email: "u@example.com",
+  it("returns 200 with passed: true for INTERNAL_LEARNER", async () => {
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce({
+      ...mockLearnerActor,
+      role: "INTERNAL_LEARNER",
     });
+
+    vi.mocked(assessmentService.submitQuizAttempt).mockResolvedValueOnce({
+      passed: true,
+      score: 10,
+      feedback: "Jawaban Anda tepat!",
+      explanation: "Penjelasan materi valid.",
+      xpResult: {
+        awarded: true,
+        amount: 10,
+        totalXp: 10,
+        message: "+10 XP",
+      },
+      isIdempotentReplay: false,
+    });
+
+    const req = new Request("http://localhost:3000/api/learning/quiz/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        lessonId: "intro-to-networking",
+        quizId: "quiz-wn-l1-q1",
+        answer: "opt-b",
+        requestId: "req-internal-1",
+      }),
+    });
+
+    const res = await quizSubmitHandler(req);
+    const data = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(data.passed).toBe(true);
+  });
+
+  it("returns 200 with passed: false on nonempty wrong answer", async () => {
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce(mockLearnerActor);
 
     vi.mocked(assessmentService.submitQuizAttempt).mockResolvedValueOnce({
       passed: false,

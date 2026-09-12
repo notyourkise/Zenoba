@@ -36,6 +36,18 @@ All notable project changes are recorded here.
   Git: commit SHA and/or PR number when available
 ```
 
+# 2026-09-12
+
+- [2026-09-12 23:16 WITA] [SECURITY] [Milestone 13 / Sprint 34 / Task 34.8]
+  Enforced database-authoritative role boundary (`requireLearnerActor`) across all 7 learner mutation endpoints:
+  - Protected `POST /api/learning/progress`, `POST /api/learning/quiz/submit`, `POST /api/learning/assessment/module`, `POST /api/labs/[labSlug]/submit`, `POST /api/challenges/submit`, `POST /api/challenges/[challengeSlug]/submit`, and `POST /api/consultant/[caseSlug]/submit`.
+  - Explicitly denies `DEVELOPER` accounts with `403 Forbidden` (`Learner workspace access required`), preventing workspace isolation bypass via direct API calls.
+  - Returns `401 Unauthorized` for unauthenticated callers; permits `LEARNER` and `INTERNAL_LEARNER`.
+  - Added regression test suites across all 7 endpoints (98 test files / 579 tests passing).
+  Files/areas: `src/app/api/challenges/`, `src/app/api/consultant/`, `src/app/api/labs/`, `src/app/api/learning/`, `src/features/challenges/`, `src/features/consultant/`, `src/features/labs/`, `src/features/learning/`, `src/features/quiz/`, `PLAN.md`
+  Validation: `npm run typecheck`, `npm run lint`, `npm test` (98 test files / 579 tests passed), `npm run build` passed, `git diff --check`.
+  Git: `codex/sprint-34-mutation-auth`
+
 # 2026-09-09
 
 - [2026-09-09 16:41 WITA] [FIXED] [Milestone 13 / Sprint 34 / Task 34.7]

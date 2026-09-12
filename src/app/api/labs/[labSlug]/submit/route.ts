@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
+import { requireLearnerActor, AuthorizationError } from "@/lib/auth";
 import { evaluateLabSubmission } from "@/features/labs/evaluator";
 import { awardXp } from "@/features/xp/ledger";
 import { prisma } from "@/lib/db/client";
@@ -9,10 +9,7 @@ export async function POST(
   props: { params: Promise<{ labSlug: string }> }
 ) {
   try {
-    const user = await getCurrentUser();
-    if (!user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const actor = await requireLearnerActor();
 
     const { labSlug } = await props.params;
     const body = await request.json();
@@ -22,7 +19,7 @@ export async function POST(
     let xpResult = null;
     if (evaluation.passed) {
       xpResult = await awardXp(
-        user.id,
+        actor.id,
         100,
         "LAB_COMPLETED",
         `lab-${labSlug}`
@@ -37,7 +34,7 @@ export async function POST(
     if (lab) {
       await prisma.labAttempt.create({
         data: {
-          userId: user.id,
+          userId: actor.id,
           labId: lab.id,
           score: evaluation.score,
           passed: evaluation.passed,
@@ -54,6 +51,13 @@ export async function POST(
       xpResult,
     });
   } catch (error) {
+    if (error instanceof AuthorizationError) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: error.status }
+      );
+    }
+
     console.error("Lab submit error:", error);
     return NextResponse.json(
       { error: "Failed to evaluate lab submission" },

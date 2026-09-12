@@ -4,9 +4,13 @@ import * as authLib from "@/lib/auth";
 import * as progressService from "@/features/learning/progress";
 import { CourseAccessDeniedError } from "@/features/commerce/access";
 
-vi.mock("@/lib/auth", () => ({
-  getCurrentUser: vi.fn(),
-}));
+vi.mock("@/lib/auth", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/lib/auth")>();
+  return {
+    ...actual,
+    requireLearnerActor: vi.fn(),
+  };
+});
 
 vi.mock("@/features/learning/progress", () => ({
   startLessonProgress: vi.fn(),
@@ -18,8 +22,19 @@ describe("POST /api/learning/progress", () => {
     vi.clearAllMocks();
   });
 
+  const mockLearnerActor = {
+    id: "u-1",
+    email: "u@example.com",
+    name: "Learner One",
+    role: "LEARNER" as const,
+    authVersion: 1,
+    twoFactorEnabled: false,
+  };
+
   it("returns 401 when unauthorized", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce(null);
+    vi.mocked(authLib.requireLearnerActor).mockRejectedValueOnce(
+      new authLib.AuthorizationError("UNAUTHENTICATED", "Authentication required")
+    );
 
     const req = new Request("http://localhost:3000/api/learning/progress", {
       method: "POST",
@@ -31,11 +46,25 @@ describe("POST /api/learning/progress", () => {
     expect(res.status).toBe(401);
   });
 
-  it("returns 400 on invalid input action", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
-      id: "u-1",
-      email: "u@example.com",
+  it("returns 403 when actor is DEVELOPER", async () => {
+    vi.mocked(authLib.requireLearnerActor).mockRejectedValueOnce(
+      new authLib.AuthorizationError("FORBIDDEN", "Learner workspace access required")
+    );
+
+    const req = new Request("http://localhost:3000/api/learning/progress", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ lessonId: "l-1", action: "start" }),
     });
+
+    const res = await progressHandler(req);
+    expect(res.status).toBe(403);
+    const data = await res.json();
+    expect(data.error).toBe("Learner workspace access required");
+  });
+
+  it("returns 400 on invalid input action", async () => {
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce(mockLearnerActor);
 
     const req = new Request("http://localhost:3000/api/learning/progress", {
       method: "POST",
@@ -47,10 +76,32 @@ describe("POST /api/learning/progress", () => {
     expect(res.status).toBe(400);
   });
 
-  it("calls startLessonProgress on action start", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
-      id: "u-1",
-      email: "u@example.com",
+  it("calls startLessonProgress on action start for LEARNER", async () => {
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce(mockLearnerActor);
+
+    vi.mocked(progressService.startLessonProgress).mockResolvedValueOnce({
+      id: "p-1",
+      status: "IN_PROGRESS",
+    });
+
+    const req = new Request("http://localhost:3000/api/learning/progress", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ lessonId: "l-1", action: "start" }),
+    });
+
+    const res = await progressHandler(req);
+    const data = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(data.message).toBe("Lesson started");
+    expect(progressService.startLessonProgress).toHaveBeenCalledWith("u-1", "l-1");
+  });
+
+  it("calls startLessonProgress on action start for INTERNAL_LEARNER", async () => {
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce({
+      ...mockLearnerActor,
+      role: "INTERNAL_LEARNER",
     });
 
     vi.mocked(progressService.startLessonProgress).mockResolvedValueOnce({
@@ -73,10 +124,7 @@ describe("POST /api/learning/progress", () => {
   });
 
   it("calls completeLessonProgress on action complete", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
-      id: "u-1",
-      email: "u@example.com",
-    });
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce(mockLearnerActor);
 
     vi.mocked(progressService.completeLessonProgress).mockResolvedValueOnce({
       id: "p-1",
@@ -101,10 +149,7 @@ describe("POST /api/learning/progress", () => {
   });
 
   it("returns 403 when trying to start a locked lesson", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
-      id: "u-1",
-      email: "u@example.com",
-    });
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce(mockLearnerActor);
 
     vi.mocked(progressService.startLessonProgress).mockRejectedValueOnce(
       new Error("Cannot start a locked lesson. Prerequisite required.")
@@ -121,10 +166,7 @@ describe("POST /api/learning/progress", () => {
   });
 
   it("returns 403 with code COURSE_ACCESS_DENIED on unentitled premium course", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
-      id: "u-1",
-      email: "u@example.com",
-    });
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce(mockLearnerActor);
 
     vi.mocked(progressService.startLessonProgress).mockRejectedValueOnce(
       new CourseAccessDeniedError(),
@@ -143,10 +185,7 @@ describe("POST /api/learning/progress", () => {
   });
 
   it("returns 403 with code ASSESSMENT_INCOMPLETE when formative assessment criteria not met", async () => {
-    vi.mocked(authLib.getCurrentUser).mockResolvedValueOnce({
-      id: "u-1",
-      email: "u@example.com",
-    });
+    vi.mocked(authLib.requireLearnerActor).mockResolvedValueOnce(mockLearnerActor);
 
     const { AssessmentIncompleteError } = await import("@/features/learning/assessment/errors");
     vi.mocked(progressService.completeLessonProgress).mockRejectedValueOnce(

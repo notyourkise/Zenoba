@@ -735,18 +735,18 @@ Required gates remain: real published access-guarded premium content; owner-appr
 
 **Goal:** Add VPS-only privileged roles, an isolated developer portal, internal learner access, safe read models, and elevated audited entitlement management.
 
-### Sprint 34 — Role, Persistence, and Authorization Foundation — IMPLEMENTATION MERGED / REVIEW FINDINGS OPEN
+### Sprint 34 — Role, Persistence, and Authorization Foundation — ✅ COMPLETE
 
 - Reconcile the migration baseline before adding typed `LEARNER`, `INTERNAL_LEARNER`, and `DEVELOPER` roles.
 - Force every public email/Google registration to `LEARNER`; allow privileged assignment only through a VPS CLI.
 - Route the shared login by database-authoritative role and isolate developer and learner workspaces.
 - Give internal learners full curriculum access while excluding them from learner/business analytics.
 
-**Merged evidence:** Tasks 34.1–34.6 were merged through PR #45–#50; local `main` synchronized to merge commit `2f383b9`, and all five applicable PR #50 CI jobs passed.
+**Merged evidence:** Tasks 34.1–34.8 were merged through PR #45–#53; local `main` synchronized to merge commit `eca9066`, and all applicable CI jobs passed. Closure findings (TD-16 and TD-17) were resolved via PR #52 and PR #53.
 
-**Closure findings:** Sprint 34 is not closed yet. The direct learning-path detail query does not consistently reuse the shared internal-learner access resolver for future premium paths, and learner mutation APIs do not yet enforce the centralized learner-role guard against direct developer requests. These High findings must be resolved and verified before dependent Sprint 35 work.
+**Closure review:** Sprint 34 is closed. Task 34.7 routed learning-path detail access through `requireLearningPathAccess` so internal learners receive all-course access. Task 34.8 enforced `requireLearnerActor()` and `AuthorizationError` (`403 Forbidden`) across all 7 learner mutation APIs, closing workspace isolation bypass. Full regression suite (98 test files / 579 unit/integration tests) passes.
 
-### Sprint 35 — Read-Only Developer Portal — PLANNED / NEXT AFTER SPRINT 34 FINDINGS
+### Sprint 35 — Read-Only Developer Portal — ACTIVE / NEXT
 
 - Add an independent `/developer` shell and read-only overview, users, access/package history, learning analytics, curriculum health, system health, security, and account views.
 - Keep curriculum/source and system operations read-only on the web; operational changes remain VPS-only.
@@ -817,7 +817,7 @@ Reviewed M0–M6 foundation + merged M7 application baseline
     → M15 / S40–42: persistent security, staging/recovery, gateway and controlled release
 ```
 
-M7 application work remains historical evidence; its staging/production exit criteria are now owned by M15. M13 is active: Sprint 34 closure findings precede Sprint 35. A sprint has exactly one milestone owner; later milestones require the preceding review gates. Gateway, production, deployment, and live payment are deliberately last in Sprint 42.
+M7 application work remains historical evidence; its staging/production exit criteria are now owned by M15. M13 is active: Sprint 34 is complete, Sprint 35 is next. A sprint has exactly one milestone owner; later milestones require the preceding review gates. Gateway, production, deployment, and live payment are deliberately last in Sprint 42.
 
 ---
 

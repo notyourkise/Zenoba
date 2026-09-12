@@ -1,44 +1,37 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-12 23:16 WITA**. Read `AGENTS.md` and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-09-12 23:54 WITA**. Read `AGENTS.md` and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
 
 ## 1. Current Task and Authority
 
 - Product: Interactive IT infrastructure learning platform; Networking is the first available curriculum.
-- Active milestone/sprint: **Milestone 13 / Sprint 34 closure review**. Sprint 34 Tasks 34.1–34.7 are merged; Milestone 13 remains active.
-- Task: **Task 34.8: Enforce `requireLearnerActor()` on learner mutation APIs**.
+- Active milestone/sprint: **Milestone 13 / Sprint 34 Formally Closed -> Sprint 35 Active Next**.
+- Task: **Task 34.9: Sprint 34 Closure Review & Full Gates**.
 - Scope delivered:
-  1. Enforced database-authoritative role boundary (`requireLearnerActor`) and `AuthorizationError` handling across all 7 learner mutation endpoints:
-     - `POST /api/learning/progress`
-     - `POST /api/learning/quiz/submit`
-     - `POST /api/learning/assessment/module`
-     - `POST /api/labs/[labSlug]/submit`
-     - `POST /api/challenges/submit`
-     - `POST /api/challenges/[challengeSlug]/submit`
-     - `POST /api/consultant/[caseSlug]/submit`
-  2. Verified `DEVELOPER` role accounts are denied with `403 Forbidden` (`Learner workspace access required`), preventing workspace isolation bypass via direct API requests.
-  3. Verified unauthenticated callers receive `401 Unauthorized`.
-  4. Verified `LEARNER` and `INTERNAL_LEARNER` accounts proceed normally.
-  5. Added/updated regression test suites across all 7 endpoints (98 test files / 579 tests passing).
+  1. Formally closed Sprint 34 (Role, Persistence, and Authorization Foundation). Tasks 34.1–34.8 merged into `main` via PR #45–#53 (merge commit `eca9066`).
+  2. Resolved post-merge findings TD-16 (Task 34.7 / PR #52) and TD-17 (Task 34.8 / PR #53) in `docs/TECHNICAL_DEBT.md`.
+  3. Re-executed and verified all quality gates: 98 test files / 579 tests passing, typecheck clean, lint clean, production build clean (36 routes compiled), `git diff --check` clean.
+  4. Advanced roadmap status in `ROADMAP.md` (Sprint 34 complete, Sprint 35 active next) and marked Task 34.9 complete in `PLAN.md`.
 - **Phase:** Implemented and locally verified against all quality gates. Ready for PR creation.
 
 ## 2. Verified Repository Checkpoint
 
 | Item | Verified state |
 | --- | --- |
-| Main checkout | `C:/laragon/www/netloka`, clean `main` at `72eb9a3` |
-| Origin | `origin/main` at `72eb9a3`; local `main` synchronized |
-| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-sprint-34-mutation-auth` |
-| Task branch | `codex/sprint-34-mutation-auth` |
-| Base commit | `72eb9a3` (Merge pull request #52 from notyourkise/codex/sprint-34-internal-path-access) |
+| Main checkout | `C:/laragon/www/netloka`, clean `main` at `eca9066` |
+| Origin | `origin/main` at `eca9066`; local `main` synchronized |
+| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-sprint-34-closure` |
+| Task branch | `codex/sprint-34-closure` |
+| Base commit | `eca9066` (Merge pull request #53 from notyourkise/codex/sprint-34-mutation-auth) |
 | Retained worktrees | `C:/laragon/www/netloka/.worktrees/codex-fix-m0-sprint-0` (`docs/staging-progress`, do not delete) |
 | Background dev server | `task-6717` active and healthy on `http://localhost:3000` |
 
 ## 3. Sprint 34 Closure Status
 
-- **Task 34.7:** Merged (PR #52).
-- **Task 34.8:** Resolved. `requireLearnerActor()` enforced on all 7 mutation endpoints.
-- **Task 34.9:** Pending. Final regression coverage, full gates, and Sprint 34 closure review.
+- **Tasks 34.1–34.6:** Merged (PR #45–#50).
+- **Task 34.7:** Merged (PR #52, resolved TD-16).
+- **Task 34.8:** Merged (PR #53, resolved TD-17).
+- **Task 34.9:** Resolved. Full gates verified, technical debt updated, documentation reconciled, Sprint 34 formally complete.
 
 ## 4. Verification Evidence and Limits
 
@@ -51,8 +44,8 @@ Last updated: **2026-09-12 23:16 WITA**. Read `AGENTS.md` and verify live Git/PR
 
 ## 5. Next Actions
 
-1. Commit and push task branch `codex/sprint-34-mutation-auth`.
+1. Commit and push task branch `codex/sprint-34-closure`.
 2. Open PR via `gh pr create` targeting `main`.
 3. Verify all 5 CI jobs green on GitHub Actions.
 4. Submit PR for review and merge by Abangku.
-5. After merge and synchronization, proceed to Task 34.9 (Sprint 34 closure review, full gates, and final regression).
+5. After merge and synchronization, start Sprint 35 (Read-Only Developer Portal) beginning with Task 35.1.

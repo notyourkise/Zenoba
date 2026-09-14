@@ -5,7 +5,7 @@
 > **Product:** Interactive IT infrastructure learning platform
 > **Primary audience:** SMK TKJ students, beginners, and learners preparing for practical network, sysadmin, security, cloud, and field-infrastructure work
 > **Core experience:** Learn → Interact → Practice → Challenge → Consultant Project  
-> **Status:** Milestones 0–6 historically delivered; Milestone 7 application foundation implemented with live operations deferred; Milestones 8–12 and Sprint 34 merged; Milestone 13 remains active with Sprint 34 closure findings open and Sprint 35 next; gateway, deployment, production, and live payment remain last in Milestone 15 / Sprint 42
+> **Status:** Milestones 0–6 historically delivered; Milestone 7 application foundation implemented with live operations deferred; Milestones 8–12, Sprint 34, and Sprint 35 merged/complete; Milestone 13 remains active with Sprint 36 next; gateway, deployment, production, and live payment remain last in Milestone 15 / Sprint 42
 > **Timezone for project logs:** WITA / GMT+8
 
 ---
@@ -746,12 +746,16 @@ Required gates remain: real published access-guarded premium content; owner-appr
 
 **Closure review:** Sprint 34 is closed. Task 34.7 routed learning-path detail access through `requireLearningPathAccess` so internal learners receive all-course access. Task 34.8 enforced `requireLearnerActor()` and `AuthorizationError` (`403 Forbidden`) across all 7 learner mutation APIs, closing workspace isolation bypass. Full regression suite (98 test files / 579 unit/integration tests) passes.
 
-### Sprint 35 — Read-Only Developer Portal — ACTIVE / NEXT
+### Sprint 35 — Read-Only Developer Portal — ✅ COMPLETE
 
 - Add an independent `/developer` shell and read-only overview, users, access/package history, learning analytics, curriculum health, system health, security, and account views.
 - Keep curriculum/source and system operations read-only on the web; operational changes remain VPS-only.
 
-### Sprint 36 — Elevation, Entitlements, and Audit — PLANNED
+**Merged evidence:** Tasks 35.1–35.2 were merged through PR #55 and PR #56; local `main` synchronized to merge commit `c61465a`, and all applicable CI jobs passed.
+
+**Closure review:** Sprint 35 is closed. Task 35.1 built safe, privacy-bounded read models completely omitting credentials. Task 35.2 implemented the independent `/developer` shell, layout protection with `requireDeveloperActor()`, accessible loading/error boundaries, and 7 operational read-only views. Task 35.3 verified query bounding, cross-workspace isolation, secret redaction, and accessibility invariants. Full regression suite (105 test files / 622 unit/integration tests) passes.
+
+### Sprint 36 — Elevation, Entitlements, and Audit — ACTIVE / NEXT
 
 - Require password plus mandatory 2FA for a short elevated developer session.
 - Permit package grant/revoke only with a written reason and atomic immutable audit evidence.

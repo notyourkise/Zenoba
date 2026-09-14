@@ -36,6 +36,22 @@ All notable project changes are recorded here.
   Git: commit SHA and/or PR number when available
 ```
 
+# 2026-09-14
+
+- [2026-09-14 13:43 WITA] [SPRINT] [Milestone 13 / Sprint 35 / Task 35.3]
+  Completed Sprint 35 closure review, verified query bounding, workspace isolation, secret redaction, and accessibility:
+  - Formally closed Sprint 35 (Read-Only Developer Portal). Tasks 35.1–35.2 merged into `main` via PR #55 and PR #56 (merge commit `c61465a`).
+  - Added comprehensive verification test suite (`src/features/developer/verification.test.tsx`):
+    1. Query Bounding: Verified `searchDeveloperUsers` limit is capped at 50, requires >= 2 characters unless role filter active, and `getDeveloperOverview` handles database latency spikes gracefully via `Promise.allSettled`.
+    2. Authorization & Workspace Isolation: Verified `requireDeveloperActor()` denies unauthenticated sessions (`401`) and standard/internal learners (`403 Forbidden`); verified `requireLearnerActor()` denies developer accounts.
+    3. Secret Redaction: Verified user search DTOs omit `passwordHash`, `twoFactorSecret`, backup codes, and session tokens; verified system health check redacts credentials with `[CONFIGURED / REDACTED]`.
+    4. Icon Policy & Accessibility: Verified absence of decorative emojis/unauthorized icons in developer shell, verified presence of semantic landmarks, `aria-current="page"`, accessible dialogs, and keyboard focus attributes.
+  - Re-executed and verified full quality gates: 105 test files / 622 unit/integration tests passed (100%), typecheck passed (0 errors), lint passed (0 warnings/errors), production build succeeded (43 routes compiled), and `git diff --check` clean.
+  - Advanced roadmap status: Sprint 35 marked complete, Sprint 36 (Elevation, Entitlements, and Audit) marked active next.
+  Files/areas: `src/features/developer/`, `PLAN.md`, `ROADMAP.md`
+  Validation: `npm run typecheck`, `npm run lint`, `npm test` (105 files / 622 tests), `npm run build` (43 routes compiled), `git diff --check`.
+  Git: `codex/sprint-35-closure`
+
 # 2026-09-13
 
 - [2026-09-13 01:04 WITA] [ADDED] [Milestone 13 / Sprint 35 / Task 35.2]

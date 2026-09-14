@@ -771,9 +771,9 @@ Required gates remain: real published access-guarded premium content; owner-appr
 
 ## Milestone 14 — Learner Experience and Mastery Quality — ACTIVE / NEXT
 
-### Sprint 37 — Continuity and Daily Comfort — PLANNED
+### Sprint 37 — Continuity and Daily Comfort — ACTIVE (Task 37.1 Complete)
 
-- Exact resume and prioritized learning queue.
+- Exact resume and prioritized learning queue (Task 37.1 complete).
 - Safe autosave drafts, consistent lesson navigation/errors, curriculum search, and bookmarks.
 
 ### Sprint 38 — Mastery, Remediation, and Feedback — PLANNED

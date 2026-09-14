@@ -9,11 +9,9 @@ import {
   LessonWithStatus,
   ModuleWithLessons,
 } from "./types";
-import {
-  CourseAccessDeniedError,
-  requireLearningPathAccess,
-} from "@/features/commerce/access";
+import { CourseAccessDeniedError, requireLearningPathAccess } from "@/features/commerce/access";
 import { getCurriculumModule } from "./content/registry";
+import { LearningGraph } from "./continuation";
 
 /**
  * Get all published learning paths with user progress.
@@ -300,5 +298,64 @@ export async function getLessonDetail(
           status: nextLesson.status,
         }
       : null,
+  };
+}
+
+/**
+ * Retrieve the full published curriculum hierarchy formatted as a LearningGraph.
+ */
+export async function getCurriculumGraph(): Promise<LearningGraph> {
+  const paths = await prisma.learningPath.findMany({
+    where: { published: true },
+    orderBy: { orderIndex: "asc" },
+    include: {
+      modules: {
+        where: { published: true },
+        orderBy: { orderIndex: "asc" },
+        include: {
+          lessons: {
+            where: { published: true },
+            orderBy: { orderIndex: "asc" },
+            include: {
+              prerequisites: {
+                select: { prerequisiteId: true },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return {
+    paths: paths.map((path) => ({
+      id: path.id,
+      slug: path.slug,
+      title: path.title,
+      orderIndex: path.orderIndex,
+      modules: path.modules.map((mod) => {
+        const curriculumMod =
+          getCurriculumModule(mod.slug) || getCurriculumModule(mod.id);
+        const assessmentId =
+          curriculumMod?.finalAssessment?.assessmentId ?? null;
+
+        return {
+          id: mod.id,
+          slug: mod.slug,
+          title: mod.title,
+          orderIndex: mod.orderIndex,
+          assessmentId,
+          lessons: mod.lessons.map((lesson) => ({
+            id: lesson.id,
+            slug: lesson.slug,
+            title: lesson.title,
+            orderIndex: lesson.orderIndex,
+            prerequisiteLessonIds: lesson.prerequisites.map(
+              (p) => p.prerequisiteId
+            ),
+          })),
+        };
+      }),
+    })),
   };
 }

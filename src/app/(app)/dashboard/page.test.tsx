@@ -14,19 +14,30 @@ vi.mock("@/features/learning/queries", () => ({
   getLearningPathsWithProgress: vi.fn(),
 }));
 
+vi.mock("@/features/dashboard/queries", () => ({
+  getDashboardContinuationData: vi.fn(),
+}));
+
 import { getCurrentUser } from "@/lib/auth";
 import { getUserProgressSummary } from "@/features/learning/progress";
 import { getLearningPathsWithProgress } from "@/features/learning/queries";
+import { getDashboardContinuationData } from "@/features/dashboard/queries";
 
 type MockUser = NonNullable<Awaited<ReturnType<typeof getCurrentUser>>>;
 
 const mockGetCurrentUser = vi.mocked(getCurrentUser);
 const mockGetUserProgressSummary = vi.mocked(getUserProgressSummary);
 const mockGetLearningPathsWithProgress = vi.mocked(getLearningPathsWithProgress);
+const mockGetDashboardContinuationData = vi.mocked(getDashboardContinuationData);
 
 describe("DashboardPage (Cosmic Orbital Workspace)", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockGetDashboardContinuationData.mockResolvedValue({
+      primaryAction: null,
+      queue: [],
+      isComplete: false,
+    });
   });
 
   it("renders active path with cosmic hero, stat cards, progress donut, and practice cards", async () => {
@@ -61,6 +72,30 @@ describe("DashboardPage (Cosmic Orbital Workspace)", () => {
         progressPercent: 42,
       },
     ]);
+
+    mockGetDashboardContinuationData.mockResolvedValue({
+      primaryAction: {
+        kind: "RESUME",
+        href: "/learn/network-foundations",
+        title: "Network Foundations",
+        moduleTitle: "Welcome to Networking",
+        pathTitle: "Network Foundations",
+        reason: "Lanjutkan pelajaran yang sedang berlangsung",
+        priority: 2,
+      },
+      queue: [
+        {
+          kind: "RESUME",
+          href: "/learn/network-foundations",
+          title: "Network Foundations",
+          moduleTitle: "Welcome to Networking",
+          pathTitle: "Network Foundations",
+          reason: "Lanjutkan pelajaran yang sedang berlangsung",
+          priority: 2,
+        },
+      ],
+      isComplete: false,
+    });
 
     const ui = await DashboardPage();
     render(ui);
@@ -140,13 +175,27 @@ describe("DashboardPage (Cosmic Orbital Workspace)", () => {
       },
     ]);
 
+    mockGetDashboardContinuationData.mockResolvedValue({
+      primaryAction: {
+        kind: "NEXT_LESSON",
+        href: "/learn/network-foundations",
+        title: "Network Foundations",
+        moduleTitle: "Welcome to Networking",
+        pathTitle: "Network Foundations",
+        reason: "Pelajaran berikutnya yang siap dipelajari",
+        priority: 4,
+      },
+      queue: [],
+      isComplete: false,
+    });
+
     const ui = await DashboardPage();
     render(ui);
 
     // Primary action is Mulai Belajar
-    const startLink = screen.getByRole("link", { name: /Mulai Belajar/i });
-    expect(startLink).toBeInTheDocument();
-    expect(startLink).toHaveAttribute("href", "/learn/network-foundations");
+    const startLinks = screen.getAllByRole("link", { name: /Mulai Belajar/i });
+    expect(startLinks.length).toBeGreaterThanOrEqual(1);
+    expect(startLinks[0]).toHaveAttribute("href", "/learn/network-foundations");
 
     // Truthful progress metrics visible
     expect(screen.getByText(/0 dari 24 pelajaran selesai/i)).toBeInTheDocument();
@@ -170,6 +219,11 @@ describe("DashboardPage (Cosmic Orbital Workspace)", () => {
     });
 
     mockGetLearningPathsWithProgress.mockResolvedValue([]);
+    mockGetDashboardContinuationData.mockResolvedValue({
+      primaryAction: null,
+      queue: [],
+      isComplete: false,
+    });
 
     const ui = await DashboardPage();
     render(ui);
@@ -184,5 +238,126 @@ describe("DashboardPage (Cosmic Orbital Workspace)", () => {
 
     // Metrics visible
     expect(screen.getByText(/0 dari 15 pelajaran selesai/i)).toBeInTheDocument();
+  });
+
+  it("renders prioritized learning queue with remediation and upcoming items", async () => {
+    const user: MockUser = {
+      id: "user-4",
+      name: "Dedi Netloka",
+      email: "dedi@example.com",
+      role: "LEARNER",
+    };
+    mockGetCurrentUser.mockResolvedValue(user);
+    mockGetUserProgressSummary.mockResolvedValue({
+      totalLessons: 24,
+      completedCount: 4,
+      inProgressCount: 1,
+      completionPercentage: 16,
+      totalXp: 200,
+    });
+    mockGetLearningPathsWithProgress.mockResolvedValue([]);
+
+    mockGetDashboardContinuationData.mockResolvedValue({
+      primaryAction: {
+        kind: "REMEDIATION",
+        href: "/learn/network-foundations/welcome-to-networking/assessment",
+        title: "Uji Kompetensi: Welcome to Networking",
+        moduleTitle: "Welcome to Networking",
+        pathTitle: "Network Foundations",
+        reason: "Perlu perbaikan uji kompetensi (skor sebelumnya: 60%)",
+        priority: 1,
+      },
+      queue: [
+        {
+          kind: "REMEDIATION",
+          href: "/learn/network-foundations/welcome-to-networking/assessment",
+          title: "Uji Kompetensi: Welcome to Networking",
+          moduleTitle: "Welcome to Networking",
+          pathTitle: "Network Foundations",
+          reason: "Perlu perbaikan uji kompetensi (skor sebelumnya: 60%)",
+          priority: 1,
+        },
+        {
+          kind: "RESUME",
+          href: "/learn/network-foundations/welcome-to-networking/intro-to-networking",
+          title: "Apa Itu Jaringan Komputer?",
+          moduleTitle: "Welcome to Networking",
+          pathTitle: "Network Foundations",
+          reason: "Lanjutkan pelajaran yang sedang berlangsung",
+          priority: 2,
+        },
+        {
+          kind: "NEXT_LESSON",
+          href: "/learn/network-foundations/welcome-to-networking/network-devices",
+          title: "Perangkat Jaringan",
+          moduleTitle: "Welcome to Networking",
+          pathTitle: "Network Foundations",
+          reason: "Pelajaran berikutnya yang siap dipelajari",
+          priority: 4,
+        },
+      ],
+      isComplete: false,
+    });
+
+    const ui = await DashboardPage();
+    render(ui);
+
+    // Primary action remediation badge and CTA
+    expect(screen.getByText("Remediasi")).toBeInTheDocument();
+    const remediationLink = screen.getByRole("link", { name: "Mulai Remediasi" });
+    expect(remediationLink).toHaveAttribute(
+      "href",
+      "/learn/network-foundations/welcome-to-networking/assessment"
+    );
+
+    // Antrean Pembelajaran Berikutnya
+    expect(
+      screen.getByText("Antrean Pembelajaran Berikutnya")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Apa Itu Jaringan Komputer?")
+    ).toBeInTheDocument();
+    expect(screen.getByText("Perangkat Jaringan")).toBeInTheDocument();
+    expect(screen.getByText("Lanjutkan")).toBeInTheDocument();
+    expect(screen.getByText("Pelajaran Berikutnya")).toBeInTheDocument();
+  });
+
+  it("renders celebratory completion state when all curriculum is complete", async () => {
+    const user: MockUser = {
+      id: "user-5",
+      name: "Sinta Netloka",
+      email: "sinta@example.com",
+      role: "LEARNER",
+    };
+    mockGetCurrentUser.mockResolvedValue(user);
+    mockGetUserProgressSummary.mockResolvedValue({
+      totalLessons: 24,
+      completedCount: 24,
+      inProgressCount: 0,
+      completionPercentage: 100,
+      totalXp: 1200,
+    });
+    mockGetLearningPathsWithProgress.mockResolvedValue([]);
+
+    mockGetDashboardContinuationData.mockResolvedValue({
+      primaryAction: null,
+      queue: [],
+      isComplete: true,
+    });
+
+    const ui = await DashboardPage();
+    render(ui);
+
+    expect(screen.getByText("Kurikulum Selesai")).toBeInTheDocument();
+    expect(
+      screen.getByText(/Selamat! Anda telah menyelesaikan seluruh kurikulum/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "Proyek Konsultan" })
+    ).toHaveAttribute("href", "/consultant");
+    expect(screen.getByRole("link", { name: "Lab Praktik" })).toHaveAttribute(
+      "href",
+      "/labs"
+    );
   });
 });

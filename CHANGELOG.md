@@ -38,6 +38,29 @@ All notable project changes are recorded here.
 
 # 2026-09-14
 
+- [2026-09-14 16:32 WITA] [ADDED] [Milestone 14 / Sprint 37 / Task 37.1]
+  Implemented authoritative learning continuation resolver, server query adapter, and prioritized learning queue on the learner dashboard:
+  - Created `src/features/learning/continuation.ts`: Pure, deterministic domain engine resolving next learning actions and ordered queue with strict priority:
+    1. `REMEDIATION` (Priority 1): Failed module assessments requiring recovery.
+    2. `RESUME` (Priority 2): In-progress lessons not yet completed.
+    3. `ASSESSMENT` (Priority 3): Unlocked module assessments where all module lessons are completed.
+    4. `NEXT_LESSON` (Priority 4): Unlocked next lesson based on prerequisite resolution.
+    - Implemented `resolveLearningQueue(curriculum, evidence)` and `resolvePrimaryContinuation(queue)`.
+  - Created `src/features/learning/continuation.test.ts`: Deterministic unit tests covering brand new learners, in-progress resume, remediation precedence, assessment prompt, next lesson advancement, completed curriculum empty state, and strict priority ordering (7 tests, 100% pass).
+  - Modified `src/features/learning/queries.ts`: Added `getCurriculumGraph()` querying Prisma for published paths, modules, lessons, prerequisites, and registry assessments into typed `LearningGraph`.
+  - Created `src/features/dashboard/queries.ts`: Server-side query adapter `getDashboardContinuationData(userId)` gathering learner evidence snapshot (`UserLessonProgress`, `AssessmentAttempt`) and computing `{ primaryAction, queue, isComplete }`.
+  - Created `src/features/dashboard/queries.test.ts`: Unit tests verifying the query adapter across guest, in-progress, remediation, assessment, and completed states (5 tests, 100% pass).
+  - Modified `src/app/(app)/dashboard/page.tsx`: Integrated authoritative continuation data into "Lanjutkan dari Terakhir" card and hero banner CTA:
+    - Primary action hero card with contextual CTA and badge (`Remediasi`, `Lanjutkan`, `Uji Kompetensi`, `Pelajaran Berikutnya`).
+    - Prioritized Learning Queue list rendering up to 3 upcoming scheduled items with badges and direct links.
+    - Celebratory completed curriculum state when all curriculum items are finished.
+    - Strictly compliant with Netloka visual policy: zero emojis or decorative icons in continuation cards.
+  - Modified `src/app/(app)/dashboard/page.test.tsx`: Updated tests to assert authoritative continuation primary actions, prioritized queue items, and celebratory completed state (5 tests, 100% pass).
+  - Quality gates verified: 117 test files / 709 tests passed (100%), typecheck passed (0 errors), lint passed (0 warnings/errors), production build succeeded (45 routes compiled), `git diff --check` clean, and Playwright E2E passed.
+  Files/areas: `src/features/learning/continuation.ts`, `src/features/learning/continuation.test.ts`, `src/features/learning/queries.ts`, `src/features/dashboard/queries.ts`, `src/features/dashboard/queries.test.ts`, `src/app/(app)/dashboard/page.tsx`, `src/app/(app)/dashboard/page.test.tsx`, `PLAN.md`, `ROADMAP.md`, `docs/superpowers/plans/2026-09-08-learner-experience-and-mastery.md`
+  Validation: `npm run typecheck`, `npm run lint`, `npm test` (117 test files / 709 tests), `npm run build`, `git diff --check`, `npx playwright test src/e2e/member-workspace.spec.ts --project=chromium` (5 tests).
+  Git: `codex/sprint-37-continuation-queue`
+
 - [2026-09-14 15:58 WITA] [MILESTONE] [Milestone 13 / Sprint 36 / Task 36.4]
   Completed privileged workspace verification, authenticated Playwright E2E coverage, full quality gates, and formally closed Sprint 36 and Milestone 13 (Developer Operations and Internal Accounts):
   - Created `src/e2e/fixtures/developer-user.ts`: Provisioned authentic test accounts dynamically, promoted them safely to `DEVELOPER` with 2FA TOTP secret configuration, and authenticated via credentials modal with automated TOTP token submission. Also provided `createInternalLearner` helper.

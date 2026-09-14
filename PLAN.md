@@ -1138,7 +1138,7 @@ Detailed executable plan: [Developer Operations and Internal Accounts](docs/supe
 
 ### Sprint 36 — Elevation, Entitlements, and Audit
 
-- [ ] Task 36.1: Persist safe activity/security events and immutable audit records.
+- [x] Task 36.1: Persist safe activity/security events and immutable audit records.
 - [ ] Task 36.2: Add mandatory developer 2FA and password-plus-2FA elevated sessions with ten-minute expiry.
 - [ ] Task 36.3: Implement atomic package grant/revoke with a written reason; preserve all order history.
 - [ ] Task 36.4: Complete security review, authenticated E2E, full gates, PR/CI, owner review/merge, and synchronization.

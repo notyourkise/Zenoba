@@ -8,6 +8,8 @@ import { prisma } from "@/lib/db/client";
 import { verifyPassword } from "./password";
 import { verifyTotpCode, verifyAndConsumeBackupCode } from "./totp";
 import { isSessionRevoked } from "./session-revocation";
+import { recordSecurityEvent } from "@/features/security/events";
+import { touchUserActivity } from "@/features/analytics/activity";
 
 type GoogleEnvironment = Record<string, string | undefined>;
 
@@ -41,6 +43,11 @@ export function buildAuthProviders(
         });
 
         if (!user || !user.passwordHash) {
+          await recordSecurityEvent({
+            type: "AUTH_LOGIN_FAILED",
+            severity: "WARN",
+            metadata: { email: credentials.email, reason: "user_not_found_or_no_password" },
+          });
           throw new Error("Invalid email or password");
         }
 
@@ -49,11 +56,23 @@ export function buildAuthProviders(
           user.passwordHash,
         );
         if (!isValid) {
+          await recordSecurityEvent({
+            userId: user.id,
+            type: "AUTH_LOGIN_FAILED",
+            severity: "WARN",
+            metadata: { email: credentials.email, reason: "invalid_password" },
+          });
           throw new Error("Invalid email or password");
         }
 
         // Developer accounts strictly require enabled 2FA
         if (user.role === "DEVELOPER" && !user.twoFactorEnabled) {
+          await recordSecurityEvent({
+            userId: user.id,
+            type: "AUTH_LOGIN_FAILED",
+            severity: "HIGH",
+            metadata: { email: credentials.email, reason: "developer_2fa_disabled" },
+          });
           throw new Error("Developer accounts must have two-factor authentication enabled");
         }
 
@@ -88,6 +107,12 @@ export function buildAuthProviders(
           }
 
           if (!isCodeValid) {
+            await recordSecurityEvent({
+              userId: user.id,
+              type: "AUTH_LOGIN_FAILED",
+              severity: "WARN",
+              metadata: { email: credentials.email, reason: "invalid_2fa_code" },
+            });
             throw new Error("Kode autentikasi 2FA tidak valid.");
           }
         }
@@ -128,6 +153,21 @@ export const authOptions: NextAuthOptions = {
     signIn: "/sign-in",
   },
   providers: buildAuthProviders(),
+  events: {
+    async signIn({ user }) {
+      if (user?.id) {
+        try {
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { lastLoginAt: new Date() },
+          });
+          await touchUserActivity(user.id);
+        } catch (error) {
+          console.error("[Auth] Failed to update user login/activity on signIn event:", error);
+        }
+      }
+    },
+  },
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === "google") {
@@ -135,9 +175,15 @@ export const authOptions: NextAuthOptions = {
         const normalizedEmail = user.email.toLowerCase().trim();
         const existingUser = await prisma.user.findUnique({
           where: { email: normalizedEmail },
-          select: { role: true },
+          select: { id: true, role: true },
         });
         if (existingUser?.role === "DEVELOPER") {
+          await recordSecurityEvent({
+            userId: existingUser.id,
+            type: "AUTH_OAUTH_DEVELOPER_REJECTED",
+            severity: "WARN",
+            metadata: { email: normalizedEmail, provider: "google" },
+          });
           return false;
         }
       }

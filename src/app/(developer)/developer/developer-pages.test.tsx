@@ -27,6 +27,10 @@ vi.mock("@/features/authorization/guards", () => ({
   getFreshActor: vi.fn(),
 }));
 
+vi.mock("@/features/analytics/activity", () => ({
+  touchUserActivity: vi.fn().mockResolvedValue(true),
+}));
+
 vi.mock("@/lib/db/client", () => ({
   prisma: {
     learningPath: {
@@ -54,6 +58,7 @@ import { getCurriculumHealth } from "@/features/developer/curriculum/health";
 import { getSystemHealth } from "@/features/developer/system/health";
 import { requireDeveloperActor, getFreshActor } from "@/features/authorization/guards";
 import { AuthorizationError, type Actor } from "@/features/authorization/types";
+import { touchUserActivity } from "@/features/analytics/activity";
 import { prisma } from "@/lib/db/client";
 
 import DeveloperLayout from "./layout";
@@ -89,6 +94,7 @@ describe("Developer Portal Pages & Layout", () => {
 
       expect(screen.getByText("Inner Content")).toBeInTheDocument();
       expect(screen.getAllByText("Netloka Developer Workspace").length).toBeGreaterThanOrEqual(1);
+      expect(touchUserActivity).toHaveBeenCalledWith("dev-1");
     });
 
     it("throws when requireDeveloperActor fails", async () => {

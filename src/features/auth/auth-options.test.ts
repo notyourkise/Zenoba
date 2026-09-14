@@ -9,6 +9,8 @@ import {
   revokeUserSessions,
   clearRevokedSessions,
 } from "@/features/auth/session-revocation";
+import { recordSecurityEvent } from "@/features/security/events";
+import { touchUserActivity } from "@/features/analytics/activity";
 import { prisma } from "@/lib/db/client";
 
 vi.mock("@/lib/db/client", () => ({
@@ -18,6 +20,14 @@ vi.mock("@/lib/db/client", () => ({
       update: vi.fn(),
     },
   },
+}));
+
+vi.mock("@/features/security/events", () => ({
+  recordSecurityEvent: vi.fn().mockResolvedValue({ id: "mock-sec-id" }),
+}));
+
+vi.mock("@/features/analytics/activity", () => ({
+  touchUserActivity: vi.fn().mockResolvedValue(true),
 }));
 
 vi.mock("@/features/auth/password", () => ({
@@ -155,7 +165,7 @@ describe("authentication provider configuration", () => {
     });
 
     describe("signIn callback", () => {
-      it("rejects Google sign-in when database user is DEVELOPER", async () => {
+      it("rejects Google sign-in when database user is DEVELOPER and records security event", async () => {
         const signInCallback = authOptions.callbacks?.signIn as any;
         expect(signInCallback).toBeDefined();
 
@@ -173,8 +183,15 @@ describe("authentication provider configuration", () => {
         expect(allowed).toBe(false);
         expect(prisma.user.findUnique).toHaveBeenCalledWith({
           where: { email: "dev@netloka.biz.id" },
-          select: { role: true },
+          select: { id: true, role: true },
         });
+        expect(recordSecurityEvent).toHaveBeenCalledWith(
+          expect.objectContaining({
+            userId: "dev-1",
+            type: "AUTH_OAUTH_DEVELOPER_REJECTED",
+            severity: "WARN",
+          }),
+        );
       });
 
       it("allows Google sign-in when database user is LEARNER", async () => {
@@ -221,10 +238,31 @@ describe("authentication provider configuration", () => {
         expect(allowed).toBe(true);
       });
     });
+
+    describe("events", () => {
+      it("updates lastLoginAt and touches activity on successful signIn event", async () => {
+        const signInEvent = authOptions.events?.signIn as any;
+        expect(signInEvent).toBeDefined();
+
+        await signInEvent({
+          user: { id: "user-123", email: "learner@netloka.biz.id" },
+        });
+
+        expect(prisma.user.update).toHaveBeenCalledWith(
+          expect.objectContaining({
+            where: { id: "user-123" },
+            data: expect.objectContaining({
+              lastLoginAt: expect.any(Date),
+            }),
+          }),
+        );
+        expect(touchUserActivity).toHaveBeenCalledWith("user-123");
+      });
+    });
   });
 
   describe("CredentialsProvider authorize", () => {
-    it("rejects DEVELOPER credentials login if twoFactorEnabled is false", async () => {
+    it("rejects DEVELOPER credentials login if twoFactorEnabled is false and records security event", async () => {
       const provider = buildAuthProviders({}).find(
         (p) => p.id === "credentials",
       ) as any;
@@ -245,6 +283,14 @@ describe("authentication provider configuration", () => {
           password: "ValidPassword123!",
         }),
       ).rejects.toThrow(/two-factor|2FA/i);
+
+      expect(recordSecurityEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          userId: "dev-1",
+          type: "AUTH_LOGIN_FAILED",
+          severity: "HIGH",
+        }),
+      );
     });
 
     it("requires 2FA code (throws 2FA_REQUIRED) for DEVELOPER login when code is omitted", async () => {

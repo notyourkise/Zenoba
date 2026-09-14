@@ -4,6 +4,7 @@ import AppLayout from "./layout";
 import { requireLearnerActor } from "@/features/authorization/guards";
 import { getCurrentUser } from "@/lib/auth";
 import { AuthorizationError } from "@/features/authorization/types";
+import { touchUserActivity } from "@/features/analytics/activity";
 
 vi.mock("@/features/authorization/guards", () => ({
   requireLearnerActor: vi.fn(),
@@ -11,6 +12,10 @@ vi.mock("@/features/authorization/guards", () => ({
 
 vi.mock("@/lib/auth", () => ({
   getCurrentUser: vi.fn(),
+}));
+
+vi.mock("@/features/analytics/activity", () => ({
+  touchUserActivity: vi.fn().mockResolvedValue(true),
 }));
 
 vi.mock("@/components/navigation/learner-workspace-shell", () => ({
@@ -45,6 +50,7 @@ describe("AppLayout", () => {
 
     expect(screen.getByTestId("learner-shell")).toBeInTheDocument();
     expect(screen.getByText("Learner Content")).toBeInTheDocument();
+    expect(touchUserActivity).toHaveBeenCalledWith("learner-1");
   });
 
   it("denies access when actor is DEVELOPER and requireLearnerActor throws FORBIDDEN", async () => {

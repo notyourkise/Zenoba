@@ -1,56 +1,54 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-14 13:45 WITA**. Read `AGENTS.md` and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-09-14 14:18 WITA**. Read `AGENTS.md` and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
 
 ## 1. Current Task and Authority
 
 - Product: Interactive IT infrastructure learning platform; Networking is the first available curriculum.
-- Active milestone/sprint: **Milestone 13 / Sprint 35 (Read-Only Developer Portal)** (closing) → **Sprint 36 (Elevation, Entitlements, and Audit)** (next).
-- Task: **Task 35.3: Verify query performance, authorization, accessibility, responsive behavior, safe logging, and Sprint 35 closure review**.
+- Active milestone/sprint: **Milestone 13 / Sprint 36 (Elevation, Entitlements, and Audit)**.
+- Task: **Task 36.1: Persist safe activity/security events and immutable audit records**.
 - Scope delivered:
-  1. Authored comprehensive verification test suite (`src/features/developer/verification.test.tsx`):
-     - **Query bounding & performance:** Verified `searchDeveloperUsers` limit is capped at 50, minimum query length is 2 (unless role filtered), and `getDeveloperOverview` degrades gracefully on database latency spikes using `Promise.allSettled`.
-     - **Authorization & workspace isolation:** Verified `requireDeveloperActor()` denies unauthenticated sessions (`401`) and standard/internal learners (`403 Forbidden`); verified `requireLearnerActor()` denies developer accounts from invoking learner mutation workflows.
-     - **Secret redaction & safe logging:** Verified user directory DTOs strictly exclude `passwordHash`, `twoFactorSecret`, backup codes, and session tokens; verified `getSystemHealth` environment checklist masks secrets with `[CONFIGURED / REDACTED]`.
-     - **Visual icon policy & accessibility:** Verified absence of decorative emojis and unauthorized visual icons in the developer shell; verified presence of semantic landmarks, valid `aria-current="page"` indicators, accessible dialogs, and keyboard focus attributes.
-  2. Updated documentation and roadmap:
-     - `PLAN.md`: Marked Task 35.3 complete with satisfied acceptance criteria.
-     - `ROADMAP.md`: Updated Sprint 35 to `✅ COMPLETE` with merged evidence and closure review; updated Sprint 36 to `ACTIVE / NEXT`.
-     - `CHANGELOG.md`: Logged Task 35.3 completion and full quality gate results under `2026-09-14 13:43 WITA`.
-  3. Re-executed and verified all quality gates: 105 test files / 622 tests passed (100%), typecheck passed (0 errors), lint passed (0 warnings/errors), production build succeeded (43 routes compiled), and `git diff --check` clean.
+  1. Created `src/features/security/events.ts`: `recordSecurityEvent(input)` with deep recursive metadata sanitization (redacting passwords, tokens, secrets, hashes, cookies, and authorization headers) and non-blocking best-effort database persistence.
+  2. Created `src/features/analytics/activity.ts`: `touchUserActivity(userId, now)` implementing a 15-minute write throttling window (`ACTIVITY_WRITE_INTERVAL_MS = 15 * 60 * 1000`) on `User.lastActiveAt` to avoid database write amplification during active navigation.
+  3. Created `src/features/developer/audit/service.ts`: `recordDeveloperAuditEvent(input, tx)` supporting atomic audit events with `requestId` deduplication/idempotent replays, conflict detection on mismatched payloads, and state snapshot sanitization.
+  4. Integrated activity and security telemetry:
+     - Updated `src/features/auth/auth.ts`: Recorded security events on failed credentials authentication and attempted Google sign-in by developer accounts; updated `lastLoginAt` and activity timestamp on successful sign-in.
+     - Updated `src/app/(app)/layout.tsx` and `src/app/(developer)/developer/layout.tsx`: Hooked `touchUserActivity(actor.id)` on authenticated workspace layout entries.
+  5. Added unit and integration tests across all affected domains (`events.test.ts`, `activity.test.ts`, `service.test.ts`, `auth-options.test.ts`, `layout.test.tsx`, `developer-pages.test.tsx`), bringing total test suite to 108 test files and 642 passing tests.
 - **Phase:** Implemented and locally verified against all quality gates. Ready for PR creation.
 
 ## 2. Verified Repository Checkpoint
 
 | Item | Verified state |
 | --- | --- |
-| Main checkout | `C:/laragon/www/netloka`, clean `main` at `c61465a` |
-| Origin | `origin/main` at `c61465a`; local `main` synchronized |
-| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-sprint-35-closure` |
-| Task branch | `codex/sprint-35-closure` |
-| Base commit | `c61465a` (Merge pull request #56 from notyourkise/codex/sprint-35-developer-shell) |
+| Main checkout | `C:/laragon/www/netloka`, clean `main` at `e3b5bb7` |
+| Origin | `origin/main` at `e3b5bb7`; local `main` synchronized |
+| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-sprint-36-audit-events` |
+| Task branch | `codex/sprint-36-audit-events` |
+| Base commit | `e3b5bb7` (Merge pull request #57 from notyourkise/codex/sprint-35-closure) |
 | Retained worktrees | `C:/laragon/www/netloka/.worktrees/codex-fix-m0-sprint-0` (`docs/staging-progress`, do not delete) |
 | Background dev server | `task-8134` active and healthy on `http://localhost:3000` |
 
-## 3. Sprint 35 Status
+## 3. Sprint 36 Status
 
-- **Task 35.1:** Resolved. Bounded, privacy-safe read models built and verified (Merged via PR #55).
-- **Task 35.2:** Resolved. Independent `/developer` shell and responsive read-only operational pages built with safe error/loading states (Merged via PR #56).
-- **Task 35.3:** Resolved. Comprehensive verification test suite added; Sprint 35 formal closure completed.
+- **Task 36.1:** Resolved. Safe activity tracking, sanitized security event logging, and immutable developer audit records built and verified.
+- **Task 36.2:** Pending. Add mandatory developer 2FA and password-plus-2FA elevated sessions with ten-minute expiry.
+- **Task 36.3:** Pending. Implement atomic package grant/revoke with a written reason; preserve all order history.
+- **Task 36.4:** Pending. Complete security review, authenticated E2E, full gates, PR/CI, owner review/merge, and synchronization.
 
 ## 4. Verification Evidence and Limits
 
 - `npm run typecheck`: **Passed** (0 errors).
 - `npm run lint`: **Passed** (0 warnings/errors).
-- `npm test`: **Passed** (105 test files / 622 tests passed).
+- `npm test`: **Passed** (108 test files / 642 tests passed).
 - `npm run build`: **Passed** (production build succeeded, 43 routes compiled).
 - `git diff --check`: **Passed** (0 whitespace errors).
 - Background dev server: **Healthy** (`task-8134` on `localhost:3000`).
 
 ## 5. Next Actions
 
-1. Commit and push task branch `codex/sprint-35-closure`.
+1. Commit and push task branch `codex/sprint-36-audit-events`.
 2. Open PR via `gh pr create` targeting `main`.
 3. Verify all 5 CI jobs green on GitHub Actions.
 4. Submit PR for review and merge by Abangku.
-5. After merge and synchronization, proceed to Sprint 36 / Task 36.1 (Build elevated developer session model and verification routes).
+5. After merge and synchronization, proceed to Task 36.2 (Add mandatory developer 2FA and password-plus-2FA elevated sessions with ten-minute expiry).

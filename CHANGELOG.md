@@ -38,6 +38,19 @@ All notable project changes are recorded here.
 
 # 2026-09-14
 
+- [2026-09-14 14:18 WITA] [ADDED] [Milestone 13 / Sprint 36 / Task 36.1]
+  Implemented safe activity tracking, sanitized security event logging, and immutable developer audit records:
+  - Created `src/features/security/events.ts`: `recordSecurityEvent(input)` with deep recursive metadata sanitization (redacting passwords, tokens, secrets, hashes, cookies, and authorization headers) and non-blocking best-effort database persistence.
+  - Created `src/features/analytics/activity.ts`: `touchUserActivity(userId, now)` implementing a 15-minute write throttling window (`ACTIVITY_WRITE_INTERVAL_MS = 15 * 60 * 1000`) on `User.lastActiveAt` to avoid database write amplification during active navigation.
+  - Created `src/features/developer/audit/service.ts`: `recordDeveloperAuditEvent(input, tx)` supporting atomic audit events with `requestId` deduplication/idempotent replays, conflict detection on mismatched payloads, and state snapshot sanitization.
+  - Integrated activity and security telemetry:
+    - Updated `src/features/auth/auth.ts`: Recorded security events on failed credentials authentication and attempted Google sign-in by developer accounts; updated `lastLoginAt` and activity timestamp on successful sign-in.
+    - Updated `src/app/(app)/layout.tsx` and `src/app/(developer)/developer/layout.tsx`: Hooked `touchUserActivity(actor.id)` on authenticated workspace layout entries.
+  - Quality gates verified: 108 test files / 642 tests passed (100%), typecheck passed (0 errors), lint passed (0 warnings/errors), production build succeeded (43 routes compiled), and `git diff --check` clean.
+  Files/areas: `src/features/security/`, `src/features/analytics/`, `src/features/developer/audit/`, `src/features/auth/`, `src/app/`, `PLAN.md`
+  Validation: `npm run typecheck`, `npm run lint`, `npm test` (108 files / 642 tests), `npm run build` (43 routes compiled), `git diff --check`.
+  Git: `codex/sprint-36-audit-events`
+
 - [2026-09-14 13:43 WITA] [SPRINT] [Milestone 13 / Sprint 35 / Task 35.3]
   Completed Sprint 35 closure review, verified query bounding, workspace isolation, secret redaction, and accessibility:
   - Formally closed Sprint 35 (Read-Only Developer Portal). Tasks 35.1–35.2 merged into `main` via PR #55 and PR #56 (merge commit `c61465a`).

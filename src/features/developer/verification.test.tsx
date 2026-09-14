@@ -310,4 +310,40 @@ describe("Sprint 35 Verification: Developer Portal & Security Invariants", () =>
       expect(hashElevationToken(raw)).toBe(hashed); // Deterministic
     });
   });
+
+  describe("6. Entitlement Mutation & Order Integrity Invariants", () => {
+    it("enforces minimum written reason of 12 characters and restricts actions to GRANT or REVOKE", async () => {
+      const { EntitlementMutationSchema } = await import("@/features/developer/access/mutations");
+
+      // Too short reason (< 12)
+      const short = EntitlementMutationSchema.safeParse({
+        action: "GRANT",
+        targetUserId: "clrkuser12345678901234567",
+        packageId: "clrkpkg123456789012345678",
+        reason: "Pendek",
+        requestId: "11111111-2222-3333-4444-555555555555",
+      });
+      expect(short.success).toBe(false);
+
+      // Invalid action
+      const invalidAction = EntitlementMutationSchema.safeParse({
+        action: "DELETE",
+        targetUserId: "clrkuser12345678901234567",
+        packageId: "clrkpkg123456789012345678",
+        reason: "Alasan tertulis yang cukup panjang",
+        requestId: "11111111-2222-3333-4444-555555555555",
+      });
+      expect(invalidAction.success).toBe(false);
+
+      // Valid GRANT
+      const valid = EntitlementMutationSchema.safeParse({
+        action: "GRANT",
+        targetUserId: "clrkuser12345678901234567",
+        packageId: "clrkpkg123456789012345678",
+        reason: "Alasan tertulis yang cukup panjang",
+        requestId: "11111111-2222-3333-4444-555555555555",
+      });
+      expect(valid.success).toBe(true);
+    });
+  });
 });

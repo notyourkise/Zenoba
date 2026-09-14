@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
+import { ElevationDialog } from "./elevation-dialog";
 
 export interface DeveloperActor {
   id: string;
@@ -135,6 +136,7 @@ export function DeveloperShell({ actor, children }: DeveloperShellProps) {
 
           {/* User Info & Sign Out */}
           <div className="flex items-center gap-3">
+            <ElevationDialog />
             <div className="text-right hidden sm:block">
               <p className="text-sm font-medium text-slate-200">{actor.name || actor.email}</p>
               <p className="text-xs text-slate-400 font-mono">{actor.email}</p>

@@ -621,7 +621,7 @@ git commit -m "feat(security): persist redacted activity events"
 - Produces: `createDeveloperElevation`, `requireElevatedDeveloperSession`, `revokeDeveloperElevation`.
 - Consumes: developer guard, password/TOTP verification, elevation persistence, security-event service.
 
-- [ ] **Step 1: Write expiry, revocation, password, TOTP, and rate-limit tests**
+- [x] **Step 1: Write expiry, revocation, password, TOTP, and rate-limit tests**
 
 ```ts
 expect(ELEVATION_TTL_MS).toBe(10 * 60 * 1000);
@@ -633,15 +633,15 @@ await expect(
 ).rejects.toMatchObject({ code: "ELEVATION_REQUIRED" });
 ```
 
-- [ ] **Step 2: Confirm failure**
+- [x] **Step 2: Confirm failure**
 
 Run: `npx vitest run src/features/developer/elevation src/app/api/developer/elevation`.
 
-- [ ] **Step 3: Implement opaque token storage and secure cookie handling**
+- [x] **Step 3: Implement opaque token storage and secure cookie handling**
 
 Generate 32 random bytes, store only SHA-256 hash, bind to `authVersion`, and set a `netloka_dev_elevation` cookie with `httpOnly`, `secure` in production, `sameSite: "strict"`, `path: "/developer"`, and ten-minute expiry. Apply origin validation and a dedicated rate-limit key.
 
-- [ ] **Step 4: Run focused tests and commit**
+- [x] **Step 4: Run focused tests and commit**
 
 Run: `npx vitest run src/features/developer/elevation src/app/api/developer/elevation src/features/developer/components/elevation-dialog.test.tsx`
 Expected: PASS.

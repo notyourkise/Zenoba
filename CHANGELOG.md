@@ -38,6 +38,18 @@ All notable project changes are recorded here.
 
 # 2026-09-14
 
+- [2026-09-14 14:45 WITA] [ADDED] [Milestone 13 / Sprint 36 / Task 36.2]
+  Added mandatory developer 2FA and password-plus-2FA elevated sessions with ten-minute expiry:
+  - Created `src/features/developer/elevation/service.ts`: Core elevation engine enforcing 10-minute expiry (`ELEVATION_TTL_MS = 10 * 60 * 1000`), secure 32-byte opaque token with SHA-256 hash storage in `DeveloperElevationSession`, binding to user's `authVersion`, verification of password & TOTP / backup code, rate limiting, revocation, and status queries.
+  - Created `src/app/api/developer/elevation/route.ts`: Secure REST endpoint for elevation authentication (`POST`), status queries (`GET`), and immediate revocation/step-down (`DELETE`). Enforces developer authorization, rate limiting, and sets secure `netloka_dev_elevation` cookie (`httpOnly`, `sameSite: strict`, `path: /developer`, `maxAge: 600`).
+  - Created `src/features/developer/components/elevation-dialog.tsx`: Accessible, text-led elevation dialog and active elevation indicator with real-time countdown timer and step-down button (no decorative icons/emojis).
+  - Integrated `ElevationDialog` into developer shell header (`src/features/developer/components/developer-shell.tsx`).
+  - Added invariant verification assertions in `src/features/developer/verification.test.tsx` verifying mandatory 2FA enforcement and password-plus-2FA requirement.
+  - Verified against all quality gates: 111 test files / 671 tests passed (100%), typecheck passed (0 errors), lint passed (0 warnings/errors), production build succeeded (44 routes compiled), and `git diff --check` clean.
+  Files/areas: `src/features/developer/elevation/`, `src/app/api/developer/elevation/`, `src/features/developer/components/`, `src/features/developer/verification.test.tsx`
+  Validation: `npm run typecheck`, `npm run lint`, `npm test` (111 files / 671 tests), `npm run build` (44 routes compiled), `git diff --check`.
+  Git: `codex/sprint-36-developer-elevation`
+
 - [2026-09-14 14:18 WITA] [ADDED] [Milestone 13 / Sprint 36 / Task 36.1]
   Implemented safe activity tracking, sanitized security event logging, and immutable developer audit records:
   - Created `src/features/security/events.ts`: `recordSecurityEvent(input)` with deep recursive metadata sanitization (redacting passwords, tokens, secrets, hashes, cookies, and authorization headers) and non-blocking best-effort database persistence.

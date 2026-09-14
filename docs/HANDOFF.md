@@ -1,32 +1,41 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-14 15:20 WITA**. Read `AGENTS.md` and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-09-14 15:58 WITA**. Read `AGENTS.md` and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
 
 ## 1. Current Task and Authority
 
 - Product: Interactive IT infrastructure learning platform; Networking is the first available curriculum.
-- Active milestone/sprint: **Milestone 13 / Sprint 36 (Elevation, Entitlements, and Audit)**.
-- Task: **Task 36.3: Implement atomic package grant/revoke with a written reason; preserve all order history**.
+- Active milestone/sprint: **Milestone 13 / Sprint 36 (Elevation, Entitlements, and Audit)** — **CLOSING SPRINT & MILESTONE**.
+- Task: **Task 36.4: Complete security review, authenticated E2E, full gates, PR/CI, owner review/merge, and synchronization**.
 - Scope delivered:
-  1. Created `src/features/developer/access/mutations.ts`: Transaction-safe entitlement service executing within `prisma.$transaction`. Enforces mandatory written reason (min 12 characters), validates target user (rejecting DEVELOPER accounts), checks package composition, upserts/revokes course entitlements atomically, records immutable audit events via `recordDeveloperAuditEvent`, and guarantees idempotent replays on matching `requestId` (rejecting mismatched replays with 409 Conflict).
-  2. Created `src/features/developer/access/queries.ts`: Retrieves active catalog packages and computes their course count for developer portal access management.
-  3. Created `src/app/api/developer/entitlements/route.ts`: Secure REST endpoint enforcing developer authorization and active 10-minute elevation session (`netloka_dev_elevation` cookie via `requireElevatedDeveloperSession`). Validates request payload against `EntitlementMutationSchema` and maps domain errors to appropriate HTTP status codes.
-  4. Created `src/features/developer/components/entitlement-action-form.tsx`: Accessible, text-led form (no decorative icons/emojis) for granting or revoking package entitlements, featuring live character counter, target user input, package selection, and elevation state notices.
-  5. Updated `src/app/(developer)/developer/access/page.tsx`: Integrated `EntitlementActionForm` with server-side package options alongside governance principles and user directory links.
-  6. Updated `src/features/developer/verification.test.tsx` with entitlement mutation schema invariants.
-  7. Updated plan status in `docs/superpowers/plans/2026-09-08-developer-operations-and-internal-accounts.md`.
-  8. Invariant preserved: Order history preserved untouched — zero manipulation or fabrication of `Order`, `OrderLine`, or `PaymentAttempt` records.
-- **Phase:** Implemented and locally verified against all quality gates. Ready for PR creation.
+  1. Created `src/e2e/fixtures/developer-user.ts`: Provisioned authentic test accounts dynamically, promoted to `DEVELOPER` with 2FA TOTP secret, and handled credentials modal authentication with automated 2FA token input. Also provided `createInternalLearner` helper.
+  2. Created `src/e2e/developer-portal.spec.ts`: Authenticated Playwright E2E suite covering:
+     - Unauthenticated redirects on `/developer`, `/developer/users`, `/developer/access`, `/developer/system` to `/` credentials modal with matching `callbackUrl`.
+     - Workspace isolation: `LEARNER` accounts attempting direct navigation to `/developer` are strictly redirected away to `/dashboard`.
+     - Authenticated developer overview navigation across shell landmarks (`/developer/users`, `/developer/access`).
+     - Elevated session lifecycle: dialog open, password + TOTP entry, active indicator with countdown, and immediate privilege revocation via step-down button.
+  3. Verified security review and invariants:
+     - Zero role-promotion HTTP routes or client-controlled role elevation.
+     - Zero secrets (hashes, tokens, 2FA secrets) projected in read views or audit logs.
+     - Order, order line, and payment transaction history preserved untouched during manual entitlement adjustments.
+     - Cross-workspace isolation strictly enforced across all 3 roles (`LEARNER`, `INTERNAL_LEARNER`, `DEVELOPER`).
+  4. Documentation updated:
+     - `ROADMAP.md`: Marked Milestone 13 and Sprint 36 completed; advanced to Milestone 14 (Learner Experience and Mastery Quality) with Sprint 37 active next.
+     - `PLAN.md`: Marked Sprint 36 tasks (36.1, 36.2, 36.3, 36.4) completed; advanced to Milestone 14.
+     - `docs/superpowers/plans/2026-09-08-developer-operations-and-internal-accounts.md`: Marked Task 12 complete.
+     - `docs/TECHNICAL_DEBT.md`: Updated active milestone header.
+     - `CHANGELOG.md`: Added Milestone 13 and Sprint 36 closure entry at `2026-09-14 15:58 WITA`.
+- **Phase:** Locally verified against all quality gates. Ready for PR creation and Abangku's review and merge.
 
 ## 2. Verified Repository Checkpoint
 
 | Item | Verified state |
 | --- | --- |
-| Main checkout | `C:/laragon/www/netloka`, clean `main` at `b0cd06f` |
-| Origin | `origin/main` at `b0cd06f`; local `main` synchronized |
-| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-sprint-36-entitlements-mutations` |
-| Task branch | `codex/sprint-36-entitlements-mutations` |
-| Base commit | `b0cd06f` (Merge pull request #59 from notyourkise/codex/sprint-36-developer-elevation) |
+| Main checkout | `C:/laragon/www/netloka`, clean `main` at `91707cf` |
+| Origin | `origin/main` at `91707cf`; local `main` synchronized |
+| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-sprint-36-milestone-13-closure` |
+| Task branch | `codex/sprint-36-milestone-13-closure` |
+| Base commit | `91707cf` (Merge pull request #60 from notyourkise/codex/sprint-36-entitlements-mutations) |
 | Retained worktrees | `C:/laragon/www/netloka/.worktrees/codex-fix-m0-sprint-0` (`docs/staging-progress`, do not delete) |
 | Background dev server | Active and healthy on `http://localhost:3000` |
 
@@ -34,22 +43,23 @@ Last updated: **2026-09-14 15:20 WITA**. Read `AGENTS.md` and verify live Git/PR
 
 - **Task 36.1:** Resolved. Safe activity tracking, sanitized security event logging, and immutable developer audit records built and verified (PR #58 merged).
 - **Task 36.2:** Resolved. Added mandatory developer 2FA and password-plus-2FA elevated sessions with ten-minute expiry (PR #59 merged).
-- **Task 36.3:** Implemented & Verified. Implement atomic package grant/revoke with a written reason; preserve all order history.
-- **Task 36.4:** Pending. Complete security review, authenticated E2E, full gates, PR/CI, owner review/merge, and synchronization.
+- **Task 36.3:** Resolved. Implement atomic package grant/revoke with a written reason; preserve all order history (PR #60 merged).
+- **Task 36.4:** Resolved. Complete security review, authenticated E2E, full gates, PR/CI, owner review/merge, and synchronization.
 
 ## 4. Verification Evidence and Limits
 
 - `npm run typecheck`: **Passed** (0 errors).
 - `npm run lint`: **Passed** (0 warnings/errors).
 - `npm test`: **Passed** (115 test files / 695 tests passed).
+- Playwright E2E: **Passed** (12 tests passed across `developer-portal.spec.ts` and `member-workspace.spec.ts`).
 - `npm run build`: **Passed** (production build succeeded, 45 routes compiled).
 - `git diff --check`: **Passed** (0 whitespace errors).
 - Background dev server: **Healthy** (port 3000 responding 200 OK).
 
 ## 5. Next Actions
 
-1. Commit and push task branch `codex/sprint-36-entitlements-mutations`.
+1. Commit and push task branch `codex/sprint-36-milestone-13-closure`.
 2. Open PR via `gh pr create` targeting `main`.
 3. Verify all 5 CI jobs green on GitHub Actions.
 4. Submit PR for review and merge by Abangku.
-5. After merge and synchronization, proceed to Task 36.4 (Milestone 13 closure, security review, authenticated E2E, full gates, and synchronization).
+5. After merge and synchronization, proceed to Milestone 14 / Sprint 37 (Continuity and Daily Comfort).

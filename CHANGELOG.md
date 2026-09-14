@@ -38,6 +38,25 @@ All notable project changes are recorded here.
 
 # 2026-09-14
 
+- [2026-09-14 15:58 WITA] [MILESTONE] [Milestone 13 / Sprint 36 / Task 36.4]
+  Completed privileged workspace verification, authenticated Playwright E2E coverage, full quality gates, and formally closed Sprint 36 and Milestone 13 (Developer Operations and Internal Accounts):
+  - Created `src/e2e/fixtures/developer-user.ts`: Provisioned authentic test accounts dynamically, promoted them safely to `DEVELOPER` with 2FA TOTP secret configuration, and authenticated via credentials modal with automated TOTP token submission. Also provided `createInternalLearner` helper.
+  - Created `src/e2e/developer-portal.spec.ts`: Authenticated Playwright E2E suite covering privileged workspace boundaries:
+    - Verified unauthenticated visits to `/developer`, `/developer/users`, `/developer/access`, and `/developer/system` redirect to `/` with credentials modal and appropriate `callbackUrl`.
+    - Verified workspace isolation: `LEARNER` accounts attempting to navigate to `/developer` are strictly redirected away to `/dashboard` with zero developer shell leakage.
+    - Verified authenticated `DEVELOPER` accounts access `/developer` overview dashboard and navigate landmarks (`/developer/users`, `/developer/access`).
+    - Verified elevated sessions: developer opens elevation dialog, authenticates with password and 2FA TOTP code, sees live elevation indicator with countdown, and clicks step-down button to revoke elevation immediately.
+  - Security review verified with zero open Critical/High findings:
+    - Zero role-promotion HTTP routes or client-controlled role assignments exist.
+    - Zero secrets leaked in read views, audit records, or API responses.
+    - Order, order line, and payment transaction history preserved untouched during manual entitlement adjustments.
+    - Cross-workspace isolation strictly enforced across all 3 roles (`LEARNER`, `INTERNAL_LEARNER`, `DEVELOPER`).
+  - Formally closed Sprint 36 and Milestone 13; advanced roadmap to Milestone 14 (Learner Experience and Mastery Quality) with Sprint 37 active next.
+  - Quality gates verified: 115 test files / 695 tests passed (100%), 12 Playwright E2E tests passed (100%), typecheck passed (0 errors), lint passed (0 warnings/errors), production build succeeded (45 routes compiled), and `git diff --check` clean.
+  Files/areas: `src/e2e/developer-portal.spec.ts`, `src/e2e/fixtures/developer-user.ts`, `ROADMAP.md`, `PLAN.md`, `docs/superpowers/plans/2026-09-08-developer-operations-and-internal-accounts.md`, `docs/TECHNICAL_DEBT.md`, `docs/HANDOFF.md`
+  Validation: `npm run typecheck`, `npm run lint`, `npm test` (115 files / 695 tests), `npx playwright test src/e2e/developer-portal.spec.ts src/e2e/member-workspace.spec.ts --project=chromium` (12 tests), `npm run build` (45 routes compiled), `git diff --check`.
+  Git: `codex/sprint-36-milestone-13-closure`
+
 - [2026-09-14 15:20 WITA] [ADDED] [Milestone 13 / Sprint 36 / Task 36.3]
   Implemented atomic developer package entitlement grant/revoke with written reasons, idempotent replay protection, and immutable audit logging:
   - Created `src/features/developer/access/mutations.ts`: Transaction-safe entitlement service executing within `prisma.$transaction`. Enforces mandatory written reason (min 12 characters), validates target user (rejecting DEVELOPER accounts), checks package composition, upserts/revokes course entitlements atomically, records immutable audit events via `recordDeveloperAuditEvent`, and guarantees idempotent replays on matching `requestId` (rejecting mismatched replays with 409 Conflict).

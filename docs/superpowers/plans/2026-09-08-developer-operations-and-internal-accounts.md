@@ -668,7 +668,7 @@ git commit -m "feat(developer): require password and 2FA elevation"
 - Produces: `mutateDeveloperEntitlement(input)`.
 - Consumes: elevated developer, target user, package and its server-side course composition, request ID, reason, entitlement/audit tables.
 
-- [ ] **Step 1: Write transaction, replay, and immutable-history tests**
+- [x] **Step 1: Write transaction, replay, and immutable-history tests**
 
 ```ts
 const input = {
@@ -686,11 +686,11 @@ expect((await mutateDeveloperEntitlement(input)).idempotentReplay).toBe(true);
 
 Also assert mismatched replay returns 409, an unavailable/empty package is rejected, every package course changes atomically, audit failure rolls back, developer target is forbidden, blank/short reason is rejected, and order rows are untouched.
 
-- [ ] **Step 2: Confirm failure**
+- [x] **Step 2: Confirm failure**
 
 Run: `npx vitest run src/features/developer/access src/app/api/developer/entitlements`.
 
-- [ ] **Step 3: Implement the schema and atomic service**
+- [x] **Step 3: Implement the schema and atomic service**
 
 ```ts
 const EntitlementMutationSchema = z.object({
@@ -704,7 +704,7 @@ const EntitlementMutationSchema = z.object({
 
 Inside one Prisma transaction, re-read actor/target/package and its current server-side course composition, grant or revoke each entitlement, and create one audit event containing the bounded course IDs and before/after states. Do not accept course membership, price, order state, source actor, or before/after state from the client.
 
-- [ ] **Step 4: Run focused tests and commit**
+- [x] **Step 4: Run focused tests and commit**
 
 Run: `npx vitest run src/features/developer/access src/app/api/developer/entitlements src/features/developer/components/entitlement-action-form.test.tsx`
 Expected: PASS.

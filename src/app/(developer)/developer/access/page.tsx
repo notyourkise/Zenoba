@@ -1,11 +1,15 @@
 import * as React from "react";
 import Link from "next/link";
+import { getAvailablePackagesForAccess } from "@/features/developer/access/queries";
+import { EntitlementActionForm } from "@/features/developer/components/entitlement-action-form";
 
 export const metadata = {
   title: "Akses & Riwayat Paket — Developer Netloka",
 };
 
 export default async function DeveloperAccessPage() {
+  const packages = await getAvailablePackagesForAccess();
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -18,30 +22,33 @@ export default async function DeveloperAccessPage() {
         </p>
       </div>
 
-      {/* Sprint 36 Elevation Notice Card */}
+      {/* Governance & Elevation Notice Card */}
       <div className="p-6 rounded-lg bg-[#080d1a] border border-blue-500/20 space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-base font-semibold text-white">
             Manajemen Hak Akses & Entitlement
           </h2>
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
-            Sprint 36 Terencana
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            Sprint 36 Aktif
           </span>
         </div>
 
         <p className="text-sm text-slate-300">
-          Saat ini portal developer berada dalam mode <strong>read-only operasional</strong>. Fitur mutasi hak akses (pemberian atau pencabutan paket manual) akan diimplementasikan pada <strong>Sprint 36</strong> dengan kontrol keamanan ketat:
+          Penyesuaian hak akses manual (pemberian atau pencabutan entitlement paket) tunduk pada kontrol keamanan ketat:
         </p>
 
         <ul className="list-disc list-inside text-xs text-slate-400 space-y-1.5 pl-2">
           <li>
-            <strong>Sesi Elevasi:</strong> Pengembang wajib melakukan re-autentikasi kata sandi dan verifikasi TOTP 2FA untuk mendapatkan sesi elevasi berdurasi 10 menit.
+            <strong>Sesi Elevasi Wajib:</strong> Developer wajib memiliki sesi elevasi aktif 10 menit dengan verifikasi kata sandi + TOTP 2FA.
           </li>
           <li>
-            <strong>Alasan Wajib (Written Reason):</strong> Setiap penyesuaian hak akses wajib menyertakan alasan tertulis yang dicatat secara permanen di tabel audit log.
+            <strong>Alasan Tertulis (Written Reason):</strong> Setiap mutasi wajib menyertakan alasan minimal 12 karakter yang tersimpan di catatan audit permanen.
           </li>
           <li>
-            <strong>Integritas Data Transaksi:</strong> Penyesuaian manual tidak akan pernah memanipulasi, menyunting, atau menghapus riwayat pesanan (orders) historis.
+            <strong>Integritas Data Transaksi:</strong> Penyesuaian manual tidak pernah memanipulasi, menyunting, atau membuat transaksi pesanan palsu pada tabel orders.
+          </li>
+          <li>
+            <strong>Larangan Target Developer:</strong> Akun dengan peran DEVELOPER tidak dapat diberikan atau dicabut hak aksesnya melalui antarmuka ini.
           </li>
         </ul>
 
@@ -57,6 +64,9 @@ export default async function DeveloperAccessPage() {
           </Link>
         </div>
       </div>
+
+      {/* Interactive Mutation Form */}
+      <EntitlementActionForm packages={packages} />
 
       {/* Principles Panel */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

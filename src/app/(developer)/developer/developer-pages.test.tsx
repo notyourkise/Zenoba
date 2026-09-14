@@ -36,6 +36,9 @@ vi.mock("@/lib/db/client", () => ({
     learningPath: {
       findMany: vi.fn(),
     },
+    package: {
+      findMany: vi.fn().mockResolvedValue([]),
+    },
   },
 }));
 

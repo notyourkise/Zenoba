@@ -38,6 +38,19 @@ All notable project changes are recorded here.
 
 # 2026-09-14
 
+- [2026-09-14 15:20 WITA] [ADDED] [Milestone 13 / Sprint 36 / Task 36.3]
+  Implemented atomic developer package entitlement grant/revoke with written reasons, idempotent replay protection, and immutable audit logging:
+  - Created `src/features/developer/access/mutations.ts`: Transaction-safe entitlement service executing within `prisma.$transaction`. Enforces mandatory written reason (min 12 characters), validates target user (rejecting DEVELOPER accounts), checks package composition, upserts/revokes course entitlements atomically, records immutable audit events via `recordDeveloperAuditEvent`, and guarantees idempotent replays on matching `requestId` (rejecting mismatched replays with 409 Conflict).
+  - Created `src/features/developer/access/queries.ts`: Retrieves active catalog packages and computes their course count for developer portal access management.
+  - Created `src/app/api/developer/entitlements/route.ts`: Secure REST endpoint enforcing developer authorization and active 10-minute elevation session (`netloka_dev_elevation` cookie via `requireElevatedDeveloperSession`). Validates request payload against `EntitlementMutationSchema` and maps domain errors to appropriate HTTP status codes.
+  - Created `src/features/developer/components/entitlement-action-form.tsx`: Accessible, text-led form (no decorative icons/emojis) for granting or revoking package entitlements, featuring live character counter, target user input, package selection, and elevation state notices.
+  - Updated `src/app/(developer)/developer/access/page.tsx`: Integrated `EntitlementActionForm` with server-side package options alongside governance principles and user directory links.
+  - Invariant verified: Order history preserved untouched — zero manipulation or fabrication of `Order`, `OrderLine`, or `PaymentAttempt` records.
+  - Quality gates verified: 115 test files / 695 tests passed (100%), typecheck passed (0 errors), lint passed (0 warnings/errors), production build succeeded (45 routes compiled), and `git diff --check` clean.
+  Files/areas: `src/features/developer/access/`, `src/app/api/developer/entitlements/`, `src/features/developer/components/`, `src/app/(developer)/developer/access/`
+  Validation: `npm run typecheck`, `npm run lint`, `npm test` (115 files / 695 tests), `npm run build` (45 routes compiled), `git diff --check`.
+  Git: `codex/sprint-36-entitlements-mutations`
+
 - [2026-09-14 14:45 WITA] [ADDED] [Milestone 13 / Sprint 36 / Task 36.2]
   Added mandatory developer 2FA and password-plus-2FA elevated sessions with ten-minute expiry:
   - Created `src/features/developer/elevation/service.ts`: Core elevation engine enforcing 10-minute expiry (`ELEVATION_TTL_MS = 10 * 60 * 1000`), secure 32-byte opaque token with SHA-256 hash storage in `DeveloperElevationSession`, binding to user's `authVersion`, verification of password & TOTP / backup code, rate limiting, revocation, and status queries.

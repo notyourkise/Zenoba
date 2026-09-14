@@ -4,7 +4,7 @@ Dokumen pencatatan hutang teknis (*technical debt*), area refaktor masa depan, d
 
 ---
 
-## 1. Status Hutang Teknis Saat Ini (Milestone 13 Aktif / Pra-Peluncuran MVP)
+## 1. Status Hutang Teknis Saat Ini (Milestone 13 Selesai / Milestone 14 Aktif)
 
 | ID | Kategori | Deskripsi | Dampak | Status Resolusi |
 |---|---|---|---|---|

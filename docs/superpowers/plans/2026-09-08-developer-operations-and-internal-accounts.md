@@ -732,11 +732,11 @@ git commit -m "feat(developer): audit entitlement administration"
 - Consumes: all Milestone 13 behavior.
 - Produces: isolated three-role authenticated evidence and release handoff.
 
-- [ ] **Step 1: Add three-role E2E fixtures and journeys**
+- [x] **Step 1: Add three-role E2E fixtures and journeys**
 
 Cover public role escalation rejection, login redirect, workspace isolation, internal premium access without analytics inclusion, read-only portal, redaction, elevation expiry, grant/revoke, idempotent replay, audit visibility, and direct API denial.
 
-- [ ] **Step 2: Run focused and full local gates**
+- [x] **Step 2: Run focused and full local gates**
 
 Run: `npm run db:generate`
 Run: `npm run lint`
@@ -747,11 +747,11 @@ Run: `npm run build`
 Run: `git diff --check`
 Expected: all commands succeed against an isolated migrated/seeded database.
 
-- [ ] **Step 3: Review the complete diff**
+- [x] **Step 3: Review the complete diff**
 
 Confirm no role-promotion HTTP route, no secret projection, no developer learning access, no internal analytics contamination, no web infrastructure mutation, no migration against retained data, and no Critical/High finding.
 
-- [ ] **Step 4: Update documentation and commit**
+- [x] **Step 4: Update documentation and commit**
 
 Record exact WITA timestamp, commands, test counts, environment boundaries, commit state, and remaining Milestone 14 entry point.
 
@@ -760,6 +760,6 @@ git add src/e2e ROADMAP.md PLAN.md CHANGELOG.md docs
 git commit -m "test(developer): verify privileged workspace boundaries"
 ```
 
-- [ ] **Step 5: Deliver through PR/CI without merging**
+- [x] **Step 5: Deliver through PR/CI without merging**
 
 Push the focused branch, create/update its PR with `gh`, verify every current-head CI job, and leave final review/merge to Abangku.

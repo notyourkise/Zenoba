@@ -5,7 +5,7 @@
 > **Product:** Interactive IT infrastructure learning platform
 > **Primary audience:** SMK TKJ students, beginners, and learners preparing for practical network, sysadmin, security, cloud, and field-infrastructure work
 > **Core experience:** Learn → Interact → Practice → Challenge → Consultant Project  
-> **Status:** Milestones 0–6 historically delivered; Milestone 7 application foundation implemented with live operations deferred; Milestones 8–12, Sprint 34, and Sprint 35 merged/complete; Milestone 13 remains active with Sprint 36 next; gateway, deployment, production, and live payment remain last in Milestone 15 / Sprint 42
+> **Status:** Milestones 0–6 historically delivered; Milestone 7 application foundation implemented with live operations deferred; Milestones 8–13 merged/complete; Milestone 14 active next; gateway, deployment, production, and live payment remain last in Milestone 15 / Sprint 42
 > **Timezone for project logs:** WITA / GMT+8
 
 ---
@@ -731,7 +731,7 @@ Required gates remain: real published access-guarded premium content; owner-appr
 
 ---
 
-## Milestone 13 — Developer Operations and Internal Accounts — ACTIVE
+## Milestone 13 — Developer Operations and Internal Accounts — ✅ COMPLETE
 
 **Goal:** Add VPS-only privileged roles, an isolated developer portal, internal learner access, safe read models, and elevated audited entitlement management.
 
@@ -755,19 +755,21 @@ Required gates remain: real published access-guarded premium content; owner-appr
 
 **Closure review:** Sprint 35 is closed. Task 35.1 built safe, privacy-bounded read models completely omitting credentials. Task 35.2 implemented the independent `/developer` shell, layout protection with `requireDeveloperActor()`, accessible loading/error boundaries, and 7 operational read-only views. Task 35.3 verified query bounding, cross-workspace isolation, secret redaction, and accessibility invariants. Full regression suite (105 test files / 622 unit/integration tests) passes.
 
-### Sprint 36 — Elevation, Entitlements, and Audit — ACTIVE / NEXT
+### Sprint 36 — Elevation, Entitlements, and Audit — ✅ COMPLETE
 
 - Require password plus mandatory 2FA for a short elevated developer session.
 - Permit package grant/revoke only with a written reason and atomic immutable audit evidence.
 - Never edit or delete historical orders when access is manually adjusted.
 
-**Detailed plan:** [Developer Operations and Internal Accounts](docs/superpowers/plans/2026-09-08-developer-operations-and-internal-accounts.md).
+**Merged evidence:** Tasks 36.1–36.3 were merged through PR #58–#60; local `main` synchronized to merge commit `91707cf`, and all applicable CI jobs passed. Task 36.4 verified cross-workspace isolation and elevated developer flows with authenticated Playwright E2E and regression gates.
 
-**Exit:** Privileged provisioning cannot occur through public web paths; role isolation, read models, elevation, entitlement mutation, audit, and internal-learner cohort rules pass security and authenticated E2E review.
+**Closure review:** Sprint 36 and Milestone 13 are closed. Task 36.1 added sanitized activity/security events and immutable audit records. Task 36.2 enforced mandatory developer 2FA and 10-minute elevated sessions (`netloka_dev_elevation` cookie, password+TOTP verification, step-down). Task 36.3 implemented atomic package entitlement grant/revoke with 12+ character written reasons, idempotent replays, and zero manipulation of order history. Task 36.4 proved workspace boundaries across `LEARNER`, `INTERNAL_LEARNER`, and `DEVELOPER` roles via authenticated Playwright E2E (`developer-portal.spec.ts`, 7 tests; `member-workspace.spec.ts`, 5 tests) and 115 unit/integration test files (695 tests, 100% pass). No Critical/High findings open.
+
+**Milestone exit criteria:** Privileged provisioning cannot occur through public web paths; role isolation, read models, elevation, entitlement mutation, audit, and internal-learner cohort rules pass security and authenticated E2E review.
 
 ---
 
-## Milestone 14 — Learner Experience and Mastery Quality — PLANNED
+## Milestone 14 — Learner Experience and Mastery Quality — ACTIVE / NEXT
 
 ### Sprint 37 — Continuity and Daily Comfort — PLANNED
 

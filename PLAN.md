@@ -1136,16 +1136,16 @@ Detailed executable plan: [Developer Operations and Internal Accounts](docs/supe
 
 **Acceptance:** Developer sees operational and user/package context without raw secrets, raw learner answers, curriculum mutation, shell access, or system mutation. All criteria satisfied and verified. Tasks 35.1–35.3 completed and tested.
 
-### Sprint 36 — Elevation, Entitlements, and Audit
+### Sprint 36 — Elevation, Entitlements, and Audit — ✅ COMPLETE
 
 - [x] Task 36.1: Persist safe activity/security events and immutable audit records.
-- [ ] Task 36.2: Add mandatory developer 2FA and password-plus-2FA elevated sessions with ten-minute expiry.
-- [ ] Task 36.3: Implement atomic package grant/revoke with a written reason; preserve all order history.
-- [ ] Task 36.4: Complete security review, authenticated E2E, full gates, PR/CI, owner review/merge, and synchronization.
+- [x] Task 36.2: Add mandatory developer 2FA and password-plus-2FA elevated sessions with ten-minute expiry.
+- [x] Task 36.3: Implement atomic package grant/revoke with a written reason; preserve all order history.
+- [x] Task 36.4: Complete security review, authenticated E2E, full gates, PR/CI, owner review/merge, and synchronization.
 
-**Exit:** Role provisioning, workspace isolation, internal cohort behavior, developer read views, elevation, entitlement changes, and audit evidence are verified with no open Critical/High findings.
+**Exit:** Role provisioning, workspace isolation, internal cohort behavior, developer read views, elevation, entitlement changes, and audit evidence are verified with no open Critical/High findings. Milestone 13 complete.
 
-## Milestone 14 — Learner Experience and Mastery Quality — PLANNED
+## Milestone 14 — Learner Experience and Mastery Quality — ACTIVE / NEXT
 
 Detailed executable plan: [Learner Experience and Mastery Quality](docs/superpowers/plans/2026-09-08-learner-experience-and-mastery.md).
 

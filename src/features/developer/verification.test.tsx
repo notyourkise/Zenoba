@@ -12,6 +12,11 @@ import { searchDeveloperUsers } from "@/features/developer/users/queries";
 import { getDeveloperOverview } from "@/features/developer/overview/queries";
 import { getSystemHealth } from "@/features/developer/system/health";
 import { DeveloperShell } from "@/features/developer/components/developer-shell";
+import {
+  ELEVATION_TTL_MS,
+  ELEVATION_COOKIE_NAME,
+  hashElevationToken,
+} from "@/features/developer/elevation/service";
 
 // Mock next-auth and prisma
 vi.mock("next-auth", () => ({
@@ -284,6 +289,25 @@ describe("Sprint 35 Verification: Developer Portal & Security Invariants", () =>
       // Hamburger button has accessible name and aria-expanded
       const toggleBtn = screen.getByLabelText("Buka menu navigasi pengembang");
       expect(toggleBtn).toHaveAttribute("aria-expanded", "false");
+    });
+  });
+
+  describe("5. Developer Elevation & Ephemeral Session Invariants", () => {
+    it("enforces elevation TTL of exactly 10 minutes", () => {
+      expect(ELEVATION_TTL_MS).toBe(10 * 60 * 1000);
+    });
+
+    it("uses netloka_dev_elevation cookie name", () => {
+      expect(ELEVATION_COOKIE_NAME).toBe("netloka_dev_elevation");
+    });
+
+    it("hashes elevation tokens with SHA-256 and never matches raw token", () => {
+      const raw = "sample_raw_token_value_32_bytes_hex";
+      const hashed = hashElevationToken(raw);
+
+      expect(hashed).not.toBe(raw);
+      expect(hashed.length).toBe(64);
+      expect(hashElevationToken(raw)).toBe(hashed); // Deterministic
     });
   });
 });

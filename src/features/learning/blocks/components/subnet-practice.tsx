@@ -3,13 +3,45 @@
 import React, { useState } from "react";
 import { CheckCircle2, RotateCcw, Award } from "lucide-react";
 import { calculateSubnetDetails } from "@/features/network-logic/ipv4/ipv4";
+import { useLearningDraft } from "../../drafts/use-learning-draft";
 
-export function SubnetPractice() {
+interface SubnetPracticeProps {
+  block?: {
+    id?: string;
+    [key: string]: unknown;
+  };
+  lessonId?: string;
+}
+
+interface SubnetDraftPayload {
+  problemIndex: number;
+  userNetId: string;
+  userBroadcast: string;
+  userUsable: string;
+}
+
+export function SubnetPractice({ block, lessonId }: SubnetPracticeProps = {}) {
   const [problemIndex, setProblemIndex] = useState<number>(0);
   const [userNetId, setUserNetId] = useState<string>("");
   const [userBroadcast, setUserBroadcast] = useState<string>("");
   const [userUsable, setUserUsable] = useState<string>("");
   const [validated, setValidated] = useState<boolean | null>(null);
+
+  const activityId = block?.id || "subnet_practice";
+
+  const { discardDraft } = useLearningDraft<SubnetDraftPayload>({
+    lessonId,
+    activityId,
+    payload: { problemIndex, userNetId, userBroadcast, userUsable },
+    onRestore: (draftPayload) => {
+      if (draftPayload) {
+        if (typeof draftPayload.problemIndex === "number") setProblemIndex(draftPayload.problemIndex);
+        if (typeof draftPayload.userNetId === "string") setUserNetId(draftPayload.userNetId);
+        if (typeof draftPayload.userBroadcast === "string") setUserBroadcast(draftPayload.userBroadcast);
+        if (typeof draftPayload.userUsable === "string") setUserUsable(draftPayload.userUsable);
+      }
+    },
+  });
 
   const practiceProblems = [
     { ip: "192.168.1.130", prefix: 26 },
@@ -26,10 +58,15 @@ export function SubnetPractice() {
     const isBcastCorrect = userBroadcast.trim() === solution.broadcastAddress;
     const isUsableCorrect = Number(userUsable.trim()) === solution.usableHosts;
 
-    setValidated(isNetCorrect && isBcastCorrect && isUsableCorrect);
+    const isAllCorrect = isNetCorrect && isBcastCorrect && isUsableCorrect;
+    setValidated(isAllCorrect);
+    if (isAllCorrect) {
+      discardDraft();
+    }
   };
 
   const handleNextProblem = () => {
+    discardDraft();
     setProblemIndex((prev) => (prev + 1) % practiceProblems.length);
     setUserNetId("");
     setUserBroadcast("");

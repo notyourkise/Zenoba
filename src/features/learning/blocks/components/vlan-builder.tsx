@@ -3,11 +3,41 @@
 import React, { useState } from "react";
 import { Shield, Layers } from "lucide-react";
 import { evaluateL2Reachability, SimInterface } from "@/features/network-logic/simulation/topology";
+import { useLearningDraft } from "../../drafts/use-learning-draft";
 
-export function VlanBuilder() {
+interface VlanBuilderProps {
+  block?: {
+    id?: string;
+    [key: string]: unknown;
+  };
+  lessonId?: string;
+}
+
+interface VlanDraftPayload {
+  port1Vlan: number;
+  port2Vlan: number;
+  port3Vlan: number;
+}
+
+export function VlanBuilder({ block, lessonId }: VlanBuilderProps = {}) {
   const [port1Vlan, setPort1Vlan] = useState<number>(10);
   const [port2Vlan, setPort2Vlan] = useState<number>(10);
   const [port3Vlan, setPort3Vlan] = useState<number>(20);
+
+  const activityId = block?.id || "vlan_builder";
+
+  useLearningDraft<VlanDraftPayload>({
+    lessonId,
+    activityId,
+    payload: { port1Vlan, port2Vlan, port3Vlan },
+    onRestore: (draftPayload) => {
+      if (draftPayload) {
+        if (typeof draftPayload.port1Vlan === "number") setPort1Vlan(draftPayload.port1Vlan);
+        if (typeof draftPayload.port2Vlan === "number") setPort2Vlan(draftPayload.port2Vlan);
+        if (typeof draftPayload.port3Vlan === "number") setPort3Vlan(draftPayload.port3Vlan);
+      }
+    },
+  });
 
   const iface1: SimInterface = {
     id: "p1",

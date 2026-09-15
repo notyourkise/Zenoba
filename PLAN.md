@@ -1152,7 +1152,7 @@ Detailed executable plan: [Learner Experience and Mastery Quality](docs/superpow
 ### Sprint 37 — Continuity and Daily Comfort
 
 - [x] Task 37.1: Add exact resume and a deterministic prioritized learning queue.
-- [ ] Task 37.2: Add safe autosave drafts that never create progress/XP/evidence.
+- [x] Task 37.2: Add safe autosave drafts that never create progress/XP/evidence.
 - [ ] Task 37.3: Standardize lesson navigation and public error behavior.
 - [ ] Task 37.4: Add typed curriculum search and ownership-scoped bookmarks.
 

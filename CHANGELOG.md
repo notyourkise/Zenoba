@@ -38,6 +38,36 @@ All notable project changes are recorded here.
 
 # 2026-09-15
 
+- [2026-09-15 13:20 WITA] [ADDED] [Milestone 14 / Sprint 37 / Task 37.3]
+  Standardized contextual lesson navigation and public error sanitization:
+  - Domain navigation engine (`src/features/learning/navigation.ts`):
+    - Created pure domain function `resolveLessonNavigation()` calculating within-module previous and next lessons, cross-module previous transitions, module assessment transitions upon completing all module lessons, and next module unlocks based on prerequisite and assessment completion.
+    - Added `exitHref` mapping back to path overview (`/learn/[pathSlug]`).
+    - Covered by 7 unit tests in `src/features/learning/navigation.test.ts` (100% pass).
+  - Public error sanitizer (`src/lib/errors/public-error.ts`):
+    - Created `sanitizePublicError()` translating raw exceptions into safe, actionable Indonesian messages for learners (`PublicErrorDetail`).
+    - Strips internal database/Prisma identifiers, SQL queries (`SELECT`, `INSERT`, table names), and server internals to prevent leakage.
+    - Categorizes errors into `NOT_FOUND`, `UNAUTHENTICATED`, `FORBIDDEN`, `LOCKED`, `NETWORK_ERROR`, `DRAFT_SYNC_FAILED`, `VALIDATION_ERROR`, and `INTERNAL_ERROR`.
+    - Covered by 7 unit tests in `src/lib/errors/public-error.test.ts` (100% pass).
+  - Server query integration (`src/features/learning/queries.ts`):
+    - Updated `getLessonDetail()` to construct learner evidence snapshot (`completedLessonIds`, `inProgressLessonIds`, `moduleAssessments`), fetch curriculum graph, and resolve contextual `navigation: LessonNavigationContext | null`.
+    - Added unit test suite for `getLessonDetail` in `src/features/learning/queries.test.ts` (8/8 tests pass).
+  - UI action bar & runner page (`src/features/learning/components/lesson-action-bar.tsx`, `src/app/(app)/learn/[pathSlug]/[moduleSlug]/[lessonSlug]/page.tsx`):
+    - Updated `LessonActionBar` to accept `navigation?: LessonNavigationContext | null` with backward-compatible fallback.
+    - Renders contextual previous lesson links, completion CTA ("Tandai Selesai" / "Telah Selesai"), locked indicators with tooltips/reasons, module assessment links ("Ujian Akhir Modul"), and cross-module next links ("Modul Berikutnya").
+    - Renders accessible alert banners (`role="alert"`) on completion errors using `sanitizePublicError`, with actionable retry buttons and zero database leaks.
+    - Passed `navigation={detail.navigation}` from server component in lesson runner `page.tsx`.
+    - Strictly compliant with Netloka visual policy (Section 5.6): zero decorative emojis or unapproved icons.
+    - Covered by 8 unit tests in `src/features/learning/components/lesson-action-bar.test.tsx` (100% pass).
+  - Verification & quality gates:
+    - 123 test files / 756 tests passed (100%).
+    - `npm run typecheck` passed (0 errors).
+    - `npm run lint` passed (0 warnings/errors).
+    - `npm run build` passed (46 routes compiled successfully).
+    - `git diff --check` passed cleanly.
+    - Playwright E2E passed (`member-workspace.spec.ts` 5/5 passed, `lesson-loop.spec.ts` 2/2 passed).
+  Files/areas: `src/features/learning/navigation.ts`, `src/features/learning/navigation.test.ts`, `src/lib/errors/public-error.ts`, `src/lib/errors/public-error.test.ts`, `src/features/learning/queries.ts`, `src/features/learning/queries.test.ts`, `src/features/learning/components/lesson-action-bar.tsx`, `src/features/learning/components/lesson-action-bar.test.tsx`, `src/app/(app)/learn/[pathSlug]/[moduleSlug]/[lessonSlug]/page.tsx`, `docs/superpowers/plans/2026-09-08-learner-experience-and-mastery.md`
+
 - [2026-09-15 12:47 WITA] [ADDED] [Milestone 14 / Sprint 37 / Task 37.2]
   Implemented safe autosave drafts with zero XP, progress, or assessment side effects:
   - Database schema & migration:

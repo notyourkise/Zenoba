@@ -160,6 +160,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
               }
               prevLesson={prevLesson}
               nextLesson={nextLesson}
+              navigation={detail.navigation}
             />
           </>
         ) : (

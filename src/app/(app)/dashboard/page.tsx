@@ -1,6 +1,7 @@
 import { getCurrentUser } from "@/lib/auth";
 import { getUserProgressSummary } from "@/features/learning/progress";
 import { getLearningPathsWithProgress } from "@/features/learning/queries";
+import { getDashboardContinuationData } from "@/features/dashboard/queries";
 import Link from "next/link";
 
 function WaveLinesBackground({ color }: { color: "purple" | "cyan" | "amber" }) {
@@ -66,20 +67,62 @@ function WaveLinesBackground({ color }: { color: "purple" | "cyan" | "amber" }) 
   );
 }
 
+function getQueueBadge(
+  kind: "REMEDIATION" | "RESUME" | "ASSESSMENT" | "NEXT_LESSON"
+) {
+  switch (kind) {
+    case "REMEDIATION":
+      return {
+        label: "Remediasi",
+        className: "bg-rose-500/10 text-rose-400 border-rose-500/30",
+        ctaText: "Mulai Remediasi",
+      };
+    case "RESUME":
+      return {
+        label: "Lanjutkan",
+        className: "bg-blue-500/10 text-blue-400 border-blue-500/30",
+        ctaText: "Lanjutkan Belajar",
+      };
+    case "ASSESSMENT":
+      return {
+        label: "Uji Kompetensi",
+        className: "bg-amber-500/10 text-amber-400 border-amber-500/30",
+        ctaText: "Uji Kompetensi",
+      };
+    case "NEXT_LESSON":
+      return {
+        label: "Pelajaran Berikutnya",
+        className: "bg-teal-500/10 text-teal-400 border-teal-500/30",
+        ctaText: "Mulai Belajar",
+      };
+  }
+}
+
 export default async function DashboardPage() {
   const user = await getCurrentUser();
 
-  const [progressSummary, paths] = user?.id
+  const [progressSummary, paths, continuation] = user?.id
     ? await Promise.all([
         getUserProgressSummary(user.id),
         getLearningPathsWithProgress(user.id),
+        getDashboardContinuationData(user.id),
       ])
     : [
-        { totalLessons: 0, completedCount: 0, inProgressCount: 0, completionPercentage: 0, totalXp: 0 },
+        {
+          totalLessons: 0,
+          completedCount: 0,
+          inProgressCount: 0,
+          completionPercentage: 0,
+          totalXp: 0,
+        },
         [],
+        { primaryAction: null, queue: [], isComplete: false },
       ];
 
-  const activePath = paths.find((p) => p.progressPercent > 0 && p.progressPercent < 100) || paths[0] || null;
+  const activePath =
+    paths.find((p) => p.progressPercent > 0 && p.progressPercent < 100) ||
+    paths[0] ||
+    null;
 
   const rawName = user?.name?.trim() || "Dev Netloka";
   const nameParts = rawName.split(" ");
@@ -88,11 +131,33 @@ export default async function DashboardPage() {
 
   const totalCourses = Math.max(paths.length, 15);
   const totalLessons = progressSummary.totalLessons || 15;
-  const progressPercent = Math.min(Math.max(progressSummary.completionPercentage || 0, 0), 100);
-  const completionRatioPercent = Math.round((progressSummary.completedCount / totalCourses) * 100);
+  const progressPercent = Math.min(
+    Math.max(progressSummary.completionPercentage || 0, 0),
+    100
+  );
+  const completionRatioPercent = Math.round(
+    (progressSummary.completedCount / totalCourses) * 100
+  );
 
-  const continueHref = activePath ? `/learn/${activePath.slug}` : "/catalog";
-  const continueLabel = activePath && activePath.progressPercent > 0 ? "Lanjutkan Belajar" : "Mulai Belajar";
+  const primaryAction = continuation.primaryAction;
+
+  const continueHref = primaryAction
+    ? primaryAction.href
+    : activePath
+    ? `/learn/${activePath.slug}`
+    : "/catalog";
+
+  const continueLabel = primaryAction
+    ? primaryAction.kind === "REMEDIATION"
+      ? "Remediasi Modul"
+      : primaryAction.kind === "ASSESSMENT"
+      ? "Uji Kompetensi"
+      : primaryAction.kind === "RESUME"
+      ? "Lanjutkan Belajar"
+      : "Mulai Belajar"
+    : activePath && activePath.progressPercent > 0
+    ? "Lanjutkan Belajar"
+    : "Mulai Belajar";
 
   // SVG circle calculation for radius 40
   const circleRadius = 40;
@@ -346,10 +411,15 @@ export default async function DashboardPage() {
 
         {/* Right: Lanjutkan dari Terakhir */}
         <div className="rounded-2xl border border-blue-900/30 bg-[#081024]/80 p-6 shadow-lg flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-2">
-            <h2 className="text-base font-bold text-white">
-              Lanjutkan dari Terakhir
-            </h2>
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <h2 className="text-base font-bold text-white">
+                Lanjutkan dari Terakhir
+              </h2>
+              <p className="text-xs text-zinc-400 mt-0.5">
+                Rekomendasi tindakan belajar prioritas
+              </p>
+            </div>
             <Link
               href="/my-learning"
               className="text-xs text-blue-400 hover:text-blue-300 font-medium transition-colors"
@@ -358,7 +428,110 @@ export default async function DashboardPage() {
             </Link>
           </div>
 
-          {activePath && activePath.progressPercent > 0 ? (
+          {continuation.isComplete ? (
+            <div className="flex-1 flex flex-col items-center justify-center text-center py-6 space-y-3">
+              <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                Kurikulum Selesai
+              </span>
+              <p className="text-sm font-bold text-white">
+                Selamat! Anda telah menyelesaikan seluruh kurikulum
+              </p>
+              <p className="text-xs text-zinc-400 max-w-sm">
+                Pertajam keahlian praktikal melalui proyek simulasi konsultan atau lab terarah.
+              </p>
+              <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+                <Link
+                  href="/consultant"
+                  className="inline-flex items-center px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                >
+                  Proyek Konsultan
+                </Link>
+                <Link
+                  href="/labs"
+                  className="inline-flex items-center px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400"
+                >
+                  Lab Praktik
+                </Link>
+              </div>
+            </div>
+          ) : primaryAction ? (
+            <div className="flex-1 flex flex-col justify-between py-2 space-y-4">
+              {/* Primary Action Hero Card */}
+              {(() => {
+                const badge = getQueueBadge(primaryAction.kind);
+                return (
+                  <div className="rounded-xl border border-blue-900/40 bg-[#0c1630]/90 p-4 space-y-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <span
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-semibold tracking-wide uppercase border ${badge.className}`}
+                      >
+                        {badge.label}
+                      </span>
+                      {primaryAction.pathTitle && (
+                        <span className="text-[11px] text-zinc-400 truncate max-w-[200px]">
+                          {primaryAction.pathTitle}
+                        </span>
+                      )}
+                    </div>
+
+                    <div>
+                      <h3 className="text-sm sm:text-base font-bold text-white line-clamp-1">
+                        {primaryAction.title}
+                      </h3>
+                      <p className="text-xs text-zinc-400 mt-0.5 line-clamp-1">
+                        {primaryAction.reason}
+                      </p>
+                    </div>
+
+                    <div className="pt-1">
+                      <Link
+                        href={primaryAction.href}
+                        className="inline-flex items-center px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white text-xs font-semibold shadow-md shadow-blue-600/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                      >
+                        {badge.ctaText}
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* Prioritized Learning Queue List (Upcoming Items) */}
+              {continuation.queue.length > 1 && (
+                <div className="space-y-2 pt-2 border-t border-zinc-800/60">
+                  <p className="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider">
+                    Antrean Pembelajaran Berikutnya
+                  </p>
+                  <ul className="space-y-1.5" aria-label="Antrean Belajar">
+                    {continuation.queue.slice(1, 4).map((item, idx) => {
+                      const itemBadge = getQueueBadge(item.kind);
+                      return (
+                        <li key={`${item.href}-${idx}`}>
+                          <Link
+                            href={item.href}
+                            className="flex items-center justify-between gap-3 p-2.5 rounded-lg bg-[#070d1d]/60 hover:bg-[#0c1630] border border-zinc-800/40 hover:border-blue-900/50 transition-colors group"
+                          >
+                            <div className="min-w-0 flex-1">
+                              <p className="text-xs font-medium text-zinc-200 group-hover:text-white truncate">
+                                {item.title}
+                              </p>
+                              <p className="text-[10px] text-zinc-400 truncate">
+                                {item.moduleTitle || item.reason}
+                              </p>
+                            </div>
+                            <span
+                              className={`shrink-0 inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold border ${itemBadge.className}`}
+                            >
+                              {itemBadge.label}
+                            </span>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
+            </div>
+          ) : activePath && activePath.progressPercent > 0 ? (
             <div className="flex-1 flex flex-col justify-center py-4 space-y-4">
               <div>
                 <span className="inline-block text-[10px] font-bold text-blue-400 uppercase tracking-wider mb-1">

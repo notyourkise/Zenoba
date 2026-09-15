@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { CheckCircle2, RotateCcw, Award } from "lucide-react";
+import { useLearningDraft } from "../../drafts/use-learning-draft";
 
 interface PinColor {
   id: string;
@@ -23,10 +24,41 @@ const ALL_PINS: PinColor[] = [
 const T568B_CORRECT = ["WO", "O", "WG", "B", "WB", "G", "WBr", "Br"];
 const T568A_CORRECT = ["WG", "G", "WO", "B", "WB", "O", "WBr", "Br"];
 
-export function CableOrderExercise() {
+interface CableOrderExerciseProps {
+  block?: {
+    id?: string;
+    [key: string]: unknown;
+  };
+  lessonId?: string;
+}
+
+interface CableOrderDraftPayload {
+  standard: "T568B" | "T568A";
+  currentSlots: string[];
+}
+
+export function CableOrderExercise({ block, lessonId }: CableOrderExerciseProps = {}) {
   const [standard, setStandard] = useState<"T568B" | "T568A">("T568B");
   const [currentSlots, setCurrentSlots] = useState<string[]>([]);
   const [validated, setValidated] = useState<boolean | null>(null);
+
+  const activityId = block?.id || "cable_order";
+
+  const { discardDraft } = useLearningDraft<CableOrderDraftPayload>({
+    lessonId,
+    activityId,
+    payload: { standard, currentSlots },
+    onRestore: (draftPayload) => {
+      if (draftPayload) {
+        if (draftPayload.standard === "T568A" || draftPayload.standard === "T568B") {
+          setStandard(draftPayload.standard);
+        }
+        if (Array.isArray(draftPayload.currentSlots)) {
+          setCurrentSlots(draftPayload.currentSlots);
+        }
+      }
+    },
+  });
 
   const correctSequence = standard === "T568B" ? T568B_CORRECT : T568A_CORRECT;
 
@@ -45,6 +77,7 @@ export function CableOrderExercise() {
   };
 
   const handleReset = () => {
+    discardDraft();
     setCurrentSlots([]);
     setValidated(null);
   };
@@ -53,6 +86,9 @@ export function CableOrderExercise() {
     if (currentSlots.length === 8) {
       const isCorrect = currentSlots.every((id, idx) => id === correctSequence[idx]);
       setValidated(isCorrect);
+      if (isCorrect) {
+        discardDraft();
+      }
     }
   };
 

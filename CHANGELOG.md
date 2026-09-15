@@ -36,6 +36,43 @@ All notable project changes are recorded here.
   Git: commit SHA and/or PR number when available
 ```
 
+# 2026-09-15
+
+- [2026-09-15 12:47 WITA] [ADDED] [Milestone 14 / Sprint 37 / Task 37.2]
+  Implemented safe autosave drafts with zero XP, progress, or assessment side effects:
+  - Database schema & migration:
+    - Added `LearningDraft` model in `prisma/schema.prisma` with composite unique constraint `@@unique([userId, lessonId, activityId])` and cascade deletion on user.
+    - Generated forward-only SQL migration `prisma/migrations/20260908091000_learning_drafts/migration.sql` creating `learning_drafts` table, foreign keys, and indexes.
+  - Domain service (`src/features/learning/drafts/service.ts`):
+    - Added `saveLearningDraft`, `getLearningDraft`, `deleteLearningDraft`, and `listLessonDrafts`.
+    - Hard 64 KB payload size enforcement (`DraftPayloadTooLargeError`).
+    - Payload sanitization banning secret keys (`secret`, `password`, `token`, `answerKey`, etc.) and script injection (`DraftPayloadInvalidError`).
+    - Strict non-interference guarantee: saves and reads never touch `UserLessonProgress`, `UserXpLedger`, or `AssessmentAttempt`.
+    - Covered by 9 unit tests in `src/features/learning/drafts/service.test.ts` (100% pass).
+  - Authenticated API route (`src/app/api/learning/drafts/route.ts`):
+    - Protected by `requireLearnerActor()`; rejects unauthenticated requests (401) and DEVELOPER workspace access (403).
+    - `GET` with `lessonId` and optional `activityId` returns saved draft or list.
+    - `PUT` validates body with Zod and upserts draft idempotently.
+    - `DELETE` removes draft on authoritative submission or learner reset.
+    - Covered by 10 unit tests in `src/app/api/learning/drafts/route.test.ts` (100% pass).
+  - Client hook (`src/features/learning/drafts/use-learning-draft.ts`):
+    - React hook providing debounced autosave, automatic draft restore on mount without premature overwrite, `saveNow()`, and `discardDraft()`.
+    - Covered by 4 unit tests in `src/features/learning/drafts/use-learning-draft.test.ts` (100% pass).
+  - Interactive block component integrations:
+    - `src/features/learning/blocks/components/concept-activity.tsx`: Connected `useLearningDraft` across classification, role assignment, resource match, and message flow sub-players.
+    - `src/features/learning/blocks/components/terminal-block-player.tsx`: Autosaves and restores terminal input and command history.
+    - `src/features/learning/blocks/components/subnet-practice.tsx`: Autosaves problem progress and learner answers; discards draft on verified correct check or reset.
+    - `src/features/learning/blocks/components/vlan-builder.tsx`: Autosaves port VLAN assignments.
+    - `src/features/learning/blocks/components/cable-order-exercise.tsx`: Autosaves pin arrangements; discards draft on verified correct check or reset.
+  - Verification & quality gates:
+    - 120 test files / 732 tests passed (100%).
+    - `npm run typecheck` passed (0 errors).
+    - `npm run lint` passed (0 warnings/errors).
+    - `npm run build` passed (46 routes compiled successfully).
+    - `git diff --check` passed cleanly.
+    - Playwright E2E passed (5/5 tests in `member-workspace.spec.ts`).
+  Files/areas: `prisma/schema.prisma`, `prisma/migrations/20260908091000_learning_drafts/migration.sql`, `src/features/learning/drafts/service.ts`, `src/features/learning/drafts/service.test.ts`, `src/app/api/learning/drafts/route.ts`, `src/app/api/learning/drafts/route.test.ts`, `src/features/learning/drafts/use-learning-draft.ts`, `src/features/learning/drafts/use-learning-draft.test.ts`, `src/features/learning/blocks/components/concept-activity.tsx`, `src/features/learning/blocks/components/terminal-block-player.tsx`, `src/features/learning/blocks/components/subnet-practice.tsx`, `src/features/learning/blocks/components/vlan-builder.tsx`, `src/features/learning/blocks/components/cable-order-exercise.tsx`, `PLAN.md`
+
 # 2026-09-14
 
 - [2026-09-14 16:32 WITA] [ADDED] [Milestone 14 / Sprint 37 / Task 37.1]

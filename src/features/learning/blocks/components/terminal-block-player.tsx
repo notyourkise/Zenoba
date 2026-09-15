@@ -3,13 +3,28 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Terminal as TerminalIcon, CornerDownLeft } from "lucide-react";
 import { executeSimulatedCommand } from "@/features/network-logic/terminal/terminal-simulator";
+import { useLearningDraft } from "../../drafts/use-learning-draft";
 
 interface HistoryEntry {
   command: string;
   output: string[];
 }
 
-export function TerminalBlockPlayer() {
+interface TerminalBlockPlayerProps {
+  block?: {
+    id?: string;
+    [key: string]: unknown;
+  };
+  lessonId?: string;
+}
+
+interface TerminalDraftPayload {
+  input: string;
+  history: HistoryEntry[];
+  commandHistory: string[];
+}
+
+export function TerminalBlockPlayer({ block, lessonId }: TerminalBlockPlayerProps = {}) {
   const [input, setInput] = useState<string>("");
   const [history, setHistory] = useState<HistoryEntry[]>([
     {
@@ -26,6 +41,21 @@ export function TerminalBlockPlayer() {
   ]);
   const [historyIndex, setHistoryIndex] = useState<number>(-1);
   const [commandHistory, setCommandHistory] = useState<string[]>(["ipconfig"]);
+
+  const activityId = block?.id || "terminal";
+
+  useLearningDraft<TerminalDraftPayload>({
+    lessonId,
+    activityId,
+    payload: { input, history, commandHistory },
+    onRestore: (draftPayload) => {
+      if (draftPayload) {
+        if (typeof draftPayload.input === "string") setInput(draftPayload.input);
+        if (Array.isArray(draftPayload.history)) setHistory(draftPayload.history);
+        if (Array.isArray(draftPayload.commandHistory)) setCommandHistory(draftPayload.commandHistory);
+      }
+    },
+  });
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);

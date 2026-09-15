@@ -2,9 +2,11 @@
 
 import React, { useState } from "react";
 import type { LessonBlock } from "../schema";
+import { useLearningDraft } from "../../drafts/use-learning-draft";
 
 interface ConceptActivityProps {
   block: LessonBlock & {
+    id?: string;
     interactiveType?: string;
     config?: {
       scenario?: string;
@@ -14,8 +16,9 @@ interface ConceptActivityProps {
   lessonId?: string;
 }
 
-export function ConceptActivity({ block }: ConceptActivityProps) {
+export function ConceptActivity({ block, lessonId }: ConceptActivityProps) {
   const interactiveType = block.interactiveType || "activity";
+  const activityId = block.id || interactiveType;
   const instruction = block.config?.instruction || "Selesaikan latihan interaktif berikut.";
 
   // ==========================================
@@ -30,28 +33,54 @@ export function ConceptActivity({ block }: ConceptActivityProps) {
       { id: "printer", label: "Printer Jaringan", type: "endpoint" },
     ];
 
-    return <ClassificationPlayer items={items} instruction={instruction} />;
+    return (
+      <ClassificationPlayer
+        items={items}
+        instruction={instruction}
+        lessonId={lessonId}
+        activityId={activityId}
+      />
+    );
   }
 
   // ==========================================
   // Role Assignment Activity (Lesson 3)
   // ==========================================
   if (interactiveType === "role_assignment") {
-    return <RoleAssignmentPlayer instruction={instruction} />;
+    return (
+      <RoleAssignmentPlayer
+        instruction={instruction}
+        lessonId={lessonId}
+        activityId={activityId}
+      />
+    );
   }
 
   // ==========================================
   // Resource Selection / Match (Lesson 1 & 3)
   // ==========================================
   if (interactiveType === "resource_match" || interactiveType === "resource_selection") {
-    return <ResourceSelectionPlayer instruction={instruction} isL3={interactiveType === "resource_selection"} />;
+    return (
+      <ResourceSelectionPlayer
+        instruction={instruction}
+        isL3={interactiveType === "resource_selection"}
+        lessonId={lessonId}
+        activityId={activityId}
+      />
+    );
   }
 
   // ==========================================
   // Message Flow Activity (Lesson 4)
   // ==========================================
   if (interactiveType === "message_flow") {
-    return <MessageFlowPlayer instruction={instruction} />;
+    return (
+      <MessageFlowPlayer
+        instruction={instruction}
+        lessonId={lessonId}
+        activityId={activityId}
+      />
+    );
   }
 
   return (
@@ -67,12 +96,27 @@ export function ConceptActivity({ block }: ConceptActivityProps) {
 function ClassificationPlayer({
   items,
   instruction,
+  lessonId,
+  activityId,
 }: {
   items: { id: string; label: string; type: string }[];
   instruction: string;
+  lessonId?: string;
+  activityId?: string;
 }) {
   const [selections, setSelections] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+
+  useLearningDraft<{ selections: Record<string, string> }>({
+    lessonId,
+    activityId,
+    payload: { selections },
+    onRestore: (draftPayload) => {
+      if (draftPayload?.selections) {
+        setSelections(draftPayload.selections);
+      }
+    },
+  });
 
   const handleSelect = (itemId: string, category: string) => {
     setSelections((prev) => ({ ...prev, [itemId]: category }));
@@ -171,7 +215,15 @@ function ClassificationPlayer({
 // -----------------------------------------------------------------------------
 // Role Assignment Sub-player
 // -----------------------------------------------------------------------------
-function RoleAssignmentPlayer({ instruction }: { instruction: string }) {
+function RoleAssignmentPlayer({
+  instruction,
+  lessonId,
+  activityId,
+}: {
+  instruction: string;
+  lessonId?: string;
+  activityId?: string;
+}) {
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
 
@@ -187,6 +239,17 @@ function RoleAssignmentPlayer({ instruction }: { instruction: string }) {
       );
     }
   };
+
+  useLearningDraft<{ selectedRole: string | null }>({
+    lessonId,
+    activityId,
+    payload: { selectedRole },
+    onRestore: (draftPayload) => {
+      if (draftPayload?.selectedRole) {
+        handleChoose(draftPayload.selectedRole);
+      }
+    },
+  });
 
   return (
     <div className="my-6 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm space-y-4">
@@ -248,11 +311,26 @@ function RoleAssignmentPlayer({ instruction }: { instruction: string }) {
 function ResourceSelectionPlayer({
   instruction,
   isL3,
+  lessonId,
+  activityId,
 }: {
   instruction: string;
   isL3: boolean;
+  lessonId?: string;
+  activityId?: string;
 }) {
   const [selected, setSelected] = useState<string | null>(null);
+
+  useLearningDraft<{ selected: string | null }>({
+    lessonId,
+    activityId,
+    payload: { selected },
+    onRestore: (draftPayload) => {
+      if (draftPayload?.selected) {
+        setSelected(draftPayload.selected);
+      }
+    },
+  });
 
   return (
     <div className="my-6 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm space-y-4">
@@ -318,8 +396,27 @@ function ResourceSelectionPlayer({
 // -----------------------------------------------------------------------------
 // Message Flow Ordering Sub-player
 // -----------------------------------------------------------------------------
-function MessageFlowPlayer({ instruction }: { instruction: string }) {
+function MessageFlowPlayer({
+  instruction,
+  lessonId,
+  activityId,
+}: {
+  instruction: string;
+  lessonId?: string;
+  activityId?: string;
+}) {
   const [activeStep, setActiveStep] = useState(0);
+
+  useLearningDraft<{ activeStep: number }>({
+    lessonId,
+    activityId,
+    payload: { activeStep },
+    onRestore: (draftPayload) => {
+      if (typeof draftPayload?.activeStep === "number") {
+        setActiveStep(draftPayload.activeStep);
+      }
+    },
+  });
 
   const stages = [
     {

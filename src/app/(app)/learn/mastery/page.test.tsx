@@ -138,6 +138,10 @@ describe("LearnerMasteryPage", () => {
     expect(
       screen.getByText(/Remediasi Diperlukan \(1 Sasaran\)/i)
     ).toBeDefined();
+    const remediationCenterBtn = screen.getByRole("link", {
+      name: /Buka Pusat Remediasi/i,
+    });
+    expect(remediationCenterBtn.getAttribute("href")).toBe("/learn/remediation");
 
     // Module outcome items
     expect(screen.getByText("Pengalamatan IPv4")).toBeDefined();

@@ -245,6 +245,15 @@ export default async function LearnerMasteryPage() {
               </p>
             </div>
           </div>
+          <div className="flex items-center shrink-0">
+            <Link
+              href="/learn/remediation"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-amber-600 hover:bg-amber-500 text-white transition-colors"
+            >
+              <span>Buka Pusat Remediasi</span>
+              <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+            </Link>
+          </div>
         </div>
       )}
 

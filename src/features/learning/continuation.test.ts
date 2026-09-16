@@ -270,4 +270,41 @@ describe("Learning Continuation Resolver & Prioritized Queue (Sprint 37 / Task 3
     expect(queue[3].kind).toBe("NEXT_LESSON");
     expect(queue[3].priority).toBe(4);
   });
+
+  it("prioritizes active lesson-level remediation ahead of assessments and resume items", () => {
+    const evidence: LearnerEvidenceSnapshot = {
+      completedLessonIds: ["les-w1"],
+      inProgressLessonIds: ["les-w2"],
+      moduleAssessments: [],
+      remediationLessons: [
+        {
+          lessonId: "les-w1",
+          lessonSlug: "orientasi-platform",
+          lessonTitle: "Orientasi Platform",
+          moduleId: "mod-welcome",
+          moduleSlug: "welcome-to-networking",
+          moduleTitle: "Welcome to Networking",
+          pathSlug: "network-foundations",
+          pathTitle: "Network Foundations",
+          href: "/learn/network-foundations/welcome-to-networking/orientasi-platform",
+          reason: "Penguatan konsep sasaran kompetensi: Navigasi Platform",
+        },
+      ],
+    };
+
+    const queue = resolveLearningQueue(sampleCurriculum, evidence);
+
+    expect(queue.length).toBeGreaterThanOrEqual(1);
+    expect(queue[0].kind).toBe("REMEDIATION");
+    expect(queue[0].title).toBe("Remediasi: Orientasi Platform");
+    expect(queue[0].href).toBe(
+      "/learn/network-foundations/welcome-to-networking/orientasi-platform"
+    );
+    expect(queue[0].priority).toBe(1);
+
+    const primaryAction = resolvePrimaryContinuation(queue);
+    expect(primaryAction?.href).toBe(
+      "/learn/network-foundations/welcome-to-networking/orientasi-platform"
+    );
+  });
 });

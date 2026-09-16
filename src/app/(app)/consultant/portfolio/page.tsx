@@ -113,11 +113,6 @@ export default async function PortfolioPage() {
                     <p className="text-xs text-gray-500">
                       Klien: <strong>{proj.case?.clientName || "Klien Netloka"}</strong> &bull; Pagu Anggaran: Rp {(proj.case?.budget || 0).toLocaleString("id-ID")}
                     </p>
-                    {structuredFeedback.summary && (
-                      <p className="text-xs text-gray-600 dark:text-gray-300 font-medium italic">
-                        &ldquo;{structuredFeedback.summary}&rdquo;
-                      </p>
-                    )}
                   </div>
 
                   <div className="flex items-center gap-6 self-start sm:self-center">

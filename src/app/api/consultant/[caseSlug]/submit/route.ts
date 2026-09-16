@@ -120,7 +120,7 @@ export async function POST(
         vlanPlan: body.vlanPlan || [],
       },
       evaluation,
-      "1.1"
+      "1.0"
     );
 
     let xpResult = null;
@@ -166,7 +166,7 @@ export async function POST(
           ipPlan: body.ipPlan || {},
           vlanPlan: body.vlanPlan || [],
           compositeScore: {
-            rubricVersion: "1.1",
+            rubricVersion: "1.0",
             totalScore: evaluation.totalScore,
             maxTotalScore: evaluation.maxTotalScore,
             dimensions: evaluation.dimensions,
@@ -174,7 +174,7 @@ export async function POST(
           score: evaluation.totalScore,
           passed: evaluation.passed,
           feedback: {
-            rubricVersion: "1.1",
+            rubricVersion: "1.0",
             passed: evaluation.passed,
             summary: structuredFeedback.summary,
             dimensions: evaluation.dimensions,
@@ -191,7 +191,7 @@ export async function POST(
       totalScore: evaluation.totalScore,
       maxTotalScore: evaluation.maxTotalScore,
       dimensions: evaluation.dimensions,
-      rubricVersion: "1.1",
+      rubricVersion: "1.0",
       strengths: structuredFeedback.strengths,
       blockingIssues: structuredFeedback.blockingIssues,
       nextActions: structuredFeedback.nextActions,

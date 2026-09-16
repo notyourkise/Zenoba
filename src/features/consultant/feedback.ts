@@ -351,8 +351,8 @@ export function resolveConsultantFeedback(
       summary:
         rawFeedback.summary ||
         (project.passed
-          ? "Proposal disetujui klien"
-          : "Proposal memerlukan revisi spesifikasi teknis atau anggaran"),
+          ? "Rancangan proposal memenuhi spesifikasi teknis dan pagu anggaran."
+          : "Rancangan proposal memerlukan revisi spesifikasi teknis atau anggaran."),
       strengths: rawFeedback.strengths,
       blockingIssues: rawFeedback.blockingIssues,
       nextActions: rawFeedback.nextActions,
@@ -371,8 +371,8 @@ export function resolveConsultantFeedback(
     typeof rawFeedback?.summary === "string" && rawFeedback.summary.length > 0
       ? rawFeedback.summary
       : passed
-      ? "Proposal disetujui klien"
-      : "Proposal memerlukan revisi spesifikasi teknis atau anggaran";
+      ? "Rancangan proposal memenuhi spesifikasi teknis dan pagu anggaran."
+      : "Rancangan proposal memerlukan revisi spesifikasi teknis atau anggaran";
 
   const dimensions =
     rawFeedback?.dimensions || rawComposite?.dimensions || {};
@@ -481,10 +481,10 @@ export function resolveConsultantFeedback(
   if (nextActions.length === 0) {
     if (passed) {
       nextActions.push({
-        action: "Rancangan jaringan telah disetujui pada standar evaluasi saat diajukan.",
+        action: "Rancangan jaringan telah memenuhi standar evaluasi saat diajukan.",
         outcomeId: "PLAN-L9-A",
         priority: 3,
-        reason: "Proposal telah disetujui klien.",
+        reason: "Proposal telah memenuhi seluruh kriteria evaluasi.",
       });
     } else {
       nextActions.push({

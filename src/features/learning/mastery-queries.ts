@@ -34,7 +34,49 @@ export async function getLearnerMasteryOverview(
     }),
   ]);
 
-  // Build declared outcomes registry
+  const declaredOutcomes = buildDeclaredOutcomesRegistry(curriculum);
+
+  // Map assessment attempts
+  const evidenceRecords: OutcomeEvidenceRecord[] = assessmentAttempts.map((attempt) => ({
+    assessmentId: attempt.assessmentId,
+    moduleId: attempt.moduleId,
+    lessonId: attempt.lessonId,
+    passed: attempt.passed,
+    score: attempt.score,
+    version: attempt.version,
+    submittedAt: attempt.createdAt,
+  }));
+
+  // Map lesson progress
+  const progressMap = new Map<string, LessonProgressSummary>();
+  for (const lp of lessonProgress) {
+    progressMap.set(lp.lessonId, {
+      status: lp.status,
+      completedAt: lp.completedAt,
+    });
+  }
+
+  const masteries = deriveOutcomeMasteries(declaredOutcomes, evidenceRecords, progressMap);
+  const groupedModules = groupMasteryByModule(masteries);
+  return summarizeLearnerMastery(groupedModules);
+}
+
+/**
+ * Builds the declared outcomes registry from the curriculum graph and content modules.
+ */
+export function buildDeclaredOutcomesRegistry(curriculum: {
+  paths: Array<{
+    id: string;
+    slug: string;
+    title: string;
+    modules: Array<{
+      id: string;
+      slug: string;
+      title: string;
+      lessons: Array<{ id: string; slug: string; title: string }>;
+    }>;
+  }>;
+}): DeclaredOutcome[] {
   const declaredOutcomes: DeclaredOutcome[] = [];
 
   for (const path of curriculum.paths) {
@@ -101,27 +143,5 @@ export async function getLearnerMasteryOverview(
     }
   }
 
-  // Map assessment attempts
-  const evidenceRecords: OutcomeEvidenceRecord[] = assessmentAttempts.map((attempt) => ({
-    assessmentId: attempt.assessmentId,
-    moduleId: attempt.moduleId,
-    lessonId: attempt.lessonId,
-    passed: attempt.passed,
-    score: attempt.score,
-    version: attempt.version,
-    submittedAt: attempt.createdAt,
-  }));
-
-  // Map lesson progress
-  const progressMap = new Map<string, LessonProgressSummary>();
-  for (const lp of lessonProgress) {
-    progressMap.set(lp.lessonId, {
-      status: lp.status,
-      completedAt: lp.completedAt,
-    });
-  }
-
-  const masteries = deriveOutcomeMasteries(declaredOutcomes, evidenceRecords, progressMap);
-  const groupedModules = groupMasteryByModule(masteries);
-  return summarizeLearnerMastery(groupedModules);
+  return declaredOutcomes;
 }

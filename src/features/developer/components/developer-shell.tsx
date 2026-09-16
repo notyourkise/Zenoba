@@ -47,6 +47,11 @@ const NAV_ITEMS: NavItem[] = [
     description: "Integritas modul, kuis, dan capstone",
   },
   {
+    name: "Analitik Pembelajaran",
+    href: "/developer/learning",
+    description: "Kesehatan asesmen, outcome, dan metrik kohor privasi",
+  },
+  {
     name: "Kesehatan Sistem",
     href: "/developer/system",
     description: "Status database, memori, dan environment",

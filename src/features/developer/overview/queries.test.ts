@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
-import { getDeveloperOverview } from "./queries";
+import { getDeveloperOverview, getAssessmentAnalyticsOverview } from "./queries";
 import { prisma } from "@/lib/db/client";
 import { requireDeveloperActor } from "@/lib/auth";
 import { AuthorizationError } from "@/features/authorization/types";
@@ -7,6 +7,42 @@ import { UserRole } from "@/generated/prisma/client";
 
 vi.mock("@/lib/auth", () => ({
   requireDeveloperActor: vi.fn(),
+}));
+
+vi.mock("@/features/learning/queries", () => ({
+  getCurriculumGraph: vi.fn().mockResolvedValue({
+    paths: [
+      {
+        id: "p1",
+        slug: "networking",
+        title: "Jaringan",
+        modules: [
+          {
+            id: "m1",
+            slug: "mod-1",
+            title: "Modul 1",
+            lessons: [{ id: "l1", slug: "les-1", title: "Pelajaran 1" }],
+          },
+        ],
+      },
+    ],
+  }),
+}));
+
+vi.mock("@/features/learning/mastery-queries", () => ({
+  buildDeclaredOutcomesRegistry: vi.fn().mockReturnValue([
+    {
+      id: "out-1",
+      text: "Outcome 1",
+      moduleId: "m1",
+      moduleSlug: "mod-1",
+      moduleTitle: "Modul 1",
+      pathId: "p1",
+      pathSlug: "networking",
+      pathTitle: "Jaringan",
+      assessmentItemIds: ["quiz-1"],
+    },
+  ]),
 }));
 
 vi.mock("@/lib/db/client", () => ({
@@ -22,6 +58,9 @@ vi.mock("@/lib/db/client", () => ({
     },
     lesson: {
       count: vi.fn(),
+    },
+    assessmentAttempt: {
+      findMany: vi.fn(),
     },
     $queryRaw: vi.fn(),
   },
@@ -134,5 +173,121 @@ describe("Developer Overview Read Model (getDeveloperOverview)", () => {
     expect(serialized).not.toContain("twoFactorSecret");
     expect(serialized).not.toContain("twoFactorBackupCodes");
     expect(serialized).not.toContain("tokenHash");
+  });
+});
+
+describe("Assessment Analytics Query (getAssessmentAnalyticsOverview)", () => {
+  const mockDeveloperActor = {
+    id: "dev-1",
+    email: "dev@netloka.biz.id",
+    name: "Developer One",
+    role: UserRole.DEVELOPER,
+    authVersion: 1,
+    twoFactorEnabled: true,
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("throws AuthorizationError when caller is not an authorized developer", async () => {
+    vi.mocked(requireDeveloperActor).mockRejectedValueOnce(
+      new AuthorizationError("FORBIDDEN", "Developer workspace access required")
+    );
+
+    await expect(getAssessmentAnalyticsOverview()).rejects.toThrow(
+      "Developer workspace access required"
+    );
+  });
+
+  it("filters ordinary learners, excludes sensitive answers, and returns aggregated analytics", async () => {
+    vi.mocked(requireDeveloperActor).mockResolvedValueOnce(mockDeveloperActor);
+
+    // Mock 5 attempts from 5 distinct ordinary learners
+    const mockAttempts = [
+      {
+        id: "att-1",
+        userId: "u1",
+        assessmentId: "quiz-1",
+        moduleId: "m1",
+        lessonId: "l1",
+        version: "1.0",
+        score: 100,
+        passed: true,
+        createdAt: new Date("2026-09-01T10:00:00Z"),
+      },
+      {
+        id: "att-2",
+        userId: "u2",
+        assessmentId: "quiz-1",
+        moduleId: "m1",
+        lessonId: "l1",
+        version: "1.0",
+        score: 90,
+        passed: true,
+        createdAt: new Date("2026-09-01T10:00:00Z"),
+      },
+      {
+        id: "att-3",
+        userId: "u3",
+        assessmentId: "quiz-1",
+        moduleId: "m1",
+        lessonId: "l1",
+        version: "1.0",
+        score: 80,
+        passed: true,
+        createdAt: new Date("2026-09-01T10:00:00Z"),
+      },
+      {
+        id: "att-4",
+        userId: "u4",
+        assessmentId: "quiz-1",
+        moduleId: "m1",
+        lessonId: "l1",
+        version: "1.0",
+        score: 85,
+        passed: true,
+        createdAt: new Date("2026-09-01T10:00:00Z"),
+      },
+      {
+        id: "att-5",
+        userId: "u5",
+        assessmentId: "quiz-1",
+        moduleId: "m1",
+        lessonId: "l1",
+        version: "1.0",
+        score: 75,
+        passed: true,
+        createdAt: new Date("2026-09-01T10:00:00Z"),
+      },
+    ];
+
+    vi.mocked(prisma.assessmentAttempt.findMany).mockResolvedValueOnce(
+      mockAttempts as unknown as Awaited<ReturnType<typeof prisma.assessmentAttempt.findMany>>
+    );
+
+    const result = await getAssessmentAnalyticsOverview();
+
+    expect(prisma.assessmentAttempt.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({
+          user: { role: "LEARNER" },
+        }),
+      })
+    );
+
+    expect(result.totalAssessments).toBe(1);
+    expect(result.totalAttempts).toBe(5);
+    expect(result.healthyCount).toBe(1);
+    expect(result.suppressedCount).toBe(0);
+
+    const first = result.items[0];
+    expect(first.assessmentId).toBe("quiz-1");
+    expect(first.firstAttemptPassRate).toBe(1.0);
+    expect(first.isSuppressed).toBe(false);
+
+    // Verify answersJson is never present
+    const serialized = JSON.stringify(result);
+    expect(serialized).not.toContain("answersJson");
   });
 });

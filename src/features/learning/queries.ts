@@ -11,7 +11,8 @@ import {
 } from "./types";
 import { CourseAccessDeniedError, requireLearningPathAccess } from "@/features/commerce/access";
 import { getCurriculumModule } from "./content/registry";
-import { LearningGraph } from "./continuation";
+import { LearningGraph, LearnerEvidenceSnapshot } from "./continuation";
+import { resolveLessonNavigation } from "./navigation";
 
 /**
  * Get all published learning paths with user progress.
@@ -269,6 +270,61 @@ export async function getLessonDetail(
   const nextLesson =
     currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null;
 
+  // Build learner evidence snapshot for navigation resolver
+  const completedLessonIds = new Set<string>();
+  const inProgressLessonIds = new Set<string>();
+
+  if (userId) {
+    const progressRecords = await prisma.userLessonProgress.findMany({
+      where: { userId },
+      select: { lessonId: true, status: true },
+    });
+    for (const record of progressRecords) {
+      if (record.status === "COMPLETED") {
+        completedLessonIds.add(record.lessonId);
+      } else if (record.status === "IN_PROGRESS") {
+        inProgressLessonIds.add(record.lessonId);
+      }
+    }
+  }
+
+  const assessmentAttempts = userId
+    ? await prisma.assessmentAttempt.findMany({
+        where: { userId },
+        select: {
+          moduleId: true,
+          assessmentId: true,
+          passed: true,
+          score: true,
+          createdAt: true,
+        },
+        orderBy: { createdAt: "desc" },
+      })
+    : [];
+
+  const moduleAssessments = assessmentAttempts.map((attempt) => ({
+    moduleId: attempt.moduleId,
+    assessmentId: attempt.assessmentId,
+    passed: attempt.passed,
+    score: attempt.score,
+    submittedAt: attempt.createdAt,
+  }));
+
+  const evidence: LearnerEvidenceSnapshot = {
+    completedLessonIds,
+    inProgressLessonIds,
+    moduleAssessments,
+  };
+
+  const curriculum = await getCurriculumGraph();
+  const navigation = resolveLessonNavigation({
+    curriculum,
+    pathSlug,
+    moduleSlug,
+    lessonSlug,
+    evidence,
+  });
+
   return {
     path: {
       id: pathDetail.id,
@@ -298,6 +354,7 @@ export async function getLessonDetail(
           status: nextLesson.status,
         }
       : null,
+    navigation,
   };
 }
 

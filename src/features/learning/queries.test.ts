@@ -2,6 +2,7 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 import {
   getLearningPathsWithProgress,
   getLearningPathDetail,
+  getLessonDetail,
 } from "./queries";
 import { prisma } from "@/lib/db/client";
 
@@ -12,6 +13,9 @@ vi.mock("@/lib/db/client", () => ({
       findUnique: vi.fn(),
     },
     userLessonProgress: {
+      findMany: vi.fn(),
+    },
+    assessmentAttempt: {
       findMany: vi.fn(),
     },
     entitlement: {
@@ -289,6 +293,82 @@ describe("Learning Queries", () => {
       const result = await getLearningPathDetail("cctv-course", "user-internal");
       expect(result).not.toBeNull();
       expect(result?.id).toBe("path-cctv");
+    });
+  });
+
+  describe("getLessonDetail", () => {
+    it("returns null if path or lesson is not found", async () => {
+      vi.mocked(prisma.learningPath.findUnique).mockResolvedValueOnce(null);
+
+      const result = await getLessonDetail("unknown-path", "mod-1", "les-1");
+      expect(result).toBeNull();
+    });
+
+    it("returns lesson detail with resolved navigation context", async () => {
+      const mockPath = {
+        id: "path-1",
+        slug: "network-foundations",
+        title: "Network Foundations",
+        description: "Learn network basics",
+        published: true,
+        modules: [
+          {
+            id: "mod-1",
+            slug: "welcome",
+            title: "Welcome",
+            orderIndex: 0,
+            published: true,
+            lessons: [
+              {
+                id: "l-1",
+                slug: "intro",
+                title: "Intro",
+                orderIndex: 0,
+                published: true,
+                prerequisites: [],
+              },
+              {
+                id: "l-2",
+                slug: "devices",
+                title: "Devices",
+                orderIndex: 1,
+                published: true,
+                prerequisites: [{ prerequisiteId: "l-1", prerequisite: { title: "Intro", slug: "intro" } }],
+              },
+            ],
+          },
+        ],
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } as any;
+
+      // First call for getLearningPathDetail
+      vi.mocked(prisma.learningPath.findUnique).mockResolvedValueOnce(mockPath);
+      // Progress calls
+      vi.mocked(prisma.userLessonProgress.findMany).mockResolvedValue([
+        {
+          id: "prog-1",
+          userId: "user-1",
+          lessonId: "l-1",
+          status: "COMPLETED",
+          completedAt: new Date(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ]);
+      // Assessment attempts
+      vi.mocked(prisma.assessmentAttempt.findMany).mockResolvedValueOnce([]);
+      // Call for getCurriculumGraph
+      vi.mocked(prisma.learningPath.findMany).mockResolvedValueOnce([mockPath]);
+
+      const result = await getLessonDetail("network-foundations", "welcome", "intro", "user-1");
+
+      expect(result).not.toBeNull();
+      expect(result?.lesson.slug).toBe("intro");
+      expect(result?.navigation).not.toBeNull();
+      expect(result?.navigation?.exitHref).toBe("/learn/network-foundations");
+      expect(result?.navigation?.previousLesson).toBeNull();
+      expect(result?.navigation?.nextLesson?.slug).toBe("devices");
+      expect(result?.navigation?.nextLesson?.isLocked).toBe(false);
     });
   });
 });

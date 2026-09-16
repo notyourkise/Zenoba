@@ -125,7 +125,7 @@ git add -- 'prisma/schema.prisma' 'prisma/migrations' 'src/features/learning/dra
 git commit -m "feat: add safe learner draft autosave"
 ```
 
-### Task 3: Standardize lesson navigation and public error behavior
+### Task 3: Standardize lesson navigation and public error behavior — ✅ COMPLETE
 
 **Files:**
 - Create: `src/features/learning/navigation.ts`

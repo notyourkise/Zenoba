@@ -19,6 +19,14 @@ vi.mock("@/features/learning/queries", () => ({
   getCurriculumGraph: vi.fn(),
 }));
 
+vi.mock("@/features/learning/remediation-queries", () => ({
+  getLearnerRemediationPlan: vi.fn().mockResolvedValue({
+    totalNeedsReviewOutcomes: 0,
+    totalRemediationLessons: 0,
+    lessons: [],
+  }),
+}));
+
 import { prisma } from "@/lib/db/client";
 import { getCurriculumGraph } from "@/features/learning/queries";
 

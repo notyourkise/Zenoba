@@ -65,10 +65,24 @@ export interface ModuleAssessmentEvidence {
   submittedAt?: Date | string;
 }
 
+export interface RemediationQueueInput {
+  lessonId: string;
+  lessonSlug: string;
+  lessonTitle: string;
+  moduleId: string;
+  moduleSlug: string;
+  moduleTitle: string;
+  pathSlug: string;
+  pathTitle: string;
+  href: string;
+  reason: string;
+}
+
 export interface LearnerEvidenceSnapshot {
   completedLessonIds: string[] | Set<string>;
   inProgressLessonIds: string[] | Set<string>;
   moduleAssessments: ModuleAssessmentEvidence[];
+  remediationLessons?: RemediationQueueInput[];
 }
 
 /**
@@ -108,6 +122,25 @@ export function resolveLearningQueue(
   }
 
   const remediationItems: LearningQueueItem[] = [];
+
+  // 1. Prioritize active lesson-level remediation from unmet outcomes
+  if (evidence.remediationLessons && evidence.remediationLessons.length > 0) {
+    for (const rem of evidence.remediationLessons) {
+      remediationItems.push({
+        kind: "REMEDIATION",
+        href: rem.href,
+        title: `Remediasi: ${rem.lessonTitle}`,
+        moduleTitle: rem.moduleTitle,
+        pathTitle: rem.pathTitle,
+        pathSlug: rem.pathSlug,
+        moduleSlug: rem.moduleSlug,
+        lessonSlug: rem.lessonSlug,
+        reason: rem.reason,
+        priority: 1,
+      });
+    }
+  }
+
   const resumeItems: LearningQueueItem[] = [];
   const assessmentItems: LearningQueueItem[] = [];
   const nextLessonItems: LearningQueueItem[] = [];

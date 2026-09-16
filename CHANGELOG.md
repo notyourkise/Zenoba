@@ -38,6 +38,35 @@ All notable project changes are recorded here.
 
 # 2026-09-16
 
+- [2026-09-16 15:04 WITA] [ADDED] [Milestone 14 / Sprint 38 / Task 38.2]
+  Built remediation center and fed targeted lesson remediation into the learning queue:
+  - Domain remediation resolver (`src/features/learning/remediation.ts`):
+    - Pure functional remediation engine mapping failed outcome evidence (`NEEDS_REVIEW`) to deduplicated, ordered prerequisite lessons (`remediationLessonIds`).
+    - Provides concept-focused learning explanations without disclosing assessment questions, options, or answer keys.
+    - Automatically excludes recovered mastery and handles missing or stale mappings gracefully.
+    - Covered by 5 unit tests in `src/features/learning/remediation.test.ts` (100% pass).
+  - Remediation query adapter (`src/features/learning/remediation-queries.ts`):
+    - `getLearnerRemediationPlan()` resolves active remediation items for the authenticated learner from Prisma and the curriculum graph.
+    - Covered by 2 unit tests in `src/features/learning/remediation-queries.test.ts` (100% pass).
+  - Learning continuation queue integration (`src/features/learning/continuation.ts`):
+    - Added `remediationLessons` to `RemediationQueueInput`.
+    - Active prerequisite remediation lessons are recommended at Priority 1, ahead of assessment retakes.
+    - Integrated into `/dashboard` queries so the learner's continuation card and queue prioritize prerequisite concept remediation.
+    - Covered by 8 unit tests in `src/features/learning/continuation.test.ts` and 5 unit tests in `src/features/dashboard/queries.test.ts` (100% pass).
+  - Remediation center page (`src/app/(app)/learn/remediation/page.tsx`):
+    - Dedicated learner UI route protected by `requireLearnerActor()`.
+    - Features empty state for fully mastered learners, overview alert banner, ordered target lesson cards with unmet outcome tags, concept explanations, and direct CTAs to the lesson runner.
+    - Strictly compliant with Netloka visual policy (no decorative icons/emojis; semantic icons with accessible names).
+    - Covered by 2 unit tests in `src/app/(app)/learn/remediation/page.test.tsx` (100% pass).
+  - Mastery dashboard connection (`src/app/(app)/learn/mastery/page.tsx`):
+    - Connected remediation alert banner CTA directly to `/learn/remediation` ("Buka Pusat Remediasi").
+    - Covered by updated unit tests in `src/app/(app)/learn/mastery/page.test.tsx` (100% pass).
+  - Playwright E2E coverage (`src/e2e/remediation-center.spec.ts`):
+    - Verified unauthenticated redirect to login and authenticated access to the remediation center, empty state, and active remediation lesson items.
+  - Roadmap status:
+    - Updated `ROADMAP.md` and `docs/superpowers/plans/2026-09-08-learner-experience-and-mastery.md` (Task 6 completed; Tasks 38.1 & 38.2 complete).
+  Validation: 134 test files (808 unit tests passed, 100%), TypeScript 0 errors, ESLint 0 errors, Next.js production build succeeded (50 routes compiled), Playwright E2E passed (2/2 tests in `remediation-center.spec.ts`, 2/2 tests in `mastery-remediation.spec.ts`), `git diff --check` clean.
+
 - [2026-09-16 14:26 WITA] [ADDED] [Milestone 14 / Sprint 38 / Task 38.1]
   Derived learner outcome mastery from authoritative evidence and created mastery dashboard:
   - Domain mastery resolver (`src/features/learning/mastery.ts`):

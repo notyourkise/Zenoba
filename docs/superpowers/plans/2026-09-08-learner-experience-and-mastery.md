@@ -209,7 +209,7 @@ Current-version passed evidence can produce `MASTERED`; failed or superseded evi
 
 **Step 3: Verify and commit** with focused tests and learner-route authorization coverage.
 
-### Task 6: Build the remediation center and feed it into the learning queue
+### Task 6: Build the remediation center and feed it into the learning queue — COMPLETED (2026-09-16)
 
 **Files:**
 - Create: `src/features/learning/remediation.ts`

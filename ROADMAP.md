@@ -776,9 +776,9 @@ Required gates remain: real published access-guarded premium content; owner-appr
 - Exact resume and prioritized learning queue (Task 37.1 complete).
 - Safe autosave drafts, consistent lesson navigation/errors, curriculum search, and bookmarks.
 
-### Sprint 38 — Mastery, Remediation, and Feedback — ACTIVE (Task 38.1 Complete)
+### Sprint 38 — Mastery, Remediation, and Feedback — ACTIVE (Tasks 38.1 & 38.2 Complete)
 
-- Evidence-derived mastery and remediation center (Task 38.1 complete).
+- Evidence-derived mastery and remediation center (Tasks 38.1 & 38.2 complete).
 - Privacy-safe item/outcome analytics and version-preserving Consultant feedback.
 
 ### Sprint 39 — Spaced Review and Learner-Quality Acceptance — PLANNED

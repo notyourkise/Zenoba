@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/db/client";
+import { resolveConsultantFeedback } from "@/features/consultant/feedback";
 
 interface DimensionDetail {
   score: number;
@@ -62,10 +63,18 @@ export default async function PortfolioPage() {
       ) : (
         <div className="space-y-6">
           {projects.map((proj) => {
+            const structuredFeedback = resolveConsultantFeedback({
+              score: proj.score,
+              passed: proj.passed,
+              feedback: proj.feedback,
+              compositeScore: proj.compositeScore,
+              boqItems: proj.boqItems,
+              vlanPlan: proj.vlanPlan,
+            });
+
             const composite = proj.compositeScore as any; // eslint-disable-line @typescript-eslint/no-explicit-any
             const feedback = proj.feedback as any; // eslint-disable-line @typescript-eslint/no-explicit-any
-            const rubricVersion =
-              composite?.rubricVersion || feedback?.rubricVersion || "1.0";
+            const rubricVersion = structuredFeedback.rubricVersion;
             const dimensions: Record<string, DimensionDetail> =
               composite?.dimensions || feedback?.dimensions || {};
 
@@ -122,6 +131,82 @@ export default async function PortfolioPage() {
                     </Link>
                   </div>
                 </div>
+
+                {/* Blocking Issues Alert */}
+                {structuredFeedback.blockingIssues && structuredFeedback.blockingIssues.length > 0 && (
+                  <div className="p-3.5 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800/60 space-y-1.5">
+                    <span className="text-xs font-bold uppercase tracking-wider text-red-700 dark:text-red-400 block">
+                      Isu Pemblokir ({structuredFeedback.blockingIssues.length})
+                    </span>
+                    <ul className="space-y-1 text-xs text-red-800 dark:text-red-300 list-disc list-inside">
+                      {structuredFeedback.blockingIssues.map((issue, idx) => (
+                        <li key={idx} className="leading-relaxed text-[11px]">
+                          {issue}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Strengths Card */}
+                {structuredFeedback.strengths && structuredFeedback.strengths.length > 0 && (
+                  <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/60 space-y-1.5">
+                    <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 block">
+                      Kekuatan Proposal ({structuredFeedback.strengths.length})
+                    </span>
+                    <ul className="space-y-1 text-xs text-emerald-800 dark:text-emerald-300 list-disc list-inside">
+                      {structuredFeedback.strengths.map((str, idx) => (
+                        <li key={idx} className="leading-relaxed text-[11px]">
+                          {str}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Prioritized Next Actions */}
+                {structuredFeedback.nextActions && structuredFeedback.nextActions.length > 0 && (
+                  <div className="p-3.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800/60 space-y-2">
+                    <span className="text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400 block">
+                      Rekomendasi Langkah Berikutnya
+                    </span>
+                    <div className="space-y-1.5">
+                      {structuredFeedback.nextActions.map((action, idx) => (
+                        <div
+                          key={idx}
+                          className="p-2.5 bg-white dark:bg-gray-800/90 rounded-lg border border-indigo-100 dark:border-indigo-900/40 space-y-1"
+                        >
+                          <div className="flex items-center justify-between gap-2 flex-wrap text-xs">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span
+                                className={`px-1.5 py-0.2 rounded text-[10px] font-bold uppercase tracking-wider ${
+                                  action.priority === 1
+                                    ? "bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800"
+                                    : action.priority === 2
+                                    ? "bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800"
+                                    : "bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800"
+                                }`}
+                              >
+                                P{action.priority}
+                              </span>
+                              <span className="font-semibold text-gray-900 dark:text-white text-[11px]">
+                                {action.action}
+                              </span>
+                            </div>
+                            {action.outcomeId && (
+                              <span className="px-1.5 py-0.2 rounded bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-mono text-[10px] font-bold">
+                                {action.outcomeId}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-[10px] text-gray-500 dark:text-gray-400 leading-tight">
+                            {action.reason}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Dimension Score Breakdown */}
                 {Object.keys(dimensions).length > 0 && (

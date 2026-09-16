@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { DEVICE_CATALOG } from "../catalog/devices";
 import { BoQItem, calculateBoQ } from "../procurement/boq";
+import type { PrioritizedNextAction } from "../feedback";
 import {
   Plus,
   Minus,
@@ -444,13 +445,22 @@ export function ConsultantWorkspace({ caseData }: { caseData: CaseDef }) {
                 }`}
               >
                 <div className="flex items-center justify-between font-bold text-lg">
-                  <div>
+                  <div className="flex items-center gap-2 flex-wrap">
                     <span>{result.passed ? "Proposal Konsultan Diterima Klien!" : "Proposal Memerlukan Revisi"}</span>
+                    <span className="px-2 py-0.5 rounded bg-white/60 dark:bg-black/40 font-mono font-semibold text-[11px]">
+                      Rubrik v{result.rubricVersion || "1.1"}
+                    </span>
                   </div>
                   <span className="text-2xl font-black">
                     Skor: {result.totalScore} / {result.maxTotalScore}
                   </span>
                 </div>
+
+                {result.summary && (
+                  <p className="text-xs font-medium leading-relaxed opacity-90">
+                    {result.summary}
+                  </p>
+                )}
 
                 {result.xpResult?.awarded && (
                   <div className="inline-block px-3 py-1 bg-green-200 dark:bg-green-900 text-green-900 dark:text-green-100 rounded-full text-xs font-bold">
@@ -458,6 +468,92 @@ export function ConsultantWorkspace({ caseData }: { caseData: CaseDef }) {
                   </div>
                 )}
               </div>
+
+              {/* Blocking Issues Alert */}
+              {result.blockingIssues && result.blockingIssues.length > 0 && (
+                <div className="p-4 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800/60 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold uppercase tracking-wider text-red-700 dark:text-red-400">
+                      Isu Pemblokir Persetujuan Klien ({result.blockingIssues.length})
+                    </span>
+                    <span className="text-[11px] font-semibold text-red-600 dark:text-red-400">
+                      Konektivitas esensial atau anggaran harus diperbaiki
+                    </span>
+                  </div>
+                  <ul className="space-y-1.5 text-xs text-red-800 dark:text-red-300 list-disc list-inside">
+                    {result.blockingIssues.map((issue: string, idx: number) => (
+                      <li key={idx} className="leading-relaxed">
+                        {issue}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Strengths Card */}
+              {result.strengths && result.strengths.length > 0 && (
+                <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/60 space-y-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 block">
+                    Kekuatan Proposal & Poin Unggulan ({result.strengths.length})
+                  </span>
+                  <ul className="space-y-1.5 text-xs text-emerald-800 dark:text-emerald-300 list-disc list-inside">
+                    {result.strengths.map((str: string, idx: number) => (
+                      <li key={idx} className="leading-relaxed">
+                        {str}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Prioritized Next Actions Linked to Outcomes */}
+              {result.nextActions && result.nextActions.length > 0 && (
+                <div className="p-4 rounded-xl bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800/60 space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400">
+                      Prioritas Rekomendasi & Tautan Capaian Kurikulum
+                    </span>
+                    <span className="text-[11px] text-indigo-600 dark:text-indigo-400 font-semibold">
+                      Rekomendasi tindakan terurut
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    {result.nextActions.map((action: PrioritizedNextAction, idx: number) => (
+                      <div
+                        key={idx}
+                        className="p-3 bg-white dark:bg-gray-800/80 rounded-lg border border-indigo-100 dark:border-indigo-900/40 space-y-1"
+                      >
+                        <div className="flex items-center justify-between gap-2 flex-wrap text-xs">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span
+                              className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                                action.priority === 1
+                                  ? "bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800"
+                                  : action.priority === 2
+                                  ? "bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800"
+                                  : "bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800"
+                              }`}
+                            >
+                              Prioritas {action.priority}
+                            </span>
+                            <span className="font-semibold text-gray-900 dark:text-white">
+                              {action.action}
+                            </span>
+                          </div>
+                          {action.outcomeId && (
+                            <span className="px-2 py-0.5 rounded bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-mono text-[10px] font-bold">
+                              Capaian {action.outcomeId}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-tight">
+                          {action.reason}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* 5-Dimensional Score Breakdown */}
               <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 text-xs">

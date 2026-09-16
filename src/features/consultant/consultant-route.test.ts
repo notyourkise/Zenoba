@@ -143,6 +143,10 @@ describe("POST /api/consultant/[caseSlug]/submit", () => {
     const data = await res.json();
     expect(data.passed).toBe(true);
     expect(data.totalScore).toBe(85);
+    expect(data.rubricVersion).toBe("1.0");
+    expect(Array.isArray(data.strengths)).toBe(true);
+    expect(Array.isArray(data.blockingIssues)).toBe(true);
+    expect(Array.isArray(data.nextActions)).toBe(true);
     expect(xpLedger.awardXp).toHaveBeenCalledWith(
       "u-1",
       250,

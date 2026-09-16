@@ -247,7 +247,7 @@ export type AssessmentHealth = {
 
 **Step 3: Verify developer authorization, query plans, and tests**, then commit.
 
-### Task 8: Improve Consultant feedback without changing historical scores
+### Task 8: Improve Consultant feedback without changing historical scores — COMPLETED (2026-09-16)
 
 **Files:**
 - Create: `src/features/consultant/feedback.ts`

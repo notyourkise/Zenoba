@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { requireLearnerActor, AuthorizationError } from "@/lib/auth";
 import { evaluateConsultantProject, ConsultantCaseRequirements } from "@/features/consultant/scoring/engine";
+import { generateConsultantFeedback } from "@/features/consultant/feedback";
 import { awardXp } from "@/features/xp/ledger";
 import { prisma } from "@/lib/db/client";
 
@@ -112,6 +113,16 @@ export async function POST(
       vlanPlan: body.vlanPlan || [],
     });
 
+    const structuredFeedback = generateConsultantFeedback(
+      requirements,
+      {
+        boqItems: body.boqItems || [],
+        vlanPlan: body.vlanPlan || [],
+      },
+      evaluation,
+      "1.0"
+    );
+
     let xpResult = null;
     if (evaluation.passed) {
       xpResult = await awardXp(
@@ -165,10 +176,11 @@ export async function POST(
           feedback: {
             rubricVersion: "1.0",
             passed: evaluation.passed,
-            summary: evaluation.passed
-              ? "Proposal disetujui klien"
-              : "Proposal perlu revisi spesifikasi teknis atau anggaran",
+            summary: structuredFeedback.summary,
             dimensions: evaluation.dimensions,
+            strengths: structuredFeedback.strengths,
+            blockingIssues: structuredFeedback.blockingIssues,
+            nextActions: structuredFeedback.nextActions,
           } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
         },
       });
@@ -180,6 +192,10 @@ export async function POST(
       maxTotalScore: evaluation.maxTotalScore,
       dimensions: evaluation.dimensions,
       rubricVersion: "1.0",
+      strengths: structuredFeedback.strengths,
+      blockingIssues: structuredFeedback.blockingIssues,
+      nextActions: structuredFeedback.nextActions,
+      summary: structuredFeedback.summary,
       xpResult,
     });
   } catch (error) {

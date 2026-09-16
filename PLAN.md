@@ -1153,15 +1153,15 @@ Detailed executable plan: [Learner Experience and Mastery Quality](docs/superpow
 
 - [x] Task 37.1: Add exact resume and a deterministic prioritized learning queue.
 - [x] Task 37.2: Add safe autosave drafts that never create progress/XP/evidence.
-- [ ] Task 37.3: Standardize lesson navigation and public error behavior.
-- [ ] Task 37.4: Add typed curriculum search and ownership-scoped bookmarks.
+- [x] Task 37.3: Standardize lesson navigation and public error behavior.
+- [x] Task 37.4: Add typed curriculum search and ownership-scoped bookmarks.
 
 ### Sprint 38 — Mastery, Remediation, and Feedback
 
-- [ ] Task 38.1: Derive learner mastery from current authoritative evidence.
-- [ ] Task 38.2: Add remediation mapping/center and integrate it into the queue.
-- [ ] Task 38.3: Add privacy-safe outcome/item analytics excluding internal/developer cohorts.
-- [ ] Task 38.4: Improve Consultant feedback without silently regrading historical work.
+- [x] Task 38.1: Derive learner mastery from current authoritative evidence.
+- [x] Task 38.2: Add remediation mapping/center and integrate it into the queue.
+- [x] Task 38.3: Add privacy-safe outcome/item analytics excluding internal/developer cohorts.
+- [x] Task 38.4: Improve Consultant feedback without silently regrading historical work.
 
 ### Sprint 39 — Spaced Review and Learner-Quality Acceptance
 

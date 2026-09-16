@@ -221,7 +221,7 @@ Current-version passed evidence can produce `MASTERED`; failed or superseded evi
 
 Map failed evidence to the smallest set of prerequisite lessons/outcomes. Test deduplication, ordering, recovered mastery, and unavailable mappings. The UI must explain what to review and why without exposing answer keys. Re-run continuation/mastery tests before commit.
 
-### Task 7: Add privacy-safe assessment analytics for developer review
+### Task 7: Add privacy-safe assessment analytics for developer review — COMPLETED (2026-09-16)
 
 **Files:**
 - Create: `src/features/developer/analytics/assessment-analytics.ts`

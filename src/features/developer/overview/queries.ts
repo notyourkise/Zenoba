@@ -1,6 +1,14 @@
 import { prisma } from "@/lib/db/client";
 import { requireDeveloperActor } from "@/lib/auth";
 import { ORDINARY_LEARNER_FILTER } from "@/features/analytics/cohort";
+import { getCurriculumGraph } from "@/features/learning/queries";
+import { buildDeclaredOutcomesRegistry } from "@/features/learning/mastery-queries";
+import {
+  aggregateAssessmentHealth,
+  summarizeAssessmentHealth,
+  type AssessmentAnalyticsSummary,
+  type RawAssessmentRecord,
+} from "../analytics/assessment-analytics";
 
 export type DeveloperOverview = {
   ordinaryLearners: number;
@@ -108,4 +116,58 @@ export async function getDeveloperOverview(
       capstones: 6,
     },
   };
+}
+
+/**
+ * Retrieves aggregate assessment analytics for developer review.
+ * Enforces developer authorization, restricts cohort to ordinary learners,
+ * suppresses tiny cohorts (< 5 distinct learners) for k-anonymity privacy,
+ * and strictly omits learner answers or individual identifying data.
+ */
+export async function getAssessmentAnalyticsOverview(filters?: {
+  moduleId?: string;
+  version?: string;
+}): Promise<AssessmentAnalyticsSummary> {
+  await requireDeveloperActor();
+
+  const [curriculum, rawAttempts] = await Promise.all([
+    getCurriculumGraph(),
+    prisma.assessmentAttempt.findMany({
+      where: {
+        user: ORDINARY_LEARNER_FILTER,
+        ...(filters?.moduleId ? { moduleId: filters.moduleId } : {}),
+        ...(filters?.version ? { version: filters.version } : {}),
+      },
+      select: {
+        id: true,
+        userId: true,
+        assessmentId: true,
+        moduleId: true,
+        lessonId: true,
+        version: true,
+        score: true,
+        passed: true,
+        createdAt: true,
+      },
+      orderBy: { createdAt: "asc" },
+    }),
+  ]);
+
+  const declaredOutcomes = buildDeclaredOutcomesRegistry(curriculum);
+
+  const rawRecords: RawAssessmentRecord[] = rawAttempts.map((a) => ({
+    id: a.id,
+    userId: a.userId,
+    userRole: "LEARNER",
+    assessmentId: a.assessmentId,
+    moduleId: a.moduleId,
+    lessonId: a.lessonId,
+    version: a.version,
+    score: a.score,
+    passed: a.passed,
+    createdAt: a.createdAt,
+  }));
+
+  const items = aggregateAssessmentHealth(rawRecords, declaredOutcomes);
+  return summarizeAssessmentHealth(items);
 }

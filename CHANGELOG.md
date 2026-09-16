@@ -38,6 +38,38 @@ All notable project changes are recorded here.
 
 # 2026-09-16
 
+- [2026-09-16 16:38 WITA] [ADDED] [Milestone 14 / Sprint 38 / Task 38.3]
+  Added privacy-safe assessment analytics for developer review:
+  - Domain assessment analytics engine (`src/features/developer/analytics/assessment-analytics.ts`):
+    - Pure functional assessment health calculation engine with typed models (`AssessmentHealth`, `AssessmentAnalyticsSummary`, `RawAssessmentRecord`).
+    - K-anonymity privacy protection: automatically suppresses assessment health metrics (first-attempt pass rate, retry pass rate, median attempts to pass) when distinct cohort size is below 5 learners (`isSuppressed = true`, `suppressionReason = "COHORT_TOO_SMALL"`).
+    - Excludes staff test accounts (`INTERNAL_LEARNER`) and operator accounts (`DEVELOPER`) from metric aggregations using `filterAnalyticsCohort()`.
+    - Deterministic median calculation (`calculateMedian()`) for attempts-to-pass metrics.
+    - Content-version separation: preserves distinct version records so curriculum changes do not conflate historical pass rates.
+    - Zero data leakage: raw answers (`answersJson`), multiple choice selections, and individual learner IDs are strictly excluded from output DTOs.
+    - Covered by 9 unit tests in `src/features/developer/analytics/assessment-analytics.test.ts` (100% pass).
+  - Curriculum outcome reuse (`src/features/learning/mastery-queries.ts`):
+    - Exported reusable helper `buildDeclaredOutcomesRegistry()` mapping module-level and lesson-level outcomes with evidence IDs and remediation relationships.
+  - Developer query adapter (`src/features/developer/overview/queries.ts`):
+    - Added `getAssessmentAnalyticsOverview()` protected by `requireDeveloperActor()`.
+    - Queries `prisma.assessmentAttempt` with `where: { user: ORDINARY_LEARNER_FILTER }`, selecting only non-sensitive columns and joining curriculum declared outcomes.
+    - Covered by 6 unit tests in `src/features/developer/overview/queries.test.ts` (100% pass).
+  - Developer learning analytics UI page (`src/app/(developer)/developer/learning/page.tsx`):
+    - Server component protected by `requireDeveloperActor()`.
+    - Features metrics summary cards (Analyzed Assessments, Total Attempts, Healthy ≥70%, Needs Review <50%, Protected Cohorts <5).
+    - Highlights K-anonymity principles and methodology banner.
+    - Renders read-only assessment and outcome table with version tags, attempt counts, pass rates, retry pass rates, median attempts, and status badges (`SEHAT`, `PERLU TINJAUAN`, `TERLINDUNGI`).
+    - Handles empty state gracefully.
+    - Strictly compliant with Netloka visual policy (no decorative icons or emojis).
+    - Covered by 3 unit tests in `src/app/(developer)/developer/learning/page.test.tsx` (100% pass).
+  - Developer navigation integration (`src/features/developer/components/developer-shell.tsx`):
+    - Added "Analitik Pembelajaran" (`/developer/learning`) to `NAV_ITEMS`.
+  - Playwright E2E coverage (`src/e2e/developer-assessment-analytics.spec.ts`):
+    - Tested unauthenticated redirect to sign-in, unauthorized learner workspace isolation redirect to `/dashboard`, and authenticated developer access to analytics dashboard, privacy notice, and table landmarks.
+  - Roadmap status:
+    - Updated `ROADMAP.md` and `docs/superpowers/plans/2026-09-08-learner-experience-and-mastery.md` (Task 7 completed; Tasks 38.1, 38.2 & 38.3 complete).
+  Validation: 136 test files (822 unit tests passed, 100%), TypeScript 0 errors, ESLint 0 errors, Next.js production build succeeded (51 routes compiled), Playwright E2E passed (3/3 tests in `developer-assessment-analytics.spec.ts`), `git diff --check` clean.
+
 - [2026-09-16 15:04 WITA] [ADDED] [Milestone 14 / Sprint 38 / Task 38.2]
   Built remediation center and fed targeted lesson remediation into the learning queue:
   - Domain remediation resolver (`src/features/learning/remediation.ts`):

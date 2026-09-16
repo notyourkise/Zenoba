@@ -14,6 +14,7 @@ import {
   Monitor,
   Search,
   Award,
+  RotateCcw,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -42,6 +43,7 @@ export const WORKSPACE_NAV_ITEMS: NavItemConfig[] = [
   { href: "/dashboard", label: "Dashboard", icon: Home },
   { href: "/my-learning", label: "Pembelajaran Saya", icon: BookOpen },
   { href: "/learn/mastery", label: "Penguasaan Materi", icon: Award },
+  { href: "/learn/review", label: "Review Berkala", icon: RotateCcw },
   { href: "/learn/search", label: "Pencarian Kurikulum", icon: Search },
   { href: "/catalog", label: "Katalog Kursus", icon: LayoutGrid },
   { href: "/my-packages", label: "Paket Saya", icon: Package },

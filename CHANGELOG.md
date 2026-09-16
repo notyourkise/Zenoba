@@ -38,6 +38,27 @@ All notable project changes are recorded here.
 
 # 2026-09-16
 
+- [2026-09-16 19:17 WITA] [ADDED] [Milestone 14 / Sprint 39 / Task 39.1]
+  Added deterministic, idempotent spaced-review scheduling for mastered curriculum outcomes:
+  - Database schema & migration:
+    - Added `ReviewSchedule` model in `prisma/schema.prisma` with `userId`, `outcomeId`, `dueAt`, `intervalDays`, `consecutiveSuccesses`, and `lastReviewedAt`.
+    - Added migration `prisma/migrations/20260908093000_review_schedule/migration.sql` with unique index on `(userId, outcomeId)` and index on `(userId, dueAt)`.
+  - Pure domain scheduler (`src/features/learning/review-scheduler.ts`):
+    - Implemented transparent interval tables: `AGAIN` (1 day), `HARD` ([1, 2, 4, 7, 14, 21] days), and `GOOD` ([1, 3, 7, 14, 30, 60] days).
+    - Injected clock `now: Date` across all functions for 100% deterministic testability and reproducibility without black-box decay.
+    - Verified with 7 unit tests in `src/features/learning/review-scheduler.test.ts`.
+  - Authoritative service & API (`src/features/learning/review-service.ts`, `/api/learning/review`):
+    - Auto-schedules review items for mastered outcomes.
+    - Server-evaluates rating submissions with idempotency protection against duplicate rapid submissions.
+    - Verified with 6 service tests and 5 API route tests.
+  - Learning continuation & dashboard integration:
+    - Updated `continuation.ts` to place due reviews into the queue with Priority 4 (below remediation/resume/assessment, above optional new lessons).
+    - Updated dashboard queries and badge styles (`bg-purple-500/10 text-purple-400`).
+  - Interactive UI (`/learn/review`):
+    - Built accessible review page and `ReviewSessionClient` with zero decorative icons/emojis, self-assessment testing prompt, key points reveal toggle, and rating buttons.
+    - Covered by 2 page unit tests in `src/app/(app)/learn/review/page.test.tsx` and Playwright E2E test in `src/e2e/spaced-review.spec.ts`.
+  - Validation: 142 test files (855 tests passed, 100%), typecheck passed, lint passed (0 warnings), build passed (53 routes), git diff clean.
+
 - [2026-09-16 17:11 WITA] [ADDED] [Milestone 14 / Sprint 38 / Task 38.4]
   Improved Consultant feedback without changing historical scores:
   - Pure domain feedback engine (`src/features/consultant/feedback.ts`):

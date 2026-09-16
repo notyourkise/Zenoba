@@ -74,7 +74,7 @@ describe("Learning Continuation Resolver & Prioritized Queue (Sprint 37 / Task 3
       "/learn/network-foundations/welcome-to-networking/orientasi-platform",
     );
     expect(primary?.title).toBe("Orientasi Platform");
-    expect(primary?.priority).toBe(4);
+    expect(primary?.priority).toBe(5);
   });
 
   it("prioritizes an in-progress lesson as RESUME over next unlocked lessons", () => {
@@ -167,7 +167,7 @@ describe("Learning Continuation Resolver & Prioritized Queue (Sprint 37 / Task 3
     expect(primary?.href).toBe(
       "/learn/network-foundations/network-devices/pengenalan-router-switch",
     );
-    expect(primary?.priority).toBe(4);
+    expect(primary?.priority).toBe(5);
   });
 
   it("returns an empty queue when all lessons and assessments in curriculum are completed", () => {
@@ -268,7 +268,97 @@ describe("Learning Continuation Resolver & Prioritized Queue (Sprint 37 / Task 3
     expect(queue[2].priority).toBe(3);
 
     expect(queue[3].kind).toBe("NEXT_LESSON");
+    expect(queue[3].priority).toBe(5);
+  });
+
+  it("enforces strict hierarchical priority: REMEDIATION > RESUME > ASSESSMENT > REVIEW > NEXT_LESSON", () => {
+    const multiModuleCurriculum: LearningGraph = {
+      paths: [
+        {
+          id: "path-1",
+          slug: "net-foundations",
+          title: "Network Foundations",
+          orderIndex: 0,
+          modules: [
+            {
+              id: "mod-1",
+              slug: "mod-one",
+              title: "Module 1",
+              orderIndex: 0,
+              assessmentId: "asm-1",
+              lessons: [
+                { id: "l-1-1", slug: "l1-1", title: "L1-1", orderIndex: 0 },
+              ],
+            },
+            {
+              id: "mod-2",
+              slug: "mod-two",
+              title: "Module 2",
+              orderIndex: 1,
+              assessmentId: "asm-2",
+              lessons: [
+                { id: "l-2-1", slug: "l2-1", title: "L2-1", orderIndex: 0 },
+              ],
+            },
+            {
+              id: "mod-3",
+              slug: "mod-three",
+              title: "Module 3",
+              orderIndex: 2,
+              assessmentId: "asm-3",
+              lessons: [
+                { id: "l-3-1", slug: "l3-1", title: "L3-1", orderIndex: 0 },
+                { id: "l-3-2", slug: "l3-2", title: "L3-2", orderIndex: 1 },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    const evidence: LearnerEvidenceSnapshot = {
+      completedLessonIds: ["l-1-1", "l-2-1"],
+      inProgressLessonIds: ["l-3-1"],
+      moduleAssessments: [
+        {
+          moduleId: "mod-1",
+          assessmentId: "asm-1",
+          passed: false,
+          score: 60,
+        },
+      ],
+      dueReviews: [
+        {
+          outcomeId: "PLAN-L1-A",
+          text: "Konsep Dasar Jaringan",
+          moduleTitle: "Module 1",
+          pathTitle: "Network Foundations",
+          pathSlug: "net-foundations",
+          moduleSlug: "mod-one",
+          href: "/learn/review?outcome=PLAN-L1-A",
+          reason: "Review terjadwal",
+        },
+      ],
+    };
+
+    const queue = resolveLearningQueue(multiModuleCurriculum, evidence);
+    expect(queue.length).toBeGreaterThanOrEqual(5);
+
+    expect(queue[0].kind).toBe("REMEDIATION");
+    expect(queue[0].priority).toBe(1);
+
+    expect(queue[1].kind).toBe("RESUME");
+    expect(queue[1].priority).toBe(2);
+
+    expect(queue[2].kind).toBe("ASSESSMENT");
+    expect(queue[2].priority).toBe(3);
+
+    expect(queue[3].kind).toBe("REVIEW");
+    expect(queue[3].title).toBe("Review: Konsep Dasar Jaringan");
     expect(queue[3].priority).toBe(4);
+
+    expect(queue[4].kind).toBe("NEXT_LESSON");
+    expect(queue[4].priority).toBe(5);
   });
 
   it("prioritizes active lesson-level remediation ahead of assessments and resume items", () => {

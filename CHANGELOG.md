@@ -38,6 +38,30 @@ All notable project changes are recorded here.
 
 # 2026-09-16
 
+- [2026-09-16 17:11 WITA] [ADDED] [Milestone 14 / Sprint 38 / Task 38.4]
+  Improved Consultant feedback without changing historical scores:
+  - Pure domain feedback engine (`src/features/consultant/feedback.ts`):
+    - `generateConsultantFeedback`: Pure deterministic generator for new submissions (`rubricVersion: "1.1"`). Generates:
+      - Strengths: Detailed highlights for fulfilled requirements (gateway router, access switch ports, PoE budget, Wi-Fi 6 APs, dual-WAN, budget efficiency, spare capacity, VLAN isolation).
+      - Blocking Issues: Uncompromising detection of critical connectivity failures (missing router gateway, switch port deficits), budget overruns, PoE shortages, dual-WAN deficits, and unmanaged switches for VLAN requirements.
+      - Prioritized Next Actions: Prioritized recommendations (Priority 1: Blockers & Budget; Priority 2: Core Hardware & Power; Priority 3: Optimization & Scalability) directly linked to curriculum learning outcomes (`PLAN-L1-A`, `PLAN-L2-A`, `PLAN-L3-A`, `PLAN-L3-B`, `PLAN-L5-A`, `PLAN-L5-B`, `PLAN-L6-A`, `PLAN-L6-B`, `PLAN-L9-A`).
+    - `resolveConsultantFeedback`: Historical score and version preservation engine.
+      - Guarantees zero silent regrading: historical `score` and `passed` status are never mutated or recalculated.
+      - Safely synthesizes strengths, blocking issues, and next actions for legacy `rubricVersion: "1.0"` records while preserving `rubricVersion: "1.0"`.
+      - Gracefully handles null, undefined, or malformed persisted JSON without runtime crashes.
+    - Covered by 9 unit tests in `src/features/consultant/feedback.test.ts` (100% pass).
+  - Scoring Engine & API integration (`src/app/api/consultant/[caseSlug]/submit/route.ts`):
+    - Submissions now generate and store `rubricVersion: "1.1"` with structured feedback (`strengths`, `blockingIssues`, `nextActions`, `summary`).
+    - Covered by 4 unit tests in `src/features/consultant/consultant-route.test.ts` (100% pass).
+  - UI presentation:
+    - Workspace (`src/features/consultant/components/consultant-workspace.tsx`): Tab 5 renders version badge, summary, blocking issues alert card, strengths card, and prioritized next actions card with curriculum outcome tags, alongside the 5-dimensional breakdown.
+    - Portfolio (`src/app/(app)/consultant/portfolio/page.tsx`): Renders structured feedback for both legacy v1.0 and v1.1 submissions using `resolveConsultantFeedback`.
+    - Covered by 3 unit tests in `src/app/(app)/consultant/portfolio/page.test.tsx` (100% pass).
+    - Follows strict icon policy (zero decorative icons/emojis).
+  - Documentation & Plan updates:
+    - Updated `PLAN.md`, `ROADMAP.md`, `docs/HANDOFF.md`, and `docs/superpowers/plans/2026-09-08-learner-experience-and-mastery.md` closing Sprint 38.
+  - Validation: 138 test files (834 unit/integration tests passed), 0 lint errors, 0 type errors, Playwright E2E passed (5/5 tests), production build succeeded (51 routes compiled).
+
 - [2026-09-16 16:38 WITA] [ADDED] [Milestone 14 / Sprint 38 / Task 38.3]
   Added privacy-safe assessment analytics for developer review:
   - Domain assessment analytics engine (`src/features/developer/analytics/assessment-analytics.ts`):

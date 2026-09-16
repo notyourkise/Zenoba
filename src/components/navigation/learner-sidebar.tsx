@@ -12,6 +12,7 @@ import {
   Terminal,
   Wrench,
   Monitor,
+  Search,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -39,6 +40,7 @@ export interface NavItemConfig {
 export const WORKSPACE_NAV_ITEMS: NavItemConfig[] = [
   { href: "/dashboard", label: "Dashboard", icon: Home },
   { href: "/my-learning", label: "Pembelajaran Saya", icon: BookOpen },
+  { href: "/learn/search", label: "Pencarian Kurikulum", icon: Search },
   { href: "/catalog", label: "Katalog Kursus", icon: LayoutGrid },
   { href: "/my-packages", label: "Paket Saya", icon: Package },
   { href: "/orders", label: "Riwayat Pesanan", icon: History },

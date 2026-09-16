@@ -6,6 +6,8 @@ import { startLessonProgress } from "@/features/learning/progress";
 import { LessonActionBar } from "@/features/learning/components/lesson-action-bar";
 import { LessonRenderer } from "@/features/learning/blocks/lesson-renderer";
 import { LearningOutcomes } from "@/features/learning/components/learning-outcomes";
+import { BookmarkButton } from "@/features/learning/bookmarks/components/bookmark-button";
+import { isLessonBookmarked } from "@/features/learning/bookmarks/service";
 import { ArrowLeft, Lock, Award, AlertCircle } from "lucide-react";
 
 interface LessonPageProps {
@@ -32,6 +34,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
   }
 
   const { path, module, lesson, prevLesson, nextLesson } = detail;
+  const isBookmarked = await isLessonBookmarked(user?.id, lesson.id);
 
   // If user is logged in and lesson is AVAILABLE, transition to IN_PROGRESS on view
   if (user?.id && lesson.status === "AVAILABLE") {
@@ -83,7 +86,11 @@ export default async function LessonPage({ params }: LessonPageProps) {
           </div>
         )}
 
-        <div className="pt-2">
+        <div className="pt-2 flex items-center justify-center gap-3">
+          <BookmarkButton
+            lessonId={lesson.id}
+            initialBookmarked={isBookmarked}
+          />
           <Link
             href={`/learn/${pathSlug}`}
             className="inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
@@ -120,6 +127,10 @@ export default async function LessonPage({ params }: LessonPageProps) {
             {lesson.title}
           </h1>
           <div className="flex items-center space-x-2">
+            <BookmarkButton
+              lessonId={lesson.id}
+              initialBookmarked={isBookmarked}
+            />
             <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
               <Award className="w-3.5 h-3.5 mr-1" />
               +{lesson.xpReward} XP

@@ -771,14 +771,14 @@ Required gates remain: real published access-guarded premium content; owner-appr
 
 ## Milestone 14 — Learner Experience and Mastery Quality — ACTIVE / NEXT
 
-### Sprint 37 — Continuity and Daily Comfort — ACTIVE (Task 37.1 Complete)
+### Sprint 37 — Continuity and Daily Comfort — COMPLETE / MERGED
 
 - Exact resume and prioritized learning queue (Task 37.1 complete).
 - Safe autosave drafts, consistent lesson navigation/errors, curriculum search, and bookmarks.
 
-### Sprint 38 — Mastery, Remediation, and Feedback — PLANNED
+### Sprint 38 — Mastery, Remediation, and Feedback — ACTIVE (Task 38.1 Complete)
 
-- Evidence-derived mastery and remediation center.
+- Evidence-derived mastery and remediation center (Task 38.1 complete).
 - Privacy-safe item/outcome analytics and version-preserving Consultant feedback.
 
 ### Sprint 39 — Spaced Review and Learner-Quality Acceptance — PLANNED

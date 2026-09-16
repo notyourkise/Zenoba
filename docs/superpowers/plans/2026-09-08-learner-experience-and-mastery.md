@@ -178,7 +178,7 @@ export type LessonNavigation = {
 
 ## Sprint 38 — Mastery, Remediation, and Feedback
 
-### Task 5: Derive outcome mastery from authoritative evidence
+### Task 5: Derive outcome mastery from authoritative evidence — COMPLETED (2026-09-16)
 
 **Files:**
 - Create: `src/features/learning/mastery.ts`

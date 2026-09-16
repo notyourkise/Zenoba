@@ -38,6 +38,31 @@ All notable project changes are recorded here.
 
 # 2026-09-16
 
+- [2026-09-16 14:26 WITA] [ADDED] [Milestone 14 / Sprint 38 / Task 38.1]
+  Derived learner outcome mastery from authoritative evidence and created mastery dashboard:
+  - Domain mastery resolver (`src/features/learning/mastery.ts`):
+    - Pure functional mastery engine with typed states: `NOT_STARTED`, `IN_PROGRESS`, `NEEDS_REVIEW`, `MASTERED`.
+    - Server-authoritative derivation contract: only passing attempts with matching content version award `MASTERED`; failed attempts or superseded/older content versions produce `NEEDS_REVIEW`.
+    - Drafts, UI state, bookmarks, and timers are strictly ignored for mastery derivation.
+    - Aggregation functions: `groupMasteryByModule()` and `summarizeLearnerMastery()`.
+    - Covered by 7 unit tests in `src/features/learning/mastery.test.ts` (100% pass).
+  - Mastery query adapter (`src/features/learning/mastery-queries.ts`):
+    - `getLearnerMasteryOverview()` resolves Prisma `AssessmentAttempt` and `UserLessonProgress` records, maps against curriculum declared outcomes, and calculates overall and module-level mastery stats.
+    - Covered by 2 unit tests in `src/features/learning/mastery-queries.test.ts` (100% pass).
+  - Learner mastery UI page (`src/app/(app)/learn/mastery/page.tsx`):
+    - Server component protected by `requireLearnerActor()`.
+    - Renders summary statistics (Total Outcomes, Mastered, Needs Remediation, In Progress, Not Started), overall mastery progress bar, and remediation alert banner.
+    - Renders module cards with competency breakdown, outcome status badges, and contextual remediation links pointing directly to the target lesson runner (`/learn/[pathSlug]/[moduleSlug]/[lessonSlug]`).
+    - Complies strictly with Netloka visual policy (zero decorative icons/emojis; semantic Lucide icons with accessible labels).
+    - Covered by 2 unit tests in `src/app/(app)/learn/mastery/page.test.tsx` (100% pass).
+  - Navigation integration (`src/components/navigation/learner-sidebar.tsx`):
+    - Added `/learn/mastery` ("Penguasaan Materi") with `Award` icon to `WORKSPACE_NAV_ITEMS` (automatically consumed by sidebar and mobile drawer).
+  - Playwright E2E coverage (`src/e2e/mastery-remediation.spec.ts`):
+    - Tested unauthenticated redirect to login and authenticated access to the mastery dashboard, metrics, and remediation links.
+  - Roadmap status:
+    - Updated `ROADMAP.md` and `docs/superpowers/plans/2026-09-08-learner-experience-and-mastery.md` (Task 5 completed; Sprint 38 active).
+  Validation: 131 test files (798 unit tests passed, 100%), TypeScript 0 errors, ESLint 0 errors, Next.js production build succeeded (49 routes compiled), Playwright E2E passed (2/2 tests in `mastery-remediation.spec.ts`, 3/3 tests in `learning-continuity.spec.ts`), `git diff --check` clean.
+
 - [2026-09-16 13:03 WITA] [SPRINT] [Milestone 14 / Sprint 37]
   Completed Sprint 37: Continuity and Daily Comfort:
   - Task 37.1 (Authoritative learning continuation queue & resolver) merged (PR #62).

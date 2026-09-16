@@ -68,7 +68,7 @@ function WaveLinesBackground({ color }: { color: "purple" | "cyan" | "amber" }) 
 }
 
 function getQueueBadge(
-  kind: "REMEDIATION" | "RESUME" | "ASSESSMENT" | "NEXT_LESSON"
+  kind: "REMEDIATION" | "RESUME" | "ASSESSMENT" | "REVIEW" | "NEXT_LESSON"
 ) {
   switch (kind) {
     case "REMEDIATION":
@@ -88,6 +88,12 @@ function getQueueBadge(
         label: "Uji Kompetensi",
         className: "bg-amber-500/10 text-amber-400 border-amber-500/30",
         ctaText: "Uji Kompetensi",
+      };
+    case "REVIEW":
+      return {
+        label: "Review Terjadwal",
+        className: "bg-purple-500/10 text-purple-400 border-purple-500/30",
+        ctaText: "Mulai Review",
       };
     case "NEXT_LESSON":
       return {

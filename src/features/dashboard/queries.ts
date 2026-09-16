@@ -7,6 +7,7 @@ import {
 } from "@/features/learning/continuation";
 import { getCurriculumGraph } from "@/features/learning/queries";
 import { getLearnerRemediationPlan } from "@/features/learning/remediation-queries";
+import { getLearnerDueReviewItems } from "@/features/learning/review-service";
 
 export interface DashboardContinuationData {
   primaryAction: LearningQueueItem | null;
@@ -39,8 +40,8 @@ export async function getDashboardContinuationData(
     };
   }
 
-  // Fetch learner's lesson progress, assessment attempts, and remediation plan in parallel
-  const [progressRecords, assessmentAttempts, remediationPlan] = await Promise.all([
+  // Fetch learner's lesson progress, assessment attempts, remediation plan, and due reviews in parallel
+  const [progressRecords, assessmentAttempts, remediationPlan, dueReviews] = await Promise.all([
     prisma.userLessonProgress.findMany({
       where: { userId },
       select: { lessonId: true, status: true },
@@ -57,6 +58,7 @@ export async function getDashboardContinuationData(
       orderBy: { createdAt: "desc" },
     }),
     getLearnerRemediationPlan(userId),
+    getLearnerDueReviewItems(userId).catch(() => []),
   ]);
 
   const completedLessonIds = new Set<string>();
@@ -94,6 +96,7 @@ export async function getDashboardContinuationData(
       href: l.href,
       reason: l.reasons[0] || "Penguatan konsep sasaran kompetensi",
     })),
+    dueReviews,
   };
 
   const queue = resolveLearningQueue(graph, evidence);

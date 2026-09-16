@@ -13,6 +13,7 @@ export type LearningQueueItemKind =
   | "REMEDIATION"
   | "RESUME"
   | "ASSESSMENT"
+  | "REVIEW"
   | "NEXT_LESSON";
 
 export interface LearningQueueItem {
@@ -78,11 +79,24 @@ export interface RemediationQueueInput {
   reason: string;
 }
 
+export interface ReviewQueueInput {
+  outcomeId: string;
+  text: string;
+  moduleTitle: string;
+  pathTitle: string;
+  pathSlug: string;
+  moduleSlug: string;
+  lessonSlug?: string;
+  href: string;
+  reason: string;
+}
+
 export interface LearnerEvidenceSnapshot {
   completedLessonIds: string[] | Set<string>;
   inProgressLessonIds: string[] | Set<string>;
   moduleAssessments: ModuleAssessmentEvidence[];
   remediationLessons?: RemediationQueueInput[];
+  dueReviews?: ReviewQueueInput[];
 }
 
 /**
@@ -210,7 +224,7 @@ export function resolveLearningQueue(
         }
       }
 
-      // 4. Check NEXT_LESSON (Priority 4)
+      // 4. Check NEXT_LESSON (Priority 5)
       for (const lesson of sortedLessons) {
         if (!completed.has(lesson.id) && !inProgress.has(lesson.id)) {
           const prereqsSatisfied =
@@ -229,7 +243,7 @@ export function resolveLearningQueue(
               moduleSlug: currModule.slug,
               lessonSlug: lesson.slug,
               reason: "Pelajaran berikutnya yang siap dipelajari",
-              priority: 4,
+              priority: 5,
             });
           }
         }
@@ -237,7 +251,26 @@ export function resolveLearningQueue(
     }
   }
 
-  return [...remediationItems, ...resumeItems, ...assessmentItems, ...nextLessonItems];
+  // 4. Check REVIEW (Priority 4 — Due Spaced Reviews)
+  const reviewItems: LearningQueueItem[] = [];
+  if (evidence.dueReviews && evidence.dueReviews.length > 0) {
+    for (const rev of evidence.dueReviews) {
+      reviewItems.push({
+        kind: "REVIEW",
+        href: rev.href,
+        title: `Review: ${rev.text}`,
+        moduleTitle: rev.moduleTitle,
+        pathTitle: rev.pathTitle,
+        pathSlug: rev.pathSlug,
+        moduleSlug: rev.moduleSlug,
+        lessonSlug: rev.lessonSlug,
+        reason: rev.reason,
+        priority: 4,
+      });
+    }
+  }
+
+  return [...remediationItems, ...resumeItems, ...assessmentItems, ...reviewItems, ...nextLessonItems];
 }
 
 /**

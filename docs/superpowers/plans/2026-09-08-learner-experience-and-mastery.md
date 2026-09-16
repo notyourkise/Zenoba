@@ -262,7 +262,7 @@ Build feedback from persisted rubric evidence: strengths, blocking issues, and p
 
 ## Sprint 39 — Spaced Review and Learner-Quality Acceptance
 
-### Task 9: Add deterministic spaced-review scheduling
+### Task 9: Add deterministic spaced-review scheduling — COMPLETED (2026-09-16)
 
 **Files:**
 - Modify: `prisma/schema.prisma`

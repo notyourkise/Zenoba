@@ -781,9 +781,9 @@ Required gates remain: real published access-guarded premium content; owner-appr
 - Evidence-derived mastery and remediation center (Tasks 38.1 & 38.2 complete).
 - Privacy-safe item/outcome analytics (Task 38.3 complete) and version-preserving Consultant feedback (Task 38.4 complete).
 
-### Sprint 39 — Spaced Review and Learner-Quality Acceptance — PLANNED
+### Sprint 39 — Spaced Review and Learner-Quality Acceptance — ACTIVE (Task 39.1 Complete)
 
-- Deterministic spaced review, learner-quality E2E, accessibility, responsive, performance, and failure-path regression.
+- Deterministic spaced review (Task 39.1 complete), learner-quality E2E, accessibility, responsive, performance, and failure-path regression.
 
 **Detailed plan:** [Learner Experience and Mastery Quality](docs/superpowers/plans/2026-09-08-learner-experience-and-mastery.md).
 

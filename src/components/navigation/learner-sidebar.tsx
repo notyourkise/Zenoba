@@ -13,6 +13,7 @@ import {
   Wrench,
   Monitor,
   Search,
+  Award,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -40,6 +41,7 @@ export interface NavItemConfig {
 export const WORKSPACE_NAV_ITEMS: NavItemConfig[] = [
   { href: "/dashboard", label: "Dashboard", icon: Home },
   { href: "/my-learning", label: "Pembelajaran Saya", icon: BookOpen },
+  { href: "/learn/mastery", label: "Penguasaan Materi", icon: Award },
   { href: "/learn/search", label: "Pencarian Kurikulum", icon: Search },
   { href: "/catalog", label: "Katalog Kursus", icon: LayoutGrid },
   { href: "/my-packages", label: "Paket Saya", icon: Package },

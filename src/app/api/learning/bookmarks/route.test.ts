@@ -2,16 +2,13 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { GET, POST } from "./route";
 import { AuthorizationError } from "@/lib/auth";
 
-vi.mock("@/lib/auth", () => ({
-  requireLearnerActor: vi.fn(),
-  AuthorizationError: class extends Error {
-    status: number;
-    constructor(message: string, status = 401) {
-      super(message);
-      this.status = status;
-    }
-  },
-}));
+vi.mock("@/lib/auth", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/lib/auth")>();
+  return {
+    ...actual,
+    requireLearnerActor: vi.fn(),
+  };
+});
 
 vi.mock("@/features/learning/bookmarks/service", () => ({
   toggleBookmark: vi.fn(),

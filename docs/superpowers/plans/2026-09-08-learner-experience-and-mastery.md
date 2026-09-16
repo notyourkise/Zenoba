@@ -152,7 +152,7 @@ export type LessonNavigation = {
 
 **Step 4: Verify and commit** with focused tests, typecheck, lint, and relevant learning E2E.
 
-### Task 4: Add curriculum search and learner bookmarks
+### Task 4: Add curriculum search and learner bookmarks — ✅ COMPLETE
 
 **Files:**
 - Create: `src/features/learning/search.ts`

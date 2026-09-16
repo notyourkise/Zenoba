@@ -36,6 +36,43 @@ All notable project changes are recorded here.
   Git: commit SHA and/or PR number when available
 ```
 
+# 2026-09-16
+
+- [2026-09-16 13:03 WITA] [SPRINT] [Milestone 14 / Sprint 37]
+  Completed Sprint 37: Continuity and Daily Comfort:
+  - Task 37.1 (Authoritative learning continuation queue & resolver) merged (PR #62).
+  - Task 37.2 (Safe autosave drafts with zero XP/assessment side effects) merged (PR #63).
+  - Task 37.3 (Contextual lesson navigation & error sanitization) merged (PR #64).
+  - Task 37.4 (Curriculum search, ownership-scoped bookmarks, and accessible UI) implemented and verified.
+  Validation: 128 test files (787 tests passed), TypeScript 0 errors, ESLint 0 errors, production build (48 routes compiled), Playwright E2E suite passed.
+
+- [2026-09-16 13:03 WITA] [ADDED] [Milestone 14 / Sprint 37 / Task 37.4]
+  Added curriculum search and ownership-scoped learner bookmarks:
+  - Database schema & migration (`prisma/schema.prisma`, `prisma/migrations/20260908092000_lesson_bookmarks/migration.sql`):
+    - Added `LessonBookmark` model with unique constraint on `(userId, lessonId)` and index on `(userId, createdAt)`.
+    - Applied forward-only migration to PostgreSQL database.
+  - Domain search engine (`src/features/learning/search.ts`):
+    - Pure tokenized search function `searchCurriculum()` with deterministic multi-factor weighting: title (100 exact / 60 full / 40 per keyword), outcomes (25), description (15), module title (10), path title (5), multi-token bonus (+40/token, +50 for all tokens).
+    - Extracts match field tags (`title`, `outcome`, `description`, `module`, `path`) and context snippets.
+    - Added index builder `buildSearchIndex()` projecting lessons and learning outcomes from curriculum graph and module registry.
+    - Covered by 7 unit tests in `src/features/learning/search.test.ts` (100% pass).
+  - Bookmark domain service (`src/features/learning/bookmarks/service.ts`):
+    - Added `toggleBookmark()`, `isLessonBookmarked()`, and `getUserBookmarks()`.
+    - Enforces absolute non-interference: zero side effects on XP ledger, lesson progress, or assessment attempts.
+    - Gracefully handles stale lesson IDs without crashing the UI.
+    - Covered by 8 unit tests in `src/features/learning/bookmarks/service.test.ts` (100% pass).
+  - Bookmark API route (`src/app/api/learning/bookmarks/route.ts`):
+    - `GET` and `POST` handlers protected by `requireLearnerActor()`.
+    - Covered by 7 unit tests in `src/app/api/learning/bookmarks/route.test.ts` (100% pass).
+  - UI components & pages (`src/app/(app)/learn/search/page.tsx`, `src/features/learning/bookmarks/components/bookmark-button.tsx`):
+    - Created search page with query-state URL (`?q=`), popular topic suggestions, search result cards with match tags and snippets, and "Materi Tersimpan" (bookmarks) sidebar.
+    - Created accessible client `BookmarkButton` component with loading indicators and accessible labels.
+    - Integrated `BookmarkButton` into lesson runner header and locked lesson barrier view (`src/app/(app)/learn/[pathSlug]/[moduleSlug]/[lessonSlug]/page.tsx`).
+    - Added `/learn/search` ("Pencarian Kurikulum") to learner workspace navigation (`src/components/navigation/learner-sidebar.tsx` and mobile drawer).
+    - Covered by 5 unit tests in `src/app/(app)/learn/search/page.test.tsx` and 4 unit tests in `bookmark-button.test.tsx`.
+  - Playwright E2E coverage (`src/e2e/learning-continuity.spec.ts`):
+    - Covered unauthenticated redirects to login, API 401 protection, and full authenticated journey: registration, searching for curriculum topics, toggling bookmarks, persisting across page reloads, and navigating to lesson runner with active bookmark state.
+
 # 2026-09-15
 
 - [2026-09-15 13:20 WITA] [ADDED] [Milestone 14 / Sprint 37 / Task 37.3]

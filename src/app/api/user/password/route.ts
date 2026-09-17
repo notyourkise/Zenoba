@@ -3,6 +3,10 @@ import { z } from "zod";
 import { prisma } from "@/lib/db/client";
 import { getCurrentUser } from "@/lib/auth";
 import { hashPassword } from "@/features/auth/password";
+import {
+  revokeUserSessions,
+  type PrismaClientLike,
+} from "@/features/auth/session-revocation";
 
 const changePasswordSchema = z
   .object({
@@ -39,6 +43,8 @@ export async function POST(request: Request) {
       where: { id: user.id },
       data: { passwordHash },
     });
+
+    await revokeUserSessions(user.id, undefined, prisma as unknown as PrismaClientLike);
 
     return NextResponse.json({
       message: "Password berhasil diperbarui.",

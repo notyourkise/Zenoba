@@ -9,6 +9,7 @@ declare module "next-auth" {
       headline?: string | null;
       streakCount?: number;
       lastStreakDate?: string | null;
+      issuedAtMs?: number;
     } & DefaultSession["user"];
   }
 
@@ -18,6 +19,7 @@ declare module "next-auth" {
     headline?: string | null;
     streakCount?: number;
     lastStreakDate?: string | null;
+    issuedAtMs?: number;
   }
 }
 

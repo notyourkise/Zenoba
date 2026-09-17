@@ -1,7 +1,10 @@
 import { createHash, randomBytes } from "node:crypto";
 import { prisma } from "@/lib/db/client";
 import { hashPassword } from "@/features/auth/password";
-import { revokeUserSessions } from "@/features/auth/session-revocation";
+import {
+  revokeUserSessions,
+  type PrismaClientLike,
+} from "@/features/auth/session-revocation";
 
 const RESET_TOKEN_TTL_MS = 30 * 60 * 1000;
 
@@ -68,7 +71,7 @@ export async function consumePasswordResetToken(
       data: { passwordHash },
     });
 
-    revokeUserSessions(token.userId);
+    await revokeUserSessions(token.userId, undefined, tx as unknown as PrismaClientLike);
 
     return "updated";
   });

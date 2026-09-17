@@ -56,8 +56,19 @@ model User {
   learningDrafts      LearningDraft[]
   bookmarks           LessonBookmark[]
   reviewSchedules     ReviewSchedule[]
+  securityState       UserSecurityState?
 
   @@map("users")
+}
+
+model UserSecurityState {
+  userId     String   @id
+  validAfter DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_security_states")
 }
 
 model PasswordResetToken {

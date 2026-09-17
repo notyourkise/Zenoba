@@ -38,6 +38,28 @@ All notable project changes are recorded here.
 
 # 2026-09-17
 
+- [2026-09-17 15:07 WITA] [SECURITY] [Milestone 15 / Sprint 40 / Task 40.1]
+  Implemented shared PostgreSQL-backed session revocation strategy (TD-08 / Task 40.1):
+  - Database schema & migration:
+    - Added `UserSecurityState` model (`userId`, `validAfter`, `updatedAt`) with cascade deletion on user deletion to `prisma/schema.prisma`.
+    - Generated forward-only migration SQL: `prisma/migrations/20260908094000_session_security/migration.sql`.
+  - Shared revocation engine & Edge compatibility:
+    - Updated `src/features/auth/session-revocation.ts` with `revokeUserSessions(userId, revokedAt, db)`, `isSessionRevokedAsync(userId, tokenIssuedAtMs, options)`, `pruneRevokedSessions(now, db)`, and `isSessionRevoked(userId, tokenIssuedAtMs)`.
+    - Decoupled static Prisma import from `session-revocation.ts` via `setSessionRevocationPrismaClient` to preserve Edge runtime compatibility for `src/middleware.ts` during Next.js Webpack bundling.
+    - Implemented role-aware resilience: fail-closed (`failClosed: true`) on database failure for privileged developer accounts, with documented safe fallback to in-memory cache for ordinary learners to prevent denial of service during transient database interruptions.
+    - Added 30-day retention pruning for stale revocation records matching NextAuth session `maxAge`.
+  - NextAuth & session integration:
+    - Updated `src/features/auth/auth.ts`: enriched JWT token/session with `issuedAtMs` and added asynchronous revocation check in the `session` callback with fail-closed security for developer accounts.
+    - Updated `src/lib/auth.ts`: `getCurrentUser` checks user `securityState.validAfter` against `session.user.issuedAtMs` and invalidates stale sessions across server restarts and multiple instances.
+    - Integrated revocation with password change (`src/app/api/user/password/route.ts`) and password reset (`src/features/auth/password-reset.ts`).
+  - Validation:
+    - Added unit & integration tests covering multi-instance simulation, password reset invalidation, developer session step-down, 30-day pruning, and database failure resilience in `src/features/auth/session-revocation.test.ts` (9 tests passed).
+    - Verified `src/lib/auth.test.ts` (8 tests passed) and `src/middleware.test.ts` (13 tests passed).
+    - Full test suite passed: 142 test files / 864 tests passing (100%).
+    - Linter: `npm run lint` clean (0 errors, 0 warnings).
+    - Typecheck: `npm run typecheck` clean (0 errors).
+    - Production build: `npm run build` compiled successfully (53 routes, middleware proxy generated).
+
 - [2026-09-17 13:25 WITA] [MILESTONE] [Milestone 14 / Sprint 39 / Task 39.3]
   Completed Milestone 14 closure review and delivery gate:
   - Formally closed Milestone 14 (Learner Experience and Mastery Quality) with all three sprints fully merged:

@@ -7,9 +7,15 @@ import GoogleProvider from "next-auth/providers/google";
 import { prisma } from "@/lib/db/client";
 import { verifyPassword } from "./password";
 import { verifyTotpCode, verifyAndConsumeBackupCode } from "./totp";
-import { isSessionRevoked } from "./session-revocation";
+import {
+  isSessionRevokedAsync,
+  setSessionRevocationPrismaClient,
+  type PrismaClientLike,
+} from "./session-revocation";
 import { recordSecurityEvent } from "@/features/security/events";
 import { touchUserActivity } from "@/features/analytics/activity";
+
+setSessionRevocationPrismaClient(prisma as unknown as PrismaClientLike);
 
 type GoogleEnvironment = Record<string, string | undefined>;
 
@@ -213,12 +219,18 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       const tokenIatMs = typeof token.iat === "number" ? token.iat * 1000 : undefined;
-      if (token.id && isSessionRevoked(token.id as string, tokenIatMs)) {
-        return {
-          ...session,
-          user: undefined as unknown as typeof session.user,
-          expires: new Date(0).toISOString(),
-        };
+      const isDev = token.role === "DEVELOPER";
+      if (token.id) {
+        const isRevoked = await isSessionRevokedAsync(token.id as string, tokenIatMs, {
+          failClosed: isDev,
+        });
+        if (isRevoked) {
+          return {
+            ...session,
+            user: undefined as unknown as typeof session.user,
+            expires: new Date(0).toISOString(),
+          };
+        }
       }
 
       if (session.user) {
@@ -233,6 +245,7 @@ export const authOptions: NextAuthOptions = {
         if (token.picture) {
           session.user.image = token.picture as string;
         }
+        session.user.issuedAtMs = tokenIatMs;
       }
       return session;
     },

@@ -71,15 +71,49 @@ describe("auth helpers", () => {
           headline: true,
           streakCount: true,
           lastStreakDate: true,
+          securityState: {
+            select: {
+              validAfter: true,
+            },
+          },
         },
       });
     });
 
-    it("falls back to session.user if database query fails", async () => {
+    it("invalidates session if token was issued prior to securityState validAfter", async () => {
+      vi.mocked(getServerSession).mockResolvedValueOnce({
+        user: {
+          id: "user-123",
+          name: "Old Session",
+          issuedAtMs: 100000,
+        },
+      } as any);
+
+      vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
+        id: "user-123",
+        name: "Old Session",
+        email: "user@example.com",
+        role: "LEARNER",
+        authVersion: 1,
+        image: null,
+        headline: null,
+        streakCount: 1,
+        lastStreakDate: null,
+        securityState: {
+          validAfter: new Date(150000), // revoked after token issuance
+        },
+      } as any);
+
+      const user = await getCurrentUser();
+      expect(user).toBeNull();
+    });
+
+    it("falls back to session.user if database query fails for learner", async () => {
       vi.mocked(getServerSession).mockResolvedValueOnce({
         user: {
           id: "user-123",
           name: "Session Fallback Name",
+          role: "LEARNER",
         },
       } as any);
 
@@ -88,6 +122,21 @@ describe("auth helpers", () => {
       const user = await getCurrentUser();
       expect(user).toBeDefined();
       expect(user?.name).toBe("Session Fallback Name");
+    });
+
+    it("fails closed (returns null) if database query fails for developer", async () => {
+      vi.mocked(getServerSession).mockResolvedValueOnce({
+        user: {
+          id: "dev-123",
+          name: "Dev User",
+          role: "DEVELOPER",
+        },
+      } as any);
+
+      vi.mocked(prisma.user.findUnique).mockRejectedValueOnce(new Error("Database disconnected"));
+
+      const user = await getCurrentUser();
+      expect(user).toBeNull();
     });
 
     it("aliases currentUser to getCurrentUser", () => {

@@ -1,6 +1,12 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/features/auth/auth";
 import { prisma } from "@/lib/db/client";
+import {
+  setSessionRevocationPrismaClient,
+  type PrismaClientLike,
+} from "@/features/auth/session-revocation";
+
+setSessionRevocationPrismaClient(prisma as unknown as PrismaClientLike);
 
 /**
  * Get current session on the server
@@ -31,10 +37,23 @@ export async function getCurrentUser() {
         headline: true,
         streakCount: true,
         lastStreakDate: true,
+        securityState: {
+          select: {
+            validAfter: true,
+          },
+        },
       },
     });
 
     if (dbUser) {
+      // Invalidate session if token was issued prior to validAfter
+      const tokenIatMs = session.user.issuedAtMs;
+      if (dbUser.securityState?.validAfter && typeof tokenIatMs === "number") {
+        if (tokenIatMs < dbUser.securityState.validAfter.getTime()) {
+          return null;
+        }
+      }
+
       return {
         ...session.user,
         name: dbUser.name,
@@ -47,7 +66,11 @@ export async function getCurrentUser() {
       };
     }
   } catch {
-    // Return session.user fallback if database is temporarily unreachable or in mock tests
+    // Fail closed for privileged developer accounts on database error
+    if (session?.user?.role === "DEVELOPER") {
+      return null;
+    }
+    // Return session.user fallback if database is temporarily unreachable for ordinary learners
   }
 
   return session.user;

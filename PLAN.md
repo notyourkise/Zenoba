@@ -1167,17 +1167,17 @@ Detailed executable plan: [Learner Experience and Mastery Quality](docs/superpow
 
 - [x] Task 39.1: Add deterministic, idempotent spaced-review scheduling.
 - [x] Task 39.2: Run accessibility, responsive, performance, offline/error, and authenticated E2E regression.
-- [ ] Task 39.3: Complete the milestone review, full gates, PR/CI, owner review/merge, and synchronization.
+- [x] Task 39.3: Complete the milestone review, full gates, PR/CI, owner review/merge, and synchronization.
 
 **Exit:** Learners can resume, recover drafts, search/bookmark, understand mastery/remediation, receive useful Consultant feedback, and complete due reviews through accessible, server-authoritative flows.
 
-## Milestone 15 — Final Production and Commercial Release — PLANNED / LAST
+## Milestone 15 — Final Production and Commercial Release — ACTIVE
 
 Detailed executable plan: [Final Production and Commercial Release](docs/superpowers/plans/2026-09-08-final-production-and-commercial-release.md).
 
 ### Sprint 40 — Persistent Security and Release Baseline
 
-- [ ] Task 40.1: Replace in-memory session revocation with shared PostgreSQL persistence.
+- [x] Task 40.1: Replace in-memory session revocation with shared PostgreSQL persistence.
 - [ ] Task 40.2: Replace in-memory password-reset abuse controls with a multi-instance-safe limiter.
 - [ ] Task 40.3: Reverify that unsafe OAuth email linking remains disabled and verify live email/OAuth in isolated staging.
 - [ ] Task 40.4: Rehearse fresh/upgrade migrations, dependency/security checks, and backup-based rollback.

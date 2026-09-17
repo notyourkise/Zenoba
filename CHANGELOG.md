@@ -38,6 +38,25 @@ All notable project changes are recorded here.
 
 # 2026-09-17
 
+- [2026-09-17 16:44 WITA] [RELEASE] [Milestone 15 / Sprint 40 / Task 40.4]
+  Completed forward-only migration rehearsal, dependency/security gates, and Sprint 40 completion (Task 40.4):
+  - Dependency upgrade & audit resolution:
+    - Upgraded Next.js and `eslint-config-next` to `16.3.5`, resolving critical vulnerabilities GHSA-p293-qw3h-jr36 (Windows unauthenticated RCE) and GHSA-2xp9-vwfh-vxw4 (AVIF image optimization).
+    - Configured npm overrides for `mysql2: "^3.24.4"` (resolving GHSA-3f6p-5ww8-9rcr and GHSA-rgwj-5xj2-c3m3) and `sharp: "^0.35.4"` (resolving libheif vulnerabilities).
+    - Validated production dependency audit: `npm audit --omit=dev` reports **0 vulnerabilities**.
+  - Migration sequence & disaster recovery:
+    - Rehearsed and verified the forward-only 6-step migration sequence (`20260908090000_developer_operations_baseline` through `20260908095000_auth_rate_limits`). Confirmed strictly non-destructive operations.
+    - Authored `docs/operations/release-baseline-verification.md` specifying disaster recovery and rollback via timestamped `pg_dump` binary snapshots (`pg_restore`), formally prohibiting destructive down-migrations.
+  - Security headers & technical debt reconciliation:
+    - Re-verified runtime transport and HTTP security headers (CSP, HSTS, frame-ancestors 'none', X-Frame-Options DENY) via automated test (`src/lib/security-headers.test.ts`).
+    - Reconciled technical debt registry in `docs/TECHNICAL_DEBT.md` (resolved TD-06, TD-08, TD-09, TD-12, TD-14, and TD-15).
+  - Validation:
+    - Full test suite passed: 143 test files / 877 tests passing (100%).
+    - Linter: `npm run lint` clean (0 errors, 0 warnings).
+    - Typecheck: `npm run typecheck` clean (0 errors).
+    - Production build: `npm run build` compiled successfully on Next.js 16.3.5 (53 routes).
+    - `git diff --check`: clean (0 whitespace errors).
+
 - [2026-09-17 15:30 WITA] [SECURITY] [Milestone 15 / Sprint 40 / Task 40.3]
   Closed OAuth account-linking and live-email verification gaps (Task 40.3):
   - Safe OAuth account linking:

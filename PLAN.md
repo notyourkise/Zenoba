@@ -1178,7 +1178,7 @@ Detailed executable plan: [Final Production and Commercial Release](docs/superpo
 ### Sprint 40 — Persistent Security and Release Baseline
 
 - [x] Task 40.1: Replace in-memory session revocation with shared PostgreSQL persistence.
-- [ ] Task 40.2: Replace in-memory password-reset abuse controls with a multi-instance-safe limiter.
+- [x] Task 40.2: Replace in-memory password-reset abuse controls with a multi-instance-safe limiter.
 - [ ] Task 40.3: Reverify that unsafe OAuth email linking remains disabled and verify live email/OAuth in isolated staging.
 - [ ] Task 40.4: Rehearse fresh/upgrade migrations, dependency/security checks, and backup-based rollback.
 

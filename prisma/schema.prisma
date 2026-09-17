@@ -84,6 +84,17 @@ model PasswordResetToken {
   @@map("password_reset_tokens")
 }
 
+model AuthRateLimit {
+  key       String   @id
+  count     Int      @default(1)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([expiresAt])
+  @@map("auth_rate_limits")
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String

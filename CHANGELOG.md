@@ -38,6 +38,28 @@ All notable project changes are recorded here.
 
 # 2026-09-17
 
+- [2026-09-17 15:16 WITA] [SECURITY] [Milestone 15 / Sprint 40 / Task 40.2]
+  Implemented persistent password-reset abuse controls and shared limiter (Task 40.2):
+  - Database schema & migration:
+    - Added `AuthRateLimit` model (`key`, `count`, `expiresAt`, `createdAt`, `updatedAt`) with index on `expiresAt` to `prisma/schema.prisma`.
+    - Generated forward-only migration SQL: `prisma/migrations/20260908095000_auth_rate_limits/migration.sql`.
+  - Privacy-preserving identity hashing & atomic shared limiter:
+    - Implemented `hashRateLimitKey(scope, identifier)` in `src/features/auth/rate-limiter.ts` using one-way SHA-256 digests of normalized identity and scoped IP to prevent storing plaintext IPs and emails in the database.
+    - Implemented atomic `checkRateLimitAsync(key, limit, windowMs, options)` with automatic fixed-window reset, atomic counter increments, and graceful in-memory fallback on database connection errors.
+    - Decoupled Prisma client via `setRateLimitPrismaClient` / `options.db` injection to keep the rate-limiter module compatible across Edge and Node runtimes.
+  - Route integration:
+    - Updated `src/app/api/auth/forgot-password/route.ts` to enforce persistent rate limits for both client IP (5 attempts per 15 min) and email address (3 attempts per 15 min) with timing defense preserved.
+    - Updated `src/app/api/auth/reset-password/route.ts` to enforce persistent rate limits for client IP (10 attempts per 15 min).
+  - Retention & pruning:
+    - Created `src/features/auth/rate-limit-cleanup.ts` with `pruneExpiredRateLimits(now, db)` to safely clean up expired rate limit records from PostgreSQL and in-memory stores.
+  - Validation:
+    - Added comprehensive unit tests in `src/features/auth/rate-limiter.test.ts` (10 tests) and `src/features/auth/rate-limit-cleanup.test.ts` (1 test) covering multi-instance simulation, boundary times, expiry resets, and database failure resilience.
+    - Verified route regression in `src/features/auth/password-reset-route.test.ts` (9 tests passed).
+    - Full test suite passed: 143 test files / 870 tests passing (100%).
+    - Linter: `npm run lint` clean (0 errors, 0 warnings).
+    - Typecheck: `npm run typecheck` clean (0 errors).
+    - Production build: `npm run build` compiled successfully (53 routes).
+
 - [2026-09-17 15:07 WITA] [SECURITY] [Milestone 15 / Sprint 40 / Task 40.1]
   Implemented shared PostgreSQL-backed session revocation strategy (TD-08 / Task 40.1):
   - Database schema & migration:

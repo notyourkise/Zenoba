@@ -1,7 +1,58 @@
+import { createHash } from "node:crypto";
+
 /**
- * In-memory sliding-window rate limiter & abuse protection for auth endpoints.
- * Zero external dependencies; fully deterministic and memory-safe.
+ * Derives a deterministic one-way SHA-256 hash for rate limit buckets.
+ * Guarantees privacy: IP addresses and user emails are never stored in plaintext in the database.
  */
+export function hashRateLimitKey(scope: string, identifier: string): string {
+  const normalized = identifier.toLowerCase().trim();
+  return createHash("sha256").update(`${scope}:${normalized}`).digest("hex");
+}
+
+export interface AuthRateLimitRecord {
+  key: string;
+  count: number;
+  expiresAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export type RateLimitPrismaClientLike = {
+  authRateLimit: {
+    findUnique: (args: { where: { key: string } }) => Promise<AuthRateLimitRecord | null>;
+    upsert: (args: {
+      where: { key: string };
+      create: { key: string; count: number; expiresAt: Date };
+      update: { count: number; expiresAt: Date };
+    }) => Promise<AuthRateLimitRecord>;
+    update: (args: {
+      where: { key: string };
+      data: { count: { increment: number } };
+    }) => Promise<AuthRateLimitRecord>;
+    deleteMany: (args: {
+      where: {
+        expiresAt: {
+          lt: Date;
+        };
+      };
+    }) => Promise<{ count: number }>;
+  };
+};
+
+let defaultRateLimitPrismaClient: RateLimitPrismaClientLike | null = null;
+
+export function setRateLimitPrismaClient(client: RateLimitPrismaClientLike | null): void {
+  defaultRateLimitPrismaClient = client;
+}
+
+export function getRateLimitPrismaClient(): RateLimitPrismaClientLike | null {
+  return defaultRateLimitPrismaClient;
+}
+
+export interface AsyncRateLimitOptions {
+  db?: RateLimitPrismaClientLike;
+  now?: number;
+}
 
 export interface RateLimitResult {
   success: boolean;
@@ -120,4 +171,100 @@ export async function ensureMinimumDuration(
  */
 export function resetRateLimits(): void {
   rateLimitStore.clear();
+}
+
+/**
+ * Asynchronously checks and records an attempt against a persistent PostgreSQL-backed rate limit.
+ * Falls back safely to process in-memory rate limiting if database is unavailable.
+ *
+ * @param key Unique key for the rate limit bucket (typically SHA-256 hashed via hashRateLimitKey)
+ * @param limit Maximum allowed attempts within windowMs
+ * @param windowMs Window duration in milliseconds
+ * @param options Optional configuration including database client and deterministic timestamp
+ */
+export async function checkRateLimitAsync(
+  key: string,
+  limit: number,
+  windowMs: number,
+  options?: AsyncRateLimitOptions,
+): Promise<RateLimitResult> {
+  const nowMs = options?.now ?? Date.now();
+  const client = options?.db ?? defaultRateLimitPrismaClient;
+
+  if (!client || !client.authRateLimit) {
+    return checkRateLimit(key, limit, windowMs, nowMs);
+  }
+
+  try {
+    const existing = await client.authRateLimit.findUnique({
+      where: { key },
+    });
+
+    const isExpired = !existing || existing.expiresAt.getTime() <= nowMs;
+
+    if (isExpired) {
+      const expiresAt = new Date(nowMs + windowMs);
+      await client.authRateLimit.upsert({
+        where: { key },
+        create: {
+          key,
+          count: 1,
+          expiresAt,
+        },
+        update: {
+          count: 1,
+          expiresAt,
+        },
+      });
+
+      return {
+        success: true,
+        limit,
+        remaining: Math.max(0, limit - 1),
+        resetTime: expiresAt.getTime(),
+        retryAfterSeconds: 0,
+      };
+    }
+
+    const updated = await client.authRateLimit.update({
+      where: { key },
+      data: {
+        count: { increment: 1 },
+      },
+    });
+
+    const resetTime = updated.expiresAt.getTime();
+    const retryAfterSeconds = Math.max(1, Math.ceil((resetTime - nowMs) / 1000));
+
+    if (updated.count > limit) {
+      return {
+        success: false,
+        limit,
+        remaining: 0,
+        resetTime,
+        retryAfterSeconds,
+      };
+    }
+
+    return {
+      success: true,
+      limit,
+      remaining: Math.max(0, limit - updated.count),
+      resetTime,
+      retryAfterSeconds: 0,
+    };
+  } catch (error) {
+    console.error(
+      `[RateLimiter] Database rate limit check failed for key ${key}, falling back to in-memory store:`,
+      error,
+    );
+    return checkRateLimit(key, limit, windowMs, nowMs);
+  }
+}
+
+/**
+ * Prunes expired entries from the in-memory store.
+ */
+export function pruneInMemoryRateLimits(now = Date.now(), maxWindowMs = 3600000): void {
+  pruneStore(now, maxWindowMs);
 }

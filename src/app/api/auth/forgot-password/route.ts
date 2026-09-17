@@ -8,9 +8,11 @@ import {
 } from "@/features/auth/password-reset";
 import { sendPasswordResetEmail } from "@/features/auth/email/password-reset-email";
 import {
-  checkRateLimit,
+  checkRateLimitAsync,
+  hashRateLimitKey,
   getClientIp,
   ensureMinimumDuration,
+  type RateLimitPrismaClientLike,
 } from "@/features/auth/rate-limiter";
 
 const requestSchema = z.object({
@@ -48,10 +50,12 @@ export async function POST(request: Request) {
   const email = result.data.email.toLowerCase().trim();
 
   // 1. IP rate limiting (5 requests per 15 minutes)
-  const ipCheck = checkRateLimit(
-    `forgot-password:ip:${clientIp}`,
+  const ipKey = hashRateLimitKey("forgot-password:ip", clientIp);
+  const ipCheck = await checkRateLimitAsync(
+    ipKey,
     MAX_ATTEMPTS_PER_IP,
     RATE_LIMIT_WINDOW_MS,
+    { db: prisma as unknown as RateLimitPrismaClientLike },
   );
   if (!ipCheck.success) {
     return NextResponse.json(
@@ -64,10 +68,12 @@ export async function POST(request: Request) {
   }
 
   // 2. Email rate limiting (3 requests per 15 minutes)
-  const emailCheck = checkRateLimit(
-    `forgot-password:email:${email}`,
+  const emailKey = hashRateLimitKey("forgot-password:email", email);
+  const emailCheck = await checkRateLimitAsync(
+    emailKey,
     MAX_ATTEMPTS_PER_EMAIL,
     RATE_LIMIT_WINDOW_MS,
+    { db: prisma as unknown as RateLimitPrismaClientLike },
   );
   if (!emailCheck.success) {
     return NextResponse.json(

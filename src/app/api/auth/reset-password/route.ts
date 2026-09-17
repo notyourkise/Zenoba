@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { prisma } from "@/lib/db/client";
 import { consumePasswordResetToken } from "@/features/auth/password-reset";
-import { checkRateLimit, getClientIp } from "@/features/auth/rate-limiter";
+import {
+  checkRateLimitAsync,
+  hashRateLimitKey,
+  getClientIp,
+  type RateLimitPrismaClientLike,
+} from "@/features/auth/rate-limiter";
 
 const resetSchema = z.object({
   token: z.string().min(1, "Reset token is required"),
@@ -20,10 +26,12 @@ export async function POST(request: Request) {
   }
 
   const clientIp = getClientIp(request);
-  const ipCheck = checkRateLimit(
-    `reset-password:ip:${clientIp}`,
+  const ipKey = hashRateLimitKey("reset-password:ip", clientIp);
+  const ipCheck = await checkRateLimitAsync(
+    ipKey,
     MAX_ATTEMPTS_PER_IP,
     RATE_LIMIT_WINDOW_MS,
+    { db: prisma as unknown as RateLimitPrismaClientLike },
   );
   if (!ipCheck.success) {
     return NextResponse.json(

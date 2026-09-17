@@ -38,6 +38,19 @@ All notable project changes are recorded here.
 
 # 2026-09-17
 
+- [2026-09-17 13:25 WITA] [MILESTONE] [Milestone 14 / Sprint 39 / Task 39.3]
+  Completed Milestone 14 closure review and delivery gate:
+  - Formally closed Milestone 14 (Learner Experience and Mastery Quality) with all three sprints fully merged:
+    - Sprint 37: Continuity and Daily Comfort (exact resume, prioritized learning queue, autosave draft resilience, bookmarks, curriculum search).
+    - Sprint 38: Mastery, Remediation, and Feedback (evidence-derived mastery/remediation, privacy-safe developer item analytics, versioned Consultant feedback).
+    - Sprint 39: Spaced Review and Learner-Quality Acceptance (deterministic spaced-review scheduling with discrete intervals, responsive viewports 320px/768px/1280px, drawer keyboard accessibility, reduced-motion suppression, Playwright E2E regression suite).
+  - Updated `ROADMAP.md`, `PLAN.md`, `CHANGELOG.md`, `docs/HANDOFF.md`, and `docs/TECHNICAL_DEBT.md` (TD-18, TD-19, TD-20).
+  - Activated Milestone 15 (Final Production and Commercial Release) as `ACTIVE / NEXT`, starting with Sprint 40 (Persistent Security and Release Baseline).
+  - Validation: 142 test files / 856 tests passing (100%), typecheck clean, lint clean, build clean (53 routes), all CI workflows passing.
+
+- [2026-09-17 13:18 WITA] [MERGE] [Milestone 14 / Sprint 39 / Task 39.2]
+  Merged PR #71 (`c011e81`, branch `codex/sprint-39-learner-quality`) by Abangku into `main`. All 5 GitHub Actions CI jobs passed (Lint & Type Check, Test Suite, Browser E2E Tests, Production Build, Quality Gate). Local `main` fast-forwarded and task worktree/branch cleaned up safely.
+
 - [2026-09-17 11:56 WITA] [TEST] [Milestone 14 / Sprint 39 / Task 39.2]
   Completed learner-quality acceptance and regression suite covering viewports, keyboard navigation, focus restoration, reduced motion, error recovery, draft resilience, and performance:
   - Accessibility & focus restoration:

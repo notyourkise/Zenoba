@@ -4,7 +4,7 @@ Dokumen pencatatan hutang teknis (*technical debt*), area refaktor masa depan, d
 
 ---
 
-## 1. Status Hutang Teknis Saat Ini (Milestone 13 Selesai / Milestone 14 Aktif)
+## 1. Status Hutang Teknis Saat Ini (Milestone 14 Selesai / Milestone 15 Aktif)
 
 | ID | Kategori | Deskripsi | Dampak | Status Resolusi |
 |---|---|---|---|---|
@@ -35,7 +35,13 @@ Pre-launch legal readiness: **TD-10 — High before collecting public learner da
 - **TD-16 — Resolved in merged Sprint 34 (PR #52):** `getLearningPathDetail()` now consistently delegates access evaluation to `requireLearningPathAccess`, ensuring `INTERNAL_LEARNER` receives full all-course access to premium learning paths without synthetic entitlements.
 - **TD-17 — Resolved in merged Sprint 34 (PR #53):** Enforced database-authoritative role boundary (`requireLearnerActor`) across all 7 learner mutation APIs (`/api/learning/progress`, `/api/learning/quiz/submit`, `/api/learning/assessment/module`, `/api/labs/[labSlug]/submit`, `/api/challenges/submit`, `/api/challenges/[challengeSlug]/submit`, and `/api/consultant/[caseSlug]/submit`), returning `403 Forbidden` (`"Learner workspace access required"`) for `DEVELOPER` callers.
 
-## 3. Rencana Jalur Ekstensi Pasca-MVP (*Future Tracks*)
+## 3. Learner quality and testing follow-up (Milestone 14 completion, 2026-09-17)
+
+- **TD-18 — Worktree node_modules junction compatibility:** In Windows environments, creating directory junctions or symlinks for `node_modules` inside nested `.worktrees/` breaks Vitest realpath resolution with "No test suite found in file". Worktrees must rely on standard Node.js parent directory traversal (`../../node_modules`) rather than local junctions.
+- **TD-19 — Next.js Route Announcer Alert Filtering in Playwright:** Next.js automatically mounts an accessibility live region `<div role="alert" id="__next-route-announcer__"></div>`. E2E tests asserting on `role="alert"` must filter by container or exact accessible name to prevent strict mode locator collisions.
+- **TD-20 — Non-blocking test coverage upload in CI:** CI workflow job `test` uploads coverage artifacts from `coverage/`, which emits a harmless annotation when Vitest runs without `--coverage`. Retain until test coverage reporting is formally standardized in Milestone 15.
+
+## 4. Rencana Jalur Ekstensi Pasca-MVP (*Future Tracks*)
 
 The following extension ideas remain future domains. Milestone 12 completed only the commercial gate review; actual gateway/payment activation is last in Milestone 15. Networking curriculum renewal does not activate these premium tracks.
 

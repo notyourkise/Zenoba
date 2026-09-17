@@ -142,6 +142,7 @@ export function buildAuthProviders(
       GoogleProvider({
         clientId: environment.GOOGLE_CLIENT_ID!.trim(),
         clientSecret: environment.GOOGLE_CLIENT_SECRET!.trim(),
+        allowDangerousEmailAccountLinking: false,
       }),
     );
   }
@@ -175,14 +176,29 @@ export const authOptions: NextAuthOptions = {
     },
   },
   callbacks: {
-    async signIn({ user, account }) {
+    async signIn({ user, account, profile }) {
       if (account?.provider === "google") {
         if (!user.email) return false;
         const normalizedEmail = user.email.toLowerCase().trim();
+
+        // 1. Verify email_verified status from OAuth provider profile
+        const googleProfile = profile as { email_verified?: boolean } | undefined;
+        if (googleProfile && googleProfile.email_verified === false) {
+          await recordSecurityEvent({
+            type: "AUTH_OAUTH_UNVERIFIED_EMAIL_REJECTED",
+            severity: "WARN",
+            metadata: { email: normalizedEmail, provider: "google" },
+          });
+          return false;
+        }
+
+        // 2. Query existing user
         const existingUser = await prisma.user.findUnique({
           where: { email: normalizedEmail },
-          select: { id: true, role: true },
+          select: { id: true, role: true, passwordHash: true },
         });
+
+        // 3. Block developer role login through public Google OAuth
         if (existingUser?.role === "DEVELOPER") {
           await recordSecurityEvent({
             userId: existingUser.id,
@@ -192,13 +208,55 @@ export const authOptions: NextAuthOptions = {
           });
           return false;
         }
+
+        // 4. Protect credentials-first accounts and prevent conflicting provider IDs
+        if (existingUser && prisma.account) {
+          const existingAccount = await prisma.account.findFirst({
+            where: {
+              userId: existingUser.id,
+              provider: "google",
+            },
+            select: { providerAccountId: true },
+          });
+
+          // Prevent unauthenticated account takeover of accounts created via credentials
+          if (!existingAccount && existingUser.passwordHash) {
+            await recordSecurityEvent({
+              userId: existingUser.id,
+              type: "AUTH_OAUTH_CONFLICTING_CREDENTIALS_REJECTED",
+              severity: "WARN",
+              metadata: { email: normalizedEmail, provider: "google" },
+            });
+            return false;
+          }
+
+          // Prevent account takeover via mismatched providerAccountId
+          if (
+            existingAccount &&
+            account.providerAccountId &&
+            existingAccount.providerAccountId !== account.providerAccountId
+          ) {
+            await recordSecurityEvent({
+              userId: existingUser.id,
+              type: "AUTH_OAUTH_CONFLICTING_ACCOUNT_ID_REJECTED",
+              severity: "CRITICAL",
+              metadata: {
+                email: normalizedEmail,
+                provider: "google",
+                expectedAccountId: existingAccount.providerAccountId,
+                receivedAccountId: account.providerAccountId,
+              },
+            });
+            return false;
+          }
+        }
       }
       return true;
     },
     async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id;
-        token.role = user.role;
+        token.role = user.role || "LEARNER";
         token.picture = user.image;
         token.headline = user.headline;
         token.streakCount = user.streakCount;
@@ -238,7 +296,7 @@ export const authOptions: NextAuthOptions = {
         if (token.name) {
           session.user.name = token.name as string;
         }
-        session.user.role = token.role as string;
+        session.user.role = (token.role as string) || "LEARNER";
         session.user.headline = token.headline as string | null;
         session.user.streakCount = typeof token.streakCount === "number" ? token.streakCount : 1;
         session.user.lastStreakDate = token.lastStreakDate as string | null;

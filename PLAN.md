@@ -1179,7 +1179,7 @@ Detailed executable plan: [Final Production and Commercial Release](docs/superpo
 
 - [x] Task 40.1: Replace in-memory session revocation with shared PostgreSQL persistence.
 - [x] Task 40.2: Replace in-memory password-reset abuse controls with a multi-instance-safe limiter.
-- [ ] Task 40.3: Reverify that unsafe OAuth email linking remains disabled and verify live email/OAuth in isolated staging.
+- [x] Task 40.3: Reverify that unsafe OAuth email linking remains disabled and verify live email/OAuth in isolated staging.
 - [ ] Task 40.4: Rehearse fresh/upgrade migrations, dependency/security checks, and backup-based rollback.
 
 ### Sprint 41 — Staging, Recovery, and Operational Readiness

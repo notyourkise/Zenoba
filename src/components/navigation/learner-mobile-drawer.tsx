@@ -27,16 +27,35 @@ export function LearnerMobileDrawer({
 }: LearnerMobileDrawerProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const pathname = usePathname();
+  const toggleBtnRef = React.useRef<HTMLButtonElement>(null);
+  const closeBtnRef = React.useRef<HTMLButtonElement>(null);
+  const wasOpenRef = React.useRef(false);
 
-  // Prevent body scroll when drawer is open
+  // Focus management & Escape key handling
   React.useEffect(() => {
     if (isOpen) {
+      wasOpenRef.current = true;
       document.body.style.overflow = "hidden";
+      // Focus close button inside drawer for keyboard navigation
+      closeBtnRef.current?.focus();
     } else {
       document.body.style.overflow = "unset";
+      if (wasOpenRef.current) {
+        // Restore focus to toggle button when closed
+        toggleBtnRef.current?.focus();
+      }
     }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
       document.body.style.overflow = "unset";
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen]);
 
@@ -57,6 +76,7 @@ export function LearnerMobileDrawer({
         </div>
         <div className="flex items-center gap-2">
           <button
+            ref={toggleBtnRef}
             type="button"
             onClick={() => setIsOpen(true)}
             className="p-2 rounded-lg text-zinc-300 hover:text-white hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 cursor-pointer"
@@ -95,6 +115,7 @@ export function LearnerMobileDrawer({
                 </span>
               </div>
               <button
+                ref={closeBtnRef}
                 type="button"
                 onClick={() => setIsOpen(false)}
                 className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 cursor-pointer"

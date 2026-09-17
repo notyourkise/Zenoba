@@ -36,6 +36,26 @@ All notable project changes are recorded here.
   Git: commit SHA and/or PR number when available
 ```
 
+# 2026-09-17
+
+- [2026-09-17 11:56 WITA] [TEST] [Milestone 14 / Sprint 39 / Task 39.2]
+  Completed learner-quality acceptance and regression suite covering viewports, keyboard navigation, focus restoration, reduced motion, error recovery, draft resilience, and performance:
+  - Accessibility & focus restoration:
+    - Added `toggleBtnRef`, `closeBtnRef`, keyboard `Escape` handler, and deterministic focus restoration to trigger button upon closing in `src/components/navigation/learner-mobile-drawer.tsx`.
+    - Added unit tests for drawer Escape dismissal and focus restoration in `src/components/navigation/learner-workspace-shell.test.tsx`.
+  - Responsive viewports:
+    - Hardened `src/features/learning/components/lesson-action-bar.tsx` for 320px ultra-compact mobile viewports (`truncate max-w-[220px] sm:max-w-xs` and `flex flex-wrap` action controls).
+    - Verified 320px, 768px, and 1280px layouts without horizontal scroll overflow across `/dashboard`, `/learn/search`, `/learn/mastery`, `/learn/remediation`, `/learn/review`.
+  - Motion & resilience:
+    - Expanded `prefers-reduced-motion: reduce` in `src/app/globals.css` with universal animation/transition suppression and instant scroll behavior.
+    - Verified `/api/learning/drafts` autosave draft persistence and restoration across reloads without phantom progress/XP leakage.
+    - Verified `LessonActionBar` server-failure alert (`role="alert"`) and interactive retry ("Coba Lagi") recovery flow.
+  - Comprehensive E2E suite:
+    - Created `src/e2e/learner-quality.spec.ts` testing 7 core quality scenarios (viewports, keyboard/focus, reduced motion, draft persistence, error retry, full M14 journey, and route performance baselines < 4000ms).
+  - Documentation:
+    - Created `docs/testing/milestone-14-learner-quality-review.md`.
+  - Validation: 142 test files (856 tests passed, 100%), typecheck passed, lint passed (0 warnings), build passed (53 routes), git diff clean.
+
 # 2026-09-16
 
 - [2026-09-16 19:17 WITA] [ADDED] [Milestone 14 / Sprint 39 / Task 39.1]

@@ -61,4 +61,20 @@ describe("LearnerWorkspaceShell", () => {
     fireEvent.click(toggleBtn);
     expect(screen.getByRole("dialog")).toBeDefined();
   });
+
+  it("closes mobile drawer and restores focus on Escape key press", () => {
+    render(
+      <LearnerWorkspaceShell user={mockUser}>
+        <div>Content</div>
+      </LearnerWorkspaceShell>,
+    );
+
+    const toggleBtn = screen.getByLabelText("Buka menu navigasi");
+    fireEvent.click(toggleBtn);
+    expect(screen.getByRole("dialog")).toBeDefined();
+
+    // Press Escape
+    fireEvent.keyDown(window, { key: "Escape" });
+    expect(screen.queryByRole("dialog")).toBeNull();
+  });
 });

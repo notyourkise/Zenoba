@@ -1166,7 +1166,7 @@ Detailed executable plan: [Learner Experience and Mastery Quality](docs/superpow
 ### Sprint 39 — Spaced Review and Learner-Quality Acceptance
 
 - [x] Task 39.1: Add deterministic, idempotent spaced-review scheduling.
-- [ ] Task 39.2: Run accessibility, responsive, performance, offline/error, and authenticated E2E regression.
+- [x] Task 39.2: Run accessibility, responsive, performance, offline/error, and authenticated E2E regression.
 - [ ] Task 39.3: Complete the milestone review, full gates, PR/CI, owner review/merge, and synchronization.
 
 **Exit:** Learners can resume, recover drafts, search/bookmark, understand mastery/remediation, receive useful Consultant feedback, and complete due reviews through accessible, server-authoritative flows.

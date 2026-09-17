@@ -128,14 +128,14 @@ export function LessonActionBar({
 
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         {/* Previous Lesson Link */}
-        <div>
+        <div className="max-w-full">
           {prevTarget ? (
             <Link
               href={prevTarget.href}
-              className="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+              className="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors max-w-full"
             >
-              <ArrowLeft className="w-4 h-4 mr-1.5" />
-              <span>Sebelumnya: {prevTarget.title}</span>
+              <ArrowLeft className="w-4 h-4 mr-1.5 shrink-0" />
+              <span className="truncate max-w-[220px] sm:max-w-xs">Sebelumnya: {prevTarget.title}</span>
             </Link>
           ) : (
             <span className="text-xs text-gray-400">Pelajaran Pertama</span>
@@ -143,7 +143,7 @@ export function LessonActionBar({
         </div>
 
         {/* Complete Action Button & Forward Navigation */}
-        <div className="flex items-center space-x-3">
+        <div className="flex flex-wrap items-center justify-center sm:justify-end gap-3">
           {status === "COMPLETED" ? (
             <div className="inline-flex items-center px-4 py-2 text-sm font-semibold text-green-700 bg-green-50 dark:bg-green-950/60 dark:text-green-300 border border-green-200 dark:border-green-800 rounded-lg">
               <CheckCircle2 className="w-4 h-4 mr-2" />

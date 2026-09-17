@@ -769,29 +769,29 @@ Required gates remain: real published access-guarded premium content; owner-appr
 
 ---
 
-## Milestone 14 — Learner Experience and Mastery Quality — ACTIVE / NEXT
+## Milestone 14 — Learner Experience and Mastery Quality — ✅ COMPLETE / MERGED
 
-### Sprint 37 — Continuity and Daily Comfort — COMPLETE / MERGED
+### Sprint 37 — Continuity and Daily Comfort — ✅ COMPLETE / MERGED
 
 - Exact resume and prioritized learning queue (Task 37.1 complete).
 - Safe autosave drafts, consistent lesson navigation/errors, curriculum search, and bookmarks.
 
-### Sprint 38 — Mastery, Remediation, and Feedback — COMPLETE (Tasks 38.1–38.4 Complete)
+### Sprint 38 — Mastery, Remediation, and Feedback — ✅ COMPLETE / MERGED
 
 - Evidence-derived mastery and remediation center (Tasks 38.1 & 38.2 complete).
 - Privacy-safe item/outcome analytics (Task 38.3 complete) and version-preserving Consultant feedback (Task 38.4 complete).
 
-### Sprint 39 — Spaced Review and Learner-Quality Acceptance — ACTIVE (Task 39.1 Complete)
+### Sprint 39 — Spaced Review and Learner-Quality Acceptance — ✅ COMPLETE / MERGED
 
-- Deterministic spaced review (Task 39.1 complete), learner-quality E2E, accessibility, responsive, performance, and failure-path regression.
+- Deterministic spaced review (Task 39.1 complete), learner-quality E2E, accessibility, responsive, performance, and failure-path regression (Task 39.2 complete), and delivery gate review (Task 39.3 complete).
 
 **Detailed plan:** [Learner Experience and Mastery Quality](docs/superpowers/plans/2026-09-08-learner-experience-and-mastery.md).
 
-**Exit:** Returning learners can safely resume, recover work, understand mastery/remediation, and review due outcomes; learner-facing changes pass authenticated persistence, accessibility, responsive, and security gates.
+**Exit:** Returning learners can safely resume, recover work, understand mastery/remediation, and review due outcomes; learner-facing changes pass authenticated persistence, accessibility, responsive, and security gates. Milestone 14 acceptance criteria satisfied in full.
 
 ---
 
-## Milestone 15 — Final Production and Commercial Release — PLANNED / LAST
+## Milestone 15 — Final Production and Commercial Release — ACTIVE / NEXT
 
 ### Sprint 40 — Persistent Security and Release Baseline — PLANNED
 
@@ -823,7 +823,7 @@ Reviewed M0–M6 foundation + merged M7 application baseline
     → M15 / S40–42: persistent security, staging/recovery, gateway and controlled release
 ```
 
-M7 application work remains historical evidence; its staging/production exit criteria are now owned by M15. M13 is active: Sprint 34 is complete, Sprint 35 is next. A sprint has exactly one milestone owner; later milestones require the preceding review gates. Gateway, production, deployment, and live payment are deliberately last in Sprint 42.
+M7 application work remains historical evidence; its staging/production exit criteria are now owned by M15. Milestone 14 is complete (Sprints 37–39 merged); Milestone 15 (Sprints 40–42) is active next starting with Sprint 40. A sprint has exactly one milestone owner; later milestones require the preceding review gates. Gateway, production, deployment, and live payment are deliberately last in Sprint 42.
 
 ---
 

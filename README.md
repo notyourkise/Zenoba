@@ -300,9 +300,9 @@ Use `.env.example` with safe placeholders instead.
 | M10 | Core Networking Curriculum (S27–30) | Complete / merged |
 | M11 | Consultant Learning & Curriculum Validation (S31–32) | Complete / merged |
 | M12 | Commercial Readiness Gate Review (S33) | Complete / merged; activation blocked |
-| M13 | Developer Operations & Internal Accounts (S34–36) | Planned next |
-| M14 | Learner Experience & Mastery Quality (S37–39) | Planned |
-| M15 | Final Production & Commercial Release (S40–42) | Planned last / gated |
+| M13 | Developer Operations & Internal Accounts (S34–36) | Complete / merged |
+| M14 | Learner Experience & Mastery Quality (S37–39) | Complete / merged |
+| M15 | Final Production & Commercial Release (S40–42) | Active next / gated |
 
 See [ROADMAP.md](ROADMAP.md) for detailed milestones and sprints.
 

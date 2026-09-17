@@ -10,7 +10,7 @@
 
 **Spec:** `ROADMAP.md`
 
-**Current planning checkpoint (2026-09-09):** Curriculum Sprints 21–32, commercial gate review Sprint 33, and Sprint 34 Tasks 34.1–34.6 are merged. Milestone 13 remains active because Sprint 34 closure review found two High authorization gaps that must be corrected before Sprint 35. Sprint 35 is otherwise the next planned feature sprint. Milestone 14 improves learner continuity/mastery. Gateway, production, deployment, and live payment are deliberately last in Milestone 15 / Sprint 42.
+**Current planning checkpoint (2026-09-17):** Curriculum Sprints 21–32, commercial gate review Sprint 33, developer portal & elevation Sprints 34–36 (Milestone 13), and learner experience & mastery quality Sprints 37–39 (Milestone 14) are fully completed and merged. Milestone 15 (Final Production and Commercial Release, Sprints 40–42) is active next starting with Sprint 40 (Persistent Security and Release Baseline). Production deployment and live payment remain strictly gated until Sprint 42 with explicit owner authorization.
 
 **Evidence correction:** Historical checked tasks remain delivery history, not proof of current deployment. The `a95b025` inspection found 5 paths/13 modules/15 lessons and non-authoritative completion; merged PR #27–#39 subsequently repaired assessment/progression. A current source-registry recount verifies 6 paths/31 modules/65 lessons/195 formative quizzes/6 capstones. A complete fresh-database baseline now exists and CI applies it with `db:deploy`; retained-database upgrade rehearsal and staging/production remain unverified.
 

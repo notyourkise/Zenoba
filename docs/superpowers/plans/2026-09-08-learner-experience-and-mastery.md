@@ -295,7 +295,7 @@ Use a simple documented interval table, not an adaptive black box. A review answ
 
 **Step 4: Verify and commit** with injected-time tests, concurrency/idempotency tests, migration review, and authenticated E2E.
 
-### Task 10: Run accessibility, responsive, performance, and failure-path regression
+### Task 10: Run accessibility, responsive, performance, and failure-path regression — COMPLETED (2026-09-17, PR #71)
 
 **Files:**
 - Create: `src/e2e/learner-quality.spec.ts`
@@ -306,7 +306,7 @@ Use a simple documented interval table, not an adaptive black box. A review answ
 
 Cover 320px/mobile, tablet, desktop, keyboard-only flow, focus restoration, reduced motion, loading/error/offline retry, draft recovery after reload, search/bookmarks, remediation, mastery, and due review. Capture measured route performance and query counts; fix only milestone regressions or documented High issues.
 
-### Task 11: Complete the Milestone 14 review and delivery gate
+### Task 11: Complete the Milestone 14 review and delivery gate — COMPLETED (2026-09-17)
 
 **Files:**
 - Modify: `PLAN.md`

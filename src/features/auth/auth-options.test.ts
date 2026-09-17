@@ -19,6 +19,9 @@ vi.mock("@/lib/db/client", () => ({
       findUnique: vi.fn(),
       update: vi.fn(),
     },
+    account: {
+      findFirst: vi.fn(),
+    },
   },
 }));
 
@@ -183,7 +186,7 @@ describe("authentication provider configuration", () => {
         expect(allowed).toBe(false);
         expect(prisma.user.findUnique).toHaveBeenCalledWith({
           where: { email: "dev@netloka.biz.id" },
-          select: { id: true, role: true },
+          select: { id: true, role: true, passwordHash: true },
         });
         expect(recordSecurityEvent).toHaveBeenCalledWith(
           expect.objectContaining({
@@ -212,7 +215,7 @@ describe("authentication provider configuration", () => {
         expect(allowed).toBe(true);
       });
 
-      it("allows Google sign-in when user does not exist in database yet (new registration)", async () => {
+      it("allows Google sign-in when user does not exist in database yet (Google-first registration)", async () => {
         const signInCallback = authOptions.callbacks?.signIn as any;
         expect(signInCallback).toBeDefined();
 
@@ -221,6 +224,107 @@ describe("authentication provider configuration", () => {
         const allowed = await signInCallback({
           user: { email: "newuser@example.com" },
           account: { provider: "google" },
+        });
+
+        expect(allowed).toBe(true);
+      });
+
+      it("rejects Google sign-in when profile email_verified is false and records security event", async () => {
+        const signInCallback = authOptions.callbacks?.signIn as any;
+        expect(signInCallback).toBeDefined();
+
+        const allowed = await signInCallback({
+          user: { email: "unverified@example.com" },
+          account: { provider: "google" },
+          profile: { email_verified: false },
+        });
+
+        expect(allowed).toBe(false);
+        expect(recordSecurityEvent).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: "AUTH_OAUTH_UNVERIFIED_EMAIL_REJECTED",
+            severity: "WARN",
+            metadata: { email: "unverified@example.com", provider: "google" },
+          }),
+        );
+      });
+
+      it("rejects Google sign-in for credentials-first accounts without prior linked Google account", async () => {
+        const signInCallback = authOptions.callbacks?.signIn as any;
+        expect(signInCallback).toBeDefined();
+
+        vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
+          id: "cred-user-1",
+          email: "learner@example.com",
+          role: "LEARNER",
+          passwordHash: "stored-bcrypt-password-hash",
+        } as any);
+        vi.mocked(prisma.account.findFirst).mockResolvedValueOnce(null);
+
+        const allowed = await signInCallback({
+          user: { email: "learner@example.com" },
+          account: { provider: "google", providerAccountId: "new-google-id" },
+          profile: { email_verified: true },
+        });
+
+        expect(allowed).toBe(false);
+        expect(recordSecurityEvent).toHaveBeenCalledWith(
+          expect.objectContaining({
+            userId: "cred-user-1",
+            type: "AUTH_OAUTH_CONFLICTING_CREDENTIALS_REJECTED",
+            severity: "WARN",
+          }),
+        );
+      });
+
+      it("rejects Google sign-in when linked Google account has a conflicting providerAccountId", async () => {
+        const signInCallback = authOptions.callbacks?.signIn as any;
+        expect(signInCallback).toBeDefined();
+
+        vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
+          id: "google-user-1",
+          email: "google.student@example.com",
+          role: "LEARNER",
+          passwordHash: null,
+        } as any);
+        vi.mocked(prisma.account.findFirst).mockResolvedValueOnce({
+          providerAccountId: "original-google-account-id",
+        } as any);
+
+        const allowed = await signInCallback({
+          user: { email: "google.student@example.com" },
+          account: { provider: "google", providerAccountId: "different-google-account-id" },
+          profile: { email_verified: true },
+        });
+
+        expect(allowed).toBe(false);
+        expect(recordSecurityEvent).toHaveBeenCalledWith(
+          expect.objectContaining({
+            userId: "google-user-1",
+            type: "AUTH_OAUTH_CONFLICTING_ACCOUNT_ID_REJECTED",
+            severity: "CRITICAL",
+          }),
+        );
+      });
+
+      it("allows Google sign-in for existing user when providerAccountId matches", async () => {
+        const signInCallback = authOptions.callbacks?.signIn as any;
+        expect(signInCallback).toBeDefined();
+
+        vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
+          id: "google-user-1",
+          email: "google.student@example.com",
+          role: "LEARNER",
+          passwordHash: null,
+        } as any);
+        vi.mocked(prisma.account.findFirst).mockResolvedValueOnce({
+          providerAccountId: "matching-google-account-id",
+        } as any);
+
+        const allowed = await signInCallback({
+          user: { email: "google.student@example.com" },
+          account: { provider: "google", providerAccountId: "matching-google-account-id" },
+          profile: { email_verified: true },
         });
 
         expect(allowed).toBe(true);
@@ -236,6 +340,45 @@ describe("authentication provider configuration", () => {
         });
 
         expect(allowed).toBe(true);
+      });
+
+      it("jwt callback defaults role to LEARNER if user has no role", async () => {
+        const jwtCallback = authOptions.callbacks?.jwt as any;
+        expect(jwtCallback).toBeDefined();
+
+        const token = await jwtCallback({
+          token: {},
+          user: { id: "oauth-user-1", email: "oauth@example.com" },
+        });
+
+        expect(token.id).toBe("oauth-user-1");
+        expect(token.role).toBe("LEARNER");
+      });
+
+      it("jwt callback preserves existing user role", async () => {
+        const jwtCallback = authOptions.callbacks?.jwt as any;
+        expect(jwtCallback).toBeDefined();
+
+        const token = await jwtCallback({
+          token: {},
+          user: { id: "oauth-user-2", role: "INTERNAL_LEARNER" },
+        });
+
+        expect(token.role).toBe("INTERNAL_LEARNER");
+      });
+
+      it("session callback attaches user info and enforces default LEARNER role", async () => {
+        const sessionCallback = authOptions.callbacks?.session as any;
+        expect(sessionCallback).toBeDefined();
+
+        const session = await sessionCallback({
+          session: { user: {} },
+          token: { id: "oauth-user-1", role: undefined, iat: 123456 },
+        });
+
+        expect(session.user.id).toBe("oauth-user-1");
+        expect(session.user.role).toBe("LEARNER");
+        expect(session.user.issuedAtMs).toBe(123456000);
       });
     });
 

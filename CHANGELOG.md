@@ -38,6 +38,30 @@ All notable project changes are recorded here.
 
 # 2026-09-17
 
+- [2026-09-17 15:30 WITA] [SECURITY] [Milestone 15 / Sprint 40 / Task 40.3]
+  Closed OAuth account-linking and live-email verification gaps (Task 40.3):
+  - Safe OAuth account linking:
+    - Explicitly configured `allowDangerousEmailAccountLinking: false` on `GoogleProvider` in `src/features/auth/auth.ts` to eliminate pre-account takeover risks.
+  - Verified provider email enforcement:
+    - Added provider profile inspection in `callbacks.signIn`: automatically rejects Google sign-in if `profile.email_verified === false` and emits security telemetry `AUTH_OAUTH_UNVERIFIED_EMAIL_REJECTED`.
+  - Credentials-first conflict defense:
+    - Rejected automatic Google OAuth authentication for existing accounts registered with password credentials (`passwordHash` present) that do not already have an established Google link in the `accounts` table. Emits `AUTH_OAUTH_CONFLICTING_CREDENTIALS_REJECTED`.
+  - Conflicting provider identity defense:
+    - Verified `account.providerAccountId` against existing linked provider accounts; rejects and logs `AUTH_OAUTH_CONFLICTING_ACCOUNT_ID_REJECTED` (CRITICAL severity) upon ID mismatch.
+  - Privileged developer isolation:
+    - Strictly blocked users with role `DEVELOPER` from authenticating via public Google OAuth; emits `AUTH_OAUTH_DEVELOPER_REJECTED`. Enforces credential + TOTP 2FA requirements for all developer logins.
+  - Forced public `LEARNER` role:
+    - Enforced default `LEARNER` role in `/api/auth/register`, and ensured NextAuth `jwt` and `session` callbacks default any missing user role to `"LEARNER"`.
+  - Documentation & operational runbook:
+    - Created `docs/operations/auth-live-verification.md` detailing staging test matrix, security rationale, and SMTP/OAuth configuration requirements.
+    - Updated `.env.example` with clear instructions for staging Google OAuth and Hostinger SMTP parameters.
+  - Validation:
+    - Added comprehensive test coverage in `src/features/auth/auth-options.test.ts` (24 tests) and `src/features/auth/auth-route.test.ts` (5 tests).
+    - Full test suite passed: 143 test files / 877 tests passing (100%).
+    - Linter: `npm run lint` clean (0 errors, 0 warnings).
+    - Typecheck: `npm run typecheck` clean (0 errors).
+    - Production build: `npm run build` compiled successfully (53 routes).
+
 - [2026-09-17 15:16 WITA] [SECURITY] [Milestone 15 / Sprint 40 / Task 40.2]
   Implemented persistent password-reset abuse controls and shared limiter (Task 40.2):
   - Database schema & migration:

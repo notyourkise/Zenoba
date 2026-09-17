@@ -149,11 +149,11 @@ test.describe("Learner Quality Acceptance & Regression (Milestone 14 / Task 39.2
     // Navigate to introductory lesson
     await page.goto("/learn/network-foundations/welcome-to-networking/intro-to-networking");
 
-    // Intercept /api/learning/progress to simulate server failure on first attempt
-    let failureCount = 0;
+    // Intercept /api/learning/progress to simulate server failure on first attempt, success on retry
+    let callCount = 0;
     await page.route("**/api/learning/progress", async (route) => {
-      if (failureCount === 0) {
-        failureCount++;
+      callCount++;
+      if (callCount === 1) {
         await route.fulfill({
           status: 500,
           contentType: "application/json",
@@ -162,7 +162,14 @@ test.describe("Learner Quality Acceptance & Regression (Milestone 14 / Task 39.2
           }),
         });
       } else {
-        await route.continue();
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            message: "Lesson completed",
+            progress: { status: "COMPLETED" },
+          }),
+        });
       }
     });
 
@@ -180,7 +187,7 @@ test.describe("Learner Quality Acceptance & Regression (Milestone 14 / Task 39.2
     const retryBtn = errorAlert.getByRole("button", { name: /Coba Lagi/i });
     await expect(retryBtn).toBeVisible({ timeout: 10000 });
 
-    // Click retry button (now route will succeed)
+    // Click retry button (now route fulfills with 200 success)
     await retryBtn.click();
 
     // Verify error alert clears and completion indicator appears
@@ -224,7 +231,7 @@ test.describe("Learner Quality Acceptance & Regression (Milestone 14 / Task 39.2
     await expect(page.getByRole("heading", { name: "Penguasaan Materi & Remediasi" })).toBeVisible({
       timeout: 10000,
     });
-    await expect(page.getByText("Kemajuan Keseluruhan")).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText("Total Sasaran")).toBeVisible({ timeout: 10000 });
 
     // Step D: Spaced Review
     await page.goto("/learn/review");

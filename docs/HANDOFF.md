@@ -1,6 +1,6 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-18 23:32 WITA**. Read `AGENTS.md` and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-09-18 23:58 WITA**. Read `AGENTS.md` and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
 
 ## 1. Current Task and Authority
 
@@ -8,24 +8,28 @@ Last updated: **2026-09-18 23:32 WITA**. Read `AGENTS.md` and verify live Git/PR
 - Active milestone/sprint:
   - **Milestone 15 (Final Production and Commercial Release):** **ACTIVE**
   - **Sprint 41 (Staging, Recovery, and Operational Readiness):** **COMPLETE & MERGED** (PR #77, #78, #79, #80 merged)
-  - **Sprint 42 (Midtrans Gateway and Controlled Commercial Activation):** **ACTIVE** (Task 42.1 complete, gated at Task 42.4)
-- Task: **Task 42.1: Refresh and approve the exact Dynamic QRIS/provider boundary from current official documentation** (Task 9 in M15 plan).
-- Scope delivered in Task 42.1:
-  - Authored `docs/operations/midtrans-release-runbook.md` specifying Midtrans Core API Dynamic QRIS integration (`payment_type: "qris"`, `qris.acquirer: "gopay"`), cryptographic SHA-512 signature formula (`order_id + status_code + gross_amount + ServerKey`), webhook event idempotency deduplication (`providerEventId = "${transaction_id}_${transaction_status}"`), status mapping to Netloka order state machine (`settlement`/`capture` -> `PAID`, `expire` -> `EXPIRED`, `cancel`/`deny` -> `CANCELLED`), 15-minute countdown expiry, VPS reconciliation protocol (`GET /v2/{order_id}/status`), credential rotation checklist, and consumer protection / dispute terms under UU Perlindungan Konsumen & UU PDP.
-  - Updated `docs/decisions/0004-member-workspace-course-commerce.md` formally recording Midtrans Core API Dynamic QRIS adoption behind `PaymentGateway`.
-  - Updated `.env.example` adding Midtrans configuration keys (`MIDTRANS_SERVER_KEY`, `MIDTRANS_CLIENT_KEY`, `MIDTRANS_MERCHANT_ID`, `MIDTRANS_IS_PRODUCTION="false"`).
-  - Updated `PLAN.md` and `CHANGELOG.md` marking Task 42.1 complete.
-- Phase: Task 42.1 completed, verified locally across all test suites, ready for commit, push, PR creation, and review.
+  - **Sprint 42 (Midtrans Gateway and Controlled Commercial Activation):** **ACTIVE** (Tasks 42.1 & 42.2 complete, gated at Task 42.4)
+- Task: **Task 42.2: Implement the server-only adapter, verified/idempotent webhook processing, and VPS reconciliation CLI** (Tasks 10 & 11 in M15 plan).
+- Scope delivered in Task 42.2:
+  - Implemented `MidtransGateway` (`src/features/commerce/payments/midtrans-gateway.ts`) supporting Core API Dynamic QRIS charges (`POST /v2/charge`), 15-minute countdown expiry (`custom_expiry.expiry_duration: 15`), timing-safe SHA-512 webhook signature verification (`verifyMidtransSignature`), status mapping across all provider states (`settlement`, `capture`, `expire`, `cancel`, `deny`, `pending`), and status polling (`GET /v2/{order_id}/status`).
+  - Extended `CheckoutResult` and `NormalizedPaymentEvent` types in `src/features/commerce/payments/types.ts` to support `qrString`, `actions`, and non-terminal `"PENDING"` audit status.
+  - Updated `src/lib/env/server.ts` adding `commerceEnvSchema` options (`disabled`, `sandbox`, `live`), Midtrans credential definitions, and `getMidtransConfig()` helper.
+  - Updated `src/features/commerce/payments.ts` registering `MIDTRANS` provider in `getPaymentGateway` and supporting non-mutating `"PENDING"` status persistence in `recordVerifiedPaymentEvent`.
+  - Created `POST /api/commerce/webhooks/midtrans` and re-export alias `POST /api/commerce/midtrans/events` enforcing signature verification, logging `COMMERCE_WEBHOOK_INVALID_SIGNATURE` security audit events, rejecting unauthorized notifications with HTTP 401, and returning HTTP 200 idempotent responses for duplicate events.
+  - Authored `reconcileMidtransOrder` (`src/features/commerce/payments/reconciliation.ts`) providing dry-run discrepancy detection and repair execution with required justification reason and `COMMERCE_RECONCILIATION_REPAIR` security audit trail.
+  - Implemented operator CLI `scripts/reconcile-midtrans.ts` with comprehensive interactive and flag-based arguments.
+  - Updated `PLAN.md` and `CHANGELOG.md` marking Task 42.2 complete.
+- Phase: Task 42.2 completed, verified locally across all test suites, ready for commit, push, PR creation, and review.
 
 ## 2. Verified Repository Checkpoint
 
 | Item | Verified state |
 | --- | --- |
-| Main checkout | `C:/laragon/www/netloka`, clean `main` at `6cd3d5a` |
-| Origin | `origin/main` at `6cd3d5a`; local `main` synchronized |
-| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-sprint-42-midtrans-boundary` |
-| Task branch | `codex/sprint-42-midtrans-boundary` |
-| Base commit | `6cd3d5a` (Merge pull request #80 from notyourkise/codex/sprint-41-rehearsal-review) |
+| Main checkout | `C:/laragon/www/netloka`, clean `main` at `9cae736` |
+| Origin | `origin/main` at `9cae736`; local `main` synchronized |
+| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-sprint-42-midtrans-adapter` |
+| Task branch | `codex/sprint-42-midtrans-adapter` |
+| Base commit | `9cae736` (Merge pull request #81 from notyourkise/codex/sprint-42-midtrans-boundary) |
 | Retained worktrees | `C:/laragon/www/netloka/.worktrees/codex-fix-m0-sprint-0` (`docs/staging-progress`, do not delete) |
 | Background dev server | Stopped |
 
@@ -37,7 +41,7 @@ Last updated: **2026-09-18 23:32 WITA**. Read `AGENTS.md` and verify live Git/PR
   - **Sprint 41 (Staging, Recovery, and Operational Readiness):** **COMPLETE & MERGED** (PR #77, #78, #79, #80)
   - **Sprint 42 (Midtrans Gateway and Controlled Commercial Activation):** **ACTIVE** (gated for live activation)
     - [x] Task 42.1: Refresh and approve the exact Dynamic QRIS/provider boundary from current official documentation.
-    - [ ] Task 42.2: Implement the server-only adapter, verified/idempotent webhook processing, and VPS reconciliation CLI.
+    - [x] Task 42.2: Implement the server-only adapter, verified/idempotent webhook processing, and VPS reconciliation CLI.
     - [ ] Task 42.3: Verify sandbox and staging success/failure/expiry/replay/reconciliation flows.
     - [ ] Task 42.4: Request separate explicit owner authorization for production deployment and live-payment activation.
     - [ ] Task 42.5: Complete post-release smoke/monitoring/recovery review and synchronize evidence.
@@ -46,15 +50,15 @@ Last updated: **2026-09-18 23:32 WITA**. Read `AGENTS.md` and verify live Git/PR
 
 - `npm run typecheck`: **Passed** (0 errors).
 - `npm run lint`: **Passed** (0 warnings/errors).
-- `npm test`: **Passed** (143 test files / 877 tests passed, 100%).
-- `npm run build`: **Passed** (Next.js 16.3.2 production build succeeded, 53 routes compiled).
+- `npm test`: **Passed** (147 test files / 908 tests passed, 100%).
+- `npm run build`: **Passed** (Next.js 16.3.2 production build succeeded, 55 routes compiled).
 - `git diff --check`: **Passed** (0 whitespace errors).
 
 ## 5. Next Actions
 
-1. Stage and commit Task 42.1 changes to `codex/sprint-42-midtrans-boundary`.
-2. Push branch to GitHub via `git push -u origin codex/sprint-42-midtrans-boundary`.
+1. Stage and commit Task 42.2 changes to `codex/sprint-42-midtrans-adapter`.
+2. Push branch to GitHub via `git push -u origin codex/sprint-42-midtrans-adapter`.
 3. Open PR via `gh pr create` targeting `main`.
 4. Monitor CI checks.
 5. Report ready for review and merge to Abangku.
-6. After merge by Abangku, sync `main` and proceed to Task 42.2 (Implement server-only adapter, idempotent webhook, and reconciliation CLI).
+6. After merge by Abangku, sync `main` and proceed to Task 42.3 (Verify sandbox and staging success/failure/expiry/replay/reconciliation flows).

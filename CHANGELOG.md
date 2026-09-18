@@ -38,6 +38,22 @@ All notable project changes are recorded here.
 
 # 2026-09-18
 
+- [2026-09-18 15:45 WITA] [DEPLOY] [Milestone 15 / Sprint 41 / Task 41.2]
+  Configured and verified isolated staging environment manifests and operational runbook (Task 41.2):
+  - Staging verification runbook:
+    - Authored `docs/operations/staging-verification.md` establishing the complete 11-step verification protocol for `staging.netloka.biz.id` (host isolation at `/srv/netloka/staging`, pre-flight validation, database health & forward-only migration status, loopback healthcheck at `127.0.0.1:3001`, host TLS & Nginx reverse proxy, transport security headers & CSP, secure cookie policy, live Hostinger SMTP delivery, password-reset rate limiting, Google OAuth staging callback, staging-only user lifecycle, and sensitive log redaction & backup cron).
+  - Manifest & configuration alignment:
+    - Updated `deploy/staging.env.example` with complete staging environment variables (dedicated staging DB credentials, internal Compose network host `db:5432`, `AUTH_SECRET`/`NEXTAUTH_SECRET`, Hostinger SMTP, Google OAuth, and disabled payment mode).
+    - Updated `docker-compose.prod.yml` adding `APP_URL`, complete `SMTP_*` configuration, `PAYMENT_MODE`, and a dedicated `migrate` maintenance service running `npm run db:deploy`.
+    - Updated `docs/deployment/cloudflare-and-caddy.md` replacing obsolete `prisma db push` with forward-only `docker compose run --rm migrate` and documenting Cloudflare DNS & staging subdomain routing.
+    - Updated `docs/deployment/staging.md` cross-referencing `docs/operations/staging-verification.md`.
+  - Validation:
+    - Linter: `npm run lint` clean (0 errors, 0 warnings).
+    - Typecheck: `npm run typecheck` clean (0 errors).
+    - Unit & Integration Tests: `npm test` clean (143 test files / 877 tests passed, 100%).
+    - Production build: `npm run build` compiled successfully (53 routes).
+    - `git diff --check`: clean (0 whitespace errors).
+
 - [2026-09-18 15:15 WITA] [DOCS] [Milestone 15 / Sprint 41 / Task 41.1]
   Finalized factual operator, privacy, payment, and incident runbooks (Task 41.1):
   - Operator readiness & legal status:

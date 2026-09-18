@@ -36,6 +36,21 @@ All notable project changes are recorded here.
   Git: commit SHA and/or PR number when available
 ```
 
+# 2026-09-19
+
+- [2026-09-19 00:15 WITA] [TEST] [Milestone 15 / Sprint 42 / Task 42.3]
+  Verified Midtrans sandbox and staging flows end to end (Task 42.3):
+  - End-to-end sandbox verification suite:
+    - Authored `src/features/commerce/payments/midtrans-flow-verification.test.ts` testing 10 end-to-end commerce lifecycle scenarios: QRIS charge creation with 15-minute expiry, browser redirect decoupling ensuring no access without settlement, successful settlement order completion and lifetime course entitlement activation, failure/denial handling without grants, 15-minute expiration closure, idempotent duplicate webhook replay deduplication, cryptographic signature tampering defense with security audit event recording (`COMMERCE_WEBHOOK_INVALID_SIGNATURE`), immutable final state protection against out-of-order notifications, delayed notification reconciliation with audited operator justification (`COMMERCE_RECONCILIATION_REPAIR`), and immediate course access revocation upon customer refund/chargeback.
+  - Operational verification runbook:
+    - Authored `docs/operations/midtrans-sandbox-staging-verification.md` recording the complete verification matrix, cryptographic signature algorithms, security audit incident logging, operator VPS reconciliation procedures, and staging rehearsal instructions using Midtrans QRIS Simulator.
+  - Validation:
+    - Linter: `npm run lint` clean (0 errors, 0 warnings).
+    - Typecheck: `npm run typecheck` clean (0 errors).
+    - Unit & Integration Tests: `npm test` clean (148 test files / 918 tests passed, 100%).
+    - Production build: `npm run build` compiled successfully (55 routes).
+    - `git diff --check`: clean (0 whitespace errors).
+
 # 2026-09-18
 
 - [2026-09-18 23:58 WITA] [FEAT] [Milestone 15 / Sprint 42 / Task 42.2]

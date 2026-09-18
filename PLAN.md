@@ -1184,7 +1184,7 @@ Detailed executable plan: [Final Production and Commercial Release](docs/superpo
 
 ### Sprint 41 — Staging, Recovery, and Operational Readiness
 
-- [ ] Task 41.1: Finalize factual operator/privacy/payment/incident runbooks.
+- [x] Task 41.1: Finalize factual operator/privacy/payment/incident runbooks.
 - [ ] Task 41.2: Deploy and verify an explicitly authorized isolated staging environment.
 - [ ] Task 41.3: Prove backup, restore, rollback, and incident drills outside production.
 - [ ] Task 41.4: Complete a production-like non-payment rehearsal and owner review.

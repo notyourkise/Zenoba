@@ -180,3 +180,9 @@ This rollback deliberately does not run `docker compose down`, `down -v`, or
 any volume-removal command. It does not roll back database migrations; restore
 database data manually only from a verified pre-migration dump and an approved
 recovery procedure.
+
+## Operational environment and contact baseline
+
+- **Operator:** Pengelola Perseorangan Platform Netloka (Fikri Haikal).
+- **Operational Mailbox:** `noreply@haikalariadma.my.id` (Hostinger SMTP).
+- **Runbook Reference:** Refer to `docs/operations/operator-readiness.md` and `docs/operations/auth-live-verification.md` for live protocol verification in staging.

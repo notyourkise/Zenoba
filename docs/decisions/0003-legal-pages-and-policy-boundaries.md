@@ -1,7 +1,7 @@
 # 0003 — Legal reading pages and policy boundaries
 
-Status: Accepted for development; operational/legal launch gates remain open
-Date: 2026-09-03
+Status: Superseded by Sprint 41 / Task 41.1 (Factual operator readiness & contact established)
+Date: 2026-09-03 (Updated 2026-09-18)
 Scope: Milestone 7 / Sprint 16
 
 ## Decision
@@ -32,5 +32,7 @@ No company identity, dedicated support mailbox, retention deadline, automatic ac
 ## Gates before public use
 
 Confirm the operator's identity and working contact channel; define lawful processing bases and consent evidence where required, data-rights operations, retention and backup deletion, child/guardian consent, processors/locations/transfers, and Google token-storage/revocation policy. Update the public copy to the deployed facts. Track this under TD-10; the pages are not a legal-compliance or OAuth-verification certificate.
+
+In **Milestone 15 / Sprint 41 / Task 41.1**, the operator identity (Pengelola Perseorangan Platform Netloka / Fikri Haikal), active Hostinger mailbox (`noreply@haikalariadma.my.id`), incident response runbook, and data rights procedures were established in `docs/operations/operator-readiness.md`, `docs/operations/incident-response.md`, and updated on the public `/terms` and `/privacy-policy` pages.
 
 The supplied OAuth client secret was exposed in chat and has not been copied into this worktree. Use rotated credentials in private environment configuration, register the correct callback for the actual development/production origin, and verify OAuth against an authorized test database before activation. No external Google configuration, account login, deployment, or real email was performed by this task.

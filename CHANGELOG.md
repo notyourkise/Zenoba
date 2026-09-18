@@ -38,6 +38,19 @@ All notable project changes are recorded here.
 
 # 2026-09-19
 
+- [2026-09-19 00:22 WITA] [RELEASE] [Milestone 15 / Sprint 42 / Task 42.4]
+  Prepared production release checklist and requested owner deployment authorization (Task 42.4):
+  - Production release checklist & operational runbook:
+    - Authored `docs/operations/production-release-and-commercial-activation.md` formalizing the 10-point release verification matrix: reviewed commit SHA (`437deaf` on `main`), verified 6-step forward-only non-destructive database migrations, automated PostgreSQL binary backups and restore runbook, VPS containerized infrastructure with TLS 1.3, Hostinger transactional SMTP email authentication, Midtrans Core API Dynamic QRIS sandbox verification evidence, VPS administrative reconciliation CLI (`scripts/reconcile-midtrans.ts`), complete 6-path Networking free curriculum access, `/api/health` monitoring contracts, and rollback threshold SOP owned by operator Fikri Haikal (`noreply@haikalariadma.my.id`).
+  - Owner authorization decision options:
+    - Formalized three launch strategies for owner sign-off: Option 1 (Phased Public Launch with `PAYMENT_MODE="disabled"`, complete Networking curriculum 100% free), Option 2 (Production Staging Rehearsal with `PAYMENT_MODE="sandbox"`), and Option 3 (Full Live Commercial Activation with live merchant keys and approved catalog pricing).
+  - Validation:
+    - Linter: `npm run lint` clean (0 errors, 0 warnings).
+    - Typecheck: `npm run typecheck` clean (0 errors).
+    - Unit & Integration Tests: `npm test` clean (148 test files / 918 tests passed, 100%).
+    - Production build: `npm run build` compiled successfully (55 routes).
+    - `git diff --check`: clean (0 whitespace errors).
+
 - [2026-09-19 00:15 WITA] [TEST] [Milestone 15 / Sprint 42 / Task 42.3]
   Verified Midtrans sandbox and staging flows end to end (Task 42.3):
   - End-to-end sandbox verification suite:

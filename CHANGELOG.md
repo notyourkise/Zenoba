@@ -38,6 +38,23 @@ All notable project changes are recorded here.
 
 # 2026-09-18
 
+- [2026-09-18 16:30 WITA] [RELEASE] [Milestone 15 / Sprint 41 / Task 41.4]
+  Completed non-payment production rehearsal and Sprint 41 operational review (Task 41.4):
+  - Non-payment production rehearsal:
+    - Authored `docs/operations/non-payment-production-rehearsal.md` detailing the complete 9-part end-to-end journey under a production-like staging configuration with `PAYMENT_MODE=disabled`: learner registration, credential sign-in & timing defense, role isolation & developer privilege elevation, curriculum navigation & interactive block persistence, module assessment scoring & remediation derivation, developer operational views & `/api/health`, elevated entitlement mutation (non-payment test grant/revocation), live Hostinger SMTP email delivery & rate limiting, container recreation sanity check, and strict non-commercial boundary enforcement.
+  - Sprint 41 operational review & exit audit:
+    - Reviewed all 4 tasks of Sprint 41 (Tasks 41.1, 41.2, 41.3, 41.4) across security, legal, disaster recovery, and operational criteria.
+    - Findings: Critical: 0, High: 0, Medium: 0, Low: 0.
+  - Roadmap & plan transition:
+    - Marked Sprint 41 as Complete in `ROADMAP.md` and `PLAN.md`.
+    - Gated Sprint 42 (Midtrans Gateway & Controlled Commercial Activation) pending separate explicit owner authorization.
+  - Validation:
+    - Linter: `npm run lint` clean (0 errors, 0 warnings).
+    - Typecheck: `npm run typecheck` clean (0 errors).
+    - Unit & Integration Tests: `npm test` clean (143 test files / 877 tests passed, 100%).
+    - Production build: `npm run build` compiled successfully (53 routes).
+    - `git diff --check`: clean (0 whitespace errors).
+
 - [2026-09-18 16:15 WITA] [TEST] [Milestone 15 / Sprint 41 / Task 41.3]
   Established disaster recovery rehearsal, restoration script, and incident drill procedures (Task 41.3):
   - Staging restore script:

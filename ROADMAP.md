@@ -5,7 +5,7 @@
 > **Product:** Interactive IT infrastructure learning platform
 > **Primary audience:** SMK TKJ students, beginners, and learners preparing for practical network, sysadmin, security, cloud, and field-infrastructure work
 > **Core experience:** Learn → Interact → Practice → Challenge → Consultant Project  
-> **Status:** Milestones 0–6 historically delivered; Milestone 7 application foundation implemented with live operations deferred; Milestones 8–13 merged/complete; Milestone 14 active next; gateway, deployment, production, and live payment remain last in Milestone 15 / Sprint 42
+> **Status:** Milestones 0–14 merged/complete; Milestone 15 (Sprints 40–42) active with Sprint 40 (Persistent Security) and Sprint 41 (Staging & Recovery) complete; Sprint 42 (Midtrans Gateway & Controlled Activation) active next with live payment and production activation gated by owner authorization
 > **Timezone for project logs:** WITA / GMT+8
 
 ---
@@ -823,7 +823,7 @@ Reviewed M0–M6 foundation + merged M7 application baseline
     → M15 / S40–42: persistent security, staging/recovery, gateway and controlled release
 ```
 
-M7 application work remains historical evidence; its staging/production exit criteria are now owned by M15. Milestone 14 is complete (Sprints 37–39 merged); Milestone 15 (Sprints 40–42) is active next starting with Sprint 40. A sprint has exactly one milestone owner; later milestones require the preceding review gates. Gateway, production, deployment, and live payment are deliberately last in Sprint 42.
+M7 application work remains historical evidence; its staging/production exit criteria are now owned by M15. Milestones 13–14 are complete (merged); Milestone 15 (Sprints 40–42) is active with Sprint 40 (Persistent Security Baseline) and Sprint 41 (Staging, Recovery, and Operational Readiness) complete. Sprint 42 (Midtrans Gateway and Controlled Commercial Activation) is active next; gateway, production deployment, and live payment remain strictly gated until authorized by Abangku.
 
 ---
 

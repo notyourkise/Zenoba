@@ -38,6 +38,21 @@ All notable project changes are recorded here.
 
 # 2026-09-18
 
+- [2026-09-18 23:30 WITA] [DOCS] [Milestone 15 / Sprint 42 / Task 42.1]
+  Refreshed and approved exact Midtrans Dynamic QRIS provider boundary (Task 42.1):
+  - Provider boundary runbook:
+    - Authored `docs/operations/midtrans-release-runbook.md` detailing the Midtrans Core API Dynamic QRIS specification (`payment_type: "qris"`, `qris.acquirer: "gopay"`), cryptographic SHA-512 signature validation (`order_id + status_code + gross_amount + ServerKey`), webhook idempotency (`providerEventId = "${transaction_id}_${transaction_status}"`), status mapping to Netloka order state machine, 15-minute QRIS expiry handling, reconciliation protocol, secret rotation checklist, and refund/dispute policies under UU Perlindungan Konsumen.
+  - Architecture decision update:
+    - Updated `docs/decisions/0004-member-workspace-course-commerce.md` with official Sprint 42 Midtrans Dynamic QRIS adapter adoption behind `PaymentGateway` and webhook signature verification standards.
+  - Configuration alignment:
+    - Updated `.env.example` adding Midtrans configuration placeholders (`MIDTRANS_SERVER_KEY`, `MIDTRANS_CLIENT_KEY`, `MIDTRANS_MERCHANT_ID`, `MIDTRANS_IS_PRODUCTION="false"`).
+  - Validation:
+    - Linter: `npm run lint` clean (0 errors, 0 warnings).
+    - Typecheck: `npm run typecheck` clean (0 errors).
+    - Unit & Integration Tests: `npm test` clean (143 test files / 877 tests passed, 100%).
+    - Production build: `npm run build` compiled successfully (53 routes).
+    - `git diff --check`: clean (0 whitespace errors).
+
 - [2026-09-18 16:30 WITA] [RELEASE] [Milestone 15 / Sprint 41 / Task 41.4]
   Completed non-payment production rehearsal and Sprint 41 operational review (Task 41.4):
   - Non-payment production rehearsal:

@@ -1191,7 +1191,7 @@ Detailed executable plan: [Final Production and Commercial Release](docs/superpo
 
 ### Sprint 42 — Midtrans Gateway and Controlled Commercial Activation
 
-- [ ] Task 42.1: Refresh and approve the exact Dynamic QRIS/provider boundary from current official documentation.
+- [x] Task 42.1: Refresh and approve the exact Dynamic QRIS/provider boundary from current official documentation.
 - [ ] Task 42.2: Implement the server-only adapter, verified/idempotent webhook processing, and VPS reconciliation CLI.
 - [ ] Task 42.3: Verify sandbox and staging success/failure/expiry/replay/reconciliation flows.
 - [ ] Task 42.4: Request separate explicit owner authorization for production deployment and live-payment activation.

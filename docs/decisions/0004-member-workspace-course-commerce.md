@@ -4,7 +4,9 @@
 
 Accepted
 
-Planning update (2026-09-09): references to premium activation as "Milestone 8" below are historical. The gates were reviewed without activation in Milestone 12; real provider implementation and controlled activation are deliberately last in **Milestone 15 / Sprint 42** in [ROADMAP.md](../../ROADMAP.md). All original provider/product/legal/deployment gates remain in force.
+Planning update (2026-09-09): references to premium activation as "Milestone 8" below are historical. The gates were reviewed without activation in Milestone 12; real provider implementation and controlled activation are in **Milestone 15 / Sprint 42** in [ROADMAP.md](../../ROADMAP.md).
+
+Sprint 42 implementation update (2026-09-18): Midtrans Core API Dynamic QRIS (`qris.acquirer: "gopay"`) is approved as the production payment adapter behind the `PaymentGateway` interface. All provider interactions remain server-authoritative, signature-verified (SHA-512), and idempotent. Refer to [docs/operations/midtrans-release-runbook.md](../operations/midtrans-release-runbook.md).
 
 ## Context
 
@@ -33,9 +35,10 @@ Netloka provides interactive IT infrastructure learning, with Networking as its 
    - Final states cannot regress.
 
 4. **Idempotent Payment Lifecycle:**
-   - Every provider payment event is logged as a `PaymentEvent` with a unique provider event ID before mutation.
+   - Every provider payment event is logged as a `PaymentEvent` with a unique provider event ID (`providerEventId = "${transaction_id}_${transaction_status}"`) before state mutation.
    - Duplicate or replayed webhook events are processed idempotently (returning success without duplicating entitlements).
-   - In Sprint 17, payments are development-only using an internal `SandboxGateway`. Real payment providers (Midtrans/QRIS) and merchant credentials are deferred to Milestone 15 / Sprint 42.
+   - In Sprint 17, payments used a development `SandboxGateway`. In Sprint 42, Midtrans Dynamic QRIS (`MidtransGateway`) is established as the official provider adapter behind `PaymentGateway`.
+   - Webhook notifications are cryptographically verified using SHA-512 signatures (`order_id + status_code + gross_amount + ServerKey`). Unauthorized or unverified requests are rejected.
 
 5. **Entitlement & Access Guard:**
    - Entitlements grant lifetime access (`ACTIVE` / `REVOKED`) mapped to `(userId, courseId)`.

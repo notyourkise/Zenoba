@@ -144,6 +144,17 @@ CRON_TZ=Asia/Makassar
 The backup job creates atomic PostgreSQL dumps and retains the most recent
 seven days locally. Do not add this entry to a system-wide crontab.
 
+## Disaster recovery and database restore
+
+To restore staging database data from a verified dump file (for DR drills or disaster recovery):
+
+```bash
+# Execute restore script (stops app, runs pg_restore -Fc, restarts app, verifies row counts)
+STAGING_ENV_FILE=/srv/netloka/staging/.env /srv/netloka/staging/repo/scripts/restore-staging-postgres.sh /srv/netloka/staging/backups/postgres/<dump-file>.dump
+```
+
+Refer to `docs/operations/dr-rehearsal-drill.md` for the complete 5-phase rehearsal and incident drill protocol.
+
 ## Scoped validation
 
 After a deployment, validate only staging resources:

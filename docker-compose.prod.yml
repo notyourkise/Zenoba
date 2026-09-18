@@ -11,8 +11,18 @@ services:
       NODE_ENV: production
       DATABASE_URL: postgresql://${POSTGRES_USER:-netloka}:${POSTGRES_PASSWORD:-netloka_secure_password}@postgresql:5432/${POSTGRES_DB:-netloka}?schema=public
       NEXTAUTH_URL: https://netloka.biz.id
+      APP_URL: https://netloka.biz.id
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
       AUTH_SECRET: ${NEXTAUTH_SECRET}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      SMTP_HOST: ${SMTP_HOST:-smtp.hostinger.com}
+      SMTP_PORT: ${SMTP_PORT:-465}
+      SMTP_SECURE: ${SMTP_SECURE:-true}
+      SMTP_USER: ${SMTP_USER:-noreply@haikalariadma.my.id}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      EMAIL_FROM: ${EMAIL_FROM:-noreply@haikalariadma.my.id}
+      PAYMENT_MODE: ${PAYMENT_MODE:-disabled}
     depends_on:
       postgresql:
         condition: service_healthy
@@ -20,6 +30,22 @@ services:
       - netloka-network
     expose:
       - "3000"
+
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-netloka}:${POSTGRES_PASSWORD:-netloka_secure_password}@postgresql:5432/${POSTGRES_DB:-netloka}?schema=public
+    command: npm run db:deploy
+    profiles:
+      - maintenance
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    networks:
+      - netloka-network
 
   postgresql:
     image: postgres:16-alpine

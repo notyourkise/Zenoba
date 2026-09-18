@@ -186,3 +186,4 @@ recovery procedure.
 - **Operator:** Pengelola Perseorangan Platform Netloka (Fikri Haikal).
 - **Operational Mailbox:** `noreply@haikalariadma.my.id` (Hostinger SMTP).
 - **Runbook Reference:** Refer to `docs/operations/operator-readiness.md` and `docs/operations/auth-live-verification.md` for live protocol verification in staging.
+- **Verification Protocol:** Refer to `docs/operations/staging-verification.md` for the comprehensive 11-step staging environment validation protocol.

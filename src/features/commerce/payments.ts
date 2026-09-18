@@ -3,13 +3,15 @@ import type { PrismaClient } from "@/generated/prisma/client";
 import type { PaymentProvider } from "./types";
 import { SandboxGateway } from "./payments/sandbox-gateway";
 import type { PaymentGateway } from "./payments/types";
+import { MidtransGateway } from "./payments/midtrans-gateway";
+import { getMidtransConfig } from "@/lib/env/server";
 
 export interface RecordVerifiedPaymentEventInput {
   provider: PaymentProvider;
   providerEventId: string;
   providerReference: string;
   orderReference: string;
-  status: "SUCCESS" | "FAILED" | "EXPIRED";
+  status: "SUCCESS" | "FAILED" | "EXPIRED" | "PENDING";
   now?: Date;
   rawPayload?: Record<string, unknown>;
 }
@@ -27,6 +29,9 @@ const sandboxGateway = new SandboxGateway();
 export function getPaymentGateway(provider: PaymentProvider): PaymentGateway {
   if (provider === "SANDBOX") {
     return sandboxGateway;
+  }
+  if (provider === "MIDTRANS") {
+    return new MidtransGateway(getMidtransConfig());
   }
   throw new Error(`Unsupported payment provider: ${provider}`);
 }
@@ -179,6 +184,22 @@ export async function recordVerifiedPaymentEvent(
       return {
         processed: true,
         orderState: "EXPIRED",
+        entitlementsGranted: 0,
+      };
+    } else if (input.status === "PENDING") {
+      if (latestAttempt && input.providerReference && !latestAttempt.providerReference) {
+        await tx.paymentAttempt.update({
+          where: { id: latestAttempt.id },
+          data: {
+            providerReference: input.providerReference,
+            updatedAt: now,
+          },
+        });
+      }
+
+      return {
+        processed: true,
+        orderState: order.state,
         entitlementsGranted: 0,
       };
     } else {

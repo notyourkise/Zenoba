@@ -38,6 +38,26 @@ All notable project changes are recorded here.
 
 # 2026-09-18
 
+- [2026-09-18 23:58 WITA] [FEAT] [Milestone 15 / Sprint 42 / Task 42.2]
+  Implemented Midtrans server adapter, verified/idempotent webhook processing, and operator reconciliation CLI (Task 42.2):
+  - Server-only Midtrans adapter:
+    - Implemented `MidtransGateway` (`src/features/commerce/payments/midtrans-gateway.ts`) supporting Core API Dynamic QRIS charges (`POST /v2/charge`), 15-minute countdown expiry (`custom_expiry.expiry_duration: 15`), timing-safe SHA-512 webhook signature verification (`verifyMidtransSignature`), status mapping across all provider states (`settlement`, `capture`, `expire`, `cancel`, `deny`, `pending`), and status polling (`GET /v2/{order_id}/status`).
+    - Extended `CheckoutResult` and `NormalizedPaymentEvent` types in `src/features/commerce/payments/types.ts` to support `qrString`, `actions`, and non-terminal `"PENDING"` audit status.
+  - Environment & gateway resolver:
+    - Updated `src/lib/env/server.ts` adding `commerceEnvSchema` options (`disabled`, `sandbox`, `live`), Midtrans credential definitions, and `getMidtransConfig()` helper.
+    - Updated `src/features/commerce/payments.ts` registering `MIDTRANS` provider in `getPaymentGateway` and supporting non-mutating `"PENDING"` status persistence in `recordVerifiedPaymentEvent`.
+  - Verified webhook routes:
+    - Created `POST /api/commerce/webhooks/midtrans` and re-export alias `POST /api/commerce/midtrans/events` enforcing signature verification, logging `COMMERCE_WEBHOOK_INVALID_SIGNATURE` security audit events, rejecting unauthorized notifications with HTTP 401, and returning HTTP 200 idempotent responses for duplicate events.
+  - Reconciliation domain service & operator CLI:
+    - Authored `reconcileMidtransOrder` (`src/features/commerce/payments/reconciliation.ts`) providing dry-run discrepancy detection and repair execution with required justification reason and `COMMERCE_RECONCILIATION_REPAIR` security audit trail.
+    - Implemented operator CLI `scripts/reconcile-midtrans.ts` with comprehensive interactive and flag-based arguments.
+  - Validation:
+    - Linter: `npm run lint` clean (0 errors, 0 warnings).
+    - Typecheck: `npm run typecheck` clean (0 errors).
+    - Unit & Integration Tests: `npm test` clean (147 test files / 908 tests passed, 100%).
+    - Production build: `npm run build` compiled successfully (55 routes).
+    - `git diff --check`: clean (0 whitespace errors).
+
 - [2026-09-18 23:30 WITA] [DOCS] [Milestone 15 / Sprint 42 / Task 42.1]
   Refreshed and approved exact Midtrans Dynamic QRIS provider boundary (Task 42.1):
   - Provider boundary runbook:

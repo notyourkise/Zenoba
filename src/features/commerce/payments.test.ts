@@ -123,5 +123,77 @@ describe("payments", () => {
       expect(result.orderState).toBe("PAID");
       expect(result.entitlementsGranted).toBe(0);
     });
+
+    it("processes PENDING status without mutating order state or granting entitlements", async () => {
+      const mockOrder = {
+        id: "ord-1",
+        reference: "ORD-TEST-123",
+        userId: "user-1",
+        state: "PENDING",
+        package: {
+          packageCourses: [{ course: { id: "c-1" } }],
+        },
+        paymentAttempts: [{ id: "att-1" }],
+      };
+
+      const mockPrisma = {
+        paymentEvent: {
+          findUnique: vi.fn().mockResolvedValue(null),
+        },
+        order: {
+          findUnique: vi.fn().mockResolvedValue(mockOrder),
+        },
+        $transaction: vi.fn().mockImplementation(async (callback) => {
+          return callback({
+            paymentEvent: {
+              create: vi.fn().mockResolvedValue({ id: "evt-pending" }),
+            },
+            paymentAttempt: {
+              update: vi.fn().mockResolvedValue({}),
+            },
+          });
+        }),
+      };
+
+      const result = await recordVerifiedPaymentEvent(
+        {
+          provider: "MIDTRANS",
+          providerEventId: "evt-midtrans-pending-01",
+          providerReference: "trx-midtrans-pending",
+          orderReference: "ORD-TEST-123",
+          status: "PENDING",
+        },
+        mockPrisma as never,
+      );
+
+      expect(result.processed).toBe(true);
+      expect(result.orderState).toBe("PENDING");
+      expect(result.entitlementsGranted).toBe(0);
+    });
+  });
+
+  describe("getPaymentGateway", () => {
+    it("resolves SandboxGateway for SANDBOX provider", async () => {
+      const { getPaymentGateway } = await import("./payments");
+      const gateway = getPaymentGateway("SANDBOX");
+      expect(gateway.provider).toBe("SANDBOX");
+    });
+
+    it("resolves MidtransGateway for MIDTRANS provider when configured", async () => {
+      const prevKey = process.env.MIDTRANS_SERVER_KEY;
+      process.env.MIDTRANS_SERVER_KEY = "SB-Mid-server-TEST123";
+      try {
+        const { getPaymentGateway } = await import("./payments");
+        const gateway = getPaymentGateway("MIDTRANS");
+        expect(gateway.provider).toBe("MIDTRANS");
+      } finally {
+        process.env.MIDTRANS_SERVER_KEY = prevKey;
+      }
+    });
+
+    it("throws error for unsupported payment provider", async () => {
+      const { getPaymentGateway } = await import("./payments");
+      expect(() => getPaymentGateway("UNKNOWN" as never)).toThrow("Unsupported payment provider");
+    });
   });
 });

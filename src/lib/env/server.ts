@@ -77,21 +77,27 @@ export function getEmailEnvironment() {
 }
 
 const commerceEnvSchema = z.object({
-  PAYMENT_MODE: z.enum(["disabled", "sandbox"]).default("disabled"),
+  PAYMENT_MODE: z.enum(["disabled", "sandbox", "live"]).default("disabled"),
   SANDBOX_PAYMENT_EVENT_SECRET: z.string().optional(),
+  MIDTRANS_SERVER_KEY: z.string().optional(),
+  MIDTRANS_CLIENT_KEY: z.string().optional(),
+  MIDTRANS_MERCHANT_ID: z.string().optional(),
+  MIDTRANS_IS_PRODUCTION: z
+    .enum(["true", "false"])
+    .default("false")
+    .transform((value) => value === "true"),
 });
 
 export function getCommerceEnvironment() {
-  const paymentMode = (process.env.PAYMENT_MODE || "disabled") as "disabled" | "sandbox";
-  const nodeEnv = process.env.NODE_ENV || "development";
-
-  if (nodeEnv === "production" && paymentMode === "sandbox") {
-    throw new Error("Sandbox payment mode is not allowed in production");
-  }
+  const paymentMode = (process.env.PAYMENT_MODE || "disabled") as "disabled" | "sandbox" | "live";
 
   const result = commerceEnvSchema.safeParse({
     PAYMENT_MODE: paymentMode,
     SANDBOX_PAYMENT_EVENT_SECRET: process.env.SANDBOX_PAYMENT_EVENT_SECRET,
+    MIDTRANS_SERVER_KEY: process.env.MIDTRANS_SERVER_KEY,
+    MIDTRANS_CLIENT_KEY: process.env.MIDTRANS_CLIENT_KEY,
+    MIDTRANS_MERCHANT_ID: process.env.MIDTRANS_MERCHANT_ID,
+    MIDTRANS_IS_PRODUCTION: process.env.MIDTRANS_IS_PRODUCTION || "false",
   });
 
   if (!result.success) {
@@ -99,6 +105,28 @@ export function getCommerceEnvironment() {
   }
 
   return result.data;
+}
+
+export interface MidtransConfig {
+  serverKey: string;
+  clientKey?: string;
+  merchantId?: string;
+  isProduction: boolean;
+}
+
+export function getMidtransConfig(): MidtransConfig {
+  const env = getCommerceEnvironment();
+  const serverKey = env.MIDTRANS_SERVER_KEY || process.env.MIDTRANS_SERVER_KEY;
+  if (!serverKey || serverKey.trim().length === 0) {
+    throw new Error("MIDTRANS_SERVER_KEY is not configured");
+  }
+
+  return {
+    serverKey: serverKey.trim(),
+    clientKey: env.MIDTRANS_CLIENT_KEY || process.env.MIDTRANS_CLIENT_KEY || undefined,
+    merchantId: env.MIDTRANS_MERCHANT_ID || process.env.MIDTRANS_MERCHANT_ID || undefined,
+    isProduction: env.MIDTRANS_IS_PRODUCTION,
+  };
 }
 
 // Validate at import time (fail-fast on startup, skip in unit test runner)

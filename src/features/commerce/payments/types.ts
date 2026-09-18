@@ -11,6 +11,9 @@ export interface CreateCheckoutInput {
 export interface CheckoutResult {
   checkoutUrl: string;
   providerReference?: string;
+  qrString?: string;
+  actions?: Array<{ name: string; method: string; url: string }>;
+  rawResponse?: Record<string, unknown>;
 }
 
 export interface NormalizedPaymentEvent {
@@ -18,7 +21,7 @@ export interface NormalizedPaymentEvent {
   providerEventId: string;
   providerReference: string;
   orderReference: string;
-  status: "SUCCESS" | "FAILED" | "EXPIRED";
+  status: "SUCCESS" | "FAILED" | "EXPIRED" | "PENDING";
   rawPayload?: Record<string, unknown>;
 }
 

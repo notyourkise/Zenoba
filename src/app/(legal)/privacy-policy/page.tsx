@@ -11,7 +11,7 @@ export default function PrivacyPolicyPage() {
     <article>
       <h1>Privacy Policy</h1>
       <p>
-        Terakhir diperbarui: <time dateTime="2026-09-03">3 September 2026</time>
+        Terakhir diperbarui: <time dateTime="2026-09-18">18 September 2026</time>
       </p>
       <p>
         Kebijakan ini menjelaskan bagaimana fitur Netloka memproses data ketika
@@ -93,75 +93,85 @@ export default function PrivacyPolicyPage() {
         email atau data akun sudah dihapus.
       </p>
 
-      <h2>Pihak yang terlibat</h2>
+      <h2>Pihak yang terlibat dan pemroses data</h2>
       <p>
-        Google memproses autentikasi ketika Anda memilih Google login; penyedia
-        email memproses pengiriman pesan pemulihan. Data aplikasi disimpan
-        melalui database PostgreSQL pada lingkungan yang menjalankan Netloka.
-        Pihak yang mengoperasikan lingkungan tersebut dapat memiliki akses
-        administratif yang diperlukan untuk pengelolaan layanan.
+        Pemrosesan data teknis dan operasional melibatkan infrastruktur pihak
+        ketiga dengan batasan fungsi yang jelas:
+      </p>
+      <ul>
+        <li>
+          <strong>Google LLC:</strong> Memproses autentikasi saat Anda memilih
+          opsi Google login (terbatas pada cakupan identitas dasar).
+        </li>
+        <li>
+          <strong>Hostinger International Ltd.:</strong> Menyediakan layanan
+          SMTP dan mailbox resmi (<code>noreply@haikalariadma.my.id</code>) untuk
+          pengiriman tautan reset password dan komunikasi operasional.
+        </li>
+        <li>
+          <strong>Cloudflare, Inc.:</strong> Mengelola DNS, mitigasi DDoS, dan
+          keamanan koneksi HTTPS edge.
+        </li>
+        <li>
+          <strong>PostgreSQL &amp; Caddy:</strong> Berjalan pada server privat
+          (VPS Linux) untuk penyimpanan data terenkripsi dan perutean permintaan.
+        </li>
+      </ul>
+
+      <h2>Penyimpanan, retensi, dan keamanan</h2>
+      <p>
+        Data akun dan histori progres pembelajaran disimpan selama akun Anda
+        aktif untuk menjamin kelangsungan belajar. Data keamanan sementara
+        memiliki batas waktu terukur: token reset password kedaluwarsa dalam 30
+        menit dan dibersihkan berkala, sedangkan pencatatan pembatasan frekuensi
+        (rate limit) direset otomatis setiap 15 menit.
       </p>
       <p>
-        Saat deployment dilakukan, penyedia hosting atau reverse proxy dapat
-        memproses data koneksi seperti alamat IP, waktu permintaan, dan
-        informasi browser. Lokasi penyimpanan, pihak infrastruktur yang
-        diaktifkan, serta ketentuan transfer data perlu ditetapkan sebelum
-        peluncuran; kebijakan ini tidak mengklaim semua data hanya berada di
-        Indonesia.
+        Aplikasi menerapkan validasi masukan, enkripsi searah (hash kriptografi)
+        untuk password dan kunci pembatas laju, proteksi sesi terdistribusi,
+        serta pencatatan audit keamanan (security events).
       </p>
 
-      <h2>Penyimpanan dan keamanan</h2>
+      <h2>Hak Anda sebagai subjek data</h2>
       <p>
-        Data akun dan pembelajaran tetap tersimpan di database sampai dihapus
-        melalui pengelolaan data. Versi ini belum memiliki jadwal retensi atau
-        penghapusan akun otomatis. Jadwal penyimpanan, penanganan cadangan,
-        serta prosedur permintaan penghapusan perlu ditetapkan sebelum
-        penggunaan umum; tidak ada janji penghapusan otomatis dalam periode
-        tertentu.
+        Berdasarkan Undang-Undang No. 27 Tahun 2022 tentang Pelindungan Data
+        Pribadi (UU PDP), Anda memiliki hak untuk:
       </p>
+      <ul>
+        <li>Mendapatkan informasi tentang kejelasan identitas dan tujuan pemrosesan data.</li>
+        <li>Mengakses dan meminta salinan data pribadi Anda.</li>
+        <li>Memperbaiki kesalahan atau memperbarui data pribadi Anda.</li>
+        <li>Meminta penghentian pemrosesan atau penghapusan data pribadi Anda.</li>
+        <li>Menarik persetujuan pemrosesan yang pernah Anda berikan.</li>
+      </ul>
       <p>
-        Aplikasi menggunakan pemeriksaan sesi dan hak akses, validasi masukan,
-        serta hash untuk password dan token reset. Langkah tersebut tidak
-        menjamin keamanan mutlak. Pengujian integrasi dan pengamanan operasional
-        tetap diperlukan sebelum layanan dibuka untuk umum.
-      </p>
-
-      <h2>Pilihan dan hak Anda</h2>
-      <p>
-        Anda dapat memperbarui nama melalui Profile, keluar dari sesi, atau
-        menggunakan pemulihan password untuk akun email. Akses Google dapat
-        dikelola melalui pengaturan koneksi pihak ketiga pada akun Google;
-        pencabutan akses tersebut tidak otomatis menghapus data Netloka.
-      </p>
-      <p>
-        Sesuai ketentuan pelindungan data yang berlaku, Anda dapat meminta
-        informasi, akses atau salinan, perbaikan, penghentian pemrosesan,
-        penghapusan, maupun menarik persetujuan jika pemrosesan didasarkan pada
-        persetujuan. Hak tersebut mengikuti syarat dan pengecualian hukum. Versi
-        ini belum menyediakan ekspor atau penghapusan akun mandiri.
+        Permohonan pemenuhan hak subjek data dapat dikirimkan langsung melalui
+        surat elektronik ke alamat kontak resmi pengelola. Permohonan akan
+        ditindaklanjuti maksimal dalam 30 (tiga puluh) hari kalender.
       </p>
 
       <h2>Data anak</h2>
       <p>
-        Pemrosesan data anak membutuhkan persetujuan orang tua atau wali sesuai
-        ketentuan yang berlaku. Alur verifikasi persetujuan tersebut belum
-        tersedia dalam versi pengembangan. Jangan mendaftarkan data anak untuk
-        penggunaan nyata sebelum mekanismenya disiapkan.
+        Platform ditujukan untuk pembelajaran siswa SMK TKJ dan pemula. Jika
+        Anda berusia di bawah 18 tahun, pendaftaran dan aktivitas belajar
+        dilakukan dengan sepengetahuan orang tua atau wali. Latihan bersifat
+        simulasi deterministik; jangan pernah memasukkan data rahasia pribadi,
+        data sekolah, atau kata sandi nyata ke dalam simulator.
       </p>
 
-      <h2>Kontak dan pembaruan</h2>
+      <h2>Kontak pengelola</h2>
       <p>
-        Kanal kontak privasi publik belum diterbitkan. Jika Anda mengikuti uji
-        coba yang dikoordinasikan langsung, sampaikan pertanyaan melalui kontak
-        pengelola yang memberikan akses. Jangan mengirim password, token, atau
-        dokumen identitas melalui jawaban latihan maupun kanal publik. Identitas
-        penanggung jawab dan kanal permintaan privasi yang dapat dihubungi harus
-        dilengkapi sebelum peluncuran umum.
+        Pengendali data pribadi platform ini adalah Pengelola Perseorangan
+        Platform Netloka (Fikri Haikal).
       </p>
       <p>
-        Kebijakan ini akan diperbarui jika fitur, integrasi, atau praktik
-        pemrosesan berubah. Periksa tanggal pembaruan di atas. Perubahan halaman
-        tidak menggantikan persetujuan yang diperlukan untuk pemrosesan baru.
+        Segala pertanyaan, permohonan pemenuhan hak data pribadi, laporan
+        kerentanan keamanan, atau masukan dapat disampaikan melalui surat
+        elektronik ke alamat resmi:{" "}
+        <a href="mailto:noreply@haikalariadma.my.id">
+          noreply@haikalariadma.my.id
+        </a>
+        .
       </p>
     </article>
   );

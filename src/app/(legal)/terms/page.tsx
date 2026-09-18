@@ -12,7 +12,7 @@ export default function TermsPage() {
     <article>
       <h1>Terms of Service</h1>
       <p>
-        Terakhir diperbarui: <time dateTime="2026-09-03">3 September 2026</time>
+        Terakhir diperbarui: <time dateTime="2026-09-18">18 September 2026</time>
       </p>
       <p>
         Ketentuan ini menjelaskan penggunaan Netloka, platform pembelajaran IT
@@ -119,17 +119,19 @@ export default function TermsPage() {
         tidak dianggap disetujui hanya karena halaman ini diperbarui.
       </p>
 
-      <h2>Hukum dan komunikasi</h2>
+      <h2>Pengelola dan komunikasi</h2>
       <p>
-        Penggunaan layanan mengikuti hukum yang berlaku di Indonesia. Ketentuan
-        ini tidak menghapus hak pengguna atau tanggung jawab pengelola yang
-        tidak dapat dikesampingkan oleh hukum.
+        Platform Netloka dikelola secara mandiri oleh Pengelola Perseorangan
+        Platform Netloka (Fikri Haikal). Penggunaan layanan mengikuti hukum yang
+        berlaku di Republik Indonesia.
       </p>
       <p>
-        Kanal kontak layanan publik belum diterbitkan selama tahap pengembangan.
-        Untuk uji coba yang dikoordinasikan langsung, gunakan kontak pengelola
-        yang memberikan akses uji coba. Identitas pengelola dan kanal kontak
-        publik perlu dilengkapi sebelum layanan dibuka untuk penggunaan umum.
+        Pertanyaan seputar ketentuan layanan, laporan operasional, atau kendala
+        akses akun dapat disampaikan melalui surat elektronik ke alamat{" "}
+        <a href="mailto:noreply@haikalariadma.my.id">
+          noreply@haikalariadma.my.id
+        </a>
+        .
       </p>
     </article>
   );

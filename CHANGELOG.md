@@ -36,6 +36,27 @@ All notable project changes are recorded here.
   Git: commit SHA and/or PR number when available
 ```
 
+# 2026-09-18
+
+- [2026-09-18 15:15 WITA] [DOCS] [Milestone 15 / Sprint 41 / Task 41.1]
+  Finalized factual operator, privacy, payment, and incident runbooks (Task 41.1):
+  - Operator readiness & legal status:
+    - Authored `docs/operations/operator-readiness.md` establishing individual operator identity (Pengelola Perseorangan Platform Netloka / Fikri Haikal), active Hostinger-hosted mailbox (`noreply@haikalariadma.my.id`), primary domain (`netloka.biz.id`), data controller status under UU No. 27/2022 (UU PDP), 30-day SLA for data subject requests, data retention boundaries, and commercial terms.
+  - Incident response & breach notification runbook:
+    - Authored `docs/operations/incident-response.md` establishing SEV-1 to SEV-4 incident matrix, containment workflows, secret rotation checklists, root cause analysis templates, and the statutory 72-hour personal data breach notification SLA per UU PDP Pasal 46.
+  - Legal pages & deployment documentation:
+    - Updated `src/app/(legal)/terms/page.tsx` and `src/app/(legal)/privacy-policy/page.tsx` with confirmed operator facts, active mailbox, updated date (18 September 2026), and strict black-and-white text-only styling.
+    - Updated `docs/deployment/staging.md` with operational baseline, confirmed operator details, and active mail handling.
+    - Updated `docs/decisions/0003-legal-pages-and-policy-boundaries.md` marking status superseded by Sprint 41 / Task 41.1.
+    - Updated `.env.example` with Hostinger SMTP configuration guidance and mailbox placeholder.
+  - Validation:
+    - Full test suite passed: 143 test files / 877 tests passing (100%).
+    - Marketing footer tests passed: 3/3 tests passing (`src/components/marketing/marketing-footer.test.tsx`).
+    - Linter: `npm run lint` clean (0 errors, 0 warnings).
+    - Typecheck: `npm run typecheck` clean (0 errors).
+    - Production build: `npm run build` compiled successfully (53 routes).
+    - `git diff --check`: clean (0 whitespace errors).
+
 # 2026-09-17
 
 - [2026-09-17 16:44 WITA] [RELEASE] [Milestone 15 / Sprint 40 / Task 40.4]

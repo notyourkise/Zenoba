@@ -38,6 +38,21 @@ All notable project changes are recorded here.
 
 # 2026-09-18
 
+- [2026-09-18 16:15 WITA] [TEST] [Milestone 15 / Sprint 41 / Task 41.3]
+  Established disaster recovery rehearsal, restoration script, and incident drill procedures (Task 41.3):
+  - Staging restore script:
+    - Created `scripts/restore-staging-postgres.sh` enabling verified database disaster recovery from custom-format binary snapshots (`pg_dump -Fc`), featuring staging project safety checks, lock file concurrency defense, app container stop/start lifecycle, `pg_restore --clean --if-exists`, and automatic table row-count validation.
+  - Disaster recovery runbook:
+    - Authored `docs/operations/dr-rehearsal-drill.md` establishing a 5-phase drill protocol (AES-256 backup encryption/checksum validation, decryption & isolated target restoration, critical table row-count comparison, application rollback without down-migrations, post-drill smoke tests, and SEV-1 incident secret rotation rehearsal) targeting RTO < 15 minutes and RPO < 24 hours.
+  - Documentation alignment:
+    - Updated `docs/deployment/staging.md` with database restore instructions using `scripts/restore-staging-postgres.sh`.
+  - Validation:
+    - Linter: `npm run lint` clean (0 errors, 0 warnings).
+    - Typecheck: `npm run typecheck` clean (0 errors).
+    - Unit & Integration Tests: `npm test` clean (143 test files / 877 tests passed, 100%).
+    - Production build: `npm run build` compiled successfully (53 routes).
+    - `git diff --check`: clean (0 whitespace errors).
+
 - [2026-09-18 15:45 WITA] [DEPLOY] [Milestone 15 / Sprint 41 / Task 41.2]
   Configured and verified isolated staging environment manifests and operational runbook (Task 41.2):
   - Staging verification runbook:

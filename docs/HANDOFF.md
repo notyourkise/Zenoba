@@ -1,6 +1,6 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-18 15:45 WITA**. Read `AGENTS.md` and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-09-18 16:15 WITA**. Read `AGENTS.md` and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
 
 ## 1. Current Task and Authority
 
@@ -8,24 +8,22 @@ Last updated: **2026-09-18 15:45 WITA**. Read `AGENTS.md` and verify live Git/PR
 - Active milestone/sprint:
   - **Milestone 15 (Final Production and Commercial Release):** **ACTIVE**
   - **Sprint 41 (Staging, Recovery, and Operational Readiness):** **ACTIVE**
-- Task: **Task 41.2: Deploy and verify an explicitly authorized isolated staging environment** (Task 6 in M15 plan).
-- Scope delivered in Task 41.2:
-  - Authored `docs/operations/staging-verification.md` detailing the comprehensive 11-step verification protocol for `staging.netloka.biz.id` (host root isolation at `/srv/netloka/staging`, pre-flight validation, database health & forward-only migration status, loopback healthcheck at `127.0.0.1:3001`, host TLS & Nginx reverse proxy, transport security headers & CSP, secure cookie policy, live Hostinger SMTP delivery, password-reset rate limiting, Google OAuth staging callback, staging-only user lifecycle, and sensitive log redaction & backup cron).
-  - Updated `deploy/staging.env.example` with complete staging environment variables (dedicated staging DB credentials, internal Compose network host `db:5432`, `AUTH_SECRET`/`NEXTAUTH_SECRET`, Hostinger SMTP, Google OAuth, and disabled payment mode).
-  - Updated `docker-compose.prod.yml` adding `APP_URL`, complete `SMTP_*` configuration, `PAYMENT_MODE`, and a dedicated `migrate` maintenance service running `npm run db:deploy`.
-  - Updated `docs/deployment/cloudflare-and-caddy.md` replacing obsolete `prisma db push` with forward-only `docker compose run --rm migrate` and documenting Cloudflare DNS & staging subdomain routing.
-  - Updated `docs/deployment/staging.md` cross-referencing `docs/operations/staging-verification.md`.
-- Phase: Task 41.2 fully implemented, locally verified, and ready for commit, push, PR, and CI.
+- Task: **Task 41.3: Prove backup, restore, rollback, and incident drills outside production** (Task 7 in M15 plan).
+- Scope delivered in Task 41.3:
+  - Authored `scripts/restore-staging-postgres.sh` providing verified disaster recovery restore from custom-format PostgreSQL binary snapshots (`pg_dump -Fc`), featuring staging project guards, lock file concurrency safety, container lifecycle management (`stop app` -> `pg_restore` -> `start app`), and post-restore row count verification.
+  - Authored `docs/operations/dr-rehearsal-drill.md` detailing a 5-phase rehearsal drill protocol (AES-256 backup encryption/checksum validation, decryption & isolated target restoration, critical table row-count comparison, application rollback without down-migrations, post-drill smoke tests, and SEV-1 incident secret rotation rehearsal) targeting RTO < 15 minutes and RPO < 24 hours.
+  - Updated `docs/deployment/staging.md` with database disaster recovery restore instructions and drill cross-references.
+- Phase: Task 41.3 fully implemented, locally verified, and ready for commit, push, PR, and CI.
 
 ## 2. Verified Repository Checkpoint
 
 | Item | Verified state |
 | --- | --- |
-| Main checkout | `C:/laragon/www/netloka`, clean `main` at `92a3c42` |
-| Origin | `origin/main` at `92a3c42`; local `main` synchronized |
-| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-sprint-41-staging-environment` |
-| Task branch | `codex/sprint-41-staging-environment` |
-| Base commit | `92a3c42` (Merge pull request #77 from notyourkise/codex/sprint-41-operator-runbooks) |
+| Main checkout | `C:/laragon/www/netloka`, clean `main` at `eb04d4a` |
+| Origin | `origin/main` at `eb04d4a`; local `main` synchronized |
+| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-sprint-41-backup-restore-drills` |
+| Task branch | `codex/sprint-41-backup-restore-drills` |
+| Base commit | `eb04d4a` (Merge pull request #78 from notyourkise/codex/sprint-41-staging-environment) |
 | Retained worktrees | `C:/laragon/www/netloka/.worktrees/codex-fix-m0-sprint-0` (`docs/staging-progress`, do not delete) |
 | Background dev server | Stopped |
 
@@ -36,8 +34,8 @@ Last updated: **2026-09-18 15:45 WITA**. Read `AGENTS.md` and verify live Git/PR
   - **Sprint 40 (Persistent Security and Release Baseline):** **COMPLETE & MERGED** (PR #73, #74, #75, #76)
   - **Sprint 41 (Staging, Recovery, and Operational Readiness):** **ACTIVE**
     - [x] Task 41.1: Finalize factual operator/privacy/payment/incident runbooks (PR #77 merged).
-    - [x] Task 41.2: Deploy and verify an explicitly authorized isolated staging environment.
-    - [ ] Task 41.3: Prove backup, restore, rollback, and incident drills outside production.
+    - [x] Task 41.2: Deploy and verify an explicitly authorized isolated staging environment (PR #78 merged).
+    - [x] Task 41.3: Prove backup, restore, rollback, and incident drills outside production.
     - [ ] Task 41.4: Complete a production-like non-payment rehearsal and owner review.
   - Sprint 42 (Midtrans Gateway and Controlled Commercial Activation): Gated (requires explicit owner approval for live activation)
 
@@ -51,9 +49,9 @@ Last updated: **2026-09-18 15:45 WITA**. Read `AGENTS.md` and verify live Git/PR
 
 ## 5. Next Actions
 
-1. Commit Task 41.2 changes to `codex/sprint-41-staging-environment`.
-2. Push branch to GitHub via `git push -u origin codex/sprint-41-staging-environment`.
+1. Commit Task 41.3 changes to `codex/sprint-41-backup-restore-drills`.
+2. Push branch to GitHub via `git push -u origin codex/sprint-41-backup-restore-drills`.
 3. Open PR via `gh pr create` targeting `main`.
 4. Monitor CI checks.
 5. Report ready for review and merge to Abangku.
-6. After merge by Abangku, sync `main` and proceed to Task 41.3 (Prove backup, restore, rollback, and incident drills outside production).
+6. After merge by Abangku, sync `main` and proceed to Task 41.4 (Complete a production-like non-payment rehearsal and owner review).

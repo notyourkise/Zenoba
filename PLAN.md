@@ -1186,7 +1186,7 @@ Detailed executable plan: [Final Production and Commercial Release](docs/superpo
 
 - [x] Task 41.1: Finalize factual operator/privacy/payment/incident runbooks.
 - [x] Task 41.2: Deploy and verify an explicitly authorized isolated staging environment.
-- [ ] Task 41.3: Prove backup, restore, rollback, and incident drills outside production.
+- [x] Task 41.3: Prove backup, restore, rollback, and incident drills outside production.
 - [ ] Task 41.4: Complete a production-like non-payment rehearsal and owner review.
 
 ### Sprint 42 — Midtrans Gateway and Controlled Commercial Activation

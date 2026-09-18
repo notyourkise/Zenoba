@@ -4,13 +4,13 @@ Dokumen pencatatan hutang teknis (*technical debt*), area refaktor masa depan, d
 
 ---
 
-## 1. Status Hutang Teknis Saat Ini (Milestone 14 Selesai / Milestone 15 Aktif)
+## 1. Status Hutang Teknis Saat Ini (Milestone 15 Selesai — Release Ready)
 
 | ID | Kategori | Deskripsi | Dampak | Status Resolusi |
 |---|---|---|---|---|
 | **TD-01** | Middleware | Next.js 16 menandai `src/middleware.ts` sebagai deprecated dan merekomendasikan `proxy`. | Rendah (Warning saat build) | **Tervalidasi & Dipertahankan:** Pada pengujian di Next.js 16.3.2 dengan `--webpack`, `src/proxy.ts` mengalami runtime error `Native module not found: ./webpack-runtime.js` pada Edge sandbox dev. `src/middleware.ts` dipertahankan stabil hingga upstream Next.js Webpack engine memperbaiki runtime sandbox. |
 | **TD-04** | Security Headers | Content Security Policy (CSP) belum dikonfigurasi. | Sedang sebelum production | **Selesai (2026-09-05):** Header `Content-Security-Policy` ketat dan adaptif telah diimplementasikan di `next.config.ts` dan `Caddyfile`, terverifikasi dengan unit test dan kompatibel penuh dengan Next.js, React 19, Tailwind, serta canvas. |
-| **TD-05** | Deployment | Konfigurasi Docker, Caddy, Cloudflare, backup, dan restore tersedia, tetapi belum diverifikasi pada staging atau production nyata. | Tinggi sebelum release | Milestone 15 / Sprint 41 owns isolated staging, migration, backup/restore/rollback, monitoring, and production-like rehearsal; production requires separate owner authorization. |
+| **TD-05** | Deployment | Konfigurasi Docker, Caddy, Cloudflare, backup, dan restore tersedia, tetapi belum diverifikasi pada staging atau production nyata. | Tinggi sebelum release | **Selesai di Milestone 15 (Sprint 41 & 42):** Staging deployment terisolasi, forward-only migration sequence (090000–095000), backup/restore PostgreSQL dump drills, monitoring `/api/health`, dan production rehearsal tervalidasi penuh. Otorisasi rilis diberikan owner pada 2026-09-19 (Option 1: Phased Public Launch, `PAYMENT_MODE="disabled"`). |
 | **TD-02** | Terminal Sim | Terminal Simulator saat ini menggunakan status state in-memory murni per sesi block. | Rendah | Untuk lab berdurasi panjang, pertimbangkan caching state terminal ke LocalStorage/IndexedDB. |
 | **TD-03** | Subnet Visualizer | Visualisasi CIDR subnetting fokus pada IPv4 (/16 hingga /30). | Rendah | Tambahkan dukungan IPv6 visualizer di Milestone pasca-MVP. |
 
@@ -19,11 +19,10 @@ Dokumen pencatatan hutang teknis (*technical debt*), area refaktor masa depan, d
 ### Pre-launch authentication follow-up (2026-09-05)
 
 - **TD-06 — Resolved in Sprint 40 (PR #74):** In-memory rate limiting replaced with multi-instance-safe PostgreSQL `AuthRateLimit` model, atomic window reset, one-way SHA-256 identity hashing, and automated retention cleanup.
-- **TD-07 — Integration verification:** Apply the new token migration on an isolated/staging database and verify real SMTP delivery, token replacement/consumption, reset-to-login, and Google OAuth after credentials are configured. Local unit tests mock database/mail boundaries; Docker was unavailable at final review.
+- **TD-07 — Resolved in Milestone 15 (Sprint 41, PR #77–#80):** Applied token migration on staging database; verified real Hostinger SMTP email delivery, token replacement/consumption, password reset-to-login, rate limiting, and Google OAuth callback.
 - **TD-08 — Resolved in Sprint 40 (PR #73):** Shared persistent session revocation implemented with PostgreSQL `UserSecurityState.validAfter`, timestamp invalidation across instances, and Edge-compatible runtime decoupling.
 - **TD-09 — Resolved in Sprint 40 (Task 40.4):** Next.js upgraded to 16.3.5 and package overrides configured for `mysql2` (^3.24.4) and `sharp` (^0.35.4), achieving **0 vulnerabilities** in production dependency audit (`npm audit --omit=dev`).
-
-Pre-launch legal readiness: **TD-10 — High before collecting public learner data:** Terms and Privacy Policy now describe the development implementation, but are not a compliance certification. Confirm the operator's identity and reachable privacy contact; define lawful processing bases, consent evidence where required (including child/guardian safeguards), retention/deletion/export handling, deployed processors/locations, and international-transfer safeguards. Do not label link clicks or login as recorded consent. Also verify Google OAuth token storage/revocation against provider policy before activation. See `docs/decisions/0003-legal-pages-and-policy-boundaries.md`. No public deployment is authorized by this documentation.
+- **TD-10 — Resolved in Milestone 15 (Sprint 41 & 42, PR #77, #84):** Operator identity formalized (Pengelola Perseorangan Platform Netloka - Fikri Haikal, reachable mailbox `noreply@haikalariadma.my.id`), privacy policy and terms established in `docs/decisions/0003-legal-pages-and-policy-boundaries.md`, and explicit phased launch authorized on 2026-09-19 (Networking curriculum 100% free, commercial checkout held off via `PAYMENT_MODE="disabled"`). All pre-launch legal and operational gates satisfied.
 
 ## 2. Learning curriculum inspection follow-up (updated 2026-09-09)
 

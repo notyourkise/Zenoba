@@ -38,6 +38,22 @@ All notable project changes are recorded here.
 
 # 2026-09-19
 
+- [2026-09-19 00:35 WITA] [RELEASE] [Milestone 15 / Sprint 42 / Task 42.5]
+  Completed post-release review and synchronized evidence for Milestone 15 completion (Task 42.5):
+  - Owner Launch Decision & Phased Activation:
+    - Recorded owner (Abangku) authorization for Option 1 (Phased Public Launch) in `docs/operations/production-release-and-commercial-activation.md`, `docs/operations/midtrans-release-runbook.md`, and `docs/operations/staging-verification.md`.
+    - 6-path Networking curriculum (Network Foundations, IPv4 & Subnetting, Switching & Local Networks, Routing & Network Services, Wireless & Troubleshooting, Network Planning & Cabling) is released 100% free of charge for all learners.
+    - Commercial payments are held off via `PAYMENT_MODE="disabled"`. Other future curriculum paths (CCTV, Fiber Optic, MikroTik, Linux, etc.) remain coming soon and cannot be checked out until authored and priced.
+  - Operational & Technical Debt Reconciliation:
+    - Updated `docs/TECHNICAL_DEBT.md` reconciling Milestone 15 completion with 0 critical/high technical debt items remaining. TD-05 (Deployment & Staging), TD-07 (Integration Verification), and TD-10 (Legal & Pre-Launch Readiness) resolved.
+    - Updated `ROADMAP.md` and `PLAN.md` marking Sprint 42 and Milestone 15 as fully COMPLETE.
+  - Validation:
+    - Linter: `npm run lint` clean (0 errors, 0 warnings).
+    - Typecheck: `npm run typecheck` clean (0 errors).
+    - Unit & Integration Tests: `npm test` clean (148 test files / 918 tests passed, 100%).
+    - Production build: `npm run build` compiled successfully (55 routes).
+    - `git diff --check`: clean (0 whitespace errors).
+
 - [2026-09-19 00:22 WITA] [RELEASE] [Milestone 15 / Sprint 42 / Task 42.4]
   Prepared production release checklist and requested owner deployment authorization (Task 42.4):
   - Production release checklist & operational runbook:

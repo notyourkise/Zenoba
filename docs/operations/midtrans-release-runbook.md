@@ -7,7 +7,7 @@
 **Acquirer:** GoPay (`qris.acquirer: "gopay"`)  
 **Operator:** Pengelola Perseorangan Platform Netloka (Fikri Haikal)  
 **Contact / Mailbox:** noreply@haikalariadma.my.id  
-**Production Activation Gate:** STRICTLY GATED (Requires separate explicit owner authorization in Task 42.4)
+**Production Activation Gate:** AUTHORIZED PHASED LAUNCH (Owner authorized on 2026-09-19: complete 6-path Networking curriculum released 100% free of charge; live commercial payment switch held off with `PAYMENT_MODE="disabled"` until future premium paths are authored and priced).
 
 ---
 

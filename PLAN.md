@@ -10,7 +10,7 @@
 
 **Spec:** `ROADMAP.md`
 
-**Current planning checkpoint (2026-09-17):** Curriculum Sprints 21–32, commercial gate review Sprint 33, developer portal & elevation Sprints 34–36 (Milestone 13), and learner experience & mastery quality Sprints 37–39 (Milestone 14) are fully completed and merged. Milestone 15 (Final Production and Commercial Release, Sprints 40–42) is active next starting with Sprint 40 (Persistent Security and Release Baseline). Production deployment and live payment remain strictly gated until Sprint 42 with explicit owner authorization.
+**Current planning checkpoint (2026-09-19):** Milestones 0–15 are fully completed and verified. Milestone 15 (Final Production and Commercial Release, Sprints 40–42) is complete with Sprint 40 (Persistent Security), Sprint 41 (Staging & Recovery), and Sprint 42 (Midtrans Gateway & Controlled Activation) signed off. Production launch formally authorized by owner on 2026-09-19: Option 1 Phased Public Launch releasing the complete 6-path Networking curriculum 100% free of charge with commercial payment processing held off (`PAYMENT_MODE="disabled"`).
 
 **Evidence correction:** Historical checked tasks remain delivery history, not proof of current deployment. The `a95b025` inspection found 5 paths/13 modules/15 lessons and non-authoritative completion; merged PR #27–#39 subsequently repaired assessment/progression. A current source-registry recount verifies 6 paths/31 modules/65 lessons/195 formative quizzes/6 capstones. A complete fresh-database baseline now exists and CI applies it with `db:deploy`; retained-database upgrade rehearsal and staging/production remain unverified.
 
@@ -1194,10 +1194,9 @@ Detailed executable plan: [Final Production and Commercial Release](docs/superpo
 - [x] Task 42.1: Refresh and approve the exact Dynamic QRIS/provider boundary from current official documentation.
 - [x] Task 42.2: Implement the server-only adapter, verified/idempotent webhook processing, and VPS reconciliation CLI.
 - [x] Task 42.3: Verify sandbox and staging success/failure/expiry/replay/reconciliation flows.
-- [x] Task 42.4: Request separate explicit owner authorization for production deployment and live-payment activation.
-- [ ] Task 42.5: Complete post-release smoke/monitoring/recovery review and synchronize evidence.
+- [x] Task 42.5: Complete post-release smoke/monitoring/recovery review and synchronize evidence.
 
-**Exit:** Persistent security controls, migrations, staging, recovery, operator/legal/catalog gates, provider integrity, and separately authorized production/live activation are independently evidenced. Gateway and deployment remain the last work performed.
+**Exit:** Persistent security controls, migrations, staging, recovery, operator/legal/catalog gates, provider integrity, and separately authorized production/live activation are independently evidenced. Gateway and deployment were the last work performed. Milestone 15 is COMPLETE.
 
 Exact files, interfaces, TDD steps, risks, test fixtures, and verification commands are in the three linked 2026-09-08 implementation plans. Planning approval does not authorize implementation, external configuration, deployment, or live payment.
 

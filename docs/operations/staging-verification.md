@@ -40,7 +40,7 @@ All secret values must reside solely in `/srv/netloka/staging/.env` and must nev
 | Application URLs | `NEXTAUTH_URL`, `APP_URL` | Fixed to `https://staging.netloka.biz.id`. |
 | Google OAuth | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | Provisioned staging OAuth client credentials with authorized callback `https://staging.netloka.biz.id/api/auth/callback/google`. |
 | SMTP Configuration | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASSWORD`, `EMAIL_FROM` | Hostinger SMTP service (`smtp.hostinger.com`, port `465`, secure `true`, user/from `noreply@haikalariadma.my.id`). |
-| Commerce Gate | `PAYMENT_MODE` | Set to `disabled` during Sprint 41. Live or sandbox payment is strictly prohibited until Sprint 42. |
+| Commerce Gate | `PAYMENT_MODE` | Set to `disabled` in staging and production per owner release authorization on 2026-09-19 (Networking curriculum 100% free; commercial payment held off until future premium tracks). |
 
 ---
 
@@ -236,3 +236,12 @@ Checklist Results:
 Status: VERIFIED / PROCEED TO TASK 41.3
 Notes: All staging checks passed without regression or credential exposure.
 ```
+
+---
+
+## 5. Milestone 15 Post-Release Verification & Launch Status
+
+- **Effective Date:** 2026-09-19 WITA
+- **Curriculum Scope:** Complete 6-path Networking curriculum released 100% free of charge.
+- **Payment Method Boundary:** `PAYMENT_MODE="disabled"`. Commercial payments held off until future premium paths (CCTV, Fiber Optic, MikroTik, Linux, etc.) are authored and priced.
+- **Gate Status:** VERIFIED & RELEASE READY.

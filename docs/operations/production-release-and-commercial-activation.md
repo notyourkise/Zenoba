@@ -31,40 +31,30 @@ In accordance with `AGENTS.md` and `docs/superpowers/plans/2026-09-08-final-prod
 | **7. VPS Status Reconciliation CLI** | Administrative discrepancy repair tool for lost webhooks | `scripts/reconcile-midtrans.ts` tested; audit logging to `SecurityEvent` verified | **VERIFIED** |
 | **8. Curriculum & Course Access** | 6-path Networking curriculum free; access guards enforced | All 6 Networking paths available free; `resolveCourseAccess` strictly enforced | **VERIFIED** |
 | **9. Monitoring & Health Contract** | Health check contracts and security incident ledger | `/api/health` returns comprehensive JSON; `SecurityEvent` table operational | **VERIFIED** |
-| **10. Owner Deployment Authorization** | Explicit decision on initial production mode and payment switch | Pending owner decision below | **PENDING OWNER SIGN-OFF** |
+| **10. Owner Deployment Authorization** | Explicit decision on initial production mode and payment switch | Authorized on 2026-09-19: Option 1 Phased Public Launch with `PAYMENT_MODE="disabled"` and free 6-path Networking curriculum | **AUTHORIZED & SIGNED OFF** |
 
 ---
 
 ## 3. Commercial Catalog & Pricing Status
 
 1. **Free Curriculum Tier:**
-   - The foundational curriculum across all 6 Networking learning paths (Network Foundations, IPv4 & Subnetting, Switching & Local Networks, Routing & Network Services, Network Planning & Cabling, Wireless & Troubleshooting) remains **100% free of charge**.
-   - No payment is required for learners to complete lessons, interactive terminal simulators, packet tracers, quizzes, or module assessments.
+   - The foundational curriculum across all 6 Networking learning paths (Network Foundations, IPv4 & Subnetting, Switching & Local Networks, Routing & Network Services, Network Planning & Cabling, Wireless & Troubleshooting) is released **100% free of charge**.
+   - No payment or checkout is required for learners to complete lessons, interactive terminal simulators, packet tracers, quizzes, or module assessments.
 2. **Premium Bundle Tier:**
-   - Commercial course packages remain marked as `COMING_SOON` until Abangku authors real premium content (e.g., MikroTik MTCNA or Advanced Security) and formally authorizes pricing.
+   - Commercial course packages for future tracks (CCTV, Fiber Optic, MikroTik, Linux, etc.) remain marked as `COMING_SOON`. Checkout is blocked and payment processing is held in `PAYMENT_MODE="disabled"` until future premium materials are authored and priced.
    - If an unauthorized checkout request is made for a coming-soon package, `createPendingOrder` throws a validation error and blocks transaction creation.
 
 ---
 
-## 4. Production Deployment & Payment Switch Options
+## 4. Production Deployment & Payment Switch Decision
 
-Abangku may choose one of the following operational launch strategies:
+On 2026-09-19, the project owner (**Abangku**) formally authorized **Option 1: Phased Public Launch**:
 
-### Option 1: Phased Public Launch (Recommended)
-- **Settings:** `PAYMENT_MODE="disabled"`, `MIDTRANS_IS_PRODUCTION="false"`.
-- **Learner Experience:** The full 6-path Networking learning platform is deployed live on `netloka.biz.id`. All IT infrastructure labs and assessments are immediately accessible 100% free for SMK TKJ students and beginners.
-- **Benefits:** Zero financial or merchant compliance risk during initial traffic ramp-up. Allows observation of server stability, database connection pooling, and email delivery before commercial transactions.
-
-### Option 2: Production Staging Rehearsal (Pre-Live Smoke Test)
-- **Settings:** `PAYMENT_MODE="sandbox"`, `MIDTRANS_SERVER_KEY="SB-Mid-server-..."`, `MIDTRANS_IS_PRODUCTION="false"`.
-- **Learner Experience:** Platform deployed on production or isolated staging domain. Operator can run simulated QRIS payments using the Midtrans Simulator to verify real network routing before live switch.
-
-### Option 3: Full Live Commercial Activation
-- **Settings:** `PAYMENT_MODE="live"`, `MIDTRANS_IS_PRODUCTION="true"`.
-- **Prerequisites:**
-  1. Abangku provides live Midtrans Merchant credentials (`MIDTRANS_SERVER_KEY`, `MIDTRANS_CLIENT_KEY`, `MIDTRANS_MERCHANT_ID`) in `/srv/netloka/production/.env` on the VPS.
-  2. Abangku approves official IDR pricing for premium packages.
-  3. Operator legal terms (individual business operator Fikri Haikal) are published on `/terms` and `/privacy-policy`.
+- **Selected Launch Strategy:** **Option 1: Phased Public Launch**
+- **Effective Configuration:** `PAYMENT_MODE="disabled"`, `MIDTRANS_IS_PRODUCTION="false"`.
+- **Learner Experience:** The complete 6-path Networking curriculum is deployed live for all learners free of charge. All interactive labs, challenges, quizzes, and consultant simulations are accessible immediately upon sign-in.
+- **Commercial Payment Switch:** Commercial payment methods are held off. No checkout or monetary transaction is permitted while only the free Networking track is active.
+- **Future Commercial Activation:** When future premium paths are authored and priced, Abangku will provide production Midtrans merchant credentials and switch `PAYMENT_MODE="live"` under a separate operational gate.
 
 ---
 
@@ -87,3 +77,20 @@ If unexpected errors occur during production launch:
      ```
 3. **Rollback Authority:**
    - Operator Fikri Haikal (`noreply@haikalariadma.my.id`).
+
+---
+
+## 6. Release Sign-Off Record
+
+```text
+Production Release Sign-Off Record
+==================================
+Date & Time (WITA): 2026-09-19 00:30 WITA
+Authorized Strategy: Option 1 — Phased Public Launch
+Curriculum Availability: 6-Path Networking Curriculum (100% Free of Charge)
+Commerce Gate Mode: PAYMENT_MODE="disabled" (Commercial payments held off)
+Operator: Pengelola Perseorangan Platform Netloka (Fikri Haikal)
+Verified By: Anto (AI Pair) & Abangku (Owner)
+Head Git Revision: acfe941 (main) / codex/sprint-42-post-release-review
+Status: RELEASE AUTHORIZED & SYNCHRONIZED
+```

@@ -5,7 +5,7 @@
 > **Product:** Interactive IT infrastructure learning platform
 > **Primary audience:** SMK TKJ students, beginners, and learners preparing for practical network, sysadmin, security, cloud, and field-infrastructure work
 > **Core experience:** Learn → Interact → Practice → Challenge → Consultant Project  
-> **Status:** Milestones 0–14 merged/complete; Milestone 15 (Sprints 40–42) active with Sprint 40 (Persistent Security) and Sprint 41 (Staging & Recovery) complete; Sprint 42 (Midtrans Gateway & Controlled Activation) active next with live payment and production activation gated by owner authorization
+> **Status:** Milestones 0–15 merged/complete; Milestone 15 (Sprints 40–42) COMPLETE with authorized Phased Public Launch (complete 6-path Networking curriculum 100% free of charge, commercial payments held off with `PAYMENT_MODE="disabled"` until future premium tracks are authored and priced)
 > **Timezone for project logs:** WITA / GMT+8
 
 ---
@@ -791,23 +791,24 @@ Required gates remain: real published access-guarded premium content; owner-appr
 
 ---
 
-## Milestone 15 — Final Production and Commercial Release — ACTIVE / NEXT
+## Milestone 15 — Final Production and Commercial Release — ✅ COMPLETE
 
-### Sprint 40 — Persistent Security and Release Baseline — PLANNED
+### Sprint 40 — Persistent Security and Release Baseline — ✅ COMPLETE
 
-- Shared persistent session invalidation and abuse controls, safe OAuth linking, live email verification, forward-only migration rehearsal, and dependency/security review.
+- Shared persistent session invalidation (`UserSecurityState.validAfter`), PostgreSQL abuse controls (`AuthRateLimit`), safe OAuth email linking, live email verification, forward-only migration sequence (090000–095000), and dependency/security review (0 vulnerabilities) merged in PR #73–#76.
 
-### Sprint 41 — Staging, Recovery, and Operational Readiness — PLANNED
+### Sprint 41 — Staging, Recovery, and Operational Readiness — ✅ COMPLETE
 
-- Operator/privacy/payment runbooks, isolated staging, monitoring, backup/restore/rollback drills, and production-like non-payment rehearsal.
+- Operator/privacy/payment runbooks, isolated staging environment (`staging.netloka.biz.id`), containerized PostgreSQL binary backup and point-in-time restore drills, and production-like non-payment rehearsal merged in PR #77–#80.
 
-### Sprint 42 — Midtrans Gateway and Controlled Commercial Activation — GATED
+### Sprint 42 — Midtrans Gateway and Controlled Commercial Activation — ✅ COMPLETE
 
-- Refresh the exact provider contract, implement verified/idempotent webhook processing and reconciliation, prove sandbox/staging, then require separate explicit owner authorization for production deployment and live-payment activation.
+- Midtrans Dynamic QRIS provider boundary specification, server-authoritative adapter (`MidtransGateway`), timing-safe SHA-512 webhook signature verification, replay deduplication, VPS administrative reconciliation CLI (`scripts/reconcile-midtrans.ts`), and 10 end-to-end sandbox lifecycle tests merged in PR #81–#84.
+- Production launch formally authorized by Abangku on 2026-09-19: **Option 1 (Phased Public Launch)** releasing the complete 6-path Networking curriculum 100% free of charge to all learners, with commercial payments held off (`PAYMENT_MODE="disabled"`) until future premium paths are authored and priced.
 
 **Detailed plan:** [Final Production and Commercial Release](docs/superpowers/plans/2026-09-08-final-production-and-commercial-release.md).
 
-**Exit:** Staging and recovery are evidenced, commercial prerequisites are factual and approved, provider events solely control paid entitlement, and separately authorized production/live activation is observable and recoverable.
+**Exit:** Staging and recovery are evidenced, commercial prerequisites and provider adapter contracts are tested, and owner-authorized phased launch is operationalized with 0 open Critical/High defects. Milestone 15 acceptance criteria satisfied in full.
 
 # 4. Milestone Dependency Map
 
@@ -823,7 +824,7 @@ Reviewed M0–M6 foundation + merged M7 application baseline
     → M15 / S40–42: persistent security, staging/recovery, gateway and controlled release
 ```
 
-M7 application work remains historical evidence; its staging/production exit criteria are now owned by M15. Milestones 13–14 are complete (merged); Milestone 15 (Sprints 40–42) is active with Sprint 40 (Persistent Security Baseline) and Sprint 41 (Staging, Recovery, and Operational Readiness) complete. Sprint 42 (Midtrans Gateway and Controlled Commercial Activation) is active next; gateway, production deployment, and live payment remain strictly gated until authorized by Abangku.
+M7 application work remains historical evidence; its staging/production exit criteria are now owned by M15. Milestones 0–15 are fully COMPLETE. Milestone 15 (Sprints 40–42) is complete with Sprint 40 (Persistent Security Baseline), Sprint 41 (Staging, Recovery, and Operational Readiness), and Sprint 42 (Midtrans Gateway and Controlled Commercial Activation) verified. Owner authorized phased public launch with free Networking curriculum and commercial payments held off.
 
 ---
 

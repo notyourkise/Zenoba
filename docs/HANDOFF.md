@@ -1,61 +1,63 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-19 00:35 WITA**. Read `AGENTS.md` and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-09-19 13:55 WITA**. Read `AGENTS.md` and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
 
 ## 1. Current Task and Authority
 
 - Product: Interactive IT infrastructure learning platform; Networking is the first available curriculum.
+- Platform Status: **LIVE PRODUCTION DEPLOYED & FULLY OPERATIONAL** (`https://netloka.biz.id`).
 - Active milestone/sprint:
-  - **Milestone 15 (Final Production and Commercial Release):** **COMPLETE**
-  - **Sprint 40 (Persistent Security and Release Baseline):** **COMPLETE & MERGED** (PR #73, #74, #75, #76)
-  - **Sprint 41 (Staging, Recovery, and Operational Readiness):** **COMPLETE & MERGED** (PR #77, #78, #79, #80)
-  - **Sprint 42 (Midtrans Gateway and Controlled Commercial Activation):** **COMPLETE** (Tasks 42.1–42.4 merged; Task 42.5 complete in PR review)
-- Task: **Task 42.5: Complete post-release smoke/monitoring/recovery review and synchronize evidence** (Final task of Milestone 15 / Sprint 42).
-- Scope delivered in Task 42.5:
-  - Recorded owner (Abangku) formal launch decision: **Option 1: Phased Public Launch**. Complete 6-path Networking curriculum (Network Foundations, IPv4 & Subnetting, Switching & Local Networks, Routing & Network Services, Wireless & Troubleshooting, Network Planning & Cabling) is released **100% free of charge** for all learners.
-  - Commercial payment methods are held off with `PAYMENT_MODE="disabled"`. Other future curriculum paths (CCTV, Fiber Optic, MikroTik, Linux, etc.) remain coming soon and cannot be checked out until authored and priced.
-  - Updated operational runbooks (`docs/operations/production-release-and-commercial-activation.md`, `docs/operations/midtrans-release-runbook.md`, `docs/operations/staging-verification.md`) with the authorized phased launch gate and release sign-off.
-  - Reconciled `docs/TECHNICAL_DEBT.md` achieving 0 critical/high technical debt items across the entire platform.
-  - Updated `ROADMAP.md` and `PLAN.md` marking Sprint 42 and Milestone 15 as fully COMPLETE.
-- Phase: Task 42.5 completed, full gates verified locally, ready for commit, push, PR creation, and owner review/merge.
+  - **Milestones 0–15:** **100% COMPLETE & MERGED**
+  - **Production Deployment:** **COMPLETE & OPERATIONAL** (Option 1: Phased Public Launch with free Networking curriculum).
+- Scope delivered in Production Deployment:
+  - Initialized isolated production stack at `/srv/netloka/production` on VPS (`76.13.19.249`).
+  - Containerized Docker Compose stack (`compose.production.yml`) running PostgreSQL 16 (`netloka-production-db-1`) on internal network and Next.js 16 (`netloka-production-app-1`) on loopback `127.0.0.1:3002`.
+  - Fixed invisible UTF-8 BOM character in `prisma/migrations/20260908094000_session_security/migration.sql`.
+  - Applied all 6 forward-only database schema migrations to production database.
+  - Seeded full 6-path Networking curriculum, IT Consultant cases, and commerce catalog (`npm run db:seed`).
+  - Created automated daily backup cron at 03:00 WITA (`scripts/backup-production-postgres.sh`).
+  - Installed host Nginx reverse proxy configuration (`/etc/nginx/sites-available/netloka.biz.id.conf`).
+  - Acquired and installed Let's Encrypt TLS/SSL certificates via Certbot for `netloka.biz.id`.
+  - Live public endpoint verified: `https://netloka.biz.id/api/health` returns HTTP 200 OK with `"status":"healthy"`, `"database":{"status":"connected","latencyMs":1-2}`.
+  - Zero disruption to non-Netloka projects (e.g. `/opt/sigap`, `sigap_*` containers, MariaDB).
 
 ## 2. Verified Repository Checkpoint
 
 | Item | Verified state |
 | --- | --- |
-| Main checkout | `C:/laragon/www/netloka`, clean `main` at `acfe941` |
-| Origin | `origin/main` at `acfe941`; local `main` synchronized |
-| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-sprint-42-post-release-review` |
-| Task branch | `codex/sprint-42-post-release-review` |
-| Base commit | `acfe941` (Merge pull request #84 from notyourkise/codex/sprint-42-owner-authorization) |
+| Main checkout | `C:/laragon/www/netloka`, clean `main` at `19fa9c7` |
+| Origin | `origin/main` at `19fa9c7`; local `main` synchronized |
+| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-production-deploy-manifests` |
+| Task branch | `codex/production-deploy-manifests` (PR #86 open) |
+| Base commit | `19fa9c7` (Merge pull request #85 from notyourkise/codex/sprint-42-post-release-review) |
 | Retained worktrees | `C:/laragon/www/netloka/.worktrees/codex-fix-m0-sprint-0` (`docs/staging-progress`, do not delete) |
-| Background dev server | Stopped |
+| Production VPS Root | `/srv/netloka/production` on `76.13.19.249` |
+| Live Domain | `https://netloka.biz.id` |
 
 ## 3. Milestone & Sprint Progress
 
-- **Milestones 0–14:** **COMPLETE & MERGED**
-- **Milestone 15 (Final Production and Commercial Release):** **COMPLETE**
-  - **Sprint 40 (Persistent Security and Release Baseline):** **COMPLETE & MERGED** (PR #73–#76)
-  - **Sprint 41 (Staging, Recovery, and Operational Readiness):** **COMPLETE & MERGED** (PR #77–#80)
-  - **Sprint 42 (Midtrans Gateway and Controlled Commercial Activation):** **COMPLETE**
-    - [x] Task 42.1: Refresh and approve the exact Dynamic QRIS/provider boundary from current official documentation.
-    - [x] Task 42.2: Implement the server-only adapter, verified/idempotent webhook processing, and VPS reconciliation CLI.
-    - [x] Task 42.3: Verify sandbox and staging success/failure/expiry/replay/reconciliation flows.
-    - [x] Task 42.4: Request separate explicit owner authorization for production deployment and live-payment activation.
-    - [x] Task 42.5: Complete post-release smoke/monitoring/recovery review and synchronize evidence.
+- **Milestones 0–15:** **COMPLETE & MERGED**
+- **Production Go-Live:** **OPERATIONAL**
+  - [x] Create production Docker Compose manifest and Nginx virtual host.
+  - [x] Fix migration BOM and apply all 6 database migrations.
+  - [x] Seed full 6-path Networking curriculum in PostgreSQL.
+  - [x] Configure automated daily database backup cron.
+  - [x] Issue Let's Encrypt TLS certificate via Certbot.
+  - [x] Verify live health API and landing page over HTTPS.
 
 ## 4. Verification Evidence and Limits
 
+- `https://netloka.biz.id/api/health`: **HTTP 200 OK** (status: healthy, database: connected, responseTime: 1-2ms).
+- `https://netloka.biz.id/`: **HTTP 200 OK** (landing page rendered with full dark theme & animations).
+- `https://netloka.biz.id/terms`: **HTTP 200 OK**.
+- `https://netloka.biz.id/privacy-policy`: **HTTP 200 OK**.
 - `npm run typecheck`: **Passed** (0 errors).
 - `npm run lint`: **Passed** (0 warnings/errors).
-- `npm test`: **Passed** (148 test files / 918 tests passed, 100%).
-- `npm run build`: **Passed** (Next.js 16.3.2 production build succeeded, 55 routes compiled).
 - `git diff --check`: **Passed** (0 whitespace errors).
 
 ## 5. Next Actions
 
-1. Stage and commit Task 42.5 changes to `codex/sprint-42-post-release-review`.
-2. Push branch to GitHub via `git push -u origin codex/sprint-42-post-release-review`.
-3. Open PR via `gh pr create` targeting `main`.
-4. Present final PR to Abangku for review and merge.
-5. After merge by Abangku, sync `main` (`git pull --ff-only origin main`) and safely remove task worktree.
+1. Review and merge PR #86 (`codex/production-deploy-manifests`) into `main`.
+2. Sync `main` and clean up `codex-production-deploy-manifests` worktree.
+3. Announce / share `https://netloka.biz.id` with SMK TKJ learners!
+

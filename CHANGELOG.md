@@ -38,6 +38,23 @@ All notable project changes are recorded here.
 
 # 2026-09-19
 
+- [2026-09-19 13:55 WITA] [DEPLOY] [Production Go-Live]
+  Completed live VPS production deployment for Netloka (https://netloka.biz.id):
+  - Architecture & Infrastructure:
+    - Initialized isolated production root at `/srv/netloka/production` (owned by `deploy:deploy`, mode `700`).
+    - Configured containerized production Compose stack (`compose.production.yml`) with PostgreSQL 16 (`netloka-production-db-1`) on isolated internal network and application (`netloka-production-app-1`) listening on loopback `127.0.0.1:3002`.
+    - Generated cryptographically secure random secrets for `DATABASE_URL`, `POSTGRES_PASSWORD`, `AUTH_SECRET`, and `NEXTAUTH_SECRET` in `/srv/netloka/production/.env` (mode `600`).
+    - Zero interference or modifications to non-Netloka projects (such as `/opt/sigap`) or staging (`/srv/netloka/staging`).
+  - Database & Schema Migrations:
+    - Fixed invisible UTF-8 BOM character in `prisma/migrations/20260908094000_session_security/migration.sql`.
+    - Successfully applied all 6 forward-only database migrations in sequence to PostgreSQL 16.
+    - Successfully seeded full 6-path Networking curriculum, IT Consultant cases, and commerce catalog (`npm run db:seed`).
+    - Executed initial automated database binary dump (`scripts/backup-production-postgres.sh`) and installed daily 03:00 WITA cron schedule.
+  - Reverse Proxy & Edge Security:
+    - Installed host Nginx configuration (`/etc/nginx/sites-available/netloka.biz.id.conf`) proxying to `http://127.0.0.1:3002`.
+    - Acquired and installed automated Let's Encrypt TLS/SSL certificate via Certbot for `netloka.biz.id`.
+    - Verified full HTTPS transport with HTTP/1.1 200 OK, active CSP, and `database.status: "connected"` with 1-2ms response time on `/api/health`.
+
 - [2026-09-19 00:35 WITA] [RELEASE] [Milestone 15 / Sprint 42 / Task 42.5]
   Completed post-release review and synchronized evidence for Milestone 15 completion (Task 42.5):
   - Owner Launch Decision & Phased Activation:

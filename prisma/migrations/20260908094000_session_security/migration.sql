@@ -1,4 +1,4 @@
-﻿-- CreateTable
+-- CreateTable
 CREATE TABLE "user_security_states" (
     "userId" TEXT NOT NULL,
     "validAfter" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

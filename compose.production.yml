@@ -1,0 +1,70 @@
+name: netloka-production
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    env_file: ${PRODUCTION_ENV_FILE:?PRODUCTION_ENV_FILE must point to the external production environment file}
+    volumes:
+      - netloka_production_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    networks:
+      - netloka_production_internal
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: ${PRODUCTION_ENV_FILE:?PRODUCTION_ENV_FILE must point to the external production environment file}
+    environment:
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+    ports:
+      - 127.0.0.1:3002:3000
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3000/api/health').then((response) => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    networks:
+      - netloka_production_internal
+      - netloka_production_edge
+
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    env_file: ${PRODUCTION_ENV_FILE:?PRODUCTION_ENV_FILE must point to the external production environment file}
+    command: npm run db:deploy
+    profiles:
+      - maintenance
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - netloka_production_internal
+
+networks:
+  netloka_production_internal:
+    internal: true
+  netloka_production_edge:
+    name: netloka_production_edge
+    driver: bridge
+
+volumes:
+  netloka_production_postgres_data:

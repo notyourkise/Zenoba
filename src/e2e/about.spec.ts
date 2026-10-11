@@ -13,14 +13,13 @@ for (const width of [390, 1440]) {
     ).toHaveCount(1);
     await expect(
       page.getByRole("link", { name: "Kembali ke Beranda" }),
-    ).toHaveAttribute("href", "/");
-    await expect(page.getByRole("link", { name: "Terms" })).toHaveAttribute(
-      "href",
-      "/terms",
-    );
+    ).toHaveCount(0);
+    await expect(page.getByRole("region", { name: "Nilai dan produk" })).toHaveCount(0);
+    await expect(page.getByRole("navigation", { name: "Navigasi Tentang Zenoba" })).toHaveCount(0);
+    await expect(page.getByRole("link", { name: "Terms" })).toHaveCount(0);
     await expect(
       page.getByRole("link", { name: "Privacy Policy" }),
-    ).toHaveAttribute("href", "/privacy-policy");
+    ).toHaveCount(0);
     await expect(page.getByRole("dialog")).toHaveCount(0);
 
     const fitsViewport = await page.evaluate(

@@ -38,6 +38,12 @@ All notable project changes are recorded here.
 
 # 2026-10-11
 
+- [2026-10-11 21:52 WITA] [REMOVED] [Zenoba Rebrand / Application Identity / About bottom content]
+  Removed the entire owner-pictured `Nilai dan produk` section and bottom Home/Terms/Privacy navigation from About. The page now ends after the three-planet history; shared navigation, vision/mission, journey interactions, homepage footer, and legal routes remain intact. Updated unit/E2E acceptance and plan to supersede the initial bottom-link requirement.
+  Files/areas: `src/app/about/page.tsx`, `src/app/about/page.test.tsx`, `src/e2e/about.spec.ts`, `PLAN.md`, `docs/HANDOFF.md`
+  Validation: baseline 4/4; removal test failed before implementation; final About/Journey 11/11, lint/typecheck/diff checks and Docker build passed with existing warnings. Rebuilt local app; focused Chromium E2E 2/2 passed at 390px/1440px, HTTP 200 and no horizontal overflow. No full suite/WebKit/CI, GitHub publication, or VPS changes.
+  Git: pending (local changes based on b2d5507)
+
 - [2026-10-11 21:48 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / Outgoing email]
   Set the owner-selected existing `hello@zenoba.tech` mailbox as example and local/legacy production Compose SMTP user/from defaults. Wired local SMTP environment passthrough and reapplied only the local app container. Kept founder exclusively for incoming customer support, and preserved environment-driven reset sender, token URL, and expiry. Empty SMTP password avoids a fake usable credential; actual delivery remains unconfigured.
   Files/areas: `.env.example`, `docker-compose.yml`, `docker-compose.prod.yml`, `README.md`, `PLAN.md`, `docs/HANDOFF.md`

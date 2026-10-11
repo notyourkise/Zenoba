@@ -44,18 +44,16 @@ describe("Zenoba About page", () => {
     expect(screen.getByText("Oktober 2026")).toBeInTheDocument();
   });
 
-  it("keeps the page public-facing with home and legal navigation", () => {
+  it("ends About after the history without the values section or bottom navigation", () => {
     render(<AboutPage />);
 
-    expect(screen.getByRole("link", { name: "Kembali ke Beranda" })).toHaveAttribute(
-      "href",
-      "/",
-    );
-    expect(screen.getByRole("link", { name: "Terms" })).toHaveAttribute("href", "/terms");
-    expect(screen.getByRole("link", { name: "Privacy Policy" })).toHaveAttribute(
-      "href",
-      "/privacy-policy",
-    );
+    expect(screen.queryByRole("region", { name: "Nilai dan produk" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("navigation", { name: "Navigasi Tentang Zenoba" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "Kembali ke Beranda" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "Terms" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "Privacy Policy" })).not.toBeInTheDocument();
+    const journey = screen.getByRole("region", { name: "Perjalanan Zenoba" });
+    expect(journey.parentElement?.lastElementChild).toBe(journey);
   });
 
   it("provides Zenoba-specific metadata", () => {

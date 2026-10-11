@@ -1,6 +1,6 @@
 # Zenoba — Agent Handoff
 
-Last updated: **2026-10-11 21:48 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-10-11 21:52 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
 
 ## Current Task and Authority
 
@@ -14,6 +14,9 @@ Last updated: **2026-10-11 21:48 WITA**. Read `AGENTS.md` and verify live Git, C
 - Local application changes and local Docker rebuilds are implemented. No production application, domain, DNS, OAuth, VPS, production deployment, or GitHub remote mutation has been performed for this rebrand.
 
 ## Verified Repository Checkpoint
+
+- Latest About refinement: owner requested removing all pictured bottom content: `Nilai dan produk` and the Home/Terms/Privacy navigation. About now ends after `ZenobaHistoryJourney`; vision/mission, history, shared header, homepage footer, and legal routes remain unchanged. This supersedes the original About bottom-link acceptance criterion. Locally implemented on verified clean base `b2d5507` in the existing D-drive task worktree; no remote/production mutation.
+- Verification: baseline About 4/4; updated removal assertion failed on the still-present section before implementation; final About/Journey 11/11, lint, typecheck, Docker production build, and diff checks passed. Existing Docker secret-ENV, middleware/Edge, and build-time catalogue warnings remain. Rebuilt local app; Chromium About E2E passed 2/2 at 390px and 1440px with HTTP 200, removed content absent, and no horizontal overflow. Only focused tests; no full suite/WebKit/CI, real email, or VPS change. Header remains the return-navigation mechanism; legal pages remain accessible from homepage footer.
 
 - Outgoing-email checkpoint: owner confirmed an existing `hello@zenoba.tech` mailbox and selected it for automatic messages. `founder@zenoba.tech` remains incoming complaints/support only; this supersedes the earlier unchanged-sender boundary for local configuration. Example and local/legacy production Compose defaults now use hello; local app settings were reapplied without rebuilding the unchanged image. No external mailbox, DNS, VPS, or production configuration was modified. SMTP password is absent in the local container, so live delivery remains unconfigured/unverified. Reset sender code stays environment-driven; URL, token, and expiry are unchanged.
 - Verification on uncommitted changes based on `cd0917b`: baseline and final reset-email/reset-route/legal-contact tests passed 12/12; `docker compose config --quiet`, `git diff --check`, and local health HTTP 200 passed. Selected container fields confirm SMTP user/from are hello; password presence was checked without printing credentials. No application source change, build, full E2E/WebKit, CI, real email, or remote publication. Configure the hello password privately in an ignored `.env` in this D-drive worktree, reapply local Compose, and obtain approval plus a recipient before an actual delivery test.

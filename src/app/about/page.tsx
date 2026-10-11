@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { AppHeader } from "@/components/navigation/app-header";
 import { ZenobaHistoryJourney } from "@/components/marketing/it-infrastructure-journey";
 
@@ -55,36 +54,6 @@ export default function AboutPage() {
 
           <ZenobaHistoryJourney />
 
-          <section className={sectionClass} aria-labelledby="zenoba-values">
-            <h2 id="zenoba-values" className="text-2xl font-bold text-white">
-              Nilai dan produk
-            </h2>
-            <div className="mt-4 space-y-4 leading-7 text-slate-300">
-              <p>
-                Zenoba mengutamakan praktik yang jelas, simulasi yang aman, dan umpan
-                balik yang dapat dipahami.
-              </p>
-              <p>
-                Networking adalah domain pembelajaran yang tersedia melalui Learn, Labs,
-                Challenges, dan Consultant.
-              </p>
-            </div>
-          </section>
-
-          <nav
-            aria-label="Navigasi Tentang Zenoba"
-            className="flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold"
-          >
-            <Link href="/" className="text-sky-300 underline-offset-4 hover:text-sky-200 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400">
-              Kembali ke Beranda
-            </Link>
-            <Link href="/terms" className="text-slate-200 underline-offset-4 hover:text-white hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400">
-              Terms
-            </Link>
-            <Link href="/privacy-policy" className="text-slate-200 underline-offset-4 hover:text-white hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400">
-              Privacy Policy
-            </Link>
-          </nav>
         </article>
       </main>
     </div>

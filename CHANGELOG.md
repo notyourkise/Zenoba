@@ -38,11 +38,17 @@ All notable project changes are recorded here.
 
 # 2026-10-11
 
+- [2026-10-11 17:18 WITA] [REVIEW] [Zenoba Rebrand / Application Identity / Task 5]
+  Started the isolated release gate. Dependency installation, Prisma generation, lint, typecheck, unit tests, and production build are locally verified; full E2E is blocked because the required local PostgreSQL test database at `127.0.0.1:5433` is unavailable. The runner was stopped without starting, migrating, or changing any database.
+  Files/areas: release verification only; no application files changed
+  Validation: focused Zenoba E2E Chromium 10/10 passed earlier; full E2E reached database-dependent cases and failed due to `P1001` database unreachable
+  Git: pending documentation checkpoint
+
 - [2026-10-11 17:13 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / Task 4]
   Rebranded current source, tests, package metadata, local/staging configuration, and current product documentation to Zenoba; added a reviewed allowlist for historical and production-continuity Netloka references.
   Files/areas: `src`, `scripts`, local/staging Compose and examples, root product docs, `docs/operations/zenoba-legacy-reference-allowlist.md`
   Validation: active-reference inventory contains only allowlisted categories; Prisma generation, lint, typecheck, full unit suite, and production build passed with safe local configuration
-  Git: pending
+  Git: `7648b60`
 
 - [2026-10-11 17:09 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / Task 3]
   Rebranded password-reset mail, authentication prompts, legal documents, and the new TOTP enrollment label to Zenoba; corrected legal wording to describe the live service without inventing a company or launch date.

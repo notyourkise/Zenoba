@@ -27,7 +27,7 @@ export async function createAndSignInDeveloper(
 ): Promise<TestDeveloper> {
   const timestamp = Date.now();
   const randomSuffix = Math.floor(1000 + Math.random() * 9000);
-  const email = options?.email || `dev_${timestamp}_${randomSuffix}@netloka.test`;
+  const email = options?.email || `dev_${timestamp}_${randomSuffix}@zenoba.test`;
   const password = options?.password || "Password123!";
   const name = options?.name || `Dev ${randomSuffix}`;
 
@@ -73,7 +73,7 @@ export async function createAndSignInDeveloper(
   await page.waitForURL((url) => url.pathname.includes("/developer"), {
     timeout: 30000,
   });
-  await expect(page.getByText("Netloka Developer Workspace").first()).toBeVisible({ timeout: 15000 });
+  await expect(page.getByText("Zenoba Developer Workspace").first()).toBeVisible({ timeout: 15000 });
 
   return {
     id: userId,
@@ -107,7 +107,7 @@ export async function createInternalLearner(
 ) {
   const timestamp = Date.now();
   const randomSuffix = Math.floor(1000 + Math.random() * 9000);
-  const email = options?.email || `internal_${timestamp}_${randomSuffix}@netloka.test`;
+  const email = options?.email || `internal_${timestamp}_${randomSuffix}@zenoba.test`;
   const password = options?.password || "Password123!";
   const name = options?.name || `Internal Tester ${randomSuffix}`;
 

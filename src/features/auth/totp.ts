@@ -129,7 +129,7 @@ export function verifyTotpCode(
 export function generateTotpUri(
   email: string,
   secret: string,
-  issuer = "Netloka",
+  issuer = "Zenoba",
 ): string {
   const encodedIssuer = encodeURIComponent(issuer);
   const encodedEmail = encodeURIComponent(email);

@@ -1,9 +1,9 @@
-﻿import * as React from "react";
+import * as React from "react";
 import { requireDeveloperActor } from "@/features/authorization/guards";
 import { getAssessmentAnalyticsOverview } from "@/features/developer/overview/queries";
 
 export const metadata = {
-  title: "Analitik Pembelajaran — Developer Netloka",
+  title: "Analitik Pembelajaran — Developer Zenoba",
 };
 
 export default async function DeveloperLearningPage() {

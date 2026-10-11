@@ -222,7 +222,7 @@ export function AuthModal({
 
         <div className="pr-10">
           <h2 id="auth-modal-title" className="text-xl font-bold tracking-tight">
-            {isSignIn ? "Sign in to Netloka" : "Create your Netloka account"}
+            {isSignIn ? "Sign in to Zenoba" : "Create your Zenoba account"}
           </h2>
           <p className="mt-1 text-sm leading-relaxed text-slate-400">
             {isSignIn
@@ -417,7 +417,7 @@ export function AuthModal({
         </p>
 
         <p className="mt-6 text-center text-sm text-slate-400">
-          {isSignIn ? "New to Netloka?" : "Already have an account?"}{" "}
+          {isSignIn ? "New to Zenoba?" : "Already have an account?"}{" "}
           <Link
             href={authHref(isSignIn ? "sign-up" : "sign-in", callbackUrl)}
             className="font-semibold text-white underline! underline-offset-4 decoration-white hover:text-sky-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"

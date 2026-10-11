@@ -20,7 +20,7 @@ export function NatVisualizer() {
       device: "PC Klien 2",
       insideLocal: "192.168.1.20:49812",
       insideGlobal: "203.0.113.5:10002",
-      outsideGlobal: "103.20.5.10:443 (Netloka)",
+      outsideGlobal: "103.20.5.10:443 (Zenoba)",
       protocol: "TCP",
     },
     {

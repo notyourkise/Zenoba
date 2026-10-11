@@ -127,7 +127,7 @@ export function DeveloperShell({ actor, children }: DeveloperShellProps) {
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-bold tracking-tight text-white text-base sm:text-lg">
-                  Netloka Developer Workspace
+                  Zenoba Developer Workspace
                 </span>
                 <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
                   DEVELOPER

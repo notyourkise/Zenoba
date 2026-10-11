@@ -68,7 +68,7 @@ export function LearnerMobileDrawer({
             href="/dashboard"
             className="font-black text-lg tracking-wider text-white block"
           >
-            NETLOKA
+            ZENOBA
           </Link>
           <span className="text-[10px] text-zinc-400 block -mt-0.5">
             Learn · Practice · Connect
@@ -108,7 +108,7 @@ export function LearnerMobileDrawer({
             <div className="h-16 flex items-center justify-between px-5 border-b border-blue-900/20">
               <div>
                 <span className="font-black text-lg tracking-wider text-white block">
-                  NETLOKA
+                  ZENOBA
                 </span>
                 <span className="text-[10px] text-zinc-400 block -mt-0.5">
                   Learn · Practice · Connect
@@ -196,7 +196,7 @@ export function LearnerMobileDrawer({
               >
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-bold text-white truncate">
-                    {user?.name || user?.email?.split("@")[0] || "Dev Netloka"}
+                    {user?.name || user?.email?.split("@")[0] || "Dev Zenoba"}
                   </p>
                   <p className="text-xs text-zinc-400 truncate">
                     {user?.headline || (user?.role === "ADMIN" ? "Administrator" : "Developer")}

@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Netloka Automated Database Backup Script
+# Zenoba Automated Database Backup Script
 # Usage: ./scripts/backup-db.sh
 
 BACKUP_DIR="${BACKUP_DIR:-./backups}"
 mkdir -p "$BACKUP_DIR"
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+# Legacy production defaults are private identifiers, not public branding.
 BACKUP_FILE="${BACKUP_DIR}/netloka_backup_${TIMESTAMP}.sql.gz"
 CONTAINER_NAME="${DB_CONTAINER:-netloka-db}"
 DB_USER="${POSTGRES_USER:-netloka}"

@@ -2,7 +2,7 @@ import * as React from "react";
 import { getSystemHealth } from "@/features/developer/system/health";
 
 export const metadata = {
-  title: "Kesehatan Sistem — Developer Netloka",
+  title: "Kesehatan Sistem — Developer Zenoba",
 };
 
 export default async function DeveloperSystemPage() {

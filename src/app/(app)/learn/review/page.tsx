@@ -3,7 +3,7 @@ import { getLearnerReviewSession } from "@/features/learning/review-service";
 import { ReviewSessionClient } from "@/features/learning/components/review-session";
 
 export const metadata = {
-  title: "Review Berkala (Spaced Repetition) — Netloka",
+  title: "Review Berkala (Spaced Repetition) — Zenoba",
   description:
     "Perkuat retensi dan penguasaan sasaran kompetensi kurikulum jaringan melalui jadwal review berkala yang deterministik.",
 };

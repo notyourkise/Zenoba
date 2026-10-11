@@ -53,8 +53,8 @@ const mockListLessonDrafts = vi.mocked(listLessonDrafts);
 
 const mockActor: Actor = {
   id: "user-1",
-  email: "learner@netloka.biz.id",
-  name: "Learner Netloka",
+  email: "learner@zenoba.tech",
+  name: "Learner Zenoba",
   role: "LEARNER",
   authVersion: 1,
   twoFactorEnabled: false,

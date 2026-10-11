@@ -39,7 +39,7 @@ export default async function PortfolioPage() {
           Portofolio Proyek Konsultan Saya
         </h1>
         <p className="text-sm text-gray-600 dark:text-gray-400">
-          Daftar seluruh proposal dan rancangan infrastruktur jaringan yang telah Anda ajukan kepada klien di Netloka dengan rekam jejak penilaian multi-dimensi.
+          Daftar seluruh proposal dan rancangan infrastruktur jaringan yang telah Anda ajukan kepada klien di Zenoba dengan rekam jejak penilaian multi-dimensi.
         </p>
       </div>
 
@@ -111,7 +111,7 @@ export default async function PortfolioPage() {
                       {proj.case?.title || "Proyek Jaringan"}
                     </h3>
                     <p className="text-xs text-gray-500">
-                      Klien: <strong>{proj.case?.clientName || "Klien Netloka"}</strong> &bull; Pagu Anggaran: Rp {(proj.case?.budget || 0).toLocaleString("id-ID")}
+                      Klien: <strong>{proj.case?.clientName || "Klien Zenoba"}</strong> &bull; Pagu Anggaran: Rp {(proj.case?.budget || 0).toLocaleString("id-ID")}
                     </p>
                   </div>
 

@@ -22,7 +22,7 @@ describe("FourPillarsEcosystem", () => {
     const merkuriusPlanet = screen.getByLabelText(/Planet Merkurius - Pilar 01 Learn/i);
     expect(merkuriusPlanet).toBeInTheDocument();
 
-    const sunOrb = screen.getByLabelText(/Matahari - Pusat Tata Surya Pembelajaran Netloka/i);
+    const sunOrb = screen.getByLabelText(/Matahari - Pusat Tata Surya Pembelajaran Zenoba/i);
     expect(sunOrb).toBeInTheDocument();
   });
 });

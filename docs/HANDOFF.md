@@ -1,63 +1,83 @@
-# Netloka — Agent Handoff
+# Zenoba — Agent Handoff
 
-Last updated: **2026-09-19 13:55 WITA**. Read `AGENTS.md` and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-10-12 01:50 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
 
-## 1. Current Task and Authority
+## Current Task and Authority
 
-- Product: Interactive IT infrastructure learning platform; Networking is the first available curriculum.
-- Platform Status: **LIVE PRODUCTION DEPLOYED & FULLY OPERATIONAL** (`https://netloka.biz.id`).
-- Active milestone/sprint:
-  - **Milestones 0–15:** **100% COMPLETE & MERGED**
-  - **Production Deployment:** **COMPLETE & OPERATIONAL** (Option 1: Phased Public Launch with free Networking curriculum).
-- Scope delivered in Production Deployment:
-  - Initialized isolated production stack at `/srv/netloka/production` on VPS (`76.13.19.249`).
-  - Containerized Docker Compose stack (`compose.production.yml`) running PostgreSQL 16 (`netloka-production-db-1`) on internal network and Next.js 16 (`netloka-production-app-1`) on loopback `127.0.0.1:3002`.
-  - Fixed invisible UTF-8 BOM character in `prisma/migrations/20260908094000_session_security/migration.sql`.
-  - Applied all 6 forward-only database schema migrations to production database.
-  - Seeded full 6-path Networking curriculum, IT Consultant cases, and commerce catalog (`npm run db:seed`).
-  - Created automated daily backup cron at 03:00 WITA (`scripts/backup-production-postgres.sh`).
-  - Installed host Nginx reverse proxy configuration (`/etc/nginx/sites-available/netloka.biz.id.conf`).
-  - Acquired and installed Let's Encrypt TLS/SSL certificates via Certbot for `netloka.biz.id`.
-  - Live public endpoint verified: `https://netloka.biz.id/api/health` returns HTTP 200 OK with `"status":"healthy"`, `"database":{"status":"connected","latencyMs":1-2}`.
-  - Zero disruption to non-Netloka projects (e.g. `/opt/sigap`, `sigap_*` containers, MariaDB).
+- Product: practical IT infrastructure learning platform; Networking is the currently available learning domain.
+- Current requested work: a full public rebrand from Netloka to Zenoba with a separate public `/about` page, while retaining learner behavior and removing the final homepage CTA so FAQ flows directly into the footer.
+- Approved scope: Zenoba is independently operated by solo founder Fikri Haikal. The owner verified that Netloka began in May 2026, Zenoba was founded individually in 2026, and Zenoba became the new identity in October 2026. No legal-entity, user-count, or unsupported corporate claim may be published.
+- Latest approved story: information overload leaves beginners unsure where to start; the product provides direction through roadmaps and career paths. Netloka was independently started in May 2026, then renamed Zenoba in October 2026 for a fresher, more distinctive identity. The origin chapter has no invented date. Only Mercury, Saturnus, and Jupiter remain on a shortened luminous orbit, each showing its planet name and chapter heading/date. History descriptions appear in the actual IT Journey `CheckpointPopup`, above desktop planets and inline on mobile. Hover/focus reveals, tap/click toggles, Escape or `Tutup` dismisses. Permanent history cards remain absent.
+- Approved safety boundary: the first cutover preserves PostgreSQL data, Docker volumes/networks, backups, and `/srv/netloka`; the legacy domain will later redirect to `zenoba.tech`.
+- Latest approved legal refinement: Privacy Policy uses general user-facing language, retaining meaningful disclosures and individual controller identity, without database/VPS/SMTP/OAuth-token/rate-limit internals or a blanket 30-day response claim. Public privacy, security, operational, account, and Terms contact is `founder@zenoba.tech`. Terms and Privacy disclose the missing parental-consent mechanism; no registration/consent behavior changed. The owner selected an existing `hello@zenoba.tech` mailbox for automatic email, reflected in local/example defaults; live delivery and monitoring remain unverified.
+- Task phase: Application Identity Tasks 1–4 plus the owner-approved About/CTA refinement are locally implemented and locally verified. The Journey now uses a full-width orbit with unboxed milestones; Visi/Misi use direct headings without eyebrow labels. The owner explicitly deferred WebKit and long-running E2E investigation from the current rebrand goal; local Docker smoke validation is complete. This does not authorize a merge, local-folder move, or domain/VPS change.
+- Local application changes and local Docker rebuilds are implemented. Owner-authorized branch publication and draft PR #88 have occurred; no production application, domain, DNS, OAuth, VPS, production deployment, merge, or folder move.
 
-## 2. Verified Repository Checkpoint
+## Verified Repository Checkpoint
+
+- Publication: https://github.com/notyourkise/NetLoka/pull/88 is OPEN/DRAFT, base main; verified application head `da457b7d0c31294846ea930f8018ec7686badd21`, MERGEABLE but UNSTABLE while CI run `38161308947` is in progress. This documentation checkpoint is a new commit/push; inspect the resulting live PR head and fresh CI, not the earlier run. No ready-for-user-review claim until all five CI jobs succeed. User owns merge; retain worktree/private ignored data. No folder rename or VPS/domain operation.
+- Full-branch review closure on uncommitted changes based on `9e9deab`: no Critical finding; High backup compatibility and Medium private cookie/history findings corrected. Preserve `netloka_dev_elevation` and original staging history. Real-cookie route regression failed before correction, then focused developer 43/43, full unit 154 files/939 tests, lint/typecheck, Docker production build and diff checks passed. Existing build warnings remain; local full E2E/WebKit and SMTP delivery deferred. Push/PR/CI are the next authorized steps; no readiness or merge claim yet.
+- Latest authority: owner deferred SMTP testing to the separately authorized VPS release, then authorized PR preparation/publication and CI inspection. SMTP remains configured but authentication/delivery UNVERIFIED; ISP filtering is only a hypothesis. Do not retry local SMTP, create accounts/reset tokens, move folders, deploy, or merge for the owner.
+- Publication preparation on clean `08fd1e0`: fetched origin/main=`7fdd7af`, verified gh account/repository and no existing branch PR. Only CI workflow is ci.yml: lint/typecheck, unit tests, Chromium E2E, production build, quality gate. No WebKit in CI; local full E2E remains owner-deferred. Credential scan confirms private SMTP password absent from tracked HEAD, `.env` ignored and excluded by .dockerignore; no dependency version or schema contract changes.
+- Final full-diff inspection found generic backup/restore defaults still renamed despite legacy production containers remaining unchanged. Restored baseline netloka container/user/database and backup prefix/retention pattern, preserving operator overrides. Two behavioral shell tests failed before correction and passed afterward using Docker function test doubles and temporary files under this D-drive worktree, never a real database. These scripts now differ from main only in comments. Full branch publication awaits final validation/review; no PR/CI result recorded yet.
+
+### Earlier SMTP and local verification checkpoints
+
+- Latest SMTP diagnosis after `76d2a0f`: owner registered the requested recipient; fresh read-only DB check confirms an eligible local password account (supersedes earlier missing-account observations below). Windows and Docker IPv4 TCP probes to `smtp.hostinger.com` timed out on both 465 and 587 with seven-second bounds. Local DNS, Google DoH, and Cloudflare DoH agree on the same A record; no AAAA record was returned. TCP 443 to the same host connects. No matching enabled outbound-block rule appeared in the limited Windows firewall check; this does not rule out other security/network filters or identify who drops SMTP traffic.
+- Failure boundary is TCP connectivity before TLS/authentication; password validity and email delivery remain unverified. Official Hostinger documentation confirms smtp.hostinger.com with SSL 465 or STARTTLS 587. Do not change credentials, TLS policy, app code, DNS, or firewall based on this timeout. Next: owner switches to a different trusted connection (e.g. phone hotspot), then repeat bounded SMTP verify and one real local reset request if reachable. No reset request/token, message, password change, or VPS/external configuration mutation was performed in this diagnosis.
+
+- SMTP credential follow-up after `375298e`: owner explicitly authorized using the supplied credential despite advice to rotate it after chat exposure. Stored only in ignored D-drive `.env`, single-quoted to preserve literal dollar characters. Recreated only the local app without a rebuild; selected container checks confirm hello sender/user and nonempty correctly preserved password, without printing it. Never stage the file; rotate before production use.
+- SMTP authentication is NOT verified: standalone image does not expose the mailer package to an ad-hoc Node require, so the installed host mailer was used with the private file and 10-second connection/greeting/socket limits. Its verify call returned ETIMEDOUT, not an authentication verdict. No mail sent. Fresh read-only DB check still finds no eligible local password account for the requested recipient. Next: diagnose SMTP connectivity and have owner register the local test account; only then perform one approved forgot-password request. Do not create the account or change its password automatically.
+
+- SMTP live-test preparation (owner approved after local commit `4493e5a`): created ignored `.env` in this D-drive worktree with Hostinger 465/TLS, hello SMTP user/from, and an empty password. Never print/read back the password or include the file in Git. Recipient was supplied privately in the conversation; no reset request or email has been sent. Password remains required, and a read-only check found no eligible local password account for the requested recipient. Ask the owner to fill SMTP_PASSWORD privately and register that local test account through the normal UI; no automatic account creation or password change is authorized.
+- Local database was stopped (health returned degraded/disconnected despite app container reporting healthy). Verified the existing Zenoba project's worktree label and `zenoba_postgresql_data` mount, then started only the existing `zenoba-postgres` container. Fresh health reports healthy/database connected. No new database, migration, seed, volume recreation, or VPS action. Next: once owner confirms private setup, reapply app SMTP config, verify SMTP authentication without sending or exposing secrets, then submit one real local forgot-password request and have the owner confirm receipt; do not change the account password without separate approval.
+
+- Final identity review fixes (owner approved, local only): based on clean `6f0c657` in the existing D-drive branch/worktree. Alternate `docker-compose.prod.yml` private identifiers and legacy origin restored to `main` baseline; only comments and hello sender defaults differ from main. Primary production manifest, backups, private roots, and Caddy routing unchanged. These two manifests are different stacks and must not be interchanged. New Zenoba staging requires isolated resources, not automatic migration of retained staging.
+- Application fixes: founder support mailto, correct .tech DNS teaching, terminal copyright without corporation, legacy same-origin preference fallback with new-key precedence and preserved false choices. Writes remain Zenoba-only; browser storage cannot transfer across domains. README clone destination/status, PRODUCT status, current runbook contacts/history boundaries, and legacy allowlist reconciled.
+- Fresh verification on these changes: baseline 4 expected regression failures/8 passes; final suite 153 files/937 tests passed (Windows Node 24), lint/typecheck/diff and Compose checks passed, resolved alternate production volume names match legacy project. Unit logs include intentionally mocked failure paths and an unavailable test DB on 5432; not live auth/email/database coverage. Docker production build passed (Node 20, existing middleware/Edge/catalogue warnings), local app recreated and healthy; home/About/Terms/Privacy/health HTTP 200. Independent read-only reviewer found no concrete issue remaining in the six fixes. No E2E/WebKit/CI, real email, migration, folder move, GitHub publication, or VPS/domain action. This checkpoint and its changes are saved together locally; resolve live HEAD rather than treating 6f0c657 as the final delivery SHA.
+
+### Earlier local checkpoints (historical verification)
+
+- Tab icon follow-up: owner explicitly selected `zenoba-symbol-white.png` for the browser tab, superseding the app icon choice below. Apple touch icon, navbar/footer, and original assets remain unchanged. Implemented on clean verified `1edc72d`; local Docker rebuilt/restarted. Updated Chromium assertion failed against the old metadata, then passed 3/3 at 390px/1024px/1440px. Typecheck, focused ESLint, Docker build (existing warnings), and diff checks passed; symbol asset HTTP 200. No full suite/WebKit/CI or external mutation. Browser favicon cache may require reopening the tab.
+
+- Logo integration: owner provided six PNG assets in `public/logos` and authorized their use. Header/footer now render the clean `zenoba-logo-black.png` with preserved aspect ratio and CSS inversion on dark surfaces; source white variants have visible extraction artifacts and remain unchanged/unused. Root metadata uses `zenoba-app-icon.png` for browser/Apple icons. No new dependencies, image regeneration, page-layout changes, or external actions. Worktree is `D:\laragon\www\NetLoka-zenoba-rebrand-plan` on `codex/zenoba-rebrand-plan`; implementation is based on verified `847d74a`, with owner-provided untracked assets included in the local delivery commit (resolve live HEAD).
+- Logo verification: baseline header/footer 8/8; updated image assertions failed before implementation on both components; final focused header/footer/home/About tests 14/14 passed. Lint, typecheck, Docker production build, and diff review/checks passed. Existing secret-ENV, middleware/Edge, and build-time catalogue warnings remain. Local image rebuilt and app restarted. Chromium logo/About tests passed 5/5 at 390px/1024px/1440px: images actually load, header inversion toggles correctly, app icon metadata is present, no horizontal overflow. Local desktop/mobile/footer screenshots inspected; no full suite/WebKit/CI or VPS/domain mutation. Skill-guided preservation kept the approved design and existing layout intact, selecting the clean provided asset rather than modifying originals.
+
+- Latest About refinement: owner requested removing all pictured bottom content: `Nilai dan produk` and the Home/Terms/Privacy navigation. About now ends after `ZenobaHistoryJourney`; vision/mission, history, shared header, homepage footer, and legal routes remain unchanged. This supersedes the original About bottom-link acceptance criterion. Locally implemented on verified clean base `b2d5507` in the existing D-drive task worktree; no remote/production mutation.
+- Verification: baseline About 4/4; updated removal assertion failed on the still-present section before implementation; final About/Journey 11/11, lint, typecheck, Docker production build, and diff checks passed. Existing Docker secret-ENV, middleware/Edge, and build-time catalogue warnings remain. Rebuilt local app; Chromium About E2E passed 2/2 at 390px and 1440px with HTTP 200, removed content absent, and no horizontal overflow. Only focused tests; no full suite/WebKit/CI, real email, or VPS change. Header remains the return-navigation mechanism; legal pages remain accessible from homepage footer.
+
+- Outgoing-email checkpoint: owner confirmed an existing `hello@zenoba.tech` mailbox and selected it for automatic messages. `founder@zenoba.tech` remains incoming complaints/support only; this supersedes the earlier unchanged-sender boundary for local configuration. Example and local/legacy production Compose defaults now use hello; local app settings were reapplied without rebuilding the unchanged image. No external mailbox, DNS, VPS, or production configuration was modified. SMTP password is absent in the local container, so live delivery remains unconfigured/unverified. Reset sender code stays environment-driven; URL, token, and expiry are unchanged.
+- Verification on uncommitted changes based on `cd0917b`: baseline and final reset-email/reset-route/legal-contact tests passed 12/12; `docker compose config --quiet`, `git diff --check`, and local health HTTP 200 passed. Selected container fields confirm SMTP user/from are hello; password presence was checked without printing credentials. No application source change, build, full E2E/WebKit, CI, real email, or remote publication. Configure the hello password privately in an ignored `.env` in this D-drive worktree, reapply local Compose, and obtain approval plus a recipient before an actual delivery test.
 
 | Item | Verified state |
 | --- | --- |
-| Main checkout | `C:/laragon/www/netloka`, clean `main` at `19fa9c7` |
-| Origin | `origin/main` at `19fa9c7`; local `main` synchronized |
-| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-production-deploy-manifests` |
-| Task branch | `codex/production-deploy-manifests` (PR #86 open) |
-| Base commit | `19fa9c7` (Merge pull request #85 from notyourkise/codex/sprint-42-post-release-review) |
-| Retained worktrees | `C:/laragon/www/netloka/.worktrees/codex-fix-m0-sprint-0` (`docs/staging-progress`, do not delete) |
-| Production VPS Root | `/srv/netloka/production` on `76.13.19.249` |
-| Live Domain | `https://netloka.biz.id` |
+| Main checkout | `D:\laragon\www\NetLoka`, clean `main` at `7fdd7afcd72870743ee7702e9b2b322f059acbd9` |
+| Planning worktree | `D:\laragon\www\NetLoka-zenoba-rebrand-plan` on `codex/zenoba-rebrand-plan`; final review closure and this snapshot are delivered together after verified base `6f0c657` (resolve live HEAD). Branch base remains `7fdd7af`. |
+| Planning changes | Design spec, two plans, project-plan reference, local Docker checkpoint, and the approved About/CTA refinements are committed locally |
+| GitHub repository | `notyourkise/NetLoka`; rename is outside the first-cutover scope |
+| Production history | Previous handoff records `/srv/netloka/production` and `netloka.biz.id`; VPS state is not re-verified in this documentation checkpoint |
 
-## 3. Milestone & Sprint Progress
+## Planning Artifacts
 
-- **Milestones 0–15:** **COMPLETE & MERGED**
-- **Production Go-Live:** **OPERATIONAL**
-  - [x] Create production Docker Compose manifest and Nginx virtual host.
-  - [x] Fix migration BOM and apply all 6 database migrations.
-  - [x] Seed full 6-path Networking curriculum in PostgreSQL.
-  - [x] Configure automated daily database backup cron.
-  - [x] Issue Let's Encrypt TLS certificate via Certbot.
-  - [x] Verify live health API and landing page over HTTPS.
+- Design: `docs/superpowers/specs/2026-10-11-zenoba-rebrand-design.md`
+- Application/local identity: `docs/superpowers/plans/2026-10-11-zenoba-application-identity-rebrand.md`
+- Domain cutover: `docs/superpowers/plans/2026-10-11-zenoba-domain-cutover.md`
+- The plans split app/local work from external cutover, preventing a branding release from becoming a data migration.
 
-## 4. Verification Evidence and Limits
+## Evidence and Limits
 
-- `https://netloka.biz.id/api/health`: **HTTP 200 OK** (status: healthy, database: connected, responseTime: 1-2ms).
-- `https://netloka.biz.id/`: **HTTP 200 OK** (landing page rendered with full dark theme & animations).
-- `https://netloka.biz.id/terms`: **HTTP 200 OK**.
-- `https://netloka.biz.id/privacy-policy`: **HTTP 200 OK**.
-- `npm run typecheck`: **Passed** (0 errors).
-- `npm run lint`: **Passed** (0 warnings/errors).
-- `git diff --check`: **Passed** (0 whitespace errors).
+- Legal copy verification (uncommitted on `7fb62d8`): founder-contact tests failed before implementation on both pages; final contact/About tests 6/6 passed. Lint, typecheck, diff checks, and Docker production build passed (existing warnings unchanged). Rebuilt local app; `/privacy-policy`, `/terms`, and `/api/health` returned 200. Both legal responses contain the new mailto, omit the old contact, and omit the reviewed internal terms. No CSS/layout change, full E2E/WebKit, CI, remote publish, or production change. Legal wording checked against https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/crc32/ ; this is not legal certification or proof of operational compliance. Actual consent/request processes and mailbox delivery remain separate verification needs.
+- Three-planet popup refinement (uncommitted on `eec73cb`): new tests failed before implementation for missing popup/names; final focused About/Journey tests 11/11 passed, including `Tutup`, tap toggling, hover, focus/blur, and Escape. Lint, typecheck, diff checks, and Docker production build passed with unchanged existing warnings. Rebuilt local Docker app, health 200; desktop (1440px) and mobile (390px) browser click/close smoke checked. Homepage popup/route defaults remain unchanged. No full E2E/WebKit, CI, remote publication, or production change.
+- History-interaction verification (uncommitted changes on `79fd6c7`): baseline About/Journey tests 7/7; new behavior tests failed before implementation (missing history buttons); final focused tests 10/10 passed, including hover leave, focus/blur, Escape, and tap toggling. `npm run lint`, `npm run typecheck`, `git diff --check`, and `docker compose build app` passed. Rebuilt app via `docker compose up -d app`; health returned 200. Browser smoke confirmed initial hidden descriptions and desktop/mobile click toggling at 1440px/390px. Hover behavior is unit-tested; no full E2E, WebKit, CI, or production validation ran. Existing build warnings remain unchanged.
+- Latest About refinement reuses `StarField`, `JourneyDriftingPlanets`, `ConstellationPath`, planet textures/positions, and Saturn rings from `src/components/marketing/it-infrastructure-journey.tsx` via `ZenobaHistoryJourney`. Its decorative planets do not invoke learning-path dialogs. Three historical milestones remain unchanged; the other planets are visual elements, not fabricated historical events. Focused About/Journey tests passed 7/7, lint/typecheck passed, Docker production build passed with existing middleware/Edge/catalogue warnings, and desktop (1440px) / mobile (390px) visual checks passed on the rebuilt local app. Full E2E/WebKit and CI were not rerun, per approved scope.
+- Public inspection found no `/about` route, unsupported learner-volume claims, and stale pre-launch legal wording; implementation plans correct these without changing product behavior.
+- `zenoba.tech` currently serves a parked Hostinger page; canonical switch has not occurred.
+- Task 1 focused tests passed (17 tests). Task 2 focused tests passed (3 files/10 tests). Task 3 focused unit tests passed (5 files/37 tests); its Chromium E2E coverage passed (10/10) at 390px and 1440px after installing the local test browser under `D:\laragon\playwright-browsers`. Task 4 re-ran Prisma generation, lint, typecheck, the full unit suite, and the production build with safe local values. The later dashboard-label correction has focused unit coverage (18/18), full-unit coverage (150 files/924 tests), and the active-source inventory now leaves only the intentional historical About-page Netloka reference.
+- The owner authorized an isolated local Docker PostgreSQL test database only: `zenoba-postgres` is healthy on loopback `127.0.0.1:5433`, its six existing migrations were applied, and the development seed completed. The local production app `zenoba-app` is healthy on `http://localhost:3000`; `/api/health` returned 200 with a connected database. `/about` was reviewed locally at mobile and 1440px desktop after moving its milestones onto a full-width orbit; the homepage no longer returned the removed final CTA. The full 303-test E2E run previously found a flaky Firefox runtime failure and a reproducible WebKit redirect; at the owner's direction these are deferred rather than blocking the rebrand's local-running milestone. No VPS, domain, production database, or production container was changed. CI and production checks have not been run.
 
-## 5. Next Actions
+## Next Action
 
-1. Review and merge PR #86 (`codex/production-deploy-manifests`) into `main`.
-2. Sync `main` and clean up `codex-production-deploy-manifests` worktree.
-3. Announce / share `https://netloka.biz.id` with SMK TKJ learners!
-
+1. Draft PR #88 is published. Full-branch review findings are locally corrected/verified. Verify all five CI jobs against the live head after this documentation push; diagnose failures if any. Only then mark ready for Abangku's review. Do not merge for Abangku.
+2. Keep WebKit and long-running full-E2E investigation as a separate follow-up; do not let it block the current rebrand-local-running goal.
+3. After Abangku merges, verify the exact merged PR and only then move the clean main checkout from `D:\laragon\www\NetLoka` to `D:\laragon\www\Zenoba`.
+4. Domain/VPS actions remain separately authorized and begin only after the app release is merged.

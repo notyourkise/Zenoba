@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { middleware } from "./middleware";
+import { config, middleware } from "./middleware";
 import { getToken } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
 import {
@@ -12,7 +12,7 @@ vi.mock("next-auth/jwt", () => ({
 }));
 
 function createMockRequest(pathname: string): NextRequest {
-  const url = new URL(pathname, "https://netloka.biz.id");
+  const url = new URL(pathname, "https://zenoba.tech");
   return {
     url: url.toString(),
     nextUrl: url,
@@ -33,6 +33,16 @@ describe("Middleware Route Guard & Session Invalidation (TD-01 & TD-08)", () => 
 
     expect(res.status).toBe(200);
     expect(res.headers.get("x-middleware-rewrite")).toBeNull();
+  });
+
+  it("keeps the Zenoba About page outside protected route matching", async () => {
+    vi.mocked(getToken).mockResolvedValue(null);
+
+    const req = createMockRequest("/about");
+    const res = await middleware(req);
+
+    expect(res.status).toBe(200);
+    expect(config.matcher).not.toContain("/about");
   });
 
   it("redirects unauthenticated requests on protected routes to sign-in modal", async () => {
@@ -88,7 +98,7 @@ describe("Middleware Route Guard & Session Invalidation (TD-01 & TD-08)", () => 
     const res = await middleware(req);
 
     expect(res.status).toBe(307);
-    expect(res.headers.get("location")).toBe("https://netloka.biz.id/dashboard");
+    expect(res.headers.get("location")).toBe("https://zenoba.tech/dashboard");
   });
 
   it("redirects valid authenticated users away from / to /dashboard", async () => {
@@ -101,7 +111,7 @@ describe("Middleware Route Guard & Session Invalidation (TD-01 & TD-08)", () => 
     const res = await middleware(req);
 
     expect(res.status).toBe(307);
-    expect(res.headers.get("location")).toBe("https://netloka.biz.id/dashboard");
+    expect(res.headers.get("location")).toBe("https://zenoba.tech/dashboard");
   });
 
   it("redirects authenticated DEVELOPER away from / to /developer", async () => {
@@ -115,7 +125,7 @@ describe("Middleware Route Guard & Session Invalidation (TD-01 & TD-08)", () => 
     const res = await middleware(req);
 
     expect(res.status).toBe(307);
-    expect(res.headers.get("location")).toBe("https://netloka.biz.id/developer");
+    expect(res.headers.get("location")).toBe("https://zenoba.tech/developer");
   });
 
   it("allows users with revoked sessions to access /sign-in", async () => {
@@ -159,7 +169,7 @@ describe("Middleware Route Guard & Session Invalidation (TD-01 & TD-08)", () => 
     const res = await middleware(req);
 
     expect(res.status).toBe(307);
-    expect(res.headers.get("location")).toBe("https://netloka.biz.id/developer");
+    expect(res.headers.get("location")).toBe("https://zenoba.tech/developer");
   });
 
   it("denies LEARNER requests to /developer and redirects to /dashboard", async () => {
@@ -173,7 +183,7 @@ describe("Middleware Route Guard & Session Invalidation (TD-01 & TD-08)", () => 
     const res = await middleware(req);
 
     expect(res.status).toBe(307);
-    expect(res.headers.get("location")).toBe("https://netloka.biz.id/dashboard");
+    expect(res.headers.get("location")).toBe("https://zenoba.tech/dashboard");
   });
 
   it("redirects unauthenticated requests on /developer to sign-in modal with callbackUrl", async () => {

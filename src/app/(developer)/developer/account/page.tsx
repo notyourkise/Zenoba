@@ -2,7 +2,7 @@ import * as React from "react";
 import { requireDeveloperActor } from "@/features/authorization/guards";
 
 export const metadata = {
-  title: "Akun Pengembang — Developer Netloka",
+  title: "Akun Pengembang — Developer Zenoba",
 };
 
 export default async function DeveloperAccountPage() {

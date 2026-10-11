@@ -1,12 +1,12 @@
-# Netloka — Interactive Networking Learning Platform
+# Zenoba — Interactive Networking Learning Platform
 
 [![CI](https://github.com/notyourkise/NetLoka/actions/workflows/ci.yml/badge.svg)](https://github.com/notyourkise/NetLoka/actions)
 ![Node.js LTS](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen?style=for-the-badge&logo=node.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=for-the-badge&logo=typescript)
 
-**Domain:** `netloka.biz.id`  
+**Domain:** `zenoba.tech`
 **Architecture:** Modular monolith (Next.js + TypeScript + PostgreSQL)  
-**Development status:** Milestones 0–6 are historically implemented; the Milestone 7 application baseline, Milestones 8–12, and Sprint 34 are merged; Milestone 13 remains active with Sprint 34 authorization-review findings open and Sprint 35 planned next; staging/production and live payment remain unverified and deliberately last in Sprint 42
+**Development status:** ROADMAP/PLAN record Milestones 0–15 as historical delivery. Current work is the locally implemented Zenoba rebrand; publication, owner merge, folder relocation, and domain cutover remain pending. Historical completion is not fresh evidence of production, payment, or integration readiness.
 
 **Timezone:** WITA / GMT+8
 
@@ -14,7 +14,7 @@
 
 ## 🎯 Purpose
 
-Netloka is an interactive IT infrastructure learning platform for SMK TKJ students, beginners, and learners preparing for practical network, sysadmin, security, cloud, and field-infrastructure work. Networking is the first available learning domain, while future domains remain clearly labeled as upcoming work.
+Zenoba is an interactive IT infrastructure learning platform for SMK TKJ students, beginners, and learners preparing for practical network, sysadmin, security, cloud, and field-infrastructure work. Networking is the first available learning domain, while future domains remain clearly labeled as upcoming work.
 
 **Core experience:** Learn → Interact → Practice → Challenge → Consultant Project
 
@@ -31,9 +31,8 @@ The Networking curriculum renewal is implemented in the typed registry: six path
 
 - Milestones 8–11 / Sprints 21–32: merged curriculum, assessments, six paths, and Consultant validation.
 - Milestone 12 / Sprint 33: merged commercial entry-gate review; activation remains blocked.
-- Milestone 13 / Sprints 34–36: Sprint 34 role/persistence/routing/internal-access implementation is merged with closure findings open; the separate developer portal, elevation, and audit remain pending.
-- Milestone 14 / Sprints 37–39: resume/queue/autosave, search/bookmarks, mastery/remediation, feedback, and spaced review.
-- Milestone 15 / Sprints 40–42: persistent security, staging/recovery, Midtrans, production, deployment, and live payment—last and separately gated.
+- Milestones 13–15 / Sprints 34–42: recorded as historically complete in ROADMAP/PLAN. Their deployment/integration evidence is not reverified by this rebrand; live payment remains outside its scope.
+- Active follow-up: close the Zenoba identity review locally, then obtain authorization for publication and the separately gated domain cutover.
 
 Read the [approved developer/learner design](docs/superpowers/specs/2026-09-07-developer-portal-and-learner-experience-design.md) and its detailed [developer](docs/superpowers/plans/2026-09-08-developer-operations-and-internal-accounts.md), [learner quality](docs/superpowers/plans/2026-09-08-learner-experience-and-mastery.md), and [final release](docs/superpowers/plans/2026-09-08-final-production-and-commercial-release.md) plans. Fresh-database migration reproducibility is implemented in CI; retained-database upgrade rehearsal remains pending. See [technical debt](docs/TECHNICAL_DEBT.md).
 
@@ -41,13 +40,17 @@ Read the [approved developer/learner design](docs/superpowers/specs/2026-09-07-d
 
 ## 🛠️ Tech Stack
 
+### Brand assets
+
+Owner-supplied logo files live in `public/logos/`. Header and footer use `zenoba-logo-black.png` at its original aspect ratio; CSS inversion supplies the white version on dark surfaces. The supplied white PNGs contain background-removal artifacts and remain unchanged; they are not used for header/footer rendering. At the owner's request, `zenoba-symbol-white.png` supplies the browser tab icon; `zenoba-app-icon.png` remains the Apple touch icon. Keep filenames stable or update the consumers when replacing assets; no logo generation is performed at runtime.
+
 - **Framework:** Next.js 16.3.x + React 19.2.x + TypeScript 5.x
 - **Styling:** Tailwind CSS 4.x with reusable local shadcn-style primitives
 - **Database:** PostgreSQL 16.x + Prisma ORM 7.x
 - **Authentication:** NextAuth.js 4.x with credentials/JWT sessions and Prisma integration
 - **Testing:** Vitest (unit/integration) + Playwright (E2E)
 - **Linting:** ESLint + Prettier
-- **Deployment target:** Docker on VPS → Caddy reverse proxy → Cloudflare; configuration exists, deployment is pending
+- **Deployment target:** Docker on VPS; Caddy and Nginx configurations exist in this repository. Verify the live proxy/TLS topology before the separately authorized domain cutover; this local rebrand does not change it.
 
 ---
 
@@ -65,8 +68,8 @@ Read the [approved developer/learner design](docs/superpowers/specs/2026-09-07-d
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/notyourkise/NetLoka.git
-cd netloka
+git clone https://github.com/notyourkise/NetLoka.git zenoba
+cd zenoba
 ```
 
 2. **Install dependencies**
@@ -96,12 +99,14 @@ GOOGLE_CLIENT_SECRET=""
 SMTP_HOST="smtp.hostinger.com"
 SMTP_PORT="465"
 SMTP_SECURE="true"
-SMTP_USER="noreply@example.com"
-SMTP_PASSWORD="replace-with-email-account-password"
-EMAIL_FROM="noreply@example.com"
+SMTP_USER="hello@zenoba.tech"
+SMTP_PASSWORD=""
+EMAIL_FROM="hello@zenoba.tech"
 ```
 
-Until both Google values are configured, the Google button remains visible but disabled with `Setup pending`. Register the OAuth callback as `http://localhost:3000/api/auth/callback/google` locally and `https://netloka.biz.id/api/auth/callback/google` for production. Never commit real SMTP or OAuth credentials.
+Until both Google values are configured, the Google button remains visible but disabled with `Setup pending`. Register the OAuth callback as `http://localhost:3000/api/auth/callback/google` locally and `https://zenoba.tech/api/auth/callback/google` for production. Never commit real SMTP or OAuth credentials.
+
+Outgoing transactional messages, including password resets, use `Zenoba <hello@zenoba.tech>`. `founder@zenoba.tech` is reserved for incoming customer complaints and support, not SMTP sending. Fill `SMTP_PASSWORD` privately in the ignored project `.env`; never paste it into chat or commit it. Local Compose passes these SMTP values into the app; apply configuration changes with `docker compose up -d --no-deps app`. An empty password keeps delivery unconfigured. Existing environment overrides take precedence, so staging/production operators must also set `SMTP_USER` and `EMAIL_FROM` to `hello@zenoba.tech` in their external environment files during a separately authorized release.
 
 Password-reset links expire after 30 minutes and require the password-reset database migration to be deployed.
 
@@ -119,7 +124,7 @@ The policies describe the current implementation, not certified legal compliance
 docker compose up -d
 ```
 
-The Netloka container listens only on `127.0.0.1:5433`, avoiding a local PostgreSQL service already using port `5432`. Wait until `docker compose ps` reports `healthy`.
+The Zenoba container listens only on `127.0.0.1:5433`, avoiding a local PostgreSQL service already using port `5432`. Wait until `docker compose ps` reports `healthy`.
 
 5. **Initialize the database**
 
@@ -189,7 +194,7 @@ npx playwright test --project=chromium
 ## 📁 Repository Structure
 
 ```text
-netloka/
+zenoba/
 ├── .github/workflows/    # CI/CD pipelines
 ├── prisma/               # Database schema & migrations
 │   ├── schema.prisma     # Prisma data model
@@ -302,7 +307,7 @@ Use `.env.example` with safe placeholders instead.
 | M12 | Commercial Readiness Gate Review (S33) | Complete / merged; activation blocked |
 | M13 | Developer Operations & Internal Accounts (S34–36) | Complete / merged |
 | M14 | Learner Experience & Mastery Quality (S37–39) | Complete / merged |
-| M15 | Final Production & Commercial Release (S40–42) | Active next / gated |
+| M15 | Final Production & Commercial Release (S40–42) | Historically complete per ROADMAP/PLAN; live state not reverified here |
 
 See [ROADMAP.md](ROADMAP.md) for detailed milestones and sprints.
 
@@ -322,7 +327,7 @@ This project follows the **Agent Success** principles outlined in AGENTS.md. Bef
 
 ## 📄 License
 
-© 2026 Netloka. All rights reserved.
+© 2026 Zenoba. All rights reserved.
 
 ---
 

@@ -48,7 +48,7 @@ vi.mock("@/lib/db/client", () => ({
 describe("Developer Users Read Models (searchDeveloperUsers / getDeveloperUserDetail / getDeveloperUserPackageHistory)", () => {
   const mockDeveloperActor = {
     id: "dev-1",
-    email: "dev@netloka.biz.id",
+    email: "dev@zenoba.tech",
     name: "Developer One",
     role: UserRole.DEVELOPER,
     authVersion: 1,

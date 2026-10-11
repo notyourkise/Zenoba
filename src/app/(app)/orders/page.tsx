@@ -4,8 +4,8 @@ import { getCurrentUser } from "@/lib/auth";
 import { getMyOrders } from "@/features/commerce/entitlements";
 
 export const metadata = {
-  title: "Riwayat Pesanan — Netloka",
-  description: "Riwayat transaksi dan status pembayaran paket belajar Netloka Anda.",
+  title: "Riwayat Pesanan — Zenoba",
+  description: "Riwayat transaksi dan status pembayaran paket belajar Zenoba Anda.",
 };
 
 function getStateBadgeClass(state: string): string {

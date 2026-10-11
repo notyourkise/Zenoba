@@ -1,4 +1,4 @@
-﻿import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import Home from "./page";
 import { getCurrentUser } from "@/lib/auth";
@@ -41,8 +41,8 @@ describe("Landing Page Home Component", () => {
   it("redirects authenticated users to /dashboard", async () => {
     mockGetCurrentUser.mockResolvedValue({
       id: "usr_123",
-      name: "Budi Netloka",
-      email: "budi@netloka.biz.id",
+      name: "Budi Zenoba",
+      email: "budi@zenoba.tech",
       role: "LEARNER",
     } as unknown as NonNullable<Awaited<ReturnType<typeof getCurrentUser>>>);
 
@@ -61,6 +61,13 @@ describe("Landing Page Home Component", () => {
     expect(
       screen.getByRole("heading", { name: /Kuasai IT Infrastructure/i }),
     ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Zenoba Home" })).toHaveAttribute("href", "/");
+    expect(screen.getAllByRole("img", { name: "Zenoba" })).toHaveLength(2);
+    for (const aboutLink of screen.getAllByRole("link", {
+      name: "Tentang Zenoba",
+    })) {
+      expect(aboutLink).toHaveAttribute("href", "/about");
+    }
     expect(screen.getByRole("link", { name: /Masuk/i })).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: /Mulai Gratis/i }),

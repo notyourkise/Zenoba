@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
@@ -262,16 +263,21 @@ export function AppHeader() {
                   }
                 }}
                 className="flex items-center focus:outline-none rounded-lg py-1 hover:opacity-90 transition-opacity group cursor-pointer"
-                aria-label="Netloka Home"
+                aria-label="Zenoba Home"
               >
-                <span className="font-brand text-2xl sm:text-3xl font-bold tracking-wide text-black dark:text-white">
-                  NETLOKA
-                </span>
+                <Image
+                  src="/logos/zenoba-logo-black.png"
+                  alt="Zenoba"
+                  width={2400}
+                  height={674}
+                  sizes="(max-width: 640px) 128px, 144px"
+                  className="h-auto w-32 sm:w-36 dark:invert"
+                />
               </Link>
             </div>
 
             {/* 2. Center: Desktop 2-Column Floating Navigation Menu */}
-            <div className="hidden md:flex items-center justify-center flex-shrink-0">
+            <div className="hidden md:flex items-center justify-center gap-4 flex-shrink-0">
               <NavigationMenu>
                 <NavigationMenuList className="gap-6 lg:gap-8">
                   {navigationSections.map((section) => {
@@ -328,6 +334,12 @@ export function AppHeader() {
                   })}
                 </NavigationMenuList>
               </NavigationMenu>
+              <Link
+                href="/about"
+                className="text-sm font-medium text-black transition-colors hover:text-sky-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 dark:text-white dark:hover:text-sky-300"
+              >
+                Tentang Zenoba
+              </Link>
             </div>
 
             {/* 3. Right: Vertical Text Slide Auth Buttons */}
@@ -396,6 +408,19 @@ export function AppHeader() {
                   {section.label}
                 </Link>
               ))}
+
+              <Link
+                href="/about"
+                onClick={() => setMobileMenuOpen(false)}
+                className={cn(
+                  "flex items-center rounded-lg px-3.5 py-2.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500",
+                  pathname === "/about"
+                    ? "bg-blue-50 font-semibold text-blue-600 dark:bg-blue-950/40 dark:text-blue-400"
+                    : "text-black hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800",
+                )}
+              >
+                Tentang Zenoba
+              </Link>
 
               <div
                 role="note"

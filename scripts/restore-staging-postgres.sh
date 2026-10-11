@@ -3,13 +3,13 @@
 set -euo pipefail
 umask 077
 
-readonly PROJECT_NAME="netloka-staging"
-readonly STAGING_ROOT="/srv/netloka/staging"
+readonly PROJECT_NAME="zenoba-staging"
+readonly STAGING_ROOT="/srv/zenoba/staging"
 readonly REPO_DIR="$STAGING_ROOT/repo"
 readonly ENV_FILE="$STAGING_ROOT/.env"
 readonly COMPOSE_FILE="$REPO_DIR/compose.staging.yml"
 readonly BACKUP_DIR="$STAGING_ROOT/backups/postgres"
-readonly LOCK_FILE="$BACKUP_DIR/.netloka-staging-backup.lock"
+readonly LOCK_FILE="$BACKUP_DIR/.zenoba-staging-backup.lock"
 
 if [[ $# -lt 1 ]]; then
   echo "Usage: $0 <path-to-dump-file.dump> [--force]" >&2

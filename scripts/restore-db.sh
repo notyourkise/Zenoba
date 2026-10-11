@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Netloka Database Disaster Recovery Restore Script
+# Zenoba Database Disaster Recovery Restore Script
 # Usage: ./scripts/restore-db.sh <path_to_backup_file.sql.gz>
 
 if [ "$#" -lt 1 ]; then
@@ -15,6 +15,7 @@ if [ ! -f "$BACKUP_FILE" ]; then
     exit 1
 fi
 
+# Match the retained legacy production stack unless the operator overrides it.
 CONTAINER_NAME="${DB_CONTAINER:-netloka-db}"
 DB_USER="${POSTGRES_USER:-netloka}"
 DB_NAME="${POSTGRES_DB:-netloka}"

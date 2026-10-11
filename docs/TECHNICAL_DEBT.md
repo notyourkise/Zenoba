@@ -22,7 +22,7 @@ Dokumen pencatatan hutang teknis (*technical debt*), area refaktor masa depan, d
 - **TD-07 — Resolved in Milestone 15 (Sprint 41, PR #77–#80):** Applied token migration on staging database; verified real Hostinger SMTP email delivery, token replacement/consumption, password reset-to-login, rate limiting, and Google OAuth callback.
 - **TD-08 — Resolved in Sprint 40 (PR #73):** Shared persistent session revocation implemented with PostgreSQL `UserSecurityState.validAfter`, timestamp invalidation across instances, and Edge-compatible runtime decoupling.
 - **TD-09 — Resolved in Sprint 40 (Task 40.4):** Next.js upgraded to 16.3.5 and package overrides configured for `mysql2` (^3.24.4) and `sharp` (^0.35.4), achieving **0 vulnerabilities** in production dependency audit (`npm audit --omit=dev`).
-- **TD-10 — Resolved in Milestone 15 (Sprint 41 & 42, PR #77, #84):** Operator identity formalized (Pengelola Perseorangan Platform Netloka - Fikri Haikal, reachable mailbox `noreply@haikalariadma.my.id`), privacy policy and terms established in `docs/decisions/0003-legal-pages-and-policy-boundaries.md`, and explicit phased launch authorized on 2026-09-19 (Networking curriculum 100% free, commercial checkout held off via `PAYMENT_MODE="disabled"`). All pre-launch legal and operational gates satisfied.
+- **TD-10 — Resolved in Milestone 15 (Sprint 41 & 42, PR #77, #84):** Operator identity formalized (Pengelola Perseorangan Platform Zenoba - Fikri Haikal, reachable mailbox `noreply@haikalariadma.my.id`), privacy policy and terms established in `docs/decisions/0003-legal-pages-and-policy-boundaries.md`, and explicit phased launch authorized on 2026-09-19 (Networking curriculum 100% free, commercial checkout held off via `PAYMENT_MODE="disabled"`). All pre-launch legal and operational gates satisfied.
 
 ## 2. Learning curriculum inspection follow-up (updated 2026-09-09)
 
@@ -44,7 +44,7 @@ Dokumen pencatatan hutang teknis (*technical debt*), area refaktor masa depan, d
 
 The following extension ideas remain future domains. Milestone 12 completed only the commercial gate review; actual gateway/payment activation is last in Milestone 15. Networking curriculum renewal does not activate these premium tracks.
 
-Arsitektur Netloka saat ini dirancang modular sehingga siap untuk mengakomodasi path tingkat lanjut tanpa mengubah core engine:
+Arsitektur Zenoba saat ini dirancang modular sehingga siap untuk mengakomodasi path tingkat lanjut tanpa mengubah core engine:
 
 1. **MikroTik RouterOS Fundamentals:**
    - Syntax CLI RouterOS deterministik (`/ip address add`, `/ip route add`, `/ip firewall nat add`).

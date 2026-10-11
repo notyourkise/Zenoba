@@ -38,8 +38,8 @@ const PRESET_COMMANDS = [
     desc: "Lacak hop router menuju DNS",
   },
   {
-    label: "nslookup netloka.biz.id",
-    cmd: "nslookup netloka.biz.id",
+    label: "nslookup zenoba.tech",
+    cmd: "nslookup zenoba.tech",
     desc: "Query DNS server",
   },
   {
@@ -998,8 +998,8 @@ export function LiveSimulatorShowcase() {
   // 1. TERMINAL STATE
   // ==========================================
   const [terminalHistory, setTerminalHistory] = useState<string[]>([
-    "Netloka OS [Version 2.4.18-simulated]",
-    "(c) 2026 Netloka Corporation. All rights reserved.",
+    "Zenoba OS [Version 2.4.18-simulated]",
+    "(c) 2026 Zenoba. All rights reserved.",
     "",
     "Ketik perintah jaringan atau pilih tombol preset cepat di atas.",
     "Ketik 'help' untuk daftar lengkap perintah diagnostik yang didukung.",
@@ -1442,7 +1442,7 @@ export function LiveSimulatorShowcase() {
                   <div className="h-3 w-3 rounded-full bg-amber-500/80" />
                   <div className="h-3 w-3 rounded-full bg-emerald-500/80" />
                   <span className="ml-2 font-mono text-xs font-medium text-slate-400">
-                    guest@netloka-simulator:~ (CLI Interactive)
+                    guest@zenoba-simulator:~ (CLI Interactive)
                   </span>
                 </div>
                 <span className="rounded bg-sky-950/80 border border-sky-500/30 px-2 py-0.5 text-[10px] font-mono font-bold text-sky-400">
@@ -1502,7 +1502,7 @@ export function LiveSimulatorShowcase() {
                 className="flex items-center gap-2 border-t border-slate-800 bg-slate-900/80 px-4 py-3"
               >
                 <span className="font-mono text-xs sm:text-sm font-bold text-sky-400">
-                  guest@netloka:&gt;
+                  guest@zenoba:&gt;
                 </span>
                 <input
                   ref={inputRef}
@@ -2709,7 +2709,7 @@ export function LiveSimulatorShowcase() {
                       </p>
                       <div className="font-mono text-xs bg-slate-950 p-3 rounded border border-slate-800 text-amber-300">
                         Issuer: Let&apos;s Encrypt / DigiCert &bull; Valid:
-                        netloka.biz.id &bull; Public Key: RSA 2048-bit
+                        zenoba.tech &bull; Public Key: RSA 2048-bit
                       </div>
                     </div>
                   )}

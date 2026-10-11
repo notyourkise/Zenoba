@@ -1,4 +1,4 @@
-# Netloka Changelog
+# Zenoba Changelog
 
 All notable project changes are recorded here.
 
@@ -35,6 +35,159 @@ All notable project changes are recorded here.
   Validation: tests/build/review performed
   Git: commit SHA and/or PR number when available
 ```
+
+# 2026-10-12
+
+- [2026-10-12 01:50 WITA] [REVIEW] [Zenoba Rebrand / Application Identity publication]
+  Completed full-branch review and corrected its High backup compatibility and Medium private elevation cookie/historical staging findings. Retained the private netloka_dev_elevation contract and the actual staging.netloka.biz.id historical evidence, documented in the narrow compatibility allowlist. The entitlement route uses the real cookie constant with mocked authorization/mutation boundaries; a pre-rebrand cookie failed with 403 before correction and succeeds afterward. Secondary initial failures came from unconsumed one-shot mocks after that rejection, not separate application defects.
+  Validation on uncommitted changes based on 9e9deab, committed da457b7: focused developer tests 43/43, lint, typecheck, full unit suite 154 files/939 tests, Docker production build and diff checks passed. Existing Docker dummy-secret ENV, middleware/Edge and build-time catalogue warnings remain. No schema/dependency changes, production mutation, live SMTP test or local full E2E/WebKit.
+  Owner-authorized branch pushed and draft PR #88 created: https://github.com/notyourkise/NetLoka/pull/88 . Verified head da457b7d0c31294846ea930f8018ec7686badd21 targeting main, MERGEABLE but UNSTABLE while CI run 38161308947 is in progress. No CI-pass/readiness/merge/deployment claim. This publication documentation checkpoint requires fresh CI on its own pushed head. SMTP authentication/delivery remains UNVERIFIED and deferred; Git: pending documentation checkpoint based on da457b7.
+
+- [2026-10-12 01:43 WITA] [FIXED] [Zenoba Rebrand / PR publication review]
+  Restored generic backup/restore legacy container/user/database defaults and backup prefix/retention pattern to match the retained production alternative stack. Added behavioral script tests against Docker test doubles; temporary fixtures stay under the D-drive worktree. No real backup/restore/database action. Updated allowlist, owner publication authority, and SMTP deferral (configured, not passed).
+  Validation: two new tests failed on renamed defaults before correction and passed afterward; lint/typecheck and full unit suite 154 files/939 tests passed. Docker production build passed at 08fd1e0 with existing warnings before the script/comment-only correction; no application code changed afterward. Private credential absent from tracked HEAD and excluded from Docker context. Origin/main verified 7fdd7af; GitHub auth/repo verified; PR/CI pending. Local WebKit/full E2E and SMTP remain explicitly deferred. Git: pending local checkpoint based on 08fd1e0.
+
+- [2026-10-12 01:33 WITA] [REVIEW] [Zenoba Rebrand / SMTP connectivity diagnosis]
+  Owner's recipient now has an eligible local password account. Both Windows and Docker TCP probes time out on Hostinger SMTP ports 465/587 before TLS/auth; public DNS agrees with local DNS and TCP 443 to the same host works. Limited Windows outbound firewall inspection did not identify a matching block; exact filtering location remains unknown. No credential/config/code/security-policy change or email/reset-token creation. Await owner network-switch test before attempting actual reset delivery. Source: https://www.hostinger.com/support/4305847-set-up-hostinger-email-on-your-applications-and-devices/ . Git: pending diagnostic checkpoint based on 76d2a0f.
+
+- [2026-10-12 01:29 WITA] [CHANGED] [Zenoba Rebrand / Private local SMTP]
+  Applied owner-authorized credential only to ignored D-drive `.env` and recreated the local app. Literal dollar character preserved using single-quoted dotenv value; no secret in tracked files or outputs. Host-side SMTP verify timed out (ETIMEDOUT), so authentication/delivery remain unverified. Requested recipient still has no eligible local password account. No email, account creation, password change, deployment, or remote action. Credential rotation remains recommended before production after chat exposure. Git: pending documentation checkpoint based on 375298e.
+
+- [2026-10-12 01:24 WITA] [DOCS] [Zenoba Rebrand / SMTP test preparation]
+  Owner authorized a local reset-email test. Prepared ignored D-drive SMTP configuration with hello user/from and empty password; no credentials recorded. Existing local PostgreSQL container was stopped; verified project/worktree/volume identity before starting it without migration or reseeding. Health now reports database connected. Read-only account check found no eligible local password account for the selected recipient. Await private password entry and owner registration; no SMTP authentication, reset request, actual email, password change, remote publication, or VPS action yet.
+  Validation: `.env` ignored, repository contains no credential changes; local health healthy/connected. Git: pending documentation checkpoint based on 4493e5a.
+
+- [2026-10-12 01:18 WITA] [FIXED] [Zenoba Rebrand / Final identity review]
+  Closed the owner-approved local audit findings: restored alternate production project/container/database/network/origin defaults to the main baseline (retaining hello SMTP); corrected the founder support link, .tech DNS delegation, and non-corporate terminal identity. Added same-origin legacy CLI/privacy preference fallback without overwriting Zenoba settings or legacy values. Aligned staging sender example, clone destination, current product status, historical runbook boundaries, and the narrowed legacy allowlist. Production primary manifest, backups, routing, and private roots remain unchanged.
+  Validation: regression baseline 4 expected failures/8 passes; focused fixes 12/12 passed, followed by an additional precedence test. Final full unit suite 153 files/937 tests passed on Windows Node 24; auth resilience tests deliberately log mocked failures and health test logs an unavailable test DB on 5432, so this is not live integration verification. Lint, typecheck, diff checks, alternate Compose syntax and resolved legacy volume names passed. Docker Node 20 production image built; local app recreated only, healthy, home/About/legal/health HTTP 200. Existing middleware/Edge/build-time catalogue warnings remain. Independent read-only review found no remaining issue in the six fixes. No E2E/WebKit, CI, live email, database migration, folder move, remote publication, or VPS/domain action.
+  Git: pending (local changes based on 6f0c657); local delivery only.
+
+- [2026-10-12 01:04 WITA] [CHANGED] [Zenoba Rebrand / Browser tab icon]
+  Changed only the browser tab icon to the owner-selected `/logos/zenoba-symbol-white.png`. Kept Apple touch app icon and header/footer unchanged; updated acceptance and asset documentation.
+  Validation: Chromium icon assertion failed on old runtime; rebuilt local app passed 3/3 responsive logo checks; symbol asset HTTP 200. Typecheck/focused ESLint/build/diff checks passed with existing Docker/build warnings. No full suite/WebKit/CI or external changes.
+  Git: pending (local changes based on 1edc72d)
+
+- [2026-10-12 01:01 WITA] [ADDED] [Zenoba Rebrand / Application Identity / Logo assets]
+  Integrated the six owner-provided PNGs under `public/logos`; header/footer use the clean black horizontal logo, CSS-inverted on dark surfaces. White files contain extraction artifacts and are preserved unused, not edited. Root metadata registers the app icon for browser/Apple icons. Preserved layout, navigation, homepage content, and application behavior; no dependency or image generation.
+  Files/areas: `public/logos`, `src/components/navigation/app-header.tsx`, `src/components/marketing/marketing-footer.tsx`, `src/app/layout.tsx`, related unit tests, `src/e2e/brand-logo.spec.ts`, `PLAN.md`, `README.md`, `docs/HANDOFF.md`
+  Validation: baseline 8/8; image assertions failed before implementation; focused final tests 14/14, lint/typecheck/diff checks and Docker build passed with existing warnings. Rebuilt local container; Chromium logo/About smoke 5/5 at 390px/1024px/1440px confirmed loading, light/dark header inversion, icon metadata, and viewport fit. Desktop/mobile/footer screenshots inspected. No full suite/WebKit/CI, remote publication, or production/DNS/VPS changes.
+  Git: pending (local changes based on 847d74a)
+
+# 2026-10-11
+
+- [2026-10-11 21:52 WITA] [REMOVED] [Zenoba Rebrand / Application Identity / About bottom content]
+  Removed the entire owner-pictured `Nilai dan produk` section and bottom Home/Terms/Privacy navigation from About. The page now ends after the three-planet history; shared navigation, vision/mission, journey interactions, homepage footer, and legal routes remain intact. Updated unit/E2E acceptance and plan to supersede the initial bottom-link requirement.
+  Files/areas: `src/app/about/page.tsx`, `src/app/about/page.test.tsx`, `src/e2e/about.spec.ts`, `PLAN.md`, `docs/HANDOFF.md`
+  Validation: baseline 4/4; removal test failed before implementation; final About/Journey 11/11, lint/typecheck/diff checks and Docker build passed with existing warnings. Rebuilt local app; focused Chromium E2E 2/2 passed at 390px/1440px, HTTP 200 and no horizontal overflow. No full suite/WebKit/CI, GitHub publication, or VPS changes.
+  Git: pending (local changes based on b2d5507)
+
+- [2026-10-11 21:48 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / Outgoing email]
+  Set the owner-selected existing `hello@zenoba.tech` mailbox as example and local/legacy production Compose SMTP user/from defaults. Wired local SMTP environment passthrough and reapplied only the local app container. Kept founder exclusively for incoming customer support, and preserved environment-driven reset sender, token URL, and expiry. Empty SMTP password avoids a fake usable credential; actual delivery remains unconfigured.
+  Files/areas: `.env.example`, `docker-compose.yml`, `docker-compose.prod.yml`, `README.md`, `PLAN.md`, `docs/HANDOFF.md`
+  Validation: baseline/final focused reset-email/reset-route/legal-contact tests 12/12; Compose syntax and diff checks passed; local health 200; selected runtime fields confirm hello user/from and absent password. No source/build/E2E/WebKit/CI change or real email sent. External environment overrides still require separately authorized release updates; no DNS/VPS/production mutation.
+  Git: pending (local changes based on cd0917b); no remote publication
+
+- [2026-10-11 21:31 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / Public legal copy]
+  Simplified Privacy Policy for general readers, removing database/VPS/SMTP/token/rate-limit internals and the blanket 30-day response claim while retaining data purposes, providers, cookies, storage, rights, child-consent limitations, and individual controller identity. Updated all public legal inquiry/report/account-help contacts and mailto destinations to the owner-provided `founder@zenoba.tech`. Preserved legal styling, Terms scope, authentication, and automatic email configuration.
+  Files/areas: `src/app/(legal)/privacy-policy/page.tsx`, `src/app/(legal)/terms/page.tsx`, `src/app/(legal)/legal-contact.test.tsx`, `PLAN.md`, `docs/HANDOFF.md`
+  Validation: new contact tests failed before implementation; focused contact/About tests 6/6 passed; lint/typecheck/diff checks passed; Docker production build passed with existing warnings. Rebuilt local Docker app; both legal pages and health 200; new mailto present, old address/internal terms absent. Full E2E/WebKit/CI not rerun. Mailbox delivery/monitoring not tested; no SMTP, DNS, VPS, or production changes. Legal reference: https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/crc32/ ; no claim of legal certification.
+  Git: pending (local changes based on 7fb62d8); no remote publication
+
+- [2026-10-11 21:10 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / Three-planet history]
+  Matched the owner's popup reference using the actual IT Journey `CheckpointPopup`, with planet name, chapter title, description, and `Tutup`. Reduced About to Mercury, Saturnus, and Jupiter only, retained their original textures/rings, added visible names, and shortened the luminous path to connect those three milestones. Desktop popup appears above each planet; mobile uses the same popup inline. Homepage Journey defaults are preserved.
+  Files/areas: `src/components/marketing/it-infrastructure-journey.tsx`, Journey tests, `PLAN.md`, `docs/HANDOFF.md`
+  Validation: new tests failed before implementation; final focused About/Journey tests 11/11 passed; lint/typecheck/diff checks passed; Docker production build passed with existing warnings; rebuilt local app health 200; desktop/mobile popup click and `Tutup` smoke verified at 1440px/390px. No full E2E/WebKit or CI rerun.
+  Git: pending (local changes based on eec73cb); no remote publication or production change
+
+- [2026-10-11 21:00 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / History interaction]
+  Applied the owner-approved concise product origin story: information overload and unclear starting points, independent Netloka founding in May 2026, and the fresher Zenoba identity in October 2026. History descriptions now appear only on planet hover/focus or tap/click, with Escape dismissal; titles/dates remain visible and no cards were introduced. Reused orbit visuals and preserved homepage interactions.
+  Files/areas: `src/components/marketing/it-infrastructure-journey.tsx`, focused About/Journey tests, `PLAN.md`, `docs/HANDOFF.md`
+  Validation: baseline 7/7; new tests failed before implementation, final focused tests 10/10 passed; lint/typecheck/diff checks passed; Docker production build passed with existing warnings; rebuilt local app health 200; desktop/mobile click smoke inspected at 1440px/390px. Full E2E/WebKit/CI not rerun at owner's direction.
+  Git: pending (local changes based on 79fd6c7); no remote publication or production change
+
+- [2026-10-11 20:29 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / About refinement]
+  Replaced the approximate About orbit with the actual homepage IT Infrastructure Journey primitives: identical six planets, positions, winding luminous SVG path, Saturn rings, stars, and drifting background planets. History remains unboxed with three owner-verified events; mobile uses one readable semantic timeline. Homepage learning dialogs remain unchanged, and About planets are decorative.
+  Files/areas: `src/app/about/page.tsx`, `src/components/marketing/it-infrastructure-journey.tsx`, `PLAN.md`, `docs/HANDOFF.md`
+  Validation: focused About/Journey tests 7/7; lint and typecheck passed; Docker production build passed with existing warnings; rebuilt local app inspected at 1440px desktop and 390px mobile; no WebKit/full E2E or CI run
+  Git: pending (local changes based on bf2b862); no remote publication or production change
+
+- [2026-10-11 20:17 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / About refinement]
+  Replaced the Journey's three milestone cards with a full-width orbital canvas: each history point now sits directly beside a planet along one luminous route, with constellation details in the background. Removed the two unrequested Visi/Misi eyebrow labels.
+  Files/areas: `src/app/about/page.tsx`, `src/app/about/page.test.tsx`
+  Validation: focused About tests 4/4; lint and typecheck passed; Docker production build passed; local `zenoba-app` and `zenoba-postgres` healthy; `/api/health` returned 200; responsive local browser review completed at mobile and 1440px desktop
+  Git: db1f2c7
+
+- [2026-10-11 19:37 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / About refinement]
+  Added paired Visi and Misi opening cards to `/about`, then a static cosmic IT infrastructure journey that records the owner-verified Netloka start in May 2026, Zenoba's individual 2026 founding by Fikri Haikal, and the October 2026 Zenoba identity change. Removed the final marketing CTA so the FAQ now leads directly into the footer.
+  Files/areas: `src/app/about/page.tsx`, `src/app/about/page.test.tsx`, `src/components/marketing/marketing-footer.tsx`, `src/components/marketing/marketing-footer.test.tsx`, rebrand design and handoff documentation
+  Validation: focused About/footer tests 7/7; lint and typecheck passed; Docker production build passed; local `zenoba-app` and `zenoba-postgres` healthy; `/about` history checks and `/api/health` returned 200; homepage response no longer contains the removed CTA
+  Git: b87fcd7
+
+- [2026-10-11 19:21 WITA] [REVIEW] [Zenoba Rebrand / Application Identity / Local Docker]
+  At the owner's direction, deferred WebKit and long-running release-gate investigation so the current work remains focused on the Netloka-to-Zenoba identity transition. Built and started the local production Docker app with its isolated PostgreSQL service.
+  Files/areas: local Docker containers only; no repository source, VPS, domain, DNS, or production data changed
+  Validation: `zenoba-app` and `zenoba-postgres` healthy; `/api/health` returned 200 with a connected local database; homepage returned 200 with Zenoba and About navigation and no Netloka label; `/about` returned 200 with founder and date-free transition history
+  Git: pending documentation checkpoint
+
+- [2026-10-11 19:03 WITA] [FIXED] [Zenoba Rebrand / Application Identity / Task 4]
+  Corrected the last active dashboard wordmark from `N E T L O K A` to `Z E N O B A` after browser evidence exposed the missed branded label.
+  Files/areas: `src/app/(app)/dashboard/page.tsx`, `src/app/(app)/dashboard/page.test.tsx`
+  Validation: focused dashboard and authentication component tests passed (18/18); the full unit suite passed (150 files/924 tests); the active-source inventory contains only the intentional About-page historical reference.
+  Git: pending
+
+- [2026-10-11 19:03 WITA] [REVIEW] [Zenoba Rebrand / Application Identity / Task 5]
+  Provisioned the owner-authorized disposable local Docker PostgreSQL database on loopback port `5433`, applied the six existing migrations, and seeded test data. The complete 303-test three-browser E2E run now reaches browser execution; it has two unresolved failures: a Firefox `NS_BINDING_ABORTED` runtime-stream failure in developer analytics (the focused Firefox file then passed 3/3), and a reproducible WebKit multi-user navigation race that redirects a fresh learner from the locked assessment check to `/dashboard`.
+  Files/areas: local ignored Docker volume/test artifacts; no application, VPS, domain, or production database changed
+  Validation: `db:deploy` and `db:seed` passed; full E2E executed with the local database; Firefox focused E2E passed 3/3; WebKit focused multi-user E2E remains failing
+  Git: pending documentation checkpoint
+
+- [2026-10-11 17:18 WITA] [REVIEW] [Zenoba Rebrand / Application Identity / Task 5]
+  Started the isolated release gate. Dependency installation, Prisma generation, lint, typecheck, unit tests, and production build are locally verified; full E2E is blocked because the required local PostgreSQL test database at `127.0.0.1:5433` is unavailable. The runner was stopped without starting, migrating, or changing any database.
+  Files/areas: release verification only; no application files changed
+  Validation: focused Zenoba E2E Chromium 10/10 passed earlier; full E2E reached database-dependent cases and failed due to `P1001` database unreachable
+  Git: pending documentation checkpoint
+
+- [2026-10-11 17:13 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / Task 4]
+  Rebranded current source, tests, package metadata, local/staging configuration, and current product documentation to Zenoba; added a reviewed allowlist for historical and production-continuity Netloka references.
+  Files/areas: `src`, `scripts`, local/staging Compose and examples, root product docs, `docs/operations/zenoba-legacy-reference-allowlist.md`
+  Validation: active-reference inventory contains only allowlisted categories; Prisma generation, lint, typecheck, full unit suite, and production build passed with safe local configuration
+  Git: `7648b60`
+
+- [2026-10-11 17:09 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / Task 3]
+  Rebranded password-reset mail, authentication prompts, legal documents, and the new TOTP enrollment label to Zenoba; corrected legal wording to describe the live service without inventing a company or launch date.
+  Files/areas: `src/features/auth`, `src/app/(legal)`, `src/app/api/user/security/2fa/route.ts`, `src/e2e/about.spec.ts`, `src/e2e/legal-pages.spec.ts`
+  Validation: focused unit tests 5 files/37 tests passed; Chromium E2E 10/10 passed at 390px and 1440px; full unit suite 150 files/923 tests passed with local generated Prisma Client
+  Git: `824dad3`
+
+- [2026-10-11 17:05 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / Task 2]
+  Replaced the public wordmark in the existing header and footer with Zenoba, added desktop/mobile and footer navigation to the separate About page, and removed the unsupported learner-volume claim without redesigning the homepage.
+  Files/areas: `src/components/navigation/app-header.tsx`, `src/components/marketing/marketing-footer.tsx`, associated component and homepage tests
+  Validation: focused tests 3 files/10 tests passed; full unit suite 149 files/922 tests passed with local generated Prisma Client
+  Git: `7a80cff`
+
+- [2026-10-11 17:02 WITA] [ADDED] [Zenoba Rebrand / Application Identity / Task 1]
+  Added the public `/about` route with verified Zenoba positioning, founder, date-free history, values, and home/legal links; updated root metadata and pinned `/about` as public middleware behavior.
+  Files/areas: `src/app/about/page.tsx`, `src/app/about/page.test.tsx`, `src/app/layout.tsx`, `src/middleware.test.ts`
+  Validation: focused tests 17/17 passed; full unit suite 149 files/922 tests passed after local Prisma client generation (no database connection required)
+  Git: `3009183`, `b5106e8`
+
+- [2026-10-11 16:45 WITA] [DOCS] [Zenoba Rebrand Planning]
+  Moved the active Zenoba planning worktree from the Codex-managed C: location to `D:\\laragon\\www\\NetLoka-zenoba-rebrand-plan` at the owner's request; committed planning history remains unchanged.
+  Files/areas: `docs/HANDOFF.md`
+  Validation: worktree registration, branch, and clean status verified at the D: path
+  Git: pending
+
+- [2026-10-11 15:54 WITA] [DOCS] [Zenoba Rebrand Planning]
+  Added separate, reviewable execution plans for the application/local identity rebrand and the externally authorized domain cutover; linked both from the active project plan.
+  Files/areas: `docs/superpowers/plans/2026-10-11-zenoba-application-identity-rebrand.md`, `docs/superpowers/plans/2026-10-11-zenoba-domain-cutover.md`, `PLAN.md`, `docs/HANDOFF.md`
+  Validation: implementation-boundary inventory and plan self-review; `git diff --check` pending final plan checkpoint
+  Git: pending
+
+- [2026-10-11 15:42 WITA] [DOCS] [Zenoba Rebrand Planning]
+  Added the owner-approved design specification for the staged Netloka-to-Zenoba rebrand, including the separate public About route, truthful content rules, local checkout rename, and a safe domain-cutover boundary that preserves production data resources.
+  Files/areas: `docs/superpowers/specs/2026-10-11-zenoba-rebrand-design.md`, `docs/HANDOFF.md`
+  Validation: source/configuration boundary review; `git diff --check`
+  Git: pending
 
 # 2026-09-19
 

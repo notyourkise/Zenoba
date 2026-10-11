@@ -1,0 +1,65 @@
+import { fireEvent, render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import AboutPage, { metadata } from "./page";
+
+vi.mock("@/components/navigation/app-header", () => ({
+  AppHeader: () => <header aria-label="Zenoba navigation" />,
+}));
+
+vi.mock("next/link", () => ({
+  default: ({ children, href, ...props }: React.ComponentProps<"a">) => (
+    <a href={String(href)} {...props}>
+      {children}
+    </a>
+  ),
+}));
+
+describe("Zenoba About page", () => {
+  it("explains the independently founded product with its verified 2026 history", () => {
+    render(<AboutPage />);
+
+    expect(
+      screen.getByRole("heading", { level: 1, name: "Tentang Zenoba" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Zenoba adalah platform belajar IT infrastructure berbasis praktik."),
+    ).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Mei 2026 — Netloka dimulai" }));
+    expect(screen.getByText("Dirintis secara individual oleh Fikri Haikal sebagai platform belajar IT infrastructure yang terarah.")).toBeVisible();
+    fireEvent.click(screen.getByRole("button", { name: "Oktober 2026 — Menjadi Zenoba" }));
+    expect(screen.getByText("Netloka berganti nama menjadi Zenoba untuk menghadirkan identitas yang lebih segar dan khas.")).toBeVisible();
+
+    expect(screen.queryByText(/Corporation/i)).not.toBeInTheDocument();
+  });
+
+  it("keeps vision and mission direct before the infrastructure journey", () => {
+    render(<AboutPage />);
+
+    expect(screen.getByRole("heading", { level: 2, name: "Visi" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name: "Misi" })).toBeInTheDocument();
+    expect(screen.queryByText("Arah Zenoba")).not.toBeInTheDocument();
+    expect(screen.queryByText("Cara Zenoba bergerak")).not.toBeInTheDocument();
+    expect(screen.getByRole("region", { name: "Perjalanan Zenoba" })).toBeInTheDocument();
+    expect(screen.getByText("Mei 2026")).toBeInTheDocument();
+    expect(screen.getByText("Oktober 2026")).toBeInTheDocument();
+  });
+
+  it("ends About after the history without the values section or bottom navigation", () => {
+    render(<AboutPage />);
+
+    expect(screen.queryByRole("region", { name: "Nilai dan produk" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("navigation", { name: "Navigasi Tentang Zenoba" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "Kembali ke Beranda" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "Terms" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "Privacy Policy" })).not.toBeInTheDocument();
+    const journey = screen.getByRole("region", { name: "Perjalanan Zenoba" });
+    expect(journey.parentElement?.lastElementChild).toBe(journey);
+  });
+
+  it("provides Zenoba-specific metadata", () => {
+    expect(metadata).toMatchObject({
+      title: "Tentang Zenoba | Zenoba",
+      description: "Informasi tentang Zenoba, platform belajar IT infrastructure berbasis praktik.",
+    });
+  });
+});

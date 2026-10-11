@@ -23,7 +23,7 @@ export async function createAndSignInLearner(
 ): Promise<TestLearner> {
   const timestamp = Date.now();
   const randomSuffix = Math.floor(1000 + Math.random() * 9000);
-  const email = options?.email || `learner_${timestamp}_${randomSuffix}@netloka.test`;
+  const email = options?.email || `learner_${timestamp}_${randomSuffix}@zenoba.test`;
   const password = options?.password || "Password123!";
   const name = options?.name || `Learner ${randomSuffix}`;
 

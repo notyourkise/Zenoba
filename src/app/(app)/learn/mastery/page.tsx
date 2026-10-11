@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "Penguasaan Materi & Remediasi — Netloka",
+  title: "Penguasaan Materi & Remediasi — Zenoba",
   description:
     "Pantau pencapaian sasaran kompetensi kurikulum berbasis bukti evaluasi dan riwayat pembelajaran nyata.",
 };

@@ -22,17 +22,17 @@ export async function sendPasswordResetEmail({
   });
 
   await transport.sendMail({
-    from: `Netloka <${environment.EMAIL_FROM}>`,
+    from: `Zenoba <${environment.EMAIL_FROM}>`,
     to,
-    subject: "Reset your Netloka password",
+    subject: "Reset your Zenoba password",
     text: [
-      "We received a request to reset your Netloka password.",
+      "We received a request to reset your Zenoba password.",
       "",
       `Reset your password: ${resetUrl}`,
       "",
       "This link expires in 30 minutes. If you did not request this, you can ignore this email.",
     ].join("\n"),
-    html: `<p>We received a request to reset your Netloka password.</p><p><a href="${escapeHtml(resetUrl)}">Reset your password</a></p><p>This link expires in 30 minutes. If you did not request this, you can ignore this email.</p>`,
+    html: `<p>We received a request to reset your Zenoba password.</p><p><a href="${escapeHtml(resetUrl)}">Reset your password</a></p><p>This link expires in 30 minutes. If you did not request this, you can ignore this email.</p>`,
   });
 }
 

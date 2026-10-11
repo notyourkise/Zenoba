@@ -1,4 +1,4 @@
-﻿import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { InteractiveFaq } from "./interactive-faq";
 
@@ -21,7 +21,7 @@ describe("InteractiveFaq", () => {
     render(<InteractiveFaq />);
 
     const firstQuestionBtn = screen.getByRole("button", {
-      name: /Apakah Netloka dapat diakses dari laptop atau HP/i,
+      name: /Apakah Zenoba dapat diakses dari laptop atau HP/i,
     });
     expect(firstQuestionBtn).toHaveAttribute("aria-expanded", "true");
 
@@ -31,12 +31,12 @@ describe("InteractiveFaq", () => {
 
     // Click second question to expand
     const secondQuestionBtn = screen.getByRole("button", {
-      name: /Apakah materi Netloka sesuai dengan kurikulum SMK TKJ/i,
+      name: /Apakah materi Zenoba sesuai dengan kurikulum SMK TKJ/i,
     });
     fireEvent.click(secondQuestionBtn);
     expect(secondQuestionBtn).toHaveAttribute("aria-expanded", "true");
     expect(
-      screen.getByText(/Kurikulum Netloka dirancang selaras dengan Capaian Pembelajaran SMK/i),
+      screen.getByText(/Kurikulum Zenoba dirancang selaras dengan Capaian Pembelajaran SMK/i),
     ).toBeInTheDocument();
   });
 
@@ -51,7 +51,7 @@ describe("InteractiveFaq", () => {
     ).toBeInTheDocument();
 
     expect(
-      screen.queryByText(/Apakah Netloka dapat diakses dari laptop atau HP/i),
+      screen.queryByText(/Apakah Zenoba dapat diakses dari laptop atau HP/i),
     ).not.toBeInTheDocument();
   });
 });

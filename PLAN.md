@@ -1,10 +1,10 @@
-# Netloka Implementation Plan
+# Zenoba Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use a task-by-task implementation workflow with review gates. Steps in this plan use checkbox (`- [ ]`) syntax for tracking. Do not implement a later sprint merely because it is interesting; follow the active sprint unless a dependency fix is required.
 
-**Goal:** Build Netloka as an interactive beginner-to-practical networking learning platform with Learn, Labs, Challenges, and IT Consultant simulation.
+**Goal:** Build Zenoba as an interactive beginner-to-practical networking learning platform with Learn, Labs, Challenges, and IT Consultant simulation.
 
-**Architecture:** Netloka starts as a modular Next.js monolith backed by PostgreSQL. Learning content is represented as typed data and reusable lesson blocks rather than one custom React page per lesson. Networking practice uses deterministic logical simulation instead of arbitrary code execution or real virtual machines.
+**Architecture:** Zenoba starts as a modular Next.js monolith backed by PostgreSQL. Learning content is represented as typed data and reusable lesson blocks rather than one custom React page per lesson. Networking practice uses deterministic logical simulation instead of arbitrary code execution or real virtual machines.
 
 **Tech Stack:** Next.js, TypeScript, Tailwind CSS, shadcn/ui, Lucide, PostgreSQL, Prisma, React Flow, Lottie, Docker, Caddy, Cloudflare, GitHub Actions, Git/GitHub CLI.
 
@@ -14,9 +14,30 @@
 
 **Evidence correction:** Historical checked tasks remain delivery history, not proof of current deployment. The `a95b025` inspection found 5 paths/13 modules/15 lessons and non-authoritative completion; merged PR #27–#39 subsequently repaired assessment/progression. A current source-registry recount verifies 6 paths/31 modules/65 lessons/195 formative quizzes/6 capstones. A complete fresh-database baseline now exists and CI applies it with `db:deploy`; retained-database upgrade rehearsal and staging/production remain unverified.
 
+## Approved Upcoming Work — Zenoba Rebrand
+
+- SMTP follow-up (2026-10-12): credentials configured privately and eligible local account confirmed, but both 465/587 TCP connections time out before authentication. Owner deferred local SMTP testing to a separately authorized VPS release; authentication and delivery remain UNVERIFIED, not passed. No reset email has been sent; do not put credentials in Git.
+- Publication authorized by owner (2026-10-12): review complete branch, run relevant local checks, push and create one PR to main, inspect applicable CI without weakening it. Owner retains review/merge authority. No folder move or VPS/domain action before the separate gates. Final review also restores generic backup/restore defaults/prefixes to the retained legacy stack and verifies scripts against Docker test doubles, not a real database.
+
+- Final-review fixes approved by owner (2026-10-12), local only: preserve legacy production resource/database/origin identifiers in both production manifests; align support with `founder@zenoba.tech` and staging sender examples with `hello@zenoba.tech`; correct the `.tech` DNS lesson; remove the corporation claim; read legacy browser preferences as fallback without overwriting new preferences; reconcile current documentation and narrowly classify legacy references. No VPS, domain, database migration, GitHub publication, or folder move. Acceptance: focused regression tests, lint/typecheck, Compose configuration validation, and diff review. WebKit and long-running release gates remain deferred.
+
+- Status: **in progress; Application Identity Tasks 1–4 are locally implemented and verified. Zenoba is running locally through Docker and the focused smoke checks are green. At the owner's direction, WebKit and other long-running E2E investigation are deferred from this rebrand scope. Release, PR, merge, local-folder transition, and separately authorized domain migration remain pending.**
+- Latest approved refinement: `/about` opens with paired Visi/Misi cards without eyebrow labels. History uses only Mercury, Saturnus, and Jupiter, retaining the homepage planet textures, Saturn rings, star-field, and luminous path style with a shortened three-stop winding route. Planet names and chapter headings/dates remain visible. The homepage ends directly with the footer after FAQ.
+- History interaction refinement: three chapters tell the owner's origin story (information overload and unclear starting points), Netloka's independent May 2026 founding, and the fresh Zenoba identity in October 2026. Short descriptions appear in the actual IT Journey pop-up component above desktop planets, with planet name, chapter title, and `Tutup`; mobile uses the same pop-up inline. Hover/focus reveals details, tap/click toggles, and Escape or `Tutup` dismisses them. Preserve homepage behavior; verify focused component tests, lint/typecheck, and local Docker/browser smoke only.
+- Legal copy refinement: simplify Privacy Policy into general user-facing language while retaining data categories/purposes, cookies, third-party providers, storage, privacy rights, child-consent limitations, and individual controller identity. Remove internal implementation details and the blanket 30-day response claim. Route privacy/security/operational/account/Terms inquiries to `founder@zenoba.tech`. Public contact copy only: no mailbox provisioning, SMTP sender changes, consent-flow implementation, or claim of legal certification. Verify mailto destinations, copy consistency, lint/typecheck, and local Docker responses.
+- Design: `docs/superpowers/specs/2026-10-11-zenoba-rebrand-design.md`
+- Tab-icon refinement: use the owner-selected `zenoba-symbol-white.png` for the browser tab only. Preserve navbar/footer logo, Apple touch app icon, source assets, and layout. Supersedes the prior browser app-icon choice; verify rebuilt local metadata and focused Chromium smoke.
+- Logo assets: owner supplied six PNGs under `public/logos` and approved their use. Replace header/footer text wordmarks with the clean black horizontal asset, rendered white through CSS inversion on dark surfaces; keep original files unchanged (white variants have visible extraction artifacts). Register the supplied app icon in root metadata. Preserve layout, navigation, homepage content, auth, and external configuration; verify image loading, responsive fit, focused unit tests, lint/typecheck, Docker build, and local browser smoke. No asset regeneration or new dependency.
+- About bottom-content removal: owner requested removing the entire pictured `Nilai dan produk` section and its bottom Home/Terms/Privacy navigation. About now ends with the three-planet history; shared header, homepage footer, legal routes, vision/mission, and history interactions remain unchanged. This supersedes the initial About bottom-link requirement. Verify focused About/Journey tests, lint/typecheck, Docker build, and local response; no long-running E2E/WebKit.
+- Outgoing email refinement: owner selected the existing `hello@zenoba.tech` mailbox for transactional sending; `founder@zenoba.tech` remains incoming customer support only. Update example/local/legacy production Compose sender defaults, preserve configurable sender and reset behavior, and apply only local Compose settings. SMTP password, actual delivery, external staging/production environments, and DNS/VPS remain unverified or separately authorized. Acceptance: local sender/user are hello, founder legal contacts unchanged, focused reset/contact tests pass; no real email sent.
+- Application/local identity plan: `docs/superpowers/plans/2026-10-11-zenoba-application-identity-rebrand.md`
+- Domain cutover plan: `docs/superpowers/plans/2026-10-11-zenoba-domain-cutover.md`
+- Scope boundary: preserve the homepage structure and production database/volume/network/backup/VPS-root identifiers during the first cutover. External DNS, OAuth, email, and VPS mutations require separate contemporaneous authorization.
+
 ## Global Constraints
 
-- Primary production domain is `netloka.biz.id`.
+- Publication checkpoint (2026-10-12 01:50 WITA): branch pushed; draft PR #88 targets main at verified application head da457b7. Internal review findings corrected, lint/typecheck, 939 tests and Docker build passed. CI pending; inspect fresh head after documentation push. Not ready for user review/merged/deployed; no folder/domain/VPS change. https://github.com/notyourkise/NetLoka/pull/88
+- Primary production domain is `zenoba.tech`.
 - Project logs use WITA / GMT+8.
 - Architecture starts as a modular monolith.
 - Learning content must not require hardcoded pages for every lesson.
@@ -34,7 +55,7 @@
 This layout is the target baseline. Existing project conventions take precedence if the repository already contains equivalent structures.
 
 ```text
-netloka/
+zenoba/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml
@@ -768,7 +789,7 @@ Seed:
 - [ ] Design, implement, and verify a Content Security Policy compatible with the current Next.js application and required assets.
 - [ ] Activate and verify Cloudflare WAF rules on the real staging/production zone.
 - [x] Verify secrets are absent from repository/history (.env excluded, safe .env.example provided).
-- [x] Verify production database is not publicly exposed (isolated Docker bridge network `netloka-network`).
+- [x] Verify production database is not publicly exposed (isolated Docker bridge network `zenoba-network`).
 - [x] Test database backup (`scripts/backup-db.sh`).
 - [x] Test restore into a disposable database (`scripts/restore-db.sh`).
 - [x] Build production Docker image (`Dockerfile` multi-stage node:20-alpine standalone).
@@ -776,10 +797,10 @@ Seed:
 - [x] Document Cloudflare DNS/proxy settings (`docs/deployment/cloudflare-and-caddy.md`).
 - [x] Deploy staging & production readiness documentation.
 - [x] Run smoke tests & critical-path tests (20 Playwright E2E tests passed).
-- [x] Prepare production deployment configuration and runbook for `netloka.biz.id`.
+- [x] Prepare production deployment configuration and runbook for `zenoba.tech`.
 - [ ] Configure and deploy the staging environment using real target infrastructure.
 - [ ] Run staging smoke tests, critical-path E2E, migration, backup, and restore verification.
-- [ ] Deploy production to `netloka.biz.id`.
+- [ ] Deploy production to `zenoba.tech`.
 - [ ] Run post-deploy health, security-header, migration, and critical-path smoke verification.
 
 ---
@@ -894,7 +915,7 @@ Seed:
 **Goal:** Transform the authenticated learner dashboard and sidebar navigation into a deep cosmic, orbital-themed workspace matching the approved visual design.
 
 ### Scope and non-negotiable boundaries
-- [x] Hero Banner: Photorealistic orbital Earth visual (`/images/dashboard-earth-banner.jpg`), atmospheric rim light, Netloka orbital quote ("Better Networks Brighter Opportunities"), dynamic personalized welcome ("Dev Netloka!"), and primary "Lanjutkan/Mulai Belajar" action button.
+- [x] Hero Banner: Photorealistic orbital Earth visual (`/images/dashboard-earth-banner.jpg`), atmospheric rim light, Zenoba orbital quote ("Better Networks Brighter Opportunities"), dynamic personalized welcome ("Dev Zenoba!"), and primary "Lanjutkan/Mulai Belajar" action button.
 - [x] Quick Stats: 4 responsive metric cards (Total Kursus, Sedang Dipelajari, Selesai, and Streak Belajar with 3D glowing flame asset).
 - [x] Progres & Aktivitas: Circular radial SVG donut meter (0% Selesai), text progress context, semantic horizontal progress bar, and 3 metric columns alongside "Lanjutkan dari Terakhir" card (empty & resume states).
 - [x] Praktik & Eksplorasi: 3 featured action cards with custom flowing luminous wave SVG backgrounds (Interactive Labs, Troubleshooting Challenges, Simulasi Konsultan TI).
@@ -910,7 +931,7 @@ Seed:
 **Goal:** Polish visual elements and animations on the cosmic dashboard and navigation:
 - [x] Streak Flame Refinement: Eliminate dark square border around flame using radial gradient mask feathering (`[mask-image:radial-gradient(circle_at_center,black_42%,transparent_70%)]`), add ambient glow aura, add dynamic `@keyframes flame-flicker` animation for natural flame movement, and remove `"hari"` suffix from streak counter (display number only, retaining `aria-label` for screen readers).
 - [x] Interactive Labs Icon: Switch icon from `FlaskConical` to CLI icon (`Terminal` / `>_`) in `LearnerSidebar`, `LearnerMobileDrawer`, and the Interactive Labs card.
-- [x] Quote Positioning: Move Netloka quote (*“Better Networks Brighter Opportunities” — NETLOKA*) from top-right to bottom-right of the hero banner, aligned with the bottom CTA and description row.
+- [x] Quote Positioning: Move Zenoba quote (*“Better Networks Brighter Opportunities” — ZENOBA*) from top-right to bottom-right of the hero banner, aligned with the bottom CTA and description row.
 - [x] Animated Wave Lines: Implement flowing wave animations (`animate-wave-1`, `animate-wave-2`, `animate-wave-3`, `animate-wave-stream`) for the SVG wave lines in the 3 exploration cards (Interactive Labs, Troubleshooting Challenges, Simulasi Konsultan TI) with full `prefers-reduced-motion: reduce` fallback.
 - [x] Test Coverage & Verification: Update unit tests for number-only streak assertion; all quality gates (typecheck, lint, vitest, E2E, build) green.
 

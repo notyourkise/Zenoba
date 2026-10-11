@@ -4,7 +4,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { getMyPackages } from "@/features/commerce/entitlements";
 
 export const metadata = {
-  title: "Paket Saya — Netloka",
+  title: "Paket Saya — Zenoba",
   description: "Daftar lisensi dan paket pembelajaran yang Anda miliki.",
 };
 
@@ -24,7 +24,7 @@ export default async function MyPackagesPage() {
           Paket & Lisensi Saya
         </h1>
         <p className="mt-2 text-base text-zinc-600 dark:text-zinc-400 max-w-2xl">
-          Daftar kepemilikan akses seumur hidup untuk kursus dan paket mandiri Anda di Netloka.
+          Daftar kepemilikan akses seumur hidup untuk kursus dan paket mandiri Anda di Zenoba.
         </p>
       </div>
 

@@ -36,7 +36,7 @@ vi.mock("@/features/developer/elevation/service", () => ({
 describe("/api/developer/elevation Route Handler", () => {
   const mockDeveloperActor = {
     id: "dev-1",
-    email: "dev@netloka.biz.id",
+    email: "dev@zenoba.tech",
     name: "Dev Anto",
     role: "DEVELOPER" as const,
     authVersion: 1,

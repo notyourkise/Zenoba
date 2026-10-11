@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { ItInfrastructureJourney } from "./it-infrastructure-journey";
+import { ItInfrastructureJourney, ZenobaHistoryJourney } from "./it-infrastructure-journey";
 
 describe("ItInfrastructureJourney", () => {
   it("menyembunyikan detail sampai planet checkpoint dipilih atau di-hover", () => {
@@ -73,5 +73,55 @@ describe("ItInfrastructureJourney", () => {
 
     expect(networkTab).toHaveAttribute("aria-selected", "false");
     expect(sysadminTab).toHaveAttribute("aria-selected", "true");
+  });
+});
+
+describe("ZenobaHistoryJourney", () => {
+  const origin = "Banyaknya informasi membuat pemula bingung mulai belajar dari mana. Zenoba hadir untuk memberi arah melalui roadmap dan jalur karier yang jelas.";
+
+  it("shows only titles until a history planet is hovered, then hides its description on leave", () => {
+    render(<ZenobaHistoryJourney />);
+    const planet = screen.getByRole("button", { name: "Berawal dari keresahan" });
+    expect(screen.queryByText(origin)).not.toBeInTheDocument();
+    expect(planet).toHaveAttribute("aria-expanded", "false");
+    fireEvent.mouseEnter(planet);
+    expect(screen.getByText(origin)).toBeVisible();
+    expect(planet).toHaveAttribute("aria-expanded", "true");
+    fireEvent.mouseLeave(planet.closest("li")!);
+    expect(screen.queryByText(origin)).not.toBeInTheDocument();
+  });
+
+  it("reveals descriptions on keyboard focus and dismisses them with Escape", () => {
+    render(<ZenobaHistoryJourney />);
+    const planet = screen.getByRole("button", { name: "Berawal dari keresahan" });
+    fireEvent.focus(planet);
+    expect(screen.getByText(origin)).toBeVisible();
+    fireEvent.keyDown(planet, { key: "Escape" });
+    expect(screen.queryByText(origin)).not.toBeInTheDocument();
+    fireEvent.focus(planet);
+    fireEvent.blur(planet);
+    expect(screen.queryByText(origin)).not.toBeInTheDocument();
+  });
+
+  it("allows tap to toggle the history popup and close it with Tutup", () => {
+    render(<ZenobaHistoryJourney />);
+    const planet = screen.getByRole("button", { name: "Berawal dari keresahan" });
+    fireEvent.click(planet);
+    expect(screen.getByText(origin)).toBeVisible();
+    expect(screen.getByRole("dialog", { name: "Detail Mercury" })).toBeVisible();
+    fireEvent.click(screen.getByRole("button", { name: "Tutup" }));
+    expect(screen.queryByText(origin)).not.toBeInTheDocument();
+    fireEvent.click(planet);
+    fireEvent.click(planet);
+    expect(screen.queryByText(origin)).not.toBeInTheDocument();
+  });
+
+  it("has exactly three named history planets, with details hidden initially", () => {
+    render(<ZenobaHistoryJourney />);
+    expect(screen.getAllByRole("button")).toHaveLength(3);
+    expect(screen.getByText("Mercury")).toBeVisible();
+    expect(screen.getByText("Saturnus")).toBeVisible();
+    expect(screen.getByText("Jupiter")).toBeVisible();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 });

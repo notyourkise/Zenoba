@@ -67,6 +67,29 @@ describe("AppHeader auth buttons", () => {
   });
 });
 
+describe("AppHeader Zenoba identity", () => {
+  test("exposes the Zenoba home link and About route in desktop and mobile navigation", () => {
+    const { container, getByRole } = render(<AppHeader />);
+
+    const home = getByRole("link", { name: "Zenoba Home" });
+    expect(home).toHaveAttribute("href", "/");
+    expect(within(home).getByRole("img", { name: "Zenoba" })).toHaveAttribute(
+      "src",
+      expect.stringContaining("zenoba-logo-black.png"),
+    );
+    expect(getByRole("link", { name: "Tentang Zenoba" })).toHaveAttribute(
+      "href",
+      "/about",
+    );
+
+    fireEvent.click(getByRole("button", { name: "Open menu" }));
+
+    const aboutLinks = container.querySelectorAll('a[href="/about"]');
+    expect(aboutLinks).toHaveLength(2);
+    expect(aboutLinks[1]).toHaveTextContent("Tentang Zenoba");
+  });
+});
+
 describe("AppHeader IT infrastructure navigation", () => {
   test("presents available and soon learning domains without linking unavailable areas", () => {
     render(<AppHeader />);
@@ -143,7 +166,7 @@ describe("AppHeader public authentication surface", () => {
     expect(
       screen.queryByRole("button", { name: "Menu akun" }),
     ).not.toBeInTheDocument();
-    expect(screen.queryByText("Dev Netloka")).not.toBeInTheDocument();
+    expect(screen.queryByText("Dev Zenoba")).not.toBeInTheDocument();
     expect(screen.queryByRole("menu")).not.toBeInTheDocument();
 
     expect(screen.getByRole("link", { name: /Masuk/i })).toBeInTheDocument();

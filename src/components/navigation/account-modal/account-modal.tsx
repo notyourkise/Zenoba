@@ -57,7 +57,7 @@ export function AccountModal({
   // Headline state & handlers
   const initialHeadline =
     user?.headline ||
-    (user?.role === "ADMIN" || user?.email === "dev@netloka.biz.id"
+    (user?.role === "ADMIN" || user?.email === "dev@zenoba.tech"
       ? "Developer"
       : "Siswa SMK TKJ - IT Infrastructure");
   const [headline, setHeadline] = React.useState(initialHeadline);
@@ -96,7 +96,7 @@ export function AccountModal({
   const [cliPrompt, setCliPrompt] = React.useState(() => {
     if (typeof window === "undefined") return "linux";
     try {
-      const saved = localStorage.getItem("netloka_cli_pref");
+      const saved = localStorage.getItem("zenoba_cli_pref") ?? localStorage.getItem("netloka_cli_pref");
       return saved ? JSON.parse(saved).prompt || "linux" : "linux";
     } catch {
       return "linux";
@@ -106,7 +106,7 @@ export function AccountModal({
   const [cliFontSize, setCliFontSize] = React.useState(() => {
     if (typeof window === "undefined") return "14";
     try {
-      const saved = localStorage.getItem("netloka_cli_pref");
+      const saved = localStorage.getItem("zenoba_cli_pref") ?? localStorage.getItem("netloka_cli_pref");
       return saved ? JSON.parse(saved).fontSize || "14" : "14";
     } catch {
       return "14";
@@ -116,7 +116,7 @@ export function AccountModal({
   const [cliTypingSpeed, setCliTypingSpeed] = React.useState(() => {
     if (typeof window === "undefined") return "normal";
     try {
-      const saved = localStorage.getItem("netloka_cli_pref");
+      const saved = localStorage.getItem("zenoba_cli_pref") ?? localStorage.getItem("netloka_cli_pref");
       return saved ? JSON.parse(saved).speed || "normal" : "normal";
     } catch {
       return "normal";
@@ -127,7 +127,7 @@ export function AccountModal({
   const [leaderboardVisible, setLeaderboardVisible] = React.useState(() => {
     if (typeof window === "undefined") return true;
     try {
-      const saved = localStorage.getItem("netloka_privacy_pref");
+      const saved = localStorage.getItem("zenoba_privacy_pref") ?? localStorage.getItem("netloka_privacy_pref");
       if (saved) {
         const parsed = JSON.parse(saved);
         if (typeof parsed.leaderboard === "boolean") return parsed.leaderboard;
@@ -141,7 +141,7 @@ export function AccountModal({
   const [streakReminder, setStreakReminder] = React.useState(() => {
     if (typeof window === "undefined") return true;
     try {
-      const saved = localStorage.getItem("netloka_privacy_pref");
+      const saved = localStorage.getItem("zenoba_privacy_pref") ?? localStorage.getItem("netloka_privacy_pref");
       if (saved) {
         const parsed = JSON.parse(saved);
         if (typeof parsed.streak === "boolean") return parsed.streak;
@@ -162,7 +162,7 @@ export function AccountModal({
         fontSize: key === "fontSize" ? value : cliFontSize,
         speed: key === "speed" ? value : cliTypingSpeed,
       };
-      localStorage.setItem("netloka_cli_pref", JSON.stringify(updated));
+      localStorage.setItem("zenoba_cli_pref", JSON.stringify(updated));
     } catch {
       // Ignore
     }
@@ -174,7 +174,7 @@ export function AccountModal({
         leaderboard: key === "leaderboard" ? value : leaderboardVisible,
         streak: key === "streak" ? value : streakReminder,
       };
-      localStorage.setItem("netloka_privacy_pref", JSON.stringify(updated));
+      localStorage.setItem("zenoba_privacy_pref", JSON.stringify(updated));
     } catch {
       // Ignore
     }
@@ -467,7 +467,7 @@ export function AccountModal({
                   <div className="min-w-0 flex-1 space-y-1">
                     <div className="flex items-center gap-2 flex-wrap">
                       <p className="truncate text-base font-bold text-gray-900 dark:text-white">
-                        {displayName || "Learner Netloka"}
+                        {displayName || "Learner Zenoba"}
                       </p>
                       <span className="text-[10px] font-mono text-gray-400 dark:text-slate-500">
                         {memberCode}
@@ -595,10 +595,10 @@ export function AccountModal({
                 </div>
               </div>
 
-              {/* 3. Ringkasan 4 Pilar Netloka */}
+              {/* 3. Ringkasan 4 Pilar Zenoba */}
               <div className="space-y-2">
                 <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-slate-400">
-                  Capaian 4 Pilar Netloka
+                  Capaian 4 Pilar Zenoba
                 </h4>
                 <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
                   <div className="rounded-xl border border-gray-200/80 bg-white p-3 shadow-xs dark:border-white/5 dark:bg-white/[0.03]">
@@ -707,7 +707,7 @@ export function AccountModal({
                     >
                       <div className="font-semibold">Linux Bash</div>
                       <div className="font-mono text-[10px] text-gray-400 dark:text-slate-500 mt-0.5 truncate">
-                        learner@netloka:~$
+                        learner@zenoba:~$
                       </div>
                     </button>
 
@@ -1052,7 +1052,7 @@ export function AccountModal({
                   Pusat Bantuan & Panduan
                 </h3>
                 <p className="mt-0.5 text-xs text-gray-500 dark:text-slate-400">
-                  Solusi cepat kendala teknis, panduan simulator terminal CLI, dan kontak tim Netloka.
+                  Solusi cepat kendala teknis, panduan simulator terminal CLI, dan kontak tim Zenoba.
                 </p>
               </div>
 
@@ -1076,7 +1076,7 @@ export function AccountModal({
                     Bagaimana cara menjaga api konsistensi harian (streak)?
                   </p>
                   <p className="text-xs text-gray-600 dark:text-slate-400 leading-relaxed">
-                    Akses platform Netloka minimal satu kali sehari dan lakukan aktivitas belajar (membaca materi, menyelesaikan kuis, atau menjalankan skenario lab). Jangan lupa klik tombol api pada profil sebelum pukul 00:00 WITA.
+                    Akses platform Zenoba minimal satu kali sehari dan lakukan aktivitas belajar (membaca materi, menyelesaikan kuis, atau menjalankan skenario lab). Jangan lupa klik tombol api pada profil sebelum pukul 00:00 WITA.
                   </p>
                 </div>
 
@@ -1132,11 +1132,11 @@ export function AccountModal({
                     Butuh Bantuan Lebih Lanjut?
                   </h4>
                   <p className="mt-0.5 text-xs text-gray-500 dark:text-slate-400">
-                    Tim instruktur dan support Netloka siap membantu kendala teknis atau pertanyaan materi Anda.
+                    Tim instruktur dan support Zenoba siap membantu kendala teknis atau pertanyaan materi Anda.
                   </p>
                 </div>
                 <a
-                  href="mailto:support@netloka.biz.id?subject=Bantuan%20Platform%20Netloka"
+                  href="mailto:founder@zenoba.tech?subject=Bantuan%20Platform%20Zenoba"
                   className="inline-flex items-center justify-center rounded-lg bg-gray-900 dark:bg-white px-4 py-2 text-xs font-semibold text-white dark:text-gray-900 shadow-xs hover:bg-gray-800 dark:hover:bg-gray-100 transition shrink-0"
                 >
                   Hubungi Tim Support

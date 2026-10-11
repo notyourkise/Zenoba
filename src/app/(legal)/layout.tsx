@@ -3,13 +3,13 @@ import type { ReactNode } from "react";
 import styles from "./legal.module.css";
 
 // Read-only surface: full white canvas, black text, one readable column.
-// Keep this exception local; the rest of Netloka retains its dark identity.
+// Keep this exception local; the rest of Zenoba retains its dark identity.
 export default function LegalLayout({ children }: { children: ReactNode }) {
   return (
     <div className={styles.page}>
       <div className={styles.column}>
         <nav aria-label="Back navigation" className={styles.back}>
-          <Link href="/">Back to Netloka</Link>
+          <Link href="/">Back to Zenoba</Link>
         </nav>
         <main id="legal-content" className={styles.document}>
           {children}

@@ -3,13 +3,13 @@
 set -euo pipefail
 umask 077
 
-readonly PROJECT_NAME="netloka-staging"
-readonly STAGING_ROOT="/srv/netloka/staging"
+readonly PROJECT_NAME="zenoba-staging"
+readonly STAGING_ROOT="/srv/zenoba/staging"
 readonly REPO_DIR="$STAGING_ROOT/repo"
 readonly ENV_FILE="$STAGING_ROOT/.env"
 readonly COMPOSE_FILE="$REPO_DIR/compose.staging.yml"
 readonly BACKUP_DIR="$STAGING_ROOT/backups/postgres"
-readonly LOCK_FILE="$BACKUP_DIR/.netloka-staging-backup.lock"
+readonly LOCK_FILE="$BACKUP_DIR/.zenoba-staging-backup.lock"
 
 temporary_dump=""
 
@@ -42,15 +42,15 @@ exec 9>"$LOCK_FILE"
 flock -x 9
 
 timestamp="$(TZ=Asia/Makassar date '+%Y%m%d-%H%M%S')"
-final_dump="$BACKUP_DIR/netloka-staging-$timestamp.dump"
+final_dump="$BACKUP_DIR/zenoba-staging-$timestamp.dump"
 
 while [[ -e "$final_dump" ]]; do
   sleep 1
   timestamp="$(TZ=Asia/Makassar date '+%Y%m%d-%H%M%S')"
-  final_dump="$BACKUP_DIR/netloka-staging-$timestamp.dump"
+  final_dump="$BACKUP_DIR/zenoba-staging-$timestamp.dump"
 done
 
-temporary_dump="$(mktemp "$BACKUP_DIR/.netloka-staging-XXXXXXXX.dump.tmp")"
+temporary_dump="$(mktemp "$BACKUP_DIR/.zenoba-staging-XXXXXXXX.dump.tmp")"
 
 STAGING_ENV_FILE="$ENV_FILE" docker compose \
   --project-name "$PROJECT_NAME" \
@@ -61,4 +61,4 @@ STAGING_ENV_FILE="$ENV_FILE" docker compose \
 mv -- "$temporary_dump" "$final_dump"
 temporary_dump=""
 
-find "$BACKUP_DIR" -type f -name 'netloka-staging-*.dump' -mtime +6 -delete
+find "$BACKUP_DIR" -type f -name 'zenoba-staging-*.dump' -mtime +6 -delete

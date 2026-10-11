@@ -18,7 +18,7 @@ describe("DeveloperShell", () => {
   const mockActor = {
     id: "dev-1",
     name: "Dev Anto",
-    email: "dev@netloka.biz.id",
+    email: "dev@zenoba.tech",
     role: "DEVELOPER",
     twoFactorEnabled: false,
   };

@@ -305,9 +305,9 @@ export const capacityProcurementModuleData: CurriculumModule = {
             id: "plan-l4-callout2",
             type: "callout",
             variant: "warning",
-            title: "Aturan Netloka Consultant Engine",
+            title: "Aturan Zenoba Consultant Engine",
             content:
-              "Di Netloka Consultant Workspace, pengadaan yang melebihi pagu anggaran (*Over Budget*) akan mendapatkan skor Cost Efficiency = 0. Namun, menghemat biaya dengan menghilangkan perangkat inti (Router) juga akan otomatis menyebabkan proposal GAGAL.",
+              "Di Zenoba Consultant Workspace, pengadaan yang melebihi pagu anggaran (*Over Budget*) akan mendapatkan skor Cost Efficiency = 0. Namun, menghemat biaya dengan menghilangkan perangkat inti (Router) juga akan otomatis menyebabkan proposal GAGAL.",
           },
           {
             id: "quiz-plan-l4-q1",
@@ -368,7 +368,7 @@ export const capacityProcurementModuleData: CurriculumModule = {
             type: "quiz",
             quizId: "quiz-plan-l4-q3",
             question:
-              "Mengapa dalam evaluasi proposal IT Consultant Netloka, efisiensi biaya (Cost Efficiency) yang tinggi tidak dapat menyelamatkan proposal yang tidak memiliki Router Gateway?",
+              "Mengapa dalam evaluasi proposal IT Consultant Zenoba, efisiensi biaya (Cost Efficiency) yang tinggi tidak dapat menyelamatkan proposal yang tidak memiliki Router Gateway?",
             quizType: "single_choice",
             xpReward: 10,
             options: [

@@ -22,7 +22,7 @@ export interface SimulatedHostState {
 }
 
 export const DEFAULT_SIMULATED_HOST: SimulatedHostState = {
-  hostname: "NETLOKA-WORKSTATION",
+  hostname: "ZENOBA-WORKSTATION",
   interfaces: [
     {
       name: "Ethernet0",
@@ -76,7 +76,7 @@ export function executeSimulatedCommand(
     case "help":
       return {
         output: [
-          "Netloka Simulated Terminal — Available Diagnostic Commands:",
+          "Zenoba Simulated Terminal — Available Diagnostic Commands:",
           "  ipconfig [/all]     Display IP address, subnet mask, gateway, and DNS",
           "  ip addr / ip route  Display Linux network interface & route info",
           "  ping <target>       Send ICMP Echo requests to test reachability",
@@ -185,14 +185,14 @@ export function executeSimulatedCommand(
 
     case "tracert":
     case "traceroute": {
-      const target = args[0] || "netloka.biz.id";
+      const target = args[0] || "zenoba.tech";
       return {
         output: [
           `Tracing route to ${target} over a maximum of 30 hops:`,
           "",
           `  1     1 ms     1 ms     1 ms  ${state.interfaces[0]?.gateway}`,
           "  2    10 ms     9 ms    11 ms  10.200.0.1 (ISP Gateway)",
-          "  3    14 ms    13 ms    14 ms  103.20.5.10 (netloka.biz.id)",
+          "  3    14 ms    13 ms    14 ms  103.20.5.10 (zenoba.tech)",
           "",
           "Trace complete.",
         ],
@@ -218,7 +218,7 @@ export function executeSimulatedCommand(
 
     case "nslookup":
     case "dig": {
-      const domain = args[0] || "netloka.biz.id";
+      const domain = args[0] || "zenoba.tech";
       return {
         output: [
           `Server:  ${state.interfaces[0]?.dnsServer}`,

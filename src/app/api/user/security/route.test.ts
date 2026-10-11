@@ -45,7 +45,7 @@ describe("User Security API Routes", () => {
       vi.mocked(getCurrentUser).mockResolvedValue({ id: "user-123" } as any);
       vi.mocked(prisma.user.findUnique).mockResolvedValue({
         id: "user-123",
-        email: "learner@netloka.biz.id",
+        email: "learner@zenoba.tech",
         passwordHash: "hashed-pw",
         twoFactorEnabled: true,
         twoFactorBackupCodes: JSON.stringify(["hash1", "hash2"]),
@@ -56,7 +56,7 @@ describe("User Security API Routes", () => {
       expect(response.status).toBe(200);
       const data = await response.json();
 
-      expect(data.email).toBe("learner@netloka.biz.id");
+      expect(data.email).toBe("learner@zenoba.tech");
       expect(data.hasPassword).toBe(true);
       expect(data.isGoogleLinked).toBe(true);
       expect(data.twoFactorEnabled).toBe(true);
@@ -69,7 +69,7 @@ describe("User Security API Routes", () => {
       vi.mocked(getCurrentUser).mockResolvedValue({ id: "user-123" } as any);
       vi.mocked(prisma.user.findUnique).mockResolvedValue({
         id: "user-123",
-        email: "learner@netloka.biz.id",
+        email: "learner@zenoba.tech",
       } as any);
       vi.mocked(prisma.user.update).mockResolvedValue({} as any);
 
@@ -83,7 +83,7 @@ describe("User Security API Routes", () => {
       const body = await res.json();
 
       expect(body.secret).toBeDefined();
-      expect(body.uri).toContain("otpauth://totp/Netloka:learner%40netloka.biz.id");
+      expect(body.uri).toContain("otpauth://totp/Zenoba:learner%40zenoba.tech");
       expect(body.qrCodeDataUrl).toMatch(/^data:image\/png;base64,/);
     });
 
@@ -92,7 +92,7 @@ describe("User Security API Routes", () => {
       const mockSecret = "JBSWY3DPEHPK3PXP";
       vi.mocked(prisma.user.findUnique).mockResolvedValue({
         id: "user-123",
-        email: "learner@netloka.biz.id",
+        email: "learner@zenoba.tech",
         twoFactorSecret: mockSecret,
       } as any);
       vi.mocked(prisma.user.update).mockResolvedValue({} as any);

@@ -16,23 +16,23 @@ const FAQ_ITEMS: FaqItem[] = [
   {
     id: "faq-1",
     category: "access",
-    question: "Apakah Netloka dapat diakses dari laptop atau HP dengan spesifikasi rendah?",
+    question: "Apakah Zenoba dapat diakses dari laptop atau HP dengan spesifikasi rendah?",
     answer:
-      "Ya! Seluruh simulasi terminal, kalkulator jaringan, dan visualisasi topologi Netloka berjalan 100% secara instan di peramban web modern (client-side simulation). Anda tidak memerlukan laptop spesifikasi tinggi dan tidak perlu mengunduh aplikasi berat bergiga-giga seperti simulator konvensional.",
+      "Ya! Seluruh simulasi terminal, kalkulator jaringan, dan visualisasi topologi Zenoba berjalan 100% secara instan di peramban web modern (client-side simulation). Anda tidak memerlukan laptop spesifikasi tinggi dan tidak perlu mengunduh aplikasi berat bergiga-giga seperti simulator konvensional.",
   },
   {
     id: "faq-2",
     category: "curriculum",
-    question: "Apakah materi Netloka sesuai dengan kurikulum SMK TKJ dan sertifikasi industri?",
+    question: "Apakah materi Zenoba sesuai dengan kurikulum SMK TKJ dan sertifikasi industri?",
     answer:
-      "Tentu. Kurikulum Netloka dirancang selaras dengan Capaian Pembelajaran SMK Konsentrasi Keahlian Teknik Komputer & Jaringan (TKJ) Kurikulum Merdeka, sekaligus membekali fondasi kompetensi esensial untuk sertifikasi internasional seperti Cisco CCNA (200-301) dan MikroTik MTCNA.",
+      "Tentu. Kurikulum Zenoba dirancang selaras dengan Capaian Pembelajaran SMK Konsentrasi Keahlian Teknik Komputer & Jaringan (TKJ) Kurikulum Merdeka, sekaligus membekali fondasi kompetensi esensial untuk sertifikasi internasional seperti Cisco CCNA (200-301) dan MikroTik MTCNA.",
   },
   {
     id: "faq-3",
     category: "simulator",
-    question: "Bagaimana cara kerja simulator terminal Netloka dan apakah aman?",
+    question: "Bagaimana cara kerja simulator terminal Zenoba dan apakah aman?",
     answer:
-      "Terminal dan lab di Netloka menggunakan sistem simulasi protokol jaringan deterministik di lingkungan browser yang terisolasi aman (sandboxed). Simulator tidak mengeksekusi perintah ke shell host perangkat Anda, sehingga 100% aman untuk bereksperimen tanpa risiko merusak sistem.",
+      "Terminal dan lab di Zenoba menggunakan sistem simulasi protokol jaringan deterministik di lingkungan browser yang terisolasi aman (sandboxed). Simulator tidak mengeksekusi perintah ke shell host perangkat Anda, sehingga 100% aman untuk bereksperimen tanpa risiko merusak sistem.",
   },
   {
     id: "faq-4",
@@ -44,7 +44,7 @@ const FAQ_ITEMS: FaqItem[] = [
   {
     id: "faq-5",
     category: "access",
-    question: "Apakah materi dasar dan simulator Netloka dapat diakses gratis?",
+    question: "Apakah materi dasar dan simulator Zenoba dapat diakses gratis?",
     answer:
       "Seluruh modul fondasi, 9 simulator interaktif di web, serta tantangan dasar dapat diakses secara gratis oleh seluruh siswa, guru, dan pembelajar jaringan mandiri di Indonesia.",
   },
@@ -53,7 +53,7 @@ const FAQ_ITEMS: FaqItem[] = [
     category: "curriculum",
     question: "Apakah progres belajar dan perolehan XP tersimpan di profil akun?",
     answer:
-      "Ya. Setiap materi yang Anda pelajari, latihan subnet yang Anda selesaikan, serta tantangan lab yang Anda tuntuntasakan akan langsung mencatat progres kelulusan modul dan mengakumulasi poin XP ke dalam profil akun Netloka Anda.",
+      "Ya. Setiap materi yang Anda pelajari, latihan subnet yang Anda selesaikan, serta tantangan lab yang Anda tuntuntasakan akan langsung mencatat progres kelulusan modul dan mengakumulasi poin XP ke dalam profil akun Zenoba Anda.",
   },
 ];
 
@@ -387,7 +387,7 @@ export function InteractiveFaq() {
             Pertanyaan yang Sering Diajukan
           </h2>
           <p className="mt-4 text-sm sm:text-base text-slate-300 leading-relaxed">
-            Semua yang perlu Anda ketahui tentang metode belajar interaktif, kurikulum kejuruan, dan simulasi jaringan di Netloka.
+            Semua yang perlu Anda ketahui tentang metode belajar interaktif, kurikulum kejuruan, dan simulasi jaringan di Zenoba.
           </p>
         </div>
 

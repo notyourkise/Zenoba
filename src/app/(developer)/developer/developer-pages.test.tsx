@@ -83,7 +83,7 @@ describe("Developer Portal Pages & Layout", () => {
     it("renders shell when actor is developer", async () => {
       const mockActor: Actor = {
         id: "dev-1",
-        email: "dev@netloka.biz.id",
+        email: "dev@zenoba.tech",
         name: "Dev Anto",
         role: "DEVELOPER" as UserRole,
         authVersion: 1,
@@ -96,7 +96,7 @@ describe("Developer Portal Pages & Layout", () => {
       render(jsx);
 
       expect(screen.getByText("Inner Content")).toBeInTheDocument();
-      expect(screen.getAllByText("Netloka Developer Workspace").length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText("Zenoba Developer Workspace").length).toBeGreaterThanOrEqual(1);
       expect(touchUserActivity).toHaveBeenCalledWith("dev-1");
     });
 
@@ -202,7 +202,7 @@ describe("Developer Portal Pages & Layout", () => {
     it("renders user details, progress, and package history", async () => {
       vi.mocked(getDeveloperUserDetail).mockResolvedValue({
         id: "user-1",
-        email: "learner@netloka.biz.id",
+        email: "learner@zenoba.tech",
         name: "Learner Budi",
         role: "LEARNER" as UserRole,
         authVersion: 1,
@@ -241,7 +241,7 @@ describe("Developer Portal Pages & Layout", () => {
       render(jsx);
 
       expect(screen.getByText("Detail Pengguna")).toBeInTheDocument();
-      expect(screen.getByText("learner@netloka.biz.id")).toBeInTheDocument();
+      expect(screen.getByText("learner@zenoba.tech")).toBeInTheDocument();
       expect(screen.getByText("Learner Budi")).toBeInTheDocument();
       expect(screen.getByText("Network Foundations")).toBeInTheDocument();
       expect(screen.getByText("350 XP")).toBeInTheDocument();
@@ -374,7 +374,7 @@ describe("Developer Portal Pages & Layout", () => {
     it("renders current developer actor account details", async () => {
       vi.mocked(requireDeveloperActor).mockResolvedValue({
         id: "dev-1",
-        email: "dev@netloka.biz.id",
+        email: "dev@zenoba.tech",
         name: "Dev Anto",
         role: "DEVELOPER" as UserRole,
         authVersion: 2,
@@ -385,7 +385,7 @@ describe("Developer Portal Pages & Layout", () => {
       render(jsx);
 
       expect(screen.getByText("Akun Pengembang")).toBeInTheDocument();
-      expect(screen.getByText("dev@netloka.biz.id")).toBeInTheDocument();
+      expect(screen.getByText("dev@zenoba.tech")).toBeInTheDocument();
       expect(screen.getByText("Dev Anto")).toBeInTheDocument();
       expect(screen.getByText("Aktif")).toBeInTheDocument();
     });

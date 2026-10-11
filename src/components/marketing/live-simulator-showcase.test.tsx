@@ -3,6 +3,10 @@ import { describe, expect, it } from "vitest";
 import { LiveSimulatorShowcase } from "./live-simulator-showcase";
 
 describe("LiveSimulatorShowcase", () => {
+  it("shows the independent product identity without claiming a corporation", () => {
+    render(<LiveSimulatorShowcase />);
+    expect(screen.getByText("(c) 2026 Zenoba. All rights reserved.")).toBeInTheDocument();
+  });
   it("menghubungkan tab aktif dengan panel simulator secara aksesibel", () => {
     render(<LiveSimulatorShowcase />);
 
@@ -33,7 +37,7 @@ describe("LiveSimulatorShowcase", () => {
     expect(screen.getByText("Visualizer Alur Paket ICMP")).toBeInTheDocument();
 
     // Check terminal prompt
-    expect(screen.getByText(/guest@netloka-simulator/i)).toBeInTheDocument();
+    expect(screen.getByText(/guest@zenoba-simulator/i)).toBeInTheDocument();
     expect(screen.getByText("ping 192.168.1.1")).toBeInTheDocument();
   });
 

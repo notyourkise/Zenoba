@@ -109,7 +109,7 @@ export function TerminalBlockPlayer({ block, lessonId }: TerminalBlockPlayerProp
       <div className="bg-gray-900 px-4 py-2.5 border-b border-gray-800 flex items-center justify-between">
         <div className="flex items-center space-x-2 text-gray-300 font-bold">
           <TerminalIcon className="w-4 h-4 text-green-400" />
-          <span>Netloka Command Prompt (Simulated)</span>
+          <span>Zenoba Command Prompt (Simulated)</span>
         </div>
         <div className="flex items-center space-x-1.5">
           <span className="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block" />

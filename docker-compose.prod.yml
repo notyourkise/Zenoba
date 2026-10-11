@@ -1,3 +1,5 @@
+# Legacy alternative stack: retain storage/project identity until an authorized cutover.
+# scripts/deploy-production.sh uses compose.production.yml instead; do not interchange stacks.
 name: netloka-production
 
 services:
@@ -19,9 +21,9 @@ services:
       SMTP_HOST: ${SMTP_HOST:-smtp.hostinger.com}
       SMTP_PORT: ${SMTP_PORT:-465}
       SMTP_SECURE: ${SMTP_SECURE:-true}
-      SMTP_USER: ${SMTP_USER:-noreply@haikalariadma.my.id}
+      SMTP_USER: ${SMTP_USER:-hello@zenoba.tech}
       SMTP_PASSWORD: ${SMTP_PASSWORD:-}
-      EMAIL_FROM: ${EMAIL_FROM:-noreply@haikalariadma.my.id}
+      EMAIL_FROM: ${EMAIL_FROM:-hello@zenoba.tech}
       PAYMENT_MODE: ${PAYMENT_MODE:-disabled}
     depends_on:
       postgresql:

@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     // 1. SETUP: Generate secret & QR code
     if (action === "setup") {
       const secret = generateTotpSecret(20);
-      const uri = generateTotpUri(dbUser.email, secret, "Netloka");
+      const uri = generateTotpUri(dbUser.email, secret, "Zenoba");
       const qrCodeDataUrl = await generateQrCodeDataUrl(uri);
 
       // Save pending secret (2FA remains disabled until verified)

@@ -68,7 +68,7 @@ export function LearnerSidebar({ user, onOpenAccountModal }: LearnerSidebarProps
           className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
         >
           <span className="font-black text-xl tracking-wider text-white block">
-            NETLOKA
+            ZENOBA
           </span>
           <span className="text-[11px] text-zinc-400 font-medium tracking-normal block mt-1">
             Learn · Practice · Connect
@@ -144,7 +144,7 @@ export function LearnerSidebar({ user, onOpenAccountModal }: LearnerSidebarProps
         >
           <div className="flex-1 min-w-0">
             <p className="text-sm font-bold text-white truncate">
-              {user?.name || user?.email?.split("@")[0] || "Dev Netloka"}
+              {user?.name || user?.email?.split("@")[0] || "Dev Zenoba"}
             </p>
             <p className="text-xs text-zinc-400 truncate">
               {user?.headline || (user?.role === "ADMIN" ? "Administrator" : "Developer")}

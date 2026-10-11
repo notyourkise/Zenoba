@@ -36,7 +36,7 @@ describe("Role Management Service (setUserRole / setUserRoleFromCli)", () => {
 
   const validLearner = {
     id: "user-123",
-    email: "learner@netloka.biz.id",
+    email: "learner@zenoba.tech",
     role: UserRole.LEARNER,
     authVersion: 1,
     passwordHash: "$2b$10$abcdefghijklmnopqrstuv",
@@ -45,7 +45,7 @@ describe("Role Management Service (setUserRole / setUserRoleFromCli)", () => {
 
   const validDeveloperCandidate = {
     id: "user-456",
-    email: "candidate@netloka.biz.id",
+    email: "candidate@zenoba.tech",
     role: UserRole.LEARNER,
     authVersion: 2,
     passwordHash: "$2b$10$abcdefghijklmnopqrstuv",
@@ -56,7 +56,7 @@ describe("Role Management Service (setUserRole / setUserRoleFromCli)", () => {
     vi.mocked(prisma.user.findUnique).mockResolvedValueOnce(validLearner as any);
     vi.mocked(prisma.user.update).mockResolvedValueOnce({
       id: "user-123",
-      email: "learner@netloka.biz.id",
+      email: "learner@zenoba.tech",
       role: UserRole.INTERNAL_LEARNER,
       authVersion: 2,
     } as any);
@@ -68,7 +68,7 @@ describe("Role Management Service (setUserRole / setUserRoleFromCli)", () => {
     } as any);
 
     const input: RoleChangeInput = {
-      email: "learner@netloka.biz.id",
+      email: "learner@zenoba.tech",
       role: UserRole.INTERNAL_LEARNER,
       operator: "sysadmin-ali",
       reason: "Granting internal evaluation access",
@@ -79,7 +79,7 @@ describe("Role Management Service (setUserRole / setUserRoleFromCli)", () => {
 
     expect(result).toEqual({
       userId: "user-123",
-      email: "learner@netloka.biz.id",
+      email: "learner@zenoba.tech",
       previousRole: UserRole.LEARNER,
       newRole: UserRole.INTERNAL_LEARNER,
       authVersion: 2,
@@ -117,7 +117,7 @@ describe("Role Management Service (setUserRole / setUserRoleFromCli)", () => {
     );
     vi.mocked(prisma.user.update).mockResolvedValueOnce({
       id: "user-456",
-      email: "candidate@netloka.biz.id",
+      email: "candidate@zenoba.tech",
       role: UserRole.DEVELOPER,
       authVersion: 3,
     } as any);
@@ -129,7 +129,7 @@ describe("Role Management Service (setUserRole / setUserRoleFromCli)", () => {
     } as any);
 
     const input: RoleChangeInput = {
-      email: "candidate@netloka.biz.id",
+      email: "candidate@zenoba.tech",
       role: UserRole.DEVELOPER,
       operator: "super-admin",
       reason: "Promoted to core platform engineer",
@@ -151,7 +151,7 @@ describe("Role Management Service (setUserRole / setUserRoleFromCli)", () => {
     } as any);
 
     const input: RoleChangeInput = {
-      email: "oauth@netloka.biz.id",
+      email: "oauth@zenoba.tech",
       role: UserRole.DEVELOPER,
       operator: "super-admin",
       reason: "Attempted elevation without credentials",
@@ -173,7 +173,7 @@ describe("Role Management Service (setUserRole / setUserRoleFromCli)", () => {
     } as any);
 
     const input: RoleChangeInput = {
-      email: "candidate@netloka.biz.id",
+      email: "candidate@zenoba.tech",
       role: UserRole.DEVELOPER,
       operator: "super-admin",
       reason: "Attempted elevation without 2FA",
@@ -192,7 +192,7 @@ describe("Role Management Service (setUserRole / setUserRoleFromCli)", () => {
     vi.mocked(prisma.user.findUnique).mockResolvedValueOnce(null);
 
     const input: RoleChangeInput = {
-      email: "ghost@netloka.biz.id",
+      email: "ghost@zenoba.tech",
       role: UserRole.LEARNER,
       operator: "admin",
       reason: "Unknown user test",
@@ -253,7 +253,7 @@ describe("Role Management Service (setUserRole / setUserRoleFromCli)", () => {
     );
     vi.mocked(prisma.user.update).mockResolvedValueOnce({
       id: "user-456",
-      email: "candidate@netloka.biz.id",
+      email: "candidate@zenoba.tech",
       role: UserRole.LEARNER,
       authVersion: 3,
     } as any);
@@ -265,7 +265,7 @@ describe("Role Management Service (setUserRole / setUserRoleFromCli)", () => {
     } as any);
 
     const input: RoleChangeInput = {
-      email: "candidate@netloka.biz.id",
+      email: "candidate@zenoba.tech",
       role: UserRole.LEARNER,
       operator: "security-auditor",
       reason: "Demoting developer back to learner",

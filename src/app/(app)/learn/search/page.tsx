@@ -14,9 +14,9 @@ import { BookmarkButton } from "@/features/learning/bookmarks/components/bookmar
 import { Search, Bookmark, BookOpen, ArrowRight } from "lucide-react";
 
 export const metadata = {
-  title: "Pencarian Kurikulum & Bookmark — Netloka",
+  title: "Pencarian Kurikulum & Bookmark — Zenoba",
   description:
-    "Cari topik jaringan, modul, sasaran kompetensi, dan akses materi tersimpan di kurikulum Netloka.",
+    "Cari topik jaringan, modul, sasaran kompetensi, dan akses materi tersimpan di kurikulum Zenoba.",
 };
 
 interface SearchPageProps {
@@ -76,7 +76,7 @@ export default async function CurriculumSearchPage({
         </h1>
         <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 max-w-2xl">
           Temukan topik jaringan, istilah teknis, modul, dan sasaran kompetensi
-          di seluruh kurikulum Netloka, atau lanjutkan materi yang telah Anda simpan.
+          di seluruh kurikulum Zenoba, atau lanjutkan materi yang telah Anda simpan.
         </p>
       </div>
 

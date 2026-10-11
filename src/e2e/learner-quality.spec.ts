@@ -101,7 +101,7 @@ test.describe("Learner Quality Acceptance & Regression (Milestone 14 / Task 39.2
     const testLessonId = "intro-to-networking";
     const testActivityId = "quality-check-activity";
     const testPayload = {
-      notes: "Catatan pengujian kualitas pembelajaran Netloka",
+      notes: "Catatan pengujian kualitas pembelajaran Zenoba",
       selectedOptions: ["A", "C"],
       timestamp: Date.now(),
     };

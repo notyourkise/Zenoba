@@ -511,9 +511,9 @@ function StarField() {
   );
 }
 
-function ConstellationPath() {
-  const windingPath =
-    "M 259 72 C 340 110, 450 150, 547 216 C 680 300, 980 240, 1181 306 C 1320 360, 980 420, 778 486 C 580 550, 350 570, 216 648 C 100 720, 750 710, 1094 792";
+function ConstellationPath({
+  windingPath = "M 259 72 C 340 110, 450 150, 547 216 C 680 300, 980 240, 1181 306 C 1320 360, 980 420, 778 486 C 580 550, 350 570, 216 648 C 100 720, 750 710, 1094 792",
+}: { windingPath?: string } = {}) {
 
   return (
     <svg
@@ -559,14 +559,21 @@ function PlanetButton({
   onSelect,
   onFocus,
   onBlur,
+  decorative = false,
+  accessibleLabel,
+  controls,
 }: {
   checkpoint: JourneyCheckpoint;
   isSelected: boolean;
   onSelect: () => void;
   onFocus?: () => void;
   onBlur?: () => void;
+  decorative?: boolean;
+  accessibleLabel?: string;
+  controls?: string;
 }) {
   const isSaturn = checkpoint.celestialName === "Saturn";
+  const PlanetElement = decorative ? "span" : "button";
 
   return (
     <div className="relative grid place-items-center">
@@ -601,10 +608,12 @@ function PlanetButton({
         </svg>
       )}
 
-      <button
-        type="button"
-        aria-expanded={isSelected}
-        aria-label={`${checkpoint.celestialName}, ${checkpoint.learningPath}`}
+      <PlanetElement
+        type={decorative ? undefined : "button"}
+        aria-hidden={decorative ? true : undefined}
+        aria-expanded={decorative ? undefined : isSelected}
+        aria-label={decorative ? undefined : accessibleLabel ?? `${checkpoint.celestialName}, ${checkpoint.learningPath}`}
+        aria-controls={controls}
         className="group relative z-10 grid h-16 w-16 place-items-center rounded-full border border-white/45 transition duration-200 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950 cursor-pointer"
         onClick={onSelect}
         onFocus={onFocus}
@@ -622,8 +631,8 @@ function PlanetButton({
           aria-hidden="true"
           className="absolute inset-0 rounded-full ring-1 ring-black/20"
         />
-        <span className="sr-only">Buka detail {checkpoint.celestialName}</span>
-      </button>
+        {!decorative && <span className="sr-only">Buka detail {checkpoint.celestialName}</span>}
+      </PlanetElement>
 
       {/* Saturn Planetary Front Ring (Pure Clean Vector SVG Clipped Over Planet Equator) */}
       {isSaturn && (
@@ -672,24 +681,154 @@ function PlanetButton({
   );
 }
 
+const zenobaHistory = [
+  {
+    planet: "Mercury",
+    planetName: "Mercury",
+    position: { left: "18%", top: "16%" },
+    date: null,
+    title: "Berawal dari keresahan",
+    description: "Banyaknya informasi membuat pemula bingung mulai belajar dari mana. Zenoba hadir untuk memberi arah melalui roadmap dan jalur karier yang jelas.",
+  },
+  {
+    planet: "Saturn",
+    planetName: "Saturnus",
+    position: { left: "76%", top: "48%" },
+    date: "Mei 2026",
+    title: "Netloka dimulai",
+    description: "Dirintis secara individual oleh Fikri Haikal sebagai platform belajar IT infrastructure yang terarah.",
+  },
+  {
+    planet: "Jupiter",
+    planetName: "Jupiter",
+    position: { left: "28%", top: "80%" },
+    date: "Oktober 2026",
+    title: "Menjadi Zenoba",
+    description: "Netloka berganti nama menjadi Zenoba untuk menghadirkan identitas yang lebih segar dan khas.",
+  },
+];
+
+export function ZenobaHistoryJourney() {
+  const [hovered, setHovered] = useState<string | null>(null);
+  const [focused, setFocused] = useState<string | null>(null);
+  const [pinned, setPinned] = useState<string | null>(null);
+  const activePlanet = hovered ?? focused ?? pinned;
+  const closePopup = () => {
+    setHovered(null);
+    setFocused(null);
+    setPinned(null);
+  };
+
+  return (
+    <section
+      aria-labelledby="zenoba-story"
+      className="relative isolate left-1/2 w-screen -translate-x-1/2 overflow-hidden bg-[#030308] px-6 py-16 text-white sm:px-12 lg:px-20"
+    >
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(15,23,42,0.25)_0%,transparent_75%)]" />
+      <StarField />
+      <div className="relative z-20 mx-auto max-w-7xl">
+        <header className="mx-auto max-w-3xl text-center">
+          <h2 id="zenoba-story" className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+            Perjalanan Zenoba
+          </h2>
+          <p className="mt-4 text-sm leading-relaxed text-slate-300 sm:text-base">
+            Perjalanan dari Netloka menuju Zenoba, dibangun secara independen sejak 2026.
+          </p>
+        </header>
+
+        <div className="relative mx-auto mt-24 max-w-[1440px] lg:h-[760px]">
+          <div className="absolute inset-x-0 top-0 hidden h-[650px] lg:block">
+            <ConstellationPath windingPath="M 259.2 144 C 480 240, 870 220, 1094.4 432 C 1240 520, 810 630, 403.2 720" />
+          </div>
+
+        <ol className="relative space-y-16 border-l border-slate-600 pl-12 lg:absolute lg:inset-x-0 lg:top-0 lg:h-[650px] lg:space-y-0 lg:border-0 lg:pl-0">
+          {zenobaHistory.map((milestone) => {
+            const checkpoint = checkpoints.find((item) => item.celestialName === milestone.planet)!;
+            const isExpanded = activePlanet === milestone.planet;
+            const titleId = `history-${milestone.planet.toLowerCase()}-title`;
+            const popupId = `history-${milestone.planet.toLowerCase()}`;
+            const label = milestone.date ? `${milestone.date} — ${milestone.title}` : milestone.title;
+            return (
+              <li
+                key={milestone.planet}
+                className={`relative lg:absolute lg:left-[var(--history-left)] lg:top-[var(--history-top)] lg:w-60 lg:-translate-x-1/2 lg:-translate-y-8 lg:text-center ${isExpanded ? "z-30" : "z-10"}`}
+                style={{ "--history-left": milestone.position.left, "--history-top": milestone.position.top } as React.CSSProperties}
+                onMouseLeave={() => setHovered(null)}
+                onBlur={(event) => {
+                  if (!event.currentTarget.contains(event.relatedTarget)) setFocused(null);
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === "Escape") {
+                    closePopup();
+                  }
+                }}
+              >
+                <div
+                  className="absolute -left-20 top-0 scale-75 lg:relative lg:left-auto lg:mx-auto lg:w-16 lg:scale-100"
+                  onMouseEnter={() => setHovered(milestone.planet)}
+                >
+                  <PlanetButton
+                    checkpoint={checkpoint}
+                    isSelected={isExpanded}
+                    accessibleLabel={label}
+                    controls={isExpanded ? popupId : undefined}
+                    onSelect={() => {
+                      setHovered(null);
+                      setFocused(null);
+                      setPinned((current) => current === milestone.planet ? null : milestone.planet);
+                    }}
+                    onFocus={() => setFocused(milestone.planet)}
+                  />
+                </div>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-slate-300 lg:mt-3">
+                  {milestone.planetName}
+                </p>
+                <h3 id={titleId} className="text-lg font-bold">
+                  {milestone.date && <span className="mb-1 block text-sm font-semibold text-sky-200">{milestone.date}</span>}
+                  {milestone.title}
+                </h3>
+                {isExpanded && (
+                  <div className="mt-3 lg:absolute lg:bottom-full lg:left-1/2 lg:mt-0 lg:-translate-x-1/2 lg:pb-4">
+                    <CheckpointPopup
+                      checkpoint={{ ...checkpoint, learningPath: label, description: milestone.description }}
+                      planetName={milestone.planetName}
+                      idPrefix="history"
+                      onClose={closePopup}
+                    />
+                  </div>
+                )}
+              </li>
+            );
+          })}
+        </ol>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CheckpointPopup({
   checkpoint,
   onClose,
+  planetName = checkpoint.celestialName,
+  idPrefix = "checkpoint",
 }: {
   checkpoint: JourneyCheckpoint;
   onClose: () => void;
+  planetName?: string;
+  idPrefix?: string;
 }) {
   return (
     <div
-      id={`checkpoint-${checkpoint.celestialName.toLowerCase()}`}
+      id={`${idPrefix}-${checkpoint.celestialName.toLowerCase()}`}
       role="dialog"
-      aria-label={`Detail ${checkpoint.celestialName}`}
+      aria-label={`Detail ${planetName}`}
       className="w-64 rounded-2xl border border-slate-500/80 bg-slate-950/95 p-4 text-left shadow-[0_18px_48px_rgba(0,0,0,0.5)] backdrop-blur-sm animate-in fade-in-50 zoom-in-95 duration-150"
     >
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-300">
-            {checkpoint.celestialName}
+            {planetName}
           </p>
           <h3 className="mt-1 text-base font-bold text-white">
             {checkpoint.learningPath}
@@ -917,7 +1056,7 @@ export function ItInfrastructureJourney() {
         {currentTrack.isComingSoon ? (
           <div className="mx-auto mt-12 max-w-3xl rounded-2xl border border-slate-800/90 bg-[#0a0d18]/90 p-8 sm:p-12 text-center backdrop-blur-md shadow-[0_0_40px_rgba(15,23,42,0.6)]">
             <div className="inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-500/10 px-3.5 py-1 text-xs font-semibold text-amber-300 mb-5">
-              <span>Fase Perancangan Kurikulum • Segera Hadir di Netloka</span>
+              <span>Fase Perancangan Kurikulum • Segera Hadir di Zenoba</span>
             </div>
 
             <h3 className="text-xl sm:text-2xl font-bold text-white mb-3">

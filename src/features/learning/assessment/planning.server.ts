@@ -359,7 +359,7 @@ export const planningFormativeQuestions: PrivateQuizQuestion[] = [
     lessonSlug: "penyusunan-boq-anggaran",
     outcomeId: "PLAN-L4-B",
     question:
-      "Mengapa dalam evaluasi proposal IT Consultant Netloka, efisiensi biaya (Cost Efficiency) yang tinggi tidak dapat menyelamatkan proposal yang tidak memiliki Router Gateway?",
+      "Mengapa dalam evaluasi proposal IT Consultant Zenoba, efisiensi biaya (Cost Efficiency) yang tinggi tidak dapat menyelamatkan proposal yang tidak memiliki Router Gateway?",
     options: [
       {
         id: "opt-1",
@@ -675,7 +675,7 @@ export const planningFormativeQuestions: PrivateQuizQuestion[] = [
     lessonSlug: "review-desain-dan-revisi",
     outcomeId: "PLAN-L8-A",
     question:
-      "Sebuah proposal jaringan kantor meraih skor efisiensi biaya maksimal (20/20) dan skalabilitas tinggi (20/20), namun perancang tidak memasukkan Router Gateway ke dalam BoQ. Menurut standar scoring Netloka Consultant, apakah status kelulusan proposal tersebut?",
+      "Sebuah proposal jaringan kantor meraih skor efisiensi biaya maksimal (20/20) dan skalabilitas tinggi (20/20), namun perancang tidak memasukkan Router Gateway ke dalam BoQ. Menurut standar scoring Zenoba Consultant, apakah status kelulusan proposal tersebut?",
     options: [
       {
         id: "opt-1",
@@ -923,7 +923,7 @@ export const planningFormativeQuestions: PrivateQuizQuestion[] = [
     lessonSlug: "komparasi-kasus-lanjutan",
     outcomeId: "PLAN-L10-B",
     question:
-      "Mengapa platform Netloka mewajibkan siswa menyelesaikan dan meluluskan proyek fondasi Small Office Notaris sebelum membuka akses ke kasus skala menengah hingga enterprise?",
+      "Mengapa platform Zenoba mewajibkan siswa menyelesaikan dan meluluskan proyek fondasi Small Office Notaris sebelum membuka akses ke kasus skala menengah hingga enterprise?",
     options: [
       {
         id: "opt-1",
@@ -939,7 +939,7 @@ export const planningFormativeQuestions: PrivateQuizQuestion[] = [
       },
       {
         id: "opt-4",
-        text: "Karena sistem database Netloka tidak mampu memproses dua proyek sekaligus.",
+        text: "Karena sistem database Zenoba tidak mampu memproses dua proyek sekaligus.",
       },
     ],
     correctAnswer: "opt-1",

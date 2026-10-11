@@ -18,7 +18,7 @@ vi.mock("@/lib/db/client", () => ({
 describe("System Health Read Model (getSystemHealth)", () => {
   const mockDeveloperActor = {
     id: "dev-1",
-    email: "dev@netloka.biz.id",
+    email: "dev@zenoba.tech",
     name: "Developer One",
     role: UserRole.DEVELOPER,
     authVersion: 1,
@@ -73,7 +73,7 @@ describe("System Health Read Model (getSystemHealth)", () => {
 
     // Verify raw secret patterns are NEVER present
     expect(serialized).not.toContain("postgresql://");
-    expect(serialized).not.toContain("netloka_ci_password");
+    expect(serialized).not.toContain("zenoba_ci_password");
     expect(serialized).not.toContain("passwordHash");
     expect(serialized).not.toContain("twoFactorSecret");
 

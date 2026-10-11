@@ -12,7 +12,7 @@ Siswa SMK bidang teknologi informasi, mahasiswa, pemula IT infrastructure, serta
 
 ## Product Purpose
 
-Netloka adalah platform pembelajaran IT infrastructure interaktif yang mengajarkan jaringan, server, Linux, cloud, cybersecurity, dan infrastruktur lapangan melalui interaksi deterministik serta penalaran studi kasus nyata, bukan sekadar bahan bacaan teoritis pasif.
+Zenoba adalah platform pembelajaran IT infrastructure interaktif yang mengajarkan jaringan, server, Linux, cloud, cybersecurity, dan infrastruktur lapangan melalui interaksi deterministik serta penalaran studi kasus nyata, bukan sekadar bahan bacaan teoritis pasif.
 
 Alur belajar:
 `Learn → Interact → Practice → Challenge → Consultant Project`
@@ -41,8 +41,8 @@ Networking merupakan learning domain pertama yang sudah tersedia. Server & Linux
 
 ## Brand Commitments
 
-- **Nama Brand:** Netloka
-- **Domain:** `netloka.biz.id`
+- **Nama Brand:** Zenoba
+- **Domain:** `zenoba.tech`
 - **Palet Utama:** kanvas hitam kosmik, putih untuk hierarki utama, sky blue untuk aksi dan state aktif, amber untuk status `Soon`, Emerald untuk status lulus, serta Rose untuk error/troubleshooting.
 - **Tipografi:** Modern geometric sans-serif dengan hierarki visual yang jelas, font monospaced untuk konfigurasi CLI dan tabel routing.
 
@@ -60,7 +60,7 @@ Disetujui pemilik pada 2026-09-05: mulai dari module **Welcome to Networking** s
 
 Alur yang telah diimplementasikan: introduction/capaian → konsep → contoh terbimbing → visualisasi → interaksi/praktik → quiz → rangkuman → penyelesaian terverifikasi. Quiz lesson dan tes akhir module memakai evidence server-authoritative dan retry/remediation.
 
-Milestones 8–11 telah memperbaiki pengalaman pembelajaran Networking; Milestone 12 menyelesaikan review gate komersial tanpa mengaktifkan pembayaran. Milestone 13 aktif: fondasi developer/internal roles Sprint 34 telah merged tetapi closure findings authorization masih terbuka; developer portal, elevation, dan audit belum dijalankan. Milestone 14 meningkatkan continuity/mastery, dan Milestone 15 menempatkan gateway/deployment/production/live payment paling akhir pada Sprint 42. Lihat [approved design](docs/superpowers/specs/2026-09-07-developer-portal-and-learner-experience-design.md).
+ROADMAP/PLAN mencatat Milestones 0–15 selesai sebagai riwayat delivery. Pekerjaan aktif saat ini adalah rebrand lokal Zenoba dan penutupan hasil review identitas. Status historis bukan verifikasi ulang production, pembayaran, atau integrasi eksternal; publikasi dan migrasi domain tetap memerlukan persetujuan terpisah. Lihat [approved design](docs/superpowers/specs/2026-09-07-developer-portal-and-learner-experience-design.md) untuk konteks program sebelumnya.
 
 ## Product Principles
 

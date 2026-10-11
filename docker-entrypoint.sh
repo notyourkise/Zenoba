@@ -2,7 +2,7 @@
 set -e
 
 echo "=========================================="
-echo "🚀 Starting Netloka Production Container"
+echo "🚀 Starting Zenoba Production Container"
 echo "=========================================="
 
 echo "⚡ Ensuring database schema is synced..."
@@ -24,5 +24,5 @@ async function check() {
 check().catch(console.error);
 " || true
 
-echo "🌐 Starting Netloka Server on http://0.0.0.0:3000..."
+echo "🌐 Starting Zenoba Server on http://0.0.0.0:3000..."
 exec node server.js

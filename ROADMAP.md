@@ -1,7 +1,7 @@
-# Netloka Roadmap
+# Zenoba Roadmap
 
-> **Project:** Netloka  
-> **Domain:** `netloka.biz.id`  
+> **Project:** Zenoba
+> **Domain:** `zenoba.tech`
 > **Product:** Interactive IT infrastructure learning platform
 > **Primary audience:** SMK TKJ students, beginners, and learners preparing for practical network, sysadmin, security, cloud, and field-infrastructure work
 > **Core experience:** Learn → Interact → Practice → Challenge → Consultant Project  
@@ -12,7 +12,7 @@
 
 ## 1. Product Direction
 
-Netloka is not intended to be a conventional LMS consisting mainly of long-form reading and video. The product should teach IT infrastructure through short lessons, reusable interactive visualizations, practice labs, troubleshooting scenarios, and project-based simulations. Networking is the first implemented domain and the intended MVP curriculum; renewed instructional completeness is tracked in Milestones 8–11. Future domains remain out of MVP scope until the roadmap intentionally activates them.
+Zenoba is not intended to be a conventional LMS consisting mainly of long-form reading and video. The product should teach IT infrastructure through short lessons, reusable interactive visualizations, practice labs, troubleshooting scenarios, and project-based simulations. Networking is the first implemented domain and the intended MVP curriculum; renewed instructional completeness is tracked in Milestones 8–11. Future domains remain out of MVP scope until the roadmap intentionally activates them.
 
 The MVP must establish four core product areas:
 
@@ -98,7 +98,7 @@ Deliverables:
 
 ## Milestone 1 — Core Product Shell ✅ COMPLETE
 
-**Goal:** A user can authenticate, enter Netloka, navigate the application, and own persistent learning progress.
+**Goal:** A user can authenticate, enter Zenoba, navigate the application, and own persistent learning progress.
 
 ### Sprint 1 — Authentication, User Model & Application Shell ✅
 
@@ -131,7 +131,7 @@ Deliverables:
 
 ## Milestone 2 — Learning Engine ✅ COMPLETE
 
-**Goal:** Netloka can render reusable, interactive lessons without hardcoding every lesson as a custom page.
+**Goal:** Zenoba can render reusable, interactive lessons without hardcoding every lesson as a custom page.
 
 ### Sprint 3 — Lesson Block Renderer ✅
 
@@ -181,7 +181,7 @@ Deliverables:
 
 ## Milestone 3 — Network Foundations Content ✅ COMPLETE
 
-**Goal:** Release the first complete beginner learning path and validate Netloka's interactive teaching model.
+**Goal:** Release the first complete beginner learning path and validate Zenoba's interactive teaching model.
 
 ### Sprint 5 — Network Foundations Part A ✅
 
@@ -357,7 +357,7 @@ Deliverables:
 
 ## Milestone 6 — IT Consultant Mode ✅ COMPLETE
 
-**Goal:** Deliver Netloka's flagship case-based network planning experience.
+**Goal:** Deliver Zenoba's flagship case-based network planning experience.
 
 ### Sprint 12 — Consultant Case & Procurement Engine ✅
 
@@ -437,7 +437,7 @@ Deliverables:
 - Cloudflare setup documentation (`docs/deployment/cloudflare-and-caddy.md`) ✅
 - staging → production release workflow documented ✅
 - uptime & database monitoring (`/api/health`) ✅
-- production deployment configuration for `netloka.biz.id` ✅
+- production deployment configuration for `zenoba.tech` ✅
 - staging deployment and environment verification ⏳
 - production deployment and post-deploy smoke verification ⏳
 
@@ -505,7 +505,7 @@ Flame, quote placement, sidebar CLI icon, and wave refinements. Subsequent card-
 
 **Current evidence note (2026-09-08):** PR #25 introduced CSP and in-memory reset abuse/session controls. Earlier Sprint 15–16 checklists are historical scope records; remaining multi-process security and all staging/production validation are now owned by Milestone 15. This documentation does not certify public production security.
 
-**MVP exit criteria:** Netloka must be deployed to staging and production, pass post-deploy smoke and critical-path verification, and be stable, recoverable, measurable, and usable by real learners. Not yet satisfied; Milestone 15 owns these remaining criteria. Learning outcome/assessment evidence is merged, but is not deployment evidence.
+**MVP exit criteria:** Zenoba must be deployed to staging and production, pass post-deploy smoke and critical-path verification, and be stable, recoverable, measurable, and usable by real learners. Not yet satisfied; Milestone 15 owns these remaining criteria. Learning outcome/assessment evidence is merged, but is not deployment evidence.
 
 ---
 

@@ -33,7 +33,7 @@ describe("server-authoritative role guards", () => {
 
   const developerActor: Actor = {
     id: "dev-1",
-    email: "dev@netloka.biz.id",
+    email: "dev@zenoba.tech",
     name: "Developer One",
     role: "DEVELOPER",
     authVersion: 1,
@@ -42,7 +42,7 @@ describe("server-authoritative role guards", () => {
 
   const learnerActor: Actor = {
     id: "learner-1",
-    email: "learner@netloka.biz.id",
+    email: "learner@zenoba.tech",
     name: "Learner One",
     role: "LEARNER",
     authVersion: 1,
@@ -51,7 +51,7 @@ describe("server-authoritative role guards", () => {
 
   const internalLearnerActor: Actor = {
     id: "internal-1",
-    email: "owner-test@netloka.biz.id",
+    email: "owner-test@zenoba.tech",
     name: "Internal Tester",
     role: "INTERNAL_LEARNER",
     authVersion: 1,

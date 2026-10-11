@@ -20,9 +20,13 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Netloka - Interactive Networking Learning Platform",
+  title: "Zenoba - Interactive IT Infrastructure Learning Platform",
   description:
-    "Learn networking through interactive lessons, labs, challenges, and consultant simulations.",
+    "Belajar IT infrastructure melalui pelajaran interaktif, labs, challenges, dan simulasi consultant.",
+  icons: {
+    icon: { url: "/logos/zenoba-symbol-white.png", type: "image/png" },
+    apple: { url: "/logos/zenoba-app-icon.png", type: "image/png" },
+  },
 };
 
 export default function RootLayout({

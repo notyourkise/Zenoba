@@ -4,7 +4,7 @@ import type { UserRole } from "@/generated/prisma/client";
 import { searchDeveloperUsers } from "@/features/developer/users/queries";
 
 export const metadata = {
-  title: "Direktori Pengguna — Developer Netloka",
+  title: "Direktori Pengguna — Developer Zenoba",
 };
 
 export default async function DeveloperUsersPage({
@@ -50,7 +50,7 @@ export default async function DeveloperUsersPage({
           Direktori Pengguna
         </h1>
         <p className="text-sm text-slate-400 mt-1">
-          Daftar seluruh akun pengguna Netloka, filter berdasarkan peran, dan periksa detail individu.
+          Daftar seluruh akun pengguna Zenoba, filter berdasarkan peran, dan periksa detail individu.
         </p>
       </div>
 

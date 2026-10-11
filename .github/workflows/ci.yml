@@ -8,9 +8,9 @@ on:
 
 env:
   NODE_VERSION: "20.19.0"
-  DATABASE_URL: "postgresql://netloka:netloka_ci_password@127.0.0.1:5432/netloka?schema=public"
-  AUTH_SECRET: "netloka_ci_auth_secret_minimum_32_characters_long_for_test"
-  NEXTAUTH_SECRET: "netloka_ci_auth_secret_minimum_32_characters_long_for_test"
+  DATABASE_URL: "postgresql://zenoba:zenoba_ci_password@127.0.0.1:5432/zenoba?schema=public"
+  AUTH_SECRET: "zenoba_ci_auth_secret_minimum_32_characters_long_for_test"
+  NEXTAUTH_SECRET: "zenoba_ci_auth_secret_minimum_32_characters_long_for_test"
   NEXTAUTH_URL: "http://localhost:3000"
 
 jobs:
@@ -79,9 +79,9 @@ jobs:
       postgres:
         image: postgres:16-alpine
         env:
-          POSTGRES_USER: netloka
-          POSTGRES_PASSWORD: netloka_ci_password
-          POSTGRES_DB: netloka
+          POSTGRES_USER: zenoba
+          POSTGRES_PASSWORD: zenoba_ci_password
+          POSTGRES_DB: zenoba
         ports:
           - 5432:5432
         options: >-

@@ -38,6 +38,9 @@ All notable project changes are recorded here.
 
 # 2026-10-12
 
+- [2026-10-12 01:29 WITA] [CHANGED] [Zenoba Rebrand / Private local SMTP]
+  Applied owner-authorized credential only to ignored D-drive `.env` and recreated the local app. Literal dollar character preserved using single-quoted dotenv value; no secret in tracked files or outputs. Host-side SMTP verify timed out (ETIMEDOUT), so authentication/delivery remain unverified. Requested recipient still has no eligible local password account. No email, account creation, password change, deployment, or remote action. Credential rotation remains recommended before production after chat exposure. Git: pending documentation checkpoint based on 375298e.
+
 - [2026-10-12 01:24 WITA] [DOCS] [Zenoba Rebrand / SMTP test preparation]
   Owner authorized a local reset-email test. Prepared ignored D-drive SMTP configuration with hello user/from and empty password; no credentials recorded. Existing local PostgreSQL container was stopped; verified project/worktree/volume identity before starting it without migration or reseeding. Health now reports database connected. Read-only account check found no eligible local password account for the selected recipient. Await private password entry and owner registration; no SMTP authentication, reset request, actual email, password change, remote publication, or VPS action yet.
   Validation: `.env` ignored, repository contains no credential changes; local health healthy/connected. Git: pending documentation checkpoint based on 4493e5a.

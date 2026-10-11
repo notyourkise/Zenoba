@@ -1,6 +1,6 @@
 # Zenoba — Agent Handoff
 
-Last updated: **2026-10-12 01:24 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-10-12 01:29 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
 
 ## Current Task and Authority
 
@@ -14,6 +14,9 @@ Last updated: **2026-10-12 01:24 WITA**. Read `AGENTS.md` and verify live Git, C
 - Local application changes and local Docker rebuilds are implemented. No production application, domain, DNS, OAuth, VPS, production deployment, or GitHub remote mutation has been performed for this rebrand.
 
 ## Verified Repository Checkpoint
+
+- SMTP credential follow-up after `375298e`: owner explicitly authorized using the supplied credential despite advice to rotate it after chat exposure. Stored only in ignored D-drive `.env`, single-quoted to preserve literal dollar characters. Recreated only the local app without a rebuild; selected container checks confirm hello sender/user and nonempty correctly preserved password, without printing it. Never stage the file; rotate before production use.
+- SMTP authentication is NOT verified: standalone image does not expose the mailer package to an ad-hoc Node require, so the installed host mailer was used with the private file and 10-second connection/greeting/socket limits. Its verify call returned ETIMEDOUT, not an authentication verdict. No mail sent. Fresh read-only DB check still finds no eligible local password account for the requested recipient. Next: diagnose SMTP connectivity and have owner register the local test account; only then perform one approved forgot-password request. Do not create the account or change its password automatically.
 
 - SMTP live-test preparation (owner approved after local commit `4493e5a`): created ignored `.env` in this D-drive worktree with Hostinger 465/TLS, hello SMTP user/from, and an empty password. Never print/read back the password or include the file in Git. Recipient was supplied privately in the conversation; no reset request or email has been sent. Password remains required, and a read-only check found no eligible local password account for the requested recipient. Ask the owner to fill SMTP_PASSWORD privately and register that local test account through the normal UI; no automatic account creation or password change is authorized.
 - Local database was stopped (health returned degraded/disconnected despite app container reporting healthy). Verified the existing Zenoba project's worktree label and `zenoba_postgresql_data` mount, then started only the existing `zenoba-postgres` container. Fresh health reports healthy/database connected. No new database, migration, seed, volume recreation, or VPS action. Next: once owner confirms private setup, reapply app SMTP config, verify SMTP authentication without sending or exposing secrets, then submit one real local forgot-password request and have the owner confirm receipt; do not change the account password without separate approval.

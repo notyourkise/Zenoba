@@ -38,6 +38,12 @@ All notable project changes are recorded here.
 
 # 2026-10-11
 
+- [2026-10-11 17:02 WITA] [ADDED] [Zenoba Rebrand / Application Identity / Task 1]
+  Added the public `/about` route with verified Zenoba positioning, founder, date-free history, values, and home/legal links; updated root metadata and pinned `/about` as public middleware behavior.
+  Files/areas: `src/app/about/page.tsx`, `src/app/about/page.test.tsx`, `src/app/layout.tsx`, `src/middleware.test.ts`
+  Validation: focused tests 17/17 passed; full unit suite 149 files/922 tests passed after local Prisma client generation (no database connection required)
+  Git: pending
+
 - [2026-10-11 16:45 WITA] [DOCS] [Zenoba Rebrand Planning]
   Moved the active Zenoba planning worktree from the Codex-managed C: location to `D:\\laragon\\www\\NetLoka-zenoba-rebrand-plan` at the owner's request; committed planning history remains unchanged.
   Files/areas: `docs/HANDOFF.md`

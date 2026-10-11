@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { middleware } from "./middleware";
+import { config, middleware } from "./middleware";
 import { getToken } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
 import {
@@ -33,6 +33,16 @@ describe("Middleware Route Guard & Session Invalidation (TD-01 & TD-08)", () => 
 
     expect(res.status).toBe(200);
     expect(res.headers.get("x-middleware-rewrite")).toBeNull();
+  });
+
+  it("keeps the Zenoba About page outside protected route matching", async () => {
+    vi.mocked(getToken).mockResolvedValue(null);
+
+    const req = createMockRequest("/about");
+    const res = await middleware(req);
+
+    expect(res.status).toBe(200);
+    expect(config.matcher).not.toContain("/about");
   });
 
   it("redirects unauthenticated requests on protected routes to sign-in modal", async () => {

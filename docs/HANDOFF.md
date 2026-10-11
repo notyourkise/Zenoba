@@ -1,6 +1,6 @@
 # Zenoba — Agent Handoff
 
-Last updated: **2026-10-12 01:33 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-10-12 01:43 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
 
 ## Current Task and Authority
 
@@ -14,6 +14,12 @@ Last updated: **2026-10-12 01:33 WITA**. Read `AGENTS.md` and verify live Git, C
 - Local application changes and local Docker rebuilds are implemented. No production application, domain, DNS, OAuth, VPS, production deployment, or GitHub remote mutation has been performed for this rebrand.
 
 ## Verified Repository Checkpoint
+
+- Latest authority: owner deferred SMTP testing to the separately authorized VPS release, then authorized PR preparation/publication and CI inspection. SMTP remains configured but authentication/delivery UNVERIFIED; ISP filtering is only a hypothesis. Do not retry local SMTP, create accounts/reset tokens, move folders, deploy, or merge for the owner.
+- Publication preparation on clean `08fd1e0`: fetched origin/main=`7fdd7af`, verified gh account/repository and no existing branch PR. Only CI workflow is ci.yml: lint/typecheck, unit tests, Chromium E2E, production build, quality gate. No WebKit in CI; local full E2E remains owner-deferred. Credential scan confirms private SMTP password absent from tracked HEAD, `.env` ignored and excluded by .dockerignore; no dependency version or schema contract changes.
+- Final full-diff inspection found generic backup/restore defaults still renamed despite legacy production containers remaining unchanged. Restored baseline netloka container/user/database and backup prefix/retention pattern, preserving operator overrides. Two behavioral shell tests failed before correction and passed afterward using Docker function test doubles and temporary files under this D-drive worktree, never a real database. These scripts now differ from main only in comments. Full branch publication awaits final validation/review; no PR/CI result recorded yet.
+
+### Earlier SMTP and local verification checkpoints
 
 - Latest SMTP diagnosis after `76d2a0f`: owner registered the requested recipient; fresh read-only DB check confirms an eligible local password account (supersedes earlier missing-account observations below). Windows and Docker IPv4 TCP probes to `smtp.hostinger.com` timed out on both 465 and 587 with seven-second bounds. Local DNS, Google DoH, and Cloudflare DoH agree on the same A record; no AAAA record was returned. TCP 443 to the same host connects. No matching enabled outbound-block rule appeared in the limited Windows firewall check; this does not rule out other security/network filters or identify who drops SMTP traffic.
 - Failure boundary is TCP connectivity before TLS/authentication; password validity and email delivery remain unverified. Official Hostinger documentation confirms smtp.hostinger.com with SSL 465 or STARTTLS 587. Do not change credentials, TLS policy, app code, DNS, or firewall based on this timeout. Next: owner switches to a different trusted connection (e.g. phone hotspot), then repeat bounded SMTP verify and one real local reset request if reachable. No reset request/token, message, password change, or VPS/external configuration mutation was performed in this diagnosis.

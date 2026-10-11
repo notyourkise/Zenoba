@@ -38,6 +38,10 @@ All notable project changes are recorded here.
 
 # 2026-10-12
 
+- [2026-10-12 01:43 WITA] [FIXED] [Zenoba Rebrand / PR publication review]
+  Restored generic backup/restore legacy container/user/database defaults and backup prefix/retention pattern to match the retained production alternative stack. Added behavioral script tests against Docker test doubles; temporary fixtures stay under the D-drive worktree. No real backup/restore/database action. Updated allowlist, owner publication authority, and SMTP deferral (configured, not passed).
+  Validation: two new tests failed on renamed defaults before correction and passed afterward; lint/typecheck and full unit suite 154 files/939 tests passed. Docker production build passed at 08fd1e0 with existing warnings before the script/comment-only correction; no application code changed afterward. Private credential absent from tracked HEAD and excluded from Docker context. Origin/main verified 7fdd7af; GitHub auth/repo verified; PR/CI pending. Local WebKit/full E2E and SMTP remain explicitly deferred. Git: pending local checkpoint based on 08fd1e0.
+
 - [2026-10-12 01:33 WITA] [REVIEW] [Zenoba Rebrand / SMTP connectivity diagnosis]
   Owner's recipient now has an eligible local password account. Both Windows and Docker TCP probes time out on Hostinger SMTP ports 465/587 before TLS/auth; public DNS agrees with local DNS and TCP 443 to the same host works. Limited Windows outbound firewall inspection did not identify a matching block; exact filtering location remains unknown. No credential/config/code/security-policy change or email/reset-token creation. Await owner network-switch test before attempting actual reset delivery. Source: https://www.hostinger.com/support/4305847-set-up-hostinger-email-on-your-applications-and-devices/ . Git: pending diagnostic checkpoint based on 76d2a0f.
 

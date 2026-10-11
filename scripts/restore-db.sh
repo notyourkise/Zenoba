@@ -15,9 +15,10 @@ if [ ! -f "$BACKUP_FILE" ]; then
     exit 1
 fi
 
-CONTAINER_NAME="${DB_CONTAINER:-zenoba-db}"
-DB_USER="${POSTGRES_USER:-zenoba}"
-DB_NAME="${POSTGRES_DB:-zenoba}"
+# Match the retained legacy production stack unless the operator overrides it.
+CONTAINER_NAME="${DB_CONTAINER:-netloka-db}"
+DB_USER="${POSTGRES_USER:-netloka}"
+DB_NAME="${POSTGRES_DB:-netloka}"
 
 echo "[WARNING] This will overwrite database '${DB_NAME}' with contents from '${BACKUP_FILE}'!"
 read -p "Are you sure you want to proceed? (y/N): " -n 1 -r

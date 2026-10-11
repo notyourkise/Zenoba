@@ -36,6 +36,14 @@ All notable project changes are recorded here.
   Git: commit SHA and/or PR number when available
 ```
 
+# 2026-10-11
+
+- [2026-10-11 15:42 WITA] [DOCS] [Zenoba Rebrand Planning]
+  Added the owner-approved design specification for the staged Netloka-to-Zenoba rebrand, including the separate public About route, truthful content rules, local checkout rename, and a safe domain-cutover boundary that preserves production data resources.
+  Files/areas: `docs/superpowers/specs/2026-10-11-zenoba-rebrand-design.md`, `docs/HANDOFF.md`
+  Validation: source/configuration boundary review; `git diff --check`
+  Git: pending
+
 # 2026-09-19
 
 - [2026-09-19 13:55 WITA] [DEPLOY] [Production Go-Live]

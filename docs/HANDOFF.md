@@ -1,63 +1,55 @@
 # Netloka — Agent Handoff
 
-Last updated: **2026-09-19 13:55 WITA**. Read `AGENTS.md` and verify live Git/PR/CI before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-10-11 15:42 WITA**. Read \`AGENTS.md\` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
 
 ## 1. Current Task and Authority
 
-- Product: Interactive IT infrastructure learning platform; Networking is the first available curriculum.
-- Platform Status: **LIVE PRODUCTION DEPLOYED & FULLY OPERATIONAL** (`https://netloka.biz.id`).
-- Active milestone/sprint:
-  - **Milestones 0–15:** **100% COMPLETE & MERGED**
-  - **Production Deployment:** **COMPLETE & OPERATIONAL** (Option 1: Phased Public Launch with free Networking curriculum).
-- Scope delivered in Production Deployment:
-  - Initialized isolated production stack at `/srv/netloka/production` on VPS (`76.13.19.249`).
-  - Containerized Docker Compose stack (`compose.production.yml`) running PostgreSQL 16 (`netloka-production-db-1`) on internal network and Next.js 16 (`netloka-production-app-1`) on loopback `127.0.0.1:3002`.
-  - Fixed invisible UTF-8 BOM character in `prisma/migrations/20260908094000_session_security/migration.sql`.
-  - Applied all 6 forward-only database schema migrations to production database.
-  - Seeded full 6-path Networking curriculum, IT Consultant cases, and commerce catalog (`npm run db:seed`).
-  - Created automated daily backup cron at 03:00 WITA (`scripts/backup-production-postgres.sh`).
-  - Installed host Nginx reverse proxy configuration (`/etc/nginx/sites-available/netloka.biz.id.conf`).
-  - Acquired and installed Let's Encrypt TLS/SSL certificates via Certbot for `netloka.biz.id`.
-  - Live public endpoint verified: `https://netloka.biz.id/api/health` returns HTTP 200 OK with `"status":"healthy"`, `"database":{"status":"connected","latencyMs":1-2}`.
-  - Zero disruption to non-Netloka projects (e.g. `/opt/sigap`, `sigap_*` containers, MariaDB).
+- Product: practical IT infrastructure learning platform; Networking is the currently available learning domain.
+- Current requested work: a full public rebrand from Netloka to Zenoba, including a separate public \`/about\` page, while retaining the homepage structure and existing learner behavior.
+- Approved scope:
+  - Zenoba is an independently developed product operated by solo founder Fikri Haikal; no legal-entity, founding-year, user-count, or unsupported corporate claim may be published.
+  - The homepage keeps its current cosmic visual composition; only identity text and a small \`Tentang Zenoba\` link are added.
+  - The local checkout will later move from \`D:\\laragon\\www\\NetLoka\` to \`D:\\laragon\\www\\Zenoba\`.
+  - The first production cutover must preserve PostgreSQL data, Docker volumes/networks, backups, and \`/srv/netloka\`; legacy \`netloka.biz.id\` will later redirect to \`zenoba.tech\`.
+- Task phase: design specification written and locally committed; execution plan has not yet been written or approved.
+- No application, domain, DNS, OAuth, VPS, production deployment, or GitHub remote mutation has been performed for this rebrand.
 
 ## 2. Verified Repository Checkpoint
 
 | Item | Verified state |
 | --- | --- |
-| Main checkout | `C:/laragon/www/netloka`, clean `main` at `19fa9c7` |
-| Origin | `origin/main` at `19fa9c7`; local `main` synchronized |
-| Task worktree | `C:/laragon/www/netloka/.worktrees/codex-production-deploy-manifests` |
-| Task branch | `codex/production-deploy-manifests` (PR #86 open) |
-| Base commit | `19fa9c7` (Merge pull request #85 from notyourkise/codex/sprint-42-post-release-review) |
-| Retained worktrees | `C:/laragon/www/netloka/.worktrees/codex-fix-m0-sprint-0` (`docs/staging-progress`, do not delete) |
-| Production VPS Root | `/srv/netloka/production` on `76.13.19.249` |
-| Live Domain | `https://netloka.biz.id` |
+| Main checkout | \`D:\\laragon\\www\\NetLoka\`, clean \`main\` at \`7fdd7afcd72870743ee7702e9b2b322f059acbd9\` |
+| Main revision subject | \`Merge pull request #87 from notyourkise/codex/auth-modal-google-icon\` |
+| Planning worktree | \`C:\\Users\\USER\\.codex\\worktrees\\zenoba-rebrand-plan\\NetLoka\` |
+| Planning branch | \`codex/zenoba-rebrand-plan\`, based on \`7fdd7af\` |
+| Planning changes | Zenoba design spec, changelog checkpoint, and this handoff update are included in the current planning checkpoint |
+| GitHub repository | \`notyourkise/NetLoka\`; renaming it is outside the approved first-cutover scope |
+| Production resource history | Previous handoff records \`/srv/netloka/production\` and \`netloka.biz.id\`; current VPS state is not re-verified in this documentation checkpoint |
 
-## 3. Milestone & Sprint Progress
+## 3. Current Design Evidence
 
-- **Milestones 0–15:** **COMPLETE & MERGED**
-- **Production Go-Live:** **OPERATIONAL**
-  - [x] Create production Docker Compose manifest and Nginx virtual host.
-  - [x] Fix migration BOM and apply all 6 database migrations.
-  - [x] Seed full 6-path Networking curriculum in PostgreSQL.
-  - [x] Configure automated daily database backup cron.
-  - [x] Issue Let's Encrypt TLS certificate via Certbot.
-  - [x] Verify live health API and landing page over HTTPS.
+- The live public homepage was reviewed before planning; it is not to be redesigned.
+- \`zenoba.tech\` currently resolves to a parked Hostinger page, so no canonical-domain switch has occurred.
+- The existing application has no public \`/about\` route; middleware currently does not protect that route, which supports a new public About page.
+- Existing public/source copy includes stale Netloka branding and unsupported claims such as “ribuan pelajar”; the implementation must replace them with verified Zenoba language.
+- Existing legal copy includes pre-launch language even though prior records say the service is live; implementation must correct that factual mismatch.
+- ROADMAP records Milestones 0–15 as complete. Older PLAN/README/PRODUCT and the previous handoff require live verification before being treated as current delivery evidence.
 
-## 4. Verification Evidence and Limits
+## 4. Planning Artifact
 
-- `https://netloka.biz.id/api/health`: **HTTP 200 OK** (status: healthy, database: connected, responseTime: 1-2ms).
-- `https://netloka.biz.id/`: **HTTP 200 OK** (landing page rendered with full dark theme & animations).
-- `https://netloka.biz.id/terms`: **HTTP 200 OK**.
-- `https://netloka.biz.id/privacy-policy`: **HTTP 200 OK**.
-- `npm run typecheck`: **Passed** (0 errors).
-- `npm run lint`: **Passed** (0 warnings/errors).
-- `git diff --check`: **Passed** (0 whitespace errors).
+- Design spec: \`docs/superpowers/specs/2026-10-11-zenoba-rebrand-design.md\`
+- The spec separates application identity, local/repository identity, and domain cutover so a brand change does not become a database or production-storage migration.
+- Required later owner decisions: founder bio/photo/links, Zenoba support mailbox, legacy-domain redirect timing, and specific authorization for Cloudflare/DNS/TLS/Google OAuth/VPS/GitHub mutations.
 
-## 5. Next Actions
+## 5. Validation and Limits
 
-1. Review and merge PR #86 (`codex/production-deploy-manifests`) into `main`.
-2. Sync `main` and clean up `codex-production-deploy-manifests` worktree.
-3. Announce / share `https://netloka.biz.id` with SMK TKJ learners!
+- Completed for this checkpoint: repository/context recovery, current source/configuration boundary inspection, public-domain observation, design consistency review, and \`git diff --check\`.
+- Not run: application test suites, E2E, build, CI, or production checks. This checkpoint changes documentation only.
+- No claim of deployment, migration, or domain readiness is made.
+
+## 6. Next Action
+
+1. Abangku reviews and confirms the design specification.
+2. Anto writes the detailed execution plan, including ordered implementation tasks, test cases, migration/cutover checklist, risks, and approvals.
+3. Only after plan approval, create the implementation worktree/branch and begin the app identity change. Domain and VPS actions remain separately authorized.
 

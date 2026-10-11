@@ -15,7 +15,7 @@ for (const [route, title] of [
       await expect(
         page.getByRole("heading", { name: title, exact: true }),
       ).toBeVisible();
-      await expect(page).toHaveTitle(`${title} | Netloka`);
+      await expect(page).toHaveTitle(`${title} | Zenoba`);
       await expect(page.locator("body")).toHaveCSS(
         "background-color",
         "rgb(255, 255, 255)",
@@ -31,7 +31,7 @@ for (const [route, title] of [
       );
       expect(fitsViewport).toBe(true);
       await expect(
-        page.getByRole("link", { name: "Back to Netloka" }),
+        page.getByRole("link", { name: "Back to Zenoba" }),
       ).toHaveAttribute("href", "/");
     });
   }
@@ -80,7 +80,7 @@ test("legal styling does not leak back into the landing page", async ({
     "background-color",
     "rgb(255, 255, 255)",
   );
-  await page.getByRole("link", { name: "Back to Netloka" }).click();
+  await page.getByRole("link", { name: "Back to Zenoba" }).click();
   await expect(page).toHaveURL(/\/$/);
   await expect(page.locator("body")).toHaveCSS(
     "background-color",

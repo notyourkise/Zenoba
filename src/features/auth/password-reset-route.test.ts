@@ -41,7 +41,7 @@ describe("POST /api/auth/forgot-password", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     resetRateLimits();
-    process.env.APP_URL = "https://netloka.biz.id";
+    process.env.APP_URL = "https://zenoba.tech";
     vi.mocked(invalidatePasswordResetToken).mockResolvedValue(undefined);
   });
 
@@ -84,7 +84,7 @@ describe("POST /api/auth/forgot-password", () => {
     expect(knownBody).toEqual({ message: genericMessage });
     expect(sendPasswordResetEmail).toHaveBeenCalledWith({
       to: "learner@example.com",
-      resetUrl: "https://netloka.biz.id/reset-password?token=raw-token",
+      resetUrl: "https://zenoba.tech/reset-password?token=raw-token",
     });
     expect(JSON.stringify(knownBody)).not.toContain("raw-token");
   });

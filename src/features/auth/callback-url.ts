@@ -1,4 +1,4 @@
-const CALLBACK_ORIGIN = "https://netloka.invalid";
+const CALLBACK_ORIGIN = "https://zenoba.invalid";
 
 /** Only allow local paths, including after browser URL normalization. */
 export function getSafeAuthCallback(value?: string): string | undefined {

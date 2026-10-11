@@ -34,7 +34,7 @@ describe("AuthModal", () => {
   it("renders Sign In with recovery and a disabled pending Google action", () => {
     render(<AuthModal mode="sign-in" googleEnabled={false} />);
 
-    expect(screen.getByRole("dialog", { name: "Sign in to Netloka" })).toBeVisible();
+    expect(screen.getByRole("dialog", { name: "Sign in to Zenoba" })).toBeVisible();
     expect(screen.getByLabelText("Email")).toBeVisible();
     expect(screen.getByLabelText("Password")).toBeVisible();
     expect(screen.getByRole("link", { name: "Forgot password?" })).toHaveAttribute(
@@ -55,7 +55,7 @@ describe("AuthModal", () => {
       />,
     );
 
-    expect(screen.getByRole("dialog", { name: "Create your Netloka account" })).toBeVisible();
+    expect(screen.getByRole("dialog", { name: "Create your Zenoba account" })).toBeVisible();
     expect(screen.queryByLabelText("Name (optional)")).not.toBeInTheDocument();
     expect(screen.getByLabelText("Confirm password")).toBeVisible();
     expect(screen.getByRole("link", { name: "Sign in" })).toHaveAttribute(

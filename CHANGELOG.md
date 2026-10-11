@@ -38,11 +38,17 @@ All notable project changes are recorded here.
 
 # 2026-10-11
 
+- [2026-10-11 17:09 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / Task 3]
+  Rebranded password-reset mail, authentication prompts, legal documents, and the new TOTP enrollment label to Zenoba; corrected legal wording to describe the live service without inventing a company or launch date.
+  Files/areas: `src/features/auth`, `src/app/(legal)`, `src/app/api/user/security/2fa/route.ts`, `src/e2e/about.spec.ts`, `src/e2e/legal-pages.spec.ts`
+  Validation: focused unit tests 5 files/37 tests passed; Chromium E2E 10/10 passed at 390px and 1440px; full unit suite 150 files/923 tests passed with local generated Prisma Client
+  Git: pending
+
 - [2026-10-11 17:05 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / Task 2]
   Replaced the public wordmark in the existing header and footer with Zenoba, added desktop/mobile and footer navigation to the separate About page, and removed the unsupported learner-volume claim without redesigning the homepage.
   Files/areas: `src/components/navigation/app-header.tsx`, `src/components/marketing/marketing-footer.tsx`, associated component and homepage tests
   Validation: focused tests 3 files/10 tests passed; full unit suite 149 files/922 tests passed with local generated Prisma Client
-  Git: pending
+  Git: `7a80cff`
 
 - [2026-10-11 17:02 WITA] [ADDED] [Zenoba Rebrand / Application Identity / Task 1]
   Added the public `/about` route with verified Zenoba positioning, founder, date-free history, values, and home/legal links; updated root metadata and pinned `/about` as public middleware behavior.

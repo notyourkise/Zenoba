@@ -13,10 +13,10 @@ import {
 
 describe("TOTP Authentication Engine (RFC 6238)", () => {
   it("encodes and decodes base32 symmetrically", () => {
-    const original = Buffer.from("Netloka2FASecretKey123");
+    const original = Buffer.from("Zenoba2FASecretKey123");
     const encoded = base32Encode(original);
     const decoded = base32Decode(encoded);
-    expect(decoded.toString()).toBe("Netloka2FASecretKey123");
+    expect(decoded.toString()).toBe("Zenoba2FASecretKey123");
   });
 
   it("generates valid base32 secrets of expected length", () => {
@@ -53,10 +53,10 @@ describe("TOTP Authentication Engine (RFC 6238)", () => {
   });
 
   it("generates compliant otpauth URI", () => {
-    const uri = generateTotpUri("learner@netloka.biz.id", "JBSWY3DPEHPK3PXP", "Netloka");
-    expect(uri).toContain("otpauth://totp/Netloka:learner%40netloka.biz.id");
+    const uri = generateTotpUri("learner@zenoba.tech", "JBSWY3DPEHPK3PXP");
+    expect(uri).toContain("otpauth://totp/Zenoba:learner%40zenoba.tech");
     expect(uri).toContain("secret=JBSWY3DPEHPK3PXP");
-    expect(uri).toContain("issuer=Netloka");
+    expect(uri).toContain("issuer=Zenoba");
   });
 
   it("generates, hashes, and consumes one-time backup recovery codes", () => {

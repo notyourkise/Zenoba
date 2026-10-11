@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Netloka",
+  title: "Privacy Policy | Zenoba",
   description:
-    "Penjelasan data akun, Google login, sesi, progres belajar, hasil latihan, dan email pemulihan pada Netloka.",
+    "Penjelasan data akun, Google login, sesi, progres belajar, hasil latihan, dan email pemulihan pada Zenoba.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -11,14 +11,13 @@ export default function PrivacyPolicyPage() {
     <article>
       <h1>Privacy Policy</h1>
       <p>
-        Terakhir diperbarui: <time dateTime="2026-09-18">18 September 2026</time>
+        Terakhir diperbarui: <time dateTime="2026-10-11">11 Oktober 2026</time>
       </p>
       <p>
-        Kebijakan ini menjelaskan bagaimana fitur Netloka memproses data ketika
-        Anda membuat akun dan menggunakan layanan pembelajaran. Netloka masih
-        dalam tahap pengembangan, belum diluncurkan ke staging atau production.
-        Penjelasan integrasi berlaku ketika integrasi tersebut dikonfigurasi dan
-        digunakan; tersedianya kode tidak berarti layanan eksternal sudah aktif.
+        Kebijakan ini menjelaskan bagaimana Zenoba memproses data ketika Anda
+        membuat akun dan menggunakan layanan pembelajaran. Penjelasan integrasi
+        berlaku ketika integrasi tersebut dikonfigurasi dan digunakan;
+        tersedianya kode tidak berarti layanan eksternal sudah aktif.
       </p>
 
       <h2>Data akun dan autentikasi</h2>
@@ -30,18 +29,18 @@ export default function PrivacyPolicyPage() {
         Profile.
       </p>
       <p>
-        Jika Anda memilih Google login, Netloka menerima identitas akun Google,
+        Jika Anda memilih Google login, Zenoba menerima identitas akun Google,
         alamat email, informasi verifikasi email, nama, dan foto profil yang
         diberikan Google. Sistem dapat menyimpan token serta metadata OAuth yang
         diberikan penyedia untuk menghubungkan dan mengautentikasi akun. Izin
         login yang digunakan adalah openid, email, dan profile; aplikasi tidak
         meminta akses isi Gmail, Google Drive, kontak, atau kalender. Password
-        Google tidak diterima oleh Netloka.
+        Google tidak diterima oleh Zenoba.
       </p>
 
       <h2>Data aktivitas belajar</h2>
       <p>
-        Netloka menyimpan progres lesson, waktu penyelesaian, jawaban kuis,
+        Zenoba menyimpan progres lesson, waktu penyelesaian, jawaban kuis,
         skor, status kelulusan, percobaan Labs dan Challenges, serta transaksi
         XP. Pada Consultant, data dapat mencakup pilihan perangkat, anggaran,
         topologi, rencana IP/VLAN, penilaian, dan feedback. Data ini dihubungkan
@@ -113,8 +112,8 @@ export default function PrivacyPolicyPage() {
           keamanan koneksi HTTPS edge.
         </li>
         <li>
-          <strong>PostgreSQL &amp; Caddy:</strong> Berjalan pada server privat
-          (VPS Linux) untuk penyimpanan data terenkripsi dan perutean permintaan.
+          <strong>PostgreSQL dan server aplikasi:</strong> Berjalan pada server
+          privat (VPS Linux) untuk penyimpanan data dan perutean permintaan.
         </li>
       </ul>
 
@@ -161,8 +160,8 @@ export default function PrivacyPolicyPage() {
 
       <h2>Kontak pengelola</h2>
       <p>
-        Pengendali data pribadi platform ini adalah Pengelola Perseorangan
-        Platform Netloka (Fikri Haikal).
+        Pengendali data pribadi platform ini adalah Fikri Haikal sebagai
+        pengelola perseorangan Zenoba.
       </p>
       <p>
         Segala pertanyaan, permohonan pemenuhan hak data pribadi, laporan

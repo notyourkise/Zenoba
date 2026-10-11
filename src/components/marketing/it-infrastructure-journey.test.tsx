@@ -103,13 +103,25 @@ describe("ZenobaHistoryJourney", () => {
     expect(screen.queryByText(origin)).not.toBeInTheDocument();
   });
 
-  it("allows tap to toggle history details without opening learning dialogs", () => {
+  it("allows tap to toggle the history popup and close it with Tutup", () => {
     render(<ZenobaHistoryJourney />);
     const planet = screen.getByRole("button", { name: "Berawal dari keresahan" });
     fireEvent.click(planet);
     expect(screen.getByText(origin)).toBeVisible();
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.getByRole("dialog", { name: "Detail Mercury" })).toBeVisible();
+    fireEvent.click(screen.getByRole("button", { name: "Tutup" }));
+    expect(screen.queryByText(origin)).not.toBeInTheDocument();
+    fireEvent.click(planet);
     fireEvent.click(planet);
     expect(screen.queryByText(origin)).not.toBeInTheDocument();
+  });
+
+  it("has exactly three named history planets, with details hidden initially", () => {
+    render(<ZenobaHistoryJourney />);
+    expect(screen.getAllByRole("button")).toHaveLength(3);
+    expect(screen.getByText("Mercury")).toBeVisible();
+    expect(screen.getByText("Saturnus")).toBeVisible();
+    expect(screen.getByText("Jupiter")).toBeVisible();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 });

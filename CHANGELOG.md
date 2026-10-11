@@ -38,6 +38,12 @@ All notable project changes are recorded here.
 
 # 2026-10-11
 
+- [2026-10-11 21:10 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / Three-planet history]
+  Matched the owner's popup reference using the actual IT Journey `CheckpointPopup`, with planet name, chapter title, description, and `Tutup`. Reduced About to Mercury, Saturnus, and Jupiter only, retained their original textures/rings, added visible names, and shortened the luminous path to connect those three milestones. Desktop popup appears above each planet; mobile uses the same popup inline. Homepage Journey defaults are preserved.
+  Files/areas: `src/components/marketing/it-infrastructure-journey.tsx`, Journey tests, `PLAN.md`, `docs/HANDOFF.md`
+  Validation: new tests failed before implementation; final focused About/Journey tests 11/11 passed; lint/typecheck/diff checks passed; Docker production build passed with existing warnings; rebuilt local app health 200; desktop/mobile popup click and `Tutup` smoke verified at 1440px/390px. No full E2E/WebKit or CI rerun.
+  Git: pending (local changes based on eec73cb); no remote publication or production change
+
 - [2026-10-11 21:00 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / History interaction]
   Applied the owner-approved concise product origin story: information overload and unclear starting points, independent Netloka founding in May 2026, and the fresher Zenoba identity in October 2026. History descriptions now appear only on planet hover/focus or tap/click, with Escape dismissal; titles/dates remain visible and no cards were introduced. Reused orbit visuals and preserved homepage interactions.
   Files/areas: `src/components/marketing/it-infrastructure-journey.tsx`, focused About/Journey tests, `PLAN.md`, `docs/HANDOFF.md`

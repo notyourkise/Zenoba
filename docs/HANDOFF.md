@@ -1,13 +1,13 @@
 # Zenoba — Agent Handoff
 
-Last updated: **2026-10-11 21:00 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-10-11 21:10 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
 
 ## Current Task and Authority
 
 - Product: practical IT infrastructure learning platform; Networking is the currently available learning domain.
 - Current requested work: a full public rebrand from Netloka to Zenoba with a separate public `/about` page, while retaining learner behavior and removing the final homepage CTA so FAQ flows directly into the footer.
 - Approved scope: Zenoba is independently operated by solo founder Fikri Haikal. The owner verified that Netloka began in May 2026, Zenoba was founded individually in 2026, and Zenoba became the new identity in October 2026. No legal-entity, user-count, or unsupported corporate claim may be published.
-- Latest approved story: information overload leaves beginners unsure where to start; the product provides direction through roadmaps and career paths. Netloka was independently started in May 2026, then renamed Zenoba in October 2026 for a fresher, more distinctive identity. The origin chapter has no invented date. History descriptions are hidden initially, revealed on planet hover/focus, and toggled with tap/click; Escape dismisses them. Titles/dates stay visible, without history cards.
+- Latest approved story: information overload leaves beginners unsure where to start; the product provides direction through roadmaps and career paths. Netloka was independently started in May 2026, then renamed Zenoba in October 2026 for a fresher, more distinctive identity. The origin chapter has no invented date. Only Mercury, Saturnus, and Jupiter remain on a shortened luminous orbit, each showing its planet name and chapter heading/date. History descriptions appear in the actual IT Journey `CheckpointPopup`, above desktop planets and inline on mobile. Hover/focus reveals, tap/click toggles, Escape or `Tutup` dismisses. Permanent history cards remain absent.
 - Approved safety boundary: the first cutover preserves PostgreSQL data, Docker volumes/networks, backups, and `/srv/netloka`; the legacy domain will later redirect to `zenoba.tech`.
 - Task phase: Application Identity Tasks 1–4 plus the owner-approved About/CTA refinement are locally implemented and locally verified. The Journey now uses a full-width orbit with unboxed milestones; Visi/Misi use direct headings without eyebrow labels. The owner explicitly deferred WebKit and long-running E2E investigation from the current rebrand goal; local Docker smoke validation is complete. This does not authorize a merge, local-folder move, or domain/VPS change.
 - Local application changes and local Docker rebuilds are implemented. No production application, domain, DNS, OAuth, VPS, production deployment, or GitHub remote mutation has been performed for this rebrand.
@@ -17,7 +17,7 @@ Last updated: **2026-10-11 21:00 WITA**. Read `AGENTS.md` and verify live Git, C
 | Item | Verified state |
 | --- | --- |
 | Main checkout | `D:\laragon\www\NetLoka`, clean `main` at `7fdd7afcd72870743ee7702e9b2b322f059acbd9` |
-| Planning worktree | `D:\laragon\www\NetLoka-zenoba-rebrand-plan` on `codex/zenoba-rebrand-plan`, based on `7fdd7af`; history interaction refinement and this snapshot are delivered in the same local commit after verified base `79fd6c7` (resolve live HEAD) |
+| Planning worktree | `D:\laragon\www\NetLoka-zenoba-rebrand-plan` on `codex/zenoba-rebrand-plan`, based on `7fdd7af`; three-planet popup refinement and this snapshot are delivered in the same local commit after verified base `eec73cb` (resolve live HEAD) |
 | Planning changes | Design spec, two plans, project-plan reference, local Docker checkpoint, and the approved About/CTA refinements are committed locally |
 | GitHub repository | `notyourkise/NetLoka`; rename is outside the first-cutover scope |
 | Production history | Previous handoff records `/srv/netloka/production` and `netloka.biz.id`; VPS state is not re-verified in this documentation checkpoint |
@@ -31,6 +31,7 @@ Last updated: **2026-10-11 21:00 WITA**. Read `AGENTS.md` and verify live Git, C
 
 ## Evidence and Limits
 
+- Three-planet popup refinement (uncommitted on `eec73cb`): new tests failed before implementation for missing popup/names; final focused About/Journey tests 11/11 passed, including `Tutup`, tap toggling, hover, focus/blur, and Escape. Lint, typecheck, diff checks, and Docker production build passed with unchanged existing warnings. Rebuilt local Docker app, health 200; desktop (1440px) and mobile (390px) browser click/close smoke checked. Homepage popup/route defaults remain unchanged. No full E2E/WebKit, CI, remote publication, or production change.
 - History-interaction verification (uncommitted changes on `79fd6c7`): baseline About/Journey tests 7/7; new behavior tests failed before implementation (missing history buttons); final focused tests 10/10 passed, including hover leave, focus/blur, Escape, and tap toggling. `npm run lint`, `npm run typecheck`, `git diff --check`, and `docker compose build app` passed. Rebuilt app via `docker compose up -d app`; health returned 200. Browser smoke confirmed initial hidden descriptions and desktop/mobile click toggling at 1440px/390px. Hover behavior is unit-tested; no full E2E, WebKit, CI, or production validation ran. Existing build warnings remain unchanged.
 - Latest About refinement reuses `StarField`, `JourneyDriftingPlanets`, `ConstellationPath`, planet textures/positions, and Saturn rings from `src/components/marketing/it-infrastructure-journey.tsx` via `ZenobaHistoryJourney`. Its decorative planets do not invoke learning-path dialogs. Three historical milestones remain unchanged; the other planets are visual elements, not fabricated historical events. Focused About/Journey tests passed 7/7, lint/typecheck passed, Docker production build passed with existing middleware/Edge/catalogue warnings, and desktop (1440px) / mobile (390px) visual checks passed on the rebuilt local app. Full E2E/WebKit and CI were not rerun, per approved scope.
 - Public inspection found no `/about` route, unsupported learner-volume claims, and stale pre-launch legal wording; implementation plans correct these without changing product behavior.

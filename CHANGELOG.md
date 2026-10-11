@@ -38,6 +38,12 @@ All notable project changes are recorded here.
 
 # 2026-10-11
 
+- [2026-10-11 21:48 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / Outgoing email]
+  Set the owner-selected existing `hello@zenoba.tech` mailbox as example and local/legacy production Compose SMTP user/from defaults. Wired local SMTP environment passthrough and reapplied only the local app container. Kept founder exclusively for incoming customer support, and preserved environment-driven reset sender, token URL, and expiry. Empty SMTP password avoids a fake usable credential; actual delivery remains unconfigured.
+  Files/areas: `.env.example`, `docker-compose.yml`, `docker-compose.prod.yml`, `README.md`, `PLAN.md`, `docs/HANDOFF.md`
+  Validation: baseline/final focused reset-email/reset-route/legal-contact tests 12/12; Compose syntax and diff checks passed; local health 200; selected runtime fields confirm hello user/from and absent password. No source/build/E2E/WebKit/CI change or real email sent. External environment overrides still require separately authorized release updates; no DNS/VPS/production mutation.
+  Git: pending (local changes based on cd0917b); no remote publication
+
 - [2026-10-11 21:31 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / Public legal copy]
   Simplified Privacy Policy for general readers, removing database/VPS/SMTP/token/rate-limit internals and the blanket 30-day response claim while retaining data purposes, providers, cookies, storage, rights, child-consent limitations, and individual controller identity. Updated all public legal inquiry/report/account-help contacts and mailto destinations to the owner-provided `founder@zenoba.tech`. Preserved legal styling, Terms scope, authentication, and automatic email configuration.
   Files/areas: `src/app/(legal)/privacy-policy/page.tsx`, `src/app/(legal)/terms/page.tsx`, `src/app/(legal)/legal-contact.test.tsx`, `PLAN.md`, `docs/HANDOFF.md`

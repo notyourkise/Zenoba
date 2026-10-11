@@ -96,12 +96,14 @@ GOOGLE_CLIENT_SECRET=""
 SMTP_HOST="smtp.hostinger.com"
 SMTP_PORT="465"
 SMTP_SECURE="true"
-SMTP_USER="noreply@example.com"
-SMTP_PASSWORD="replace-with-email-account-password"
-EMAIL_FROM="noreply@example.com"
+SMTP_USER="hello@zenoba.tech"
+SMTP_PASSWORD=""
+EMAIL_FROM="hello@zenoba.tech"
 ```
 
 Until both Google values are configured, the Google button remains visible but disabled with `Setup pending`. Register the OAuth callback as `http://localhost:3000/api/auth/callback/google` locally and `https://zenoba.tech/api/auth/callback/google` for production. Never commit real SMTP or OAuth credentials.
+
+Outgoing transactional messages, including password resets, use `Zenoba <hello@zenoba.tech>`. `founder@zenoba.tech` is reserved for incoming customer complaints and support, not SMTP sending. Fill `SMTP_PASSWORD` privately in the ignored project `.env`; never paste it into chat or commit it. Local Compose passes these SMTP values into the app; apply configuration changes with `docker compose up -d --no-deps app`. An empty password keeps delivery unconfigured. Existing environment overrides take precedence, so staging/production operators must also set `SMTP_USER` and `EMAIL_FROM` to `hello@zenoba.tech` in their external environment files during a separately authorized release.
 
 Password-reset links expire after 30 minutes and require the password-reset database migration to be deployed.
 

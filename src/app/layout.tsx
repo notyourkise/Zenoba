@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   description:
     "Belajar IT infrastructure melalui pelajaran interaktif, labs, challenges, dan simulasi consultant.",
   icons: {
-    icon: { url: "/logos/zenoba-app-icon.png", type: "image/png" },
+    icon: { url: "/logos/zenoba-symbol-white.png", type: "image/png" },
     apple: { url: "/logos/zenoba-app-icon.png", type: "image/png" },
   },
 };

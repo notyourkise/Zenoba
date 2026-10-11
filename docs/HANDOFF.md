@@ -1,6 +1,6 @@
 # Zenoba — Agent Handoff
 
-Last updated: **2026-10-12 01:01 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-10-12 01:04 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
 
 ## Current Task and Authority
 
@@ -14,6 +14,8 @@ Last updated: **2026-10-12 01:01 WITA**. Read `AGENTS.md` and verify live Git, C
 - Local application changes and local Docker rebuilds are implemented. No production application, domain, DNS, OAuth, VPS, production deployment, or GitHub remote mutation has been performed for this rebrand.
 
 ## Verified Repository Checkpoint
+
+- Tab icon follow-up: owner explicitly selected `zenoba-symbol-white.png` for the browser tab, superseding the app icon choice below. Apple touch icon, navbar/footer, and original assets remain unchanged. Implemented on clean verified `1edc72d`; local Docker rebuilt/restarted. Updated Chromium assertion failed against the old metadata, then passed 3/3 at 390px/1024px/1440px. Typecheck, focused ESLint, Docker build (existing warnings), and diff checks passed; symbol asset HTTP 200. No full suite/WebKit/CI or external mutation. Browser favicon cache may require reopening the tab.
 
 - Logo integration: owner provided six PNG assets in `public/logos` and authorized their use. Header/footer now render the clean `zenoba-logo-black.png` with preserved aspect ratio and CSS inversion on dark surfaces; source white variants have visible extraction artifacts and remain unchanged/unused. Root metadata uses `zenoba-app-icon.png` for browser/Apple icons. No new dependencies, image regeneration, page-layout changes, or external actions. Worktree is `D:\laragon\www\NetLoka-zenoba-rebrand-plan` on `codex/zenoba-rebrand-plan`; implementation is based on verified `847d74a`, with owner-provided untracked assets included in the local delivery commit (resolve live HEAD).
 - Logo verification: baseline header/footer 8/8; updated image assertions failed before implementation on both components; final focused header/footer/home/About tests 14/14 passed. Lint, typecheck, Docker production build, and diff review/checks passed. Existing secret-ENV, middleware/Edge, and build-time catalogue warnings remain. Local image rebuilt and app restarted. Chromium logo/About tests passed 5/5 at 390px/1024px/1440px: images actually load, header inversion toggles correctly, app icon metadata is present, no horizontal overflow. Local desktop/mobile/footer screenshots inspected; no full suite/WebKit/CI or VPS/domain mutation. Skill-guided preservation kept the approved design and existing layout intact, selecting the clean provided asset rather than modifying originals.

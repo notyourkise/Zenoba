@@ -20,7 +20,7 @@ for (const width of [390, 1024, 1440]) {
     const footerLogo = page.getByRole("contentinfo").getByRole("img", { name: "Zenoba" });
     await footerLogo.scrollIntoViewIfNeeded();
     await expect.poll(() => footerLogo.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
-    await expect(page.locator('link[rel="icon"]')).toHaveAttribute("href", "/logos/zenoba-app-icon.png");
+    await expect(page.locator('link[rel="icon"]')).toHaveAttribute("href", "/logos/zenoba-symbol-white.png");
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
 }

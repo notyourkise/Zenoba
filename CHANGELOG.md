@@ -38,6 +38,11 @@ All notable project changes are recorded here.
 
 # 2026-10-12
 
+- [2026-10-12 01:04 WITA] [CHANGED] [Zenoba Rebrand / Browser tab icon]
+  Changed only the browser tab icon to the owner-selected `/logos/zenoba-symbol-white.png`. Kept Apple touch app icon and header/footer unchanged; updated acceptance and asset documentation.
+  Validation: Chromium icon assertion failed on old runtime; rebuilt local app passed 3/3 responsive logo checks; symbol asset HTTP 200. Typecheck/focused ESLint/build/diff checks passed with existing Docker/build warnings. No full suite/WebKit/CI or external changes.
+  Git: pending (local changes based on 1edc72d)
+
 - [2026-10-12 01:01 WITA] [ADDED] [Zenoba Rebrand / Application Identity / Logo assets]
   Integrated the six owner-provided PNGs under `public/logos`; header/footer use the clean black horizontal logo, CSS-inverted on dark surfaces. White files contain extraction artifacts and are preserved unused, not edited. Root metadata registers the app icon for browser/Apple icons. Preserved layout, navigation, homepage content, and application behavior; no dependency or image generation.
   Files/areas: `public/logos`, `src/components/navigation/app-header.tsx`, `src/components/marketing/marketing-footer.tsx`, `src/app/layout.tsx`, related unit tests, `src/e2e/brand-logo.spec.ts`, `PLAN.md`, `README.md`, `docs/HANDOFF.md`

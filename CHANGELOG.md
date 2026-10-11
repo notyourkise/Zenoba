@@ -38,6 +38,12 @@ All notable project changes are recorded here.
 
 # 2026-10-11
 
+- [2026-10-11 21:00 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / History interaction]
+  Applied the owner-approved concise product origin story: information overload and unclear starting points, independent Netloka founding in May 2026, and the fresher Zenoba identity in October 2026. History descriptions now appear only on planet hover/focus or tap/click, with Escape dismissal; titles/dates remain visible and no cards were introduced. Reused orbit visuals and preserved homepage interactions.
+  Files/areas: `src/components/marketing/it-infrastructure-journey.tsx`, focused About/Journey tests, `PLAN.md`, `docs/HANDOFF.md`
+  Validation: baseline 7/7; new tests failed before implementation, final focused tests 10/10 passed; lint/typecheck/diff checks passed; Docker production build passed with existing warnings; rebuilt local app health 200; desktop/mobile click smoke inspected at 1440px/390px. Full E2E/WebKit/CI not rerun at owner's direction.
+  Git: pending (local changes based on 79fd6c7); no remote publication or production change
+
 - [2026-10-11 20:29 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / About refinement]
   Replaced the approximate About orbit with the actual homepage IT Infrastructure Journey primitives: identical six planets, positions, winding luminous SVG path, Saturn rings, stars, and drifting background planets. History remains unboxed with three owner-verified events; mobile uses one readable semantic timeline. Homepage learning dialogs remain unchanged, and About planets are decorative.
   Files/areas: `src/app/about/page.tsx`, `src/components/marketing/it-infrastructure-journey.tsx`, `PLAN.md`, `docs/HANDOFF.md`

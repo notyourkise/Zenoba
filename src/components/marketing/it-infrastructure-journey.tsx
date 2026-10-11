@@ -560,6 +560,8 @@ function PlanetButton({
   onFocus,
   onBlur,
   decorative = false,
+  accessibleLabel,
+  controls,
 }: {
   checkpoint: JourneyCheckpoint;
   isSelected: boolean;
@@ -567,6 +569,8 @@ function PlanetButton({
   onFocus?: () => void;
   onBlur?: () => void;
   decorative?: boolean;
+  accessibleLabel?: string;
+  controls?: string;
 }) {
   const isSaturn = checkpoint.celestialName === "Saturn";
   const PlanetElement = decorative ? "span" : "button";
@@ -608,7 +612,8 @@ function PlanetButton({
         type={decorative ? undefined : "button"}
         aria-hidden={decorative ? true : undefined}
         aria-expanded={decorative ? undefined : isSelected}
-        aria-label={decorative ? undefined : `${checkpoint.celestialName}, ${checkpoint.learningPath}`}
+        aria-label={decorative ? undefined : accessibleLabel ?? `${checkpoint.celestialName}, ${checkpoint.learningPath}`}
+        aria-controls={controls}
         className="group relative z-10 grid h-16 w-16 place-items-center rounded-full border border-white/45 transition duration-200 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950 cursor-pointer"
         onClick={onSelect}
         onFocus={onFocus}
@@ -679,26 +684,30 @@ function PlanetButton({
 const zenobaHistory = [
   {
     planet: "Mercury",
-    date: "Mei 2026",
-    title: "Netloka dimulai",
-    description: "Netloka dimulai pada Mei 2026.",
+    date: null,
+    title: "Berawal dari keresahan",
+    description: "Banyaknya informasi membuat pemula bingung mulai belajar dari mana. Zenoba hadir untuk memberi arah melalui roadmap dan jalur karier yang jelas.",
   },
   {
     planet: "Mars",
-    date: "2026",
-    title: "Dibangun mandiri",
-    description: "Zenoba didirikan secara individual oleh Fikri Haikal pada 2026.",
-    founder: "Zenoba dikembangkan dan dikelola secara independen oleh Fikri Haikal.",
+    date: "Mei 2026",
+    title: "Netloka dimulai",
+    description: "Dirintis secara individual oleh Fikri Haikal sebagai platform belajar IT infrastructure yang terarah.",
   },
   {
     planet: "Polaris",
     date: "Oktober 2026",
-    title: "Identitas Zenoba",
-    description: "Zenoba menjadi identitas baru pada Oktober 2026.",
+    title: "Menjadi Zenoba",
+    description: "Netloka berganti nama menjadi Zenoba untuk menghadirkan identitas yang lebih segar dan khas.",
   },
 ];
 
 export function ZenobaHistoryJourney() {
+  const [hovered, setHovered] = useState<string | null>(null);
+  const [focused, setFocused] = useState<string | null>(null);
+  const [pinned, setPinned] = useState<string | null>(null);
+  const activePlanet = hovered ?? focused ?? pinned;
+
   return (
     <section
       aria-labelledby="zenoba-story"
@@ -721,6 +730,7 @@ export function ZenobaHistoryJourney() {
         <div className="absolute inset-x-0 top-0 hidden h-[900px] lg:block">
           <ConstellationPath />
           {checkpoints.map((checkpoint) => {
+            if (zenobaHistory.some((milestone) => milestone.planet === checkpoint.celestialName)) return null;
             return (
               <div
                 key={checkpoint.celestialName}
@@ -728,9 +738,6 @@ export function ZenobaHistoryJourney() {
                 style={checkpoint.desktopPosition}
               >
                 <PlanetButton checkpoint={checkpoint} isSelected={false} onSelect={() => {}} decorative />
-                <p className="absolute top-[72px] left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.12em] text-slate-200">
-                  {checkpoint.celestialName}
-                </p>
               </div>
             );
           })}
@@ -739,19 +746,51 @@ export function ZenobaHistoryJourney() {
         <ol className="relative space-y-12 border-l border-slate-600 pl-12 lg:absolute lg:inset-x-0 lg:top-0 lg:h-[900px] lg:space-y-0 lg:border-0 lg:pl-0">
           {zenobaHistory.map((milestone) => {
             const checkpoint = checkpoints.find((item) => item.celestialName === milestone.planet)!;
+            const isExpanded = activePlanet === milestone.planet;
+            const titleId = `history-${milestone.planet.toLowerCase()}-title`;
+            const descriptionId = `history-${milestone.planet.toLowerCase()}-description`;
+            const label = milestone.date ? `${milestone.date} — ${milestone.title}` : milestone.title;
             return (
               <li
                 key={milestone.planet}
                 className="relative lg:absolute lg:left-[var(--history-left)] lg:top-[var(--history-top)] lg:w-60 lg:-translate-x-1/2 lg:translate-y-20 lg:text-center"
                 style={{ "--history-left": checkpoint.desktopPosition.left, "--history-top": checkpoint.desktopPosition.top } as React.CSSProperties}
+                onMouseLeave={() => setHovered(null)}
+                onKeyDown={(event) => {
+                  if (event.key === "Escape") {
+                    setHovered(null);
+                    setFocused(null);
+                    setPinned(null);
+                  }
+                }}
               >
-                <div className="absolute -left-20 top-0 scale-75 lg:hidden">
-                  <PlanetButton checkpoint={checkpoint} isSelected={false} onSelect={() => {}} decorative />
+                <div
+                  className="absolute -left-20 top-0 scale-75 lg:left-1/2 lg:-top-28 lg:-translate-x-1/2 lg:scale-100"
+                  onMouseEnter={() => setHovered(milestone.planet)}
+                >
+                  <PlanetButton
+                    checkpoint={checkpoint}
+                    isSelected={isExpanded}
+                    accessibleLabel={label}
+                    controls={isExpanded ? descriptionId : undefined}
+                    onSelect={() => {
+                      setHovered(null);
+                      setFocused(null);
+                      setPinned((current) => current === milestone.planet ? null : milestone.planet);
+                    }}
+                    onFocus={() => setFocused(milestone.planet)}
+                    onBlur={() => setFocused(null)}
+                  />
                 </div>
-                <p className="text-sm font-semibold text-sky-200">{milestone.date}</p>
-                <h3 className="mt-1 text-lg font-bold">{milestone.title}</h3>
-                <p className="mt-2 text-sm leading-7 text-slate-300">{milestone.description}</p>
-                {milestone.founder && <p className="mt-2 text-sm leading-7 text-slate-400">{milestone.founder}</p>}
+                <h3 id={titleId} className="text-lg font-bold">
+                  {milestone.date && <span className="mb-1 block text-sm font-semibold text-sky-200">{milestone.date}</span>}
+                  {milestone.title}
+                </h3>
+                {isExpanded && (
+                  <p id={descriptionId} className="mt-2 text-sm leading-7 text-slate-300">
+                    {milestone.description}
+                  </p>
+                )}
               </li>
             );
           })}

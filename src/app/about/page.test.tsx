@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import AboutPage, { metadata } from "./page";
 
@@ -24,14 +24,10 @@ describe("Zenoba About page", () => {
     expect(
       screen.getByText("Zenoba adalah platform belajar IT infrastructure berbasis praktik."),
     ).toBeInTheDocument();
-    expect(
-      screen.getByText("Zenoba dikembangkan dan dikelola secara independen oleh Fikri Haikal."),
-    ).toBeInTheDocument();
-    expect(screen.getByText("Netloka dimulai pada Mei 2026.")).toBeInTheDocument();
-    expect(
-      screen.getByText("Zenoba didirikan secara individual oleh Fikri Haikal pada 2026."),
-    ).toBeInTheDocument();
-    expect(screen.getByText("Zenoba menjadi identitas baru pada Oktober 2026.")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Mei 2026 — Netloka dimulai" }));
+    expect(screen.getByText("Dirintis secara individual oleh Fikri Haikal sebagai platform belajar IT infrastructure yang terarah.")).toBeVisible();
+    fireEvent.click(screen.getByRole("button", { name: "Oktober 2026 — Menjadi Zenoba" }));
+    expect(screen.getByText("Netloka berganti nama menjadi Zenoba untuk menghadirkan identitas yang lebih segar dan khas.")).toBeVisible();
 
     expect(screen.queryByText(/Corporation/i)).not.toBeInTheDocument();
   });

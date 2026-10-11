@@ -18,6 +18,7 @@
 
 - Status: **in progress; Application Identity Tasks 1–4 are locally implemented and verified. Zenoba is running locally through Docker and the focused smoke checks are green. At the owner's direction, WebKit and other long-running E2E investigation are deferred from this rebrand scope. Release, PR, merge, local-folder transition, and separately authorized domain migration remain pending.**
 - Latest approved refinement: `/about` opens with paired Visi/Misi cards without eyebrow labels. Its unboxed history reuses the homepage IT Infrastructure Journey's exact six planets, winding luminous path, Saturn rings, and star-field primitives, with three verified May–October 2026 milestones and a readable mobile timeline. The homepage ends directly with the footer after FAQ.
+- History interaction refinement: three chapters tell the owner's origin story (information overload and unclear starting points), Netloka's independent May 2026 founding, and the fresh Zenoba identity in October 2026. Only chapter headings/dates are shown initially; short descriptions appear on planet hover or keyboard focus, with tap/click toggling and Escape dismissal. Preserve orbit visuals and homepage behavior; verify focused component tests, lint/typecheck, and local Docker/browser smoke only.
 - Design: `docs/superpowers/specs/2026-10-11-zenoba-rebrand-design.md`
 - Application/local identity plan: `docs/superpowers/plans/2026-10-11-zenoba-application-identity-rebrand.md`
 - Domain cutover plan: `docs/superpowers/plans/2026-10-11-zenoba-domain-cutover.md`

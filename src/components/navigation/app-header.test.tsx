@@ -67,6 +67,24 @@ describe("AppHeader auth buttons", () => {
   });
 });
 
+describe("AppHeader Zenoba identity", () => {
+  test("exposes the Zenoba home link and About route in desktop and mobile navigation", () => {
+    const { container, getByRole } = render(<AppHeader />);
+
+    expect(getByRole("link", { name: "Zenoba Home" })).toHaveTextContent("ZENOBA");
+    expect(getByRole("link", { name: "Tentang Zenoba" })).toHaveAttribute(
+      "href",
+      "/about",
+    );
+
+    fireEvent.click(getByRole("button", { name: "Open menu" }));
+
+    const aboutLinks = container.querySelectorAll('a[href="/about"]');
+    expect(aboutLinks).toHaveLength(2);
+    expect(aboutLinks[1]).toHaveTextContent("Tentang Zenoba");
+  });
+});
+
 describe("AppHeader IT infrastructure navigation", () => {
   test("presents available and soon learning domains without linking unavailable areas", () => {
     render(<AppHeader />);

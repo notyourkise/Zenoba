@@ -358,7 +358,7 @@ export function MarketingFooter() {
           </h2>
 
           <p className="text-xs sm:text-sm lg:text-base text-slate-300 max-w-xl mx-auto mb-8 leading-relaxed">
-            Bergabung bersama ribuan pelajar, mahasiswa, dan calon praktisi IT untuk menguasai infrastruktur digital lewat simulasi interaktif langsung di browser.
+            Pelajari infrastruktur digital lewat simulasi interaktif langsung di browser.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3.5">
@@ -397,12 +397,15 @@ export function MarketingFooter() {
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-2">
               <span className="text-lg font-black tracking-tight text-white">
-                NETLOKA<span className="text-sky-400">.</span>
+                ZENOBA<span className="text-sky-400">.</span>
               </span>
             </div>
             <p className="text-slate-400 leading-relaxed max-w-sm">
               Platform pembelajaran interaktif dan simulasi IT infrastructure modern untuk pelajar, pemula, dan calon praktisi teknologi di Indonesia.
             </p>
+            <Link href="/about" className={footerLinkClass}>
+              Tentang Zenoba
+            </Link>
           </div>
 
           {/* Column 1: Ekosistem */}
@@ -517,7 +520,7 @@ export function MarketingFooter() {
             <Link href="/privacy-policy" className={footerLinkClass}>Privacy Policy</Link>
           </nav>
           <p className="text-xs sm:text-sm font-bold text-white tracking-wide">
-            © 2026 Netloka. Hak Cipta Dilindungi Undang-Undang.
+            © 2026 Zenoba. Hak Cipta Dilindungi Undang-Undang.
           </p>
         </div>
       </div>

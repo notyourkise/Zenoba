@@ -61,6 +61,12 @@ describe("Landing Page Home Component", () => {
     expect(
       screen.getByRole("heading", { name: /Kuasai IT Infrastructure/i }),
     ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Zenoba Home" })).toHaveTextContent("ZENOBA");
+    for (const aboutLink of screen.getAllByRole("link", {
+      name: "Tentang Zenoba",
+    })) {
+      expect(aboutLink).toHaveAttribute("href", "/about");
+    }
     expect(screen.getByRole("link", { name: /Masuk/i })).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: /Mulai Gratis/i }),

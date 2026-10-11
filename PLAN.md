@@ -16,6 +16,8 @@
 
 ## Approved Upcoming Work — Zenoba Rebrand
 
+- SMTP test follow-up approved (2026-10-12): configure hello credentials only in the ignored D-drive local `.env`, then send one genuine password-reset email to the owner-selected recipient. Pending private password entry and an eligible local test account; no account creation, password change, external configuration, or VPS mutation. Verify authentication/delivery separately; a generic reset response alone is not proof of receipt.
+
 - Final-review fixes approved by owner (2026-10-12), local only: preserve legacy production resource/database/origin identifiers in both production manifests; align support with `founder@zenoba.tech` and staging sender examples with `hello@zenoba.tech`; correct the `.tech` DNS lesson; remove the corporation claim; read legacy browser preferences as fallback without overwriting new preferences; reconcile current documentation and narrowly classify legacy references. No VPS, domain, database migration, GitHub publication, or folder move. Acceptance: focused regression tests, lint/typecheck, Compose configuration validation, and diff review. WebKit and long-running release gates remain deferred.
 
 - Status: **in progress; Application Identity Tasks 1–4 are locally implemented and verified. Zenoba is running locally through Docker and the focused smoke checks are green. At the owner's direction, WebKit and other long-running E2E investigation are deferred from this rebrand scope. Release, PR, merge, local-folder transition, and separately authorized domain migration remain pending.**

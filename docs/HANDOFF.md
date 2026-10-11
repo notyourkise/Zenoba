@@ -1,6 +1,6 @@
 # Zenoba — Agent Handoff
 
-Last updated: **2026-10-12 01:18 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-10-12 01:24 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
 
 ## Current Task and Authority
 
@@ -14,6 +14,9 @@ Last updated: **2026-10-12 01:18 WITA**. Read `AGENTS.md` and verify live Git, C
 - Local application changes and local Docker rebuilds are implemented. No production application, domain, DNS, OAuth, VPS, production deployment, or GitHub remote mutation has been performed for this rebrand.
 
 ## Verified Repository Checkpoint
+
+- SMTP live-test preparation (owner approved after local commit `4493e5a`): created ignored `.env` in this D-drive worktree with Hostinger 465/TLS, hello SMTP user/from, and an empty password. Never print/read back the password or include the file in Git. Recipient was supplied privately in the conversation; no reset request or email has been sent. Password remains required, and a read-only check found no eligible local password account for the requested recipient. Ask the owner to fill SMTP_PASSWORD privately and register that local test account through the normal UI; no automatic account creation or password change is authorized.
+- Local database was stopped (health returned degraded/disconnected despite app container reporting healthy). Verified the existing Zenoba project's worktree label and `zenoba_postgresql_data` mount, then started only the existing `zenoba-postgres` container. Fresh health reports healthy/database connected. No new database, migration, seed, volume recreation, or VPS action. Next: once owner confirms private setup, reapply app SMTP config, verify SMTP authentication without sending or exposing secrets, then submit one real local forgot-password request and have the owner confirm receipt; do not change the account password without separate approval.
 
 - Final identity review fixes (owner approved, local only): based on clean `6f0c657` in the existing D-drive branch/worktree. Alternate `docker-compose.prod.yml` private identifiers and legacy origin restored to `main` baseline; only comments and hello sender defaults differ from main. Primary production manifest, backups, private roots, and Caddy routing unchanged. These two manifests are different stacks and must not be interchanged. New Zenoba staging requires isolated resources, not automatic migration of retained staging.
 - Application fixes: founder support mailto, correct .tech DNS teaching, terminal copyright without corporation, legacy same-origin preference fallback with new-key precedence and preserved false choices. Writes remain Zenoba-only; browser storage cannot transfer across domains. README clone destination/status, PRODUCT status, current runbook contacts/history boundaries, and legacy allowlist reconciled.

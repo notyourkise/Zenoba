@@ -16,7 +16,7 @@
 
 ## Approved Upcoming Work — Zenoba Rebrand
 
-- Status: **in progress; Application Identity Tasks 1–4 are locally implemented and verified. Release, PR, merge, and local-folder transition remain pending.**
+- Status: **in progress; Application Identity Tasks 1–4 are locally implemented and verified. The owner-authorized local test database is available, but the full three-browser E2E gate has two unresolved baseline failures (one flaky Firefox runtime failure and one reproducible WebKit multi-user redirect). Release, PR, merge, and local-folder transition remain pending.**
 - Design: `docs/superpowers/specs/2026-10-11-zenoba-rebrand-design.md`
 - Application/local identity plan: `docs/superpowers/plans/2026-10-11-zenoba-application-identity-rebrand.md`
 - Domain cutover plan: `docs/superpowers/plans/2026-10-11-zenoba-domain-cutover.md`

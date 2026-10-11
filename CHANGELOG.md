@@ -38,6 +38,18 @@ All notable project changes are recorded here.
 
 # 2026-10-11
 
+- [2026-10-11 19:03 WITA] [FIXED] [Zenoba Rebrand / Application Identity / Task 4]
+  Corrected the last active dashboard wordmark from `N E T L O K A` to `Z E N O B A` after browser evidence exposed the missed branded label.
+  Files/areas: `src/app/(app)/dashboard/page.tsx`, `src/app/(app)/dashboard/page.test.tsx`
+  Validation: focused dashboard and authentication component tests passed (18/18); the full unit suite passed (150 files/924 tests); the active-source inventory contains only the intentional About-page historical reference.
+  Git: pending
+
+- [2026-10-11 19:03 WITA] [REVIEW] [Zenoba Rebrand / Application Identity / Task 5]
+  Provisioned the owner-authorized disposable local Docker PostgreSQL database on loopback port `5433`, applied the six existing migrations, and seeded test data. The complete 303-test three-browser E2E run now reaches browser execution; it has two unresolved failures: a Firefox `NS_BINDING_ABORTED` runtime-stream failure in developer analytics (the focused Firefox file then passed 3/3), and a reproducible WebKit multi-user navigation race that redirects a fresh learner from the locked assessment check to `/dashboard`.
+  Files/areas: local ignored Docker volume/test artifacts; no application, VPS, domain, or production database changed
+  Validation: `db:deploy` and `db:seed` passed; full E2E executed with the local database; Firefox focused E2E passed 3/3; WebKit focused multi-user E2E remains failing
+  Git: pending documentation checkpoint
+
 - [2026-10-11 17:18 WITA] [REVIEW] [Zenoba Rebrand / Application Identity / Task 5]
   Started the isolated release gate. Dependency installation, Prisma generation, lint, typecheck, unit tests, and production build are locally verified; full E2E is blocked because the required local PostgreSQL test database at `127.0.0.1:5433` is unavailable. The runner was stopped without starting, migrating, or changing any database.
   Files/areas: release verification only; no application files changed

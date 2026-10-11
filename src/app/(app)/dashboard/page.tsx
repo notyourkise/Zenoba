@@ -231,7 +231,7 @@ export default async function DashboardPage() {
               Brighter Opportunities&rdquo;
             </p>
             <p className="text-[10px] uppercase tracking-[0.25em] text-blue-300/70 font-semibold mt-2">
-              N E T L O K A
+              Z E N O B A
             </p>
           </div>
         </div>

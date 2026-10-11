@@ -106,6 +106,8 @@ describe("DashboardPage (Cosmic Orbital Workspace)", () => {
 
     // Zenoba orbital quote
     expect(screen.getByText(/Better Networks/i)).toBeInTheDocument();
+    expect(screen.getByText("Z E N O B A")).toBeInTheDocument();
+    expect(screen.queryByText("N E T L O K A")).not.toBeInTheDocument();
 
     // Primary Lanjutkan Belajar action in hero & resume card
     const ctaLinks = screen.getAllByRole("link", { name: /Lanjutkan Belajar/i });

@@ -38,6 +38,12 @@ All notable project changes are recorded here.
 
 # 2026-10-11
 
+- [2026-10-11 15:54 WITA] [DOCS] [Zenoba Rebrand Planning]
+  Added separate, reviewable execution plans for the application/local identity rebrand and the externally authorized domain cutover; linked both from the active project plan.
+  Files/areas: `docs/superpowers/plans/2026-10-11-zenoba-application-identity-rebrand.md`, `docs/superpowers/plans/2026-10-11-zenoba-domain-cutover.md`, `PLAN.md`, `docs/HANDOFF.md`
+  Validation: implementation-boundary inventory and plan self-review; `git diff --check` pending final plan checkpoint
+  Git: pending
+
 - [2026-10-11 15:42 WITA] [DOCS] [Zenoba Rebrand Planning]
   Added the owner-approved design specification for the staged Netloka-to-Zenoba rebrand, including the separate public About route, truthful content rules, local checkout rename, and a safe domain-cutover boundary that preserves production data resources.
   Files/areas: `docs/superpowers/specs/2026-10-11-zenoba-rebrand-design.md`, `docs/HANDOFF.md`

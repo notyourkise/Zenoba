@@ -14,6 +14,14 @@
 
 **Evidence correction:** Historical checked tasks remain delivery history, not proof of current deployment. The `a95b025` inspection found 5 paths/13 modules/15 lessons and non-authoritative completion; merged PR #27–#39 subsequently repaired assessment/progression. A current source-registry recount verifies 6 paths/31 modules/65 lessons/195 formative quizzes/6 capstones. A complete fresh-database baseline now exists and CI applies it with `db:deploy`; retained-database upgrade rehearsal and staging/production remain unverified.
 
+## Approved Upcoming Work — Zenoba Rebrand
+
+- Status: **planned; execution method and plan review pending.**
+- Design: `docs/superpowers/specs/2026-10-11-zenoba-rebrand-design.md`
+- Application/local identity plan: `docs/superpowers/plans/2026-10-11-zenoba-application-identity-rebrand.md`
+- Domain cutover plan: `docs/superpowers/plans/2026-10-11-zenoba-domain-cutover.md`
+- Scope boundary: preserve the homepage structure and production database/volume/network/backup/VPS-root identifiers during the first cutover. External DNS, OAuth, email, and VPS mutations require separate contemporaneous authorization.
+
 ## Global Constraints
 
 - Primary production domain is `netloka.biz.id`.

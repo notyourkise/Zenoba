@@ -126,10 +126,10 @@ export default function TermsPage() {
         berlaku di Republik Indonesia.
       </p>
       <p>
-        Pertanyaan seputar ketentuan layanan, laporan operasional, atau kendala
-        akses akun dapat disampaikan melalui surat elektronik ke alamat{" "}
-        <a href="mailto:noreply@haikalariadma.my.id">
-          noreply@haikalariadma.my.id
+        Pertanyaan seputar ketentuan layanan, laporan operasional atau keamanan,
+        dan kendala akses akun dapat disampaikan melalui email ke{" "}
+        <a href="mailto:founder@zenoba.tech">
+          founder@zenoba.tech
         </a>
         .
       </p>

@@ -38,6 +38,12 @@ All notable project changes are recorded here.
 
 # 2026-10-11
 
+- [2026-10-11 21:31 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / Public legal copy]
+  Simplified Privacy Policy for general readers, removing database/VPS/SMTP/token/rate-limit internals and the blanket 30-day response claim while retaining data purposes, providers, cookies, storage, rights, child-consent limitations, and individual controller identity. Updated all public legal inquiry/report/account-help contacts and mailto destinations to the owner-provided `founder@zenoba.tech`. Preserved legal styling, Terms scope, authentication, and automatic email configuration.
+  Files/areas: `src/app/(legal)/privacy-policy/page.tsx`, `src/app/(legal)/terms/page.tsx`, `src/app/(legal)/legal-contact.test.tsx`, `PLAN.md`, `docs/HANDOFF.md`
+  Validation: new contact tests failed before implementation; focused contact/About tests 6/6 passed; lint/typecheck/diff checks passed; Docker production build passed with existing warnings. Rebuilt local Docker app; both legal pages and health 200; new mailto present, old address/internal terms absent. Full E2E/WebKit/CI not rerun. Mailbox delivery/monitoring not tested; no SMTP, DNS, VPS, or production changes. Legal reference: https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/crc32/ ; no claim of legal certification.
+  Git: pending (local changes based on 7fb62d8); no remote publication
+
 - [2026-10-11 21:10 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / Three-planet history]
   Matched the owner's popup reference using the actual IT Journey `CheckpointPopup`, with planet name, chapter title, description, and `Tutup`. Reduced About to Mercury, Saturnus, and Jupiter only, retained their original textures/rings, added visible names, and shortened the luminous path to connect those three milestones. Desktop popup appears above each planet; mobile uses the same popup inline. Homepage Journey defaults are preserved.
   Files/areas: `src/components/marketing/it-infrastructure-journey.tsx`, Journey tests, `PLAN.md`, `docs/HANDOFF.md`

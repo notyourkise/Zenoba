@@ -2,175 +2,130 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | Zenoba",
-  description:
-    "Penjelasan data akun, Google login, sesi, progres belajar, hasil latihan, dan email pemulihan pada Zenoba.",
+  description: "Informasi tentang penggunaan data pribadi, privasi, dan kontak pengelola Zenoba.",
 };
 
 export default function PrivacyPolicyPage() {
   return (
     <article>
       <h1>Privacy Policy</h1>
+      <p>Terakhir diperbarui: <time dateTime="2026-10-11">11 Oktober 2026</time></p>
       <p>
-        Terakhir diperbarui: <time dateTime="2026-10-11">11 Oktober 2026</time>
-      </p>
-      <p>
-        Kebijakan ini menjelaskan bagaimana Zenoba memproses data ketika Anda
-        membuat akun dan menggunakan layanan pembelajaran. Penjelasan integrasi
-        berlaku ketika integrasi tersebut dikonfigurasi dan digunakan;
-        tersedianya kode tidak berarti layanan eksternal sudah aktif.
+        Kebijakan ini menjelaskan data yang digunakan Zenoba, tujuan penggunaannya,
+        dan pilihan Anda saat menggunakan layanan pembelajaran.
       </p>
 
-      <h2>Data akun dan autentikasi</h2>
+      <h2>Data yang kami gunakan</h2>
       <p>
-        Akun email menyimpan alamat email, nama yang Anda isi, identitas akun,
-        peran pengguna, serta waktu pembuatan dan perubahan akun. Password
-        diproses untuk autentikasi dan disimpan sebagai hash, bukan teks
-        password yang dapat dibaca kembali. Nama dapat diperbarui melalui
-        Profile.
+        Saat membuat akun, Anda memberikan nama, alamat email, dan password.
+        Password disimpan dalam bentuk yang tidak dapat dibaca langsung.
+        Jika Anda memilih masuk dengan Google, kami menerima informasi akun
+        yang diperlukan untuk login, seperti nama, alamat email, dan foto profil.
+        Zenoba tidak menerima password Google atau meminta akses ke isi Gmail,
+        Google Drive, kontak, maupun kalender Anda.
       </p>
       <p>
-        Jika Anda memilih Google login, Zenoba menerima identitas akun Google,
-        alamat email, informasi verifikasi email, nama, dan foto profil yang
-        diberikan Google. Sistem dapat menyimpan token serta metadata OAuth yang
-        diberikan penyedia untuk menghubungkan dan mengautentikasi akun. Izin
-        login yang digunakan adalah openid, email, dan profile; aplikasi tidak
-        meminta akses isi Gmail, Google Drive, kontak, atau kalender. Password
-        Google tidak diterima oleh Zenoba.
-      </p>
-
-      <h2>Data aktivitas belajar</h2>
-      <p>
-        Zenoba menyimpan progres lesson, waktu penyelesaian, jawaban kuis,
-        skor, status kelulusan, percobaan Labs dan Challenges, serta transaksi
-        XP. Pada Consultant, data dapat mencakup pilihan perangkat, anggaran,
-        topologi, rencana IP/VLAN, penilaian, dan feedback. Data ini dihubungkan
-        dengan akun agar hasil dapat dinilai dan dilanjutkan kembali.
+        Kami juga menyimpan progres belajar, jawaban latihan, skor, XP, dan hasil
+        proyek agar Anda dapat melanjutkan pembelajaran dan melihat hasilnya.
+        Informasi teknis tentang penggunaan layanan dan gangguan dapat tercatat
+        untuk pemeliharaan dan keamanan.
       </p>
       <p>
-        Gunakan data contoh dalam latihan. Aplikasi tidak membutuhkan dokumen
-        identitas, informasi keuangan pribadi, password perangkat nyata, atau
-        data rahasia milik sekolah, perusahaan, maupun pelanggan.
+        Gunakan data contoh dalam latihan. Jangan memasukkan dokumen identitas,
+        informasi keuangan pribadi, password asli, atau data rahasia milik
+        sekolah, perusahaan, dan pelanggan.
       </p>
 
-      <h2>Tujuan pemrosesan</h2>
+      <h2>Tujuan penggunaan data</h2>
       <p>
-        Data digunakan untuk membuat dan mengautentikasi akun, menjalankan
-        pemulihan akses, memeriksa hak akses, menyimpan progres, menilai
-        jawaban, menghitung XP, dan menampilkan hasil proyek. Informasi
-        kesalahan teknis dapat tercatat dalam log untuk membantu diagnosis dan
-        pemeliharaan.
+        Data digunakan untuk mengelola akun, memulihkan akses, menyimpan progres,
+        menilai latihan, menampilkan hasil belajar, dan menjaga layanan tetap
+        berjalan. Data yang Anda kirim saat menghubungi pengelola digunakan
+        untuk menanggapi pertanyaan atau laporan Anda.
       </p>
       <p>
-        Alur aplikasi saat ini tidak menyediakan iklan bertarget, penjualan
-        data, atau pelacakan lintas situs untuk pemasaran. Pemrosesan di luar
-        tujuan yang dijelaskan memerlukan dasar yang sesuai dan pemberitahuan
-        tersendiri; membaca halaman ini bukan persetujuan untuk tujuan baru.
+        Zenoba tidak menjual data pribadi atau menggunakannya untuk iklan
+        bertarget. Penggunaan data untuk tujuan baru akan dijelaskan terlebih
+        dahulu dan memerlukan dasar pemrosesan yang sesuai.
       </p>
 
       <h2>Cookie dan penyimpanan browser</h2>
       <p>
-        Autentikasi menggunakan cookie untuk sesi login, perlindungan
-        permintaan, dan tujuan kembali setelah login. Preferensi tema dapat
-        disimpan pada penyimpanan lokal browser. Memblokir atau menghapus cookie
-        dapat membuat Anda keluar dari akun atau menghambat proses login.
-        Menghapus data browser tidak otomatis menghapus akun dan progres di
-        server.
+        Zenoba menggunakan cookie untuk mendukung login dan keamanan akun.
+        Preferensi tampilan dapat disimpan di browser Anda. Menghapus atau
+        memblokir cookie dapat membuat Anda keluar dari akun atau mengganggu
+        proses login. Menghapus data browser tidak menghapus akun dan progres
+        yang tersimpan pada layanan.
       </p>
 
-      <h2>Email pemulihan password</h2>
+      <h2>Layanan pihak ketiga</h2>
       <p>
-        Saat Anda meminta reset password untuk akun email yang sesuai, sistem
-        membuat token pemulihan dan mengirim tautan ke alamat email akun melalui
-        SMTP yang dikonfigurasi untuk Hostinger Email. Penyedia email memproses
-        alamat tujuan dan isi pesan untuk pengiriman. Jangan membagikan tautan
-        tersebut kepada orang lain.
-      </p>
-      <p>
-        Database menyimpan hash token dengan masa berlaku 30 menit. Token hanya
-        dapat digunakan sekali; permintaan baru menggantikan token sebelumnya.
-        Berakhirnya masa berlaku tidak dengan sendirinya berarti seluruh catatan
-        email atau data akun sudah dihapus.
-      </p>
-
-      <h2>Pihak yang terlibat dan pemroses data</h2>
-      <p>
-        Pemrosesan data teknis dan operasional melibatkan infrastruktur pihak
-        ketiga dengan batasan fungsi yang jelas:
+        Zenoba menggunakan penyedia layanan untuk mendukung fitur yang Anda
+        gunakan. Penyedia terkait dapat memproses data sesuai fungsi layanannya:
       </p>
       <ul>
-        <li>
-          <strong>Google LLC:</strong> Memproses autentikasi saat Anda memilih
-          opsi Google login (terbatas pada cakupan identitas dasar).
-        </li>
-        <li>
-          <strong>Hostinger International Ltd.:</strong> Menyediakan layanan
-          SMTP dan mailbox resmi (<code>noreply@haikalariadma.my.id</code>) untuk
-          pengiriman tautan reset password dan komunikasi operasional.
-        </li>
-        <li>
-          <strong>Cloudflare, Inc.:</strong> Mengelola DNS, mitigasi DDoS, dan
-          keamanan koneksi HTTPS edge.
-        </li>
-        <li>
-          <strong>PostgreSQL dan server aplikasi:</strong> Berjalan pada server
-          privat (VPS Linux) untuk penyimpanan data dan perutean permintaan.
-        </li>
-      </ul>
-
-      <h2>Penyimpanan, retensi, dan keamanan</h2>
-      <p>
-        Data akun dan histori progres pembelajaran disimpan selama akun Anda
-        aktif untuk menjamin kelangsungan belajar. Data keamanan sementara
-        memiliki batas waktu terukur: token reset password kedaluwarsa dalam 30
-        menit dan dibersihkan berkala, sedangkan pencatatan pembatasan frekuensi
-        (rate limit) direset otomatis setiap 15 menit.
-      </p>
-      <p>
-        Aplikasi menerapkan validasi masukan, enkripsi searah (hash kriptografi)
-        untuk password dan kunci pembatas laju, proteksi sesi terdistribusi,
-        serta pencatatan audit keamanan (security events).
-      </p>
-
-      <h2>Hak Anda sebagai subjek data</h2>
-      <p>
-        Berdasarkan Undang-Undang No. 27 Tahun 2022 tentang Pelindungan Data
-        Pribadi (UU PDP), Anda memiliki hak untuk:
-      </p>
-      <ul>
-        <li>Mendapatkan informasi tentang kejelasan identitas dan tujuan pemrosesan data.</li>
-        <li>Mengakses dan meminta salinan data pribadi Anda.</li>
-        <li>Memperbaiki kesalahan atau memperbarui data pribadi Anda.</li>
-        <li>Meminta penghentian pemrosesan atau penghapusan data pribadi Anda.</li>
-        <li>Menarik persetujuan pemrosesan yang pernah Anda berikan.</li>
+        <li>Google, untuk login menggunakan akun Google jika Anda memilihnya.</li>
+        <li>Hostinger, untuk pengiriman email pemulihan akun dan komunikasi layanan.</li>
+        <li>Cloudflare, untuk mendukung koneksi dan keamanan akses website.</li>
       </ul>
       <p>
-        Permohonan pemenuhan hak subjek data dapat dikirimkan langsung melalui
-        surat elektronik ke alamat kontak resmi pengelola. Permohonan akan
-        ditindaklanjuti maksimal dalam 30 (tiga puluh) hari kalender.
+        Kebijakan privasi penyedia tersebut juga berlaku pada layanan mereka.
+        Tautan pemulihan akun bersifat pribadi; jangan membagikannya kepada orang lain.
       </p>
 
-      <h2>Data anak</h2>
+      <h2>Penyimpanan dan keamanan</h2>
       <p>
-        Platform ditujukan untuk pembelajaran siswa SMK TKJ dan pemula. Jika
-        Anda berusia di bawah 18 tahun, pendaftaran dan aktivitas belajar
-        dilakukan dengan sepengetahuan orang tua atau wali. Latihan bersifat
-        simulasi deterministik; jangan pernah memasukkan data rahasia pribadi,
-        data sekolah, atau kata sandi nyata ke dalam simulator.
+        Data akun dan progres belajar disimpan selama akun Anda aktif.
+        Permintaan penghapusan dapat disampaikan kepada pengelola. Dalam
+        pemenuhannya, kami memperhatikan kewajiban hukum dan kebutuhan keamanan
+        yang berlaku, serta menjelaskan apabila ada data yang perlu dipertahankan.
+      </p>
+      <p>
+        Zenoba menerapkan langkah keamanan untuk melindungi data dan membatasi
+        akses yang tidak berwenang. Tidak ada layanan online yang dapat menjamin
+        keamanan mutlak. Jaga kerahasiaan akun dan segera laporkan dugaan penyalahgunaan.
       </p>
 
-      <h2>Kontak pengelola</h2>
+      <h2>Hak dan pilihan Anda</h2>
       <p>
-        Pengendali data pribadi platform ini adalah Fikri Haikal sebagai
-        pengelola perseorangan Zenoba.
+        Sesuai ketentuan pelindungan data pribadi yang berlaku, Anda dapat
+        meminta informasi tentang penggunaan data, akses atau salinan data,
+        perbaikan data, serta penghapusan atau penghentian pemrosesan.
+        Jika pemrosesan didasarkan pada persetujuan, Anda dapat menarik
+        persetujuan tersebut.
       </p>
       <p>
-        Segala pertanyaan, permohonan pemenuhan hak data pribadi, laporan
-        kerentanan keamanan, atau masukan dapat disampaikan melalui surat
-        elektronik ke alamat resmi:{" "}
-        <a href="mailto:noreply@haikalariadma.my.id">
-          noreply@haikalariadma.my.id
-        </a>
-        .
+        Hubungi pengelola untuk mengajukan permintaan. Kami dapat meminta
+        informasi yang diperlukan untuk memastikan permintaan berasal dari
+        pemilik akun. Permintaan ditangani sesuai ketentuan dan batas waktu
+        hukum yang berlaku. Jangan mengirim password atau data rahasia melalui email.
+      </p>
+
+      <h2>Privasi anak</h2>
+      <p>
+        Pemrosesan data pribadi anak memerlukan persetujuan orang tua atau wali
+        sesuai ketentuan yang berlaku. Zenoba belum menyediakan mekanisme
+        persetujuan tersebut. Jangan mendaftarkan data pribadi anak sebelum
+        mekanisme yang sesuai tersedia. Orang tua atau wali dapat menghubungi
+        pengelola untuk pertanyaan atau permintaan terkait data anak.
+      </p>
+
+      <h2>Perubahan kebijakan</h2>
+      <p>
+        Kebijakan ini dapat diperbarui mengikuti perubahan layanan. Tanggal
+        di atas menunjukkan pembaruan terakhir. Pembaruan halaman ini tidak
+        dengan sendirinya menjadi persetujuan Anda untuk tujuan penggunaan data yang baru.
+      </p>
+
+      <h2>Pengelola dan kontak</h2>
+      <p>
+        Zenoba dikelola secara independen oleh Fikri Haikal sebagai pengelola
+        perseorangan dan pengendali data pribadi layanan ini.
+      </p>
+      <p>
+        Pertanyaan privasi, permintaan terkait data pribadi, laporan operasional
+        atau keamanan, dan kendala akses akun dapat disampaikan melalui email ke{" "}
+        <a href="mailto:founder@zenoba.tech">founder@zenoba.tech</a>.
       </p>
     </article>
   );

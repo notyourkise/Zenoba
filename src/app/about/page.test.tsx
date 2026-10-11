@@ -36,11 +36,13 @@ describe("Zenoba About page", () => {
     expect(screen.queryByText(/Corporation/i)).not.toBeInTheDocument();
   });
 
-  it("opens with paired vision and mission cards before the infrastructure journey", () => {
+  it("keeps vision and mission direct before the infrastructure journey", () => {
     render(<AboutPage />);
 
     expect(screen.getByRole("heading", { level: 2, name: "Visi" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 2, name: "Misi" })).toBeInTheDocument();
+    expect(screen.queryByText("Arah Zenoba")).not.toBeInTheDocument();
+    expect(screen.queryByText("Cara Zenoba bergerak")).not.toBeInTheDocument();
     expect(screen.getByRole("region", { name: "Perjalanan Zenoba" })).toBeInTheDocument();
     expect(screen.getByText("Mei 2026")).toBeInTheDocument();
     expect(screen.getByText("Oktober 2026")).toBeInTheDocument();

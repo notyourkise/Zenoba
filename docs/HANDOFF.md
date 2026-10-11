@@ -1,6 +1,6 @@
 # Zenoba — Agent Handoff
 
-Last updated: **2026-10-11 19:39 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-10-11 20:17 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
 
 ## Current Task and Authority
 
@@ -8,7 +8,7 @@ Last updated: **2026-10-11 19:39 WITA**. Read `AGENTS.md` and verify live Git, C
 - Current requested work: a full public rebrand from Netloka to Zenoba with a separate public `/about` page, while retaining learner behavior and removing the final homepage CTA so FAQ flows directly into the footer.
 - Approved scope: Zenoba is independently operated by solo founder Fikri Haikal. The owner verified that Netloka began in May 2026, Zenoba was founded individually in 2026, and Zenoba became the new identity in October 2026. No legal-entity, user-count, or unsupported corporate claim may be published.
 - Approved safety boundary: the first cutover preserves PostgreSQL data, Docker volumes/networks, backups, and `/srv/netloka`; the legacy domain will later redirect to `zenoba.tech`.
-- Task phase: Application Identity Tasks 1–4 plus the owner-approved About/CTA refinement are locally implemented and locally verified. The owner explicitly deferred WebKit and long-running E2E investigation from the current rebrand goal; local Docker smoke validation is complete. This does not authorize a merge, local-folder move, or domain/VPS change.
+- Task phase: Application Identity Tasks 1–4 plus the owner-approved About/CTA refinement are locally implemented and locally verified. The Journey now uses a full-width orbit with unboxed milestones; Visi/Misi use direct headings without eyebrow labels. The owner explicitly deferred WebKit and long-running E2E investigation from the current rebrand goal; local Docker smoke validation is complete. This does not authorize a merge, local-folder move, or domain/VPS change.
 - No application, domain, DNS, OAuth, VPS, production deployment, or GitHub remote mutation has been performed for this rebrand.
 
 ## Verified Repository Checkpoint
@@ -16,8 +16,8 @@ Last updated: **2026-10-11 19:39 WITA**. Read `AGENTS.md` and verify live Git, C
 | Item | Verified state |
 | --- | --- |
 | Main checkout | `D:\laragon\www\NetLoka`, clean `main` at `7fdd7afcd72870743ee7702e9b2b322f059acbd9` |
-| Planning worktree | `D:\laragon\www\NetLoka-zenoba-rebrand-plan` on `codex/zenoba-rebrand-plan`, based on `7fdd7af`; current refinement commit `b87fcd7` |
-| Planning changes | Design spec, two plans, project-plan reference, local Docker checkpoint, and the approved About/CTA refinement are committed locally |
+| Planning worktree | `D:\laragon\www\NetLoka-zenoba-rebrand-plan` on `codex/zenoba-rebrand-plan`, based on `7fdd7af`; current committed refinement `ca65c11` plus uncommitted orbit update |
+| Planning changes | Design spec, two plans, project-plan reference, local Docker checkpoint, and the approved About/CTA refinement are committed locally; the latest orbit update awaits its local commit |
 | GitHub repository | `notyourkise/NetLoka`; rename is outside the first-cutover scope |
 | Production history | Previous handoff records `/srv/netloka/production` and `netloka.biz.id`; VPS state is not re-verified in this documentation checkpoint |
 
@@ -33,7 +33,7 @@ Last updated: **2026-10-11 19:39 WITA**. Read `AGENTS.md` and verify live Git, C
 - Public inspection found no `/about` route, unsupported learner-volume claims, and stale pre-launch legal wording; implementation plans correct these without changing product behavior.
 - `zenoba.tech` currently serves a parked Hostinger page; canonical switch has not occurred.
 - Task 1 focused tests passed (17 tests). Task 2 focused tests passed (3 files/10 tests). Task 3 focused unit tests passed (5 files/37 tests); its Chromium E2E coverage passed (10/10) at 390px and 1440px after installing the local test browser under `D:\laragon\playwright-browsers`. Task 4 re-ran Prisma generation, lint, typecheck, the full unit suite, and the production build with safe local values. The later dashboard-label correction has focused unit coverage (18/18), full-unit coverage (150 files/924 tests), and the active-source inventory now leaves only the intentional historical About-page Netloka reference.
-- The owner authorized an isolated local Docker PostgreSQL test database only: `zenoba-postgres` is healthy on loopback `127.0.0.1:5433`, its six existing migrations were applied, and the development seed completed. The local production app `zenoba-app` is healthy on `http://localhost:3000`; `/api/health` returned 200 with a connected database, `/about` returned the verified May–October 2026 journey, and the homepage no longer returned the removed final CTA. The full 303-test E2E run previously found a flaky Firefox runtime failure and a reproducible WebKit redirect; at the owner's direction these are deferred rather than blocking the rebrand's local-running milestone. No VPS, domain, production database, or production container was changed. CI and production checks have not been run.
+- The owner authorized an isolated local Docker PostgreSQL test database only: `zenoba-postgres` is healthy on loopback `127.0.0.1:5433`, its six existing migrations were applied, and the development seed completed. The local production app `zenoba-app` is healthy on `http://localhost:3000`; `/api/health` returned 200 with a connected database. `/about` was reviewed locally at mobile and 1440px desktop after moving its milestones onto a full-width orbit; the homepage no longer returned the removed final CTA. The full 303-test E2E run previously found a flaky Firefox runtime failure and a reproducible WebKit redirect; at the owner's direction these are deferred rather than blocking the rebrand's local-running milestone. No VPS, domain, production database, or production container was changed. CI and production checks have not been run.
 
 ## Next Action
 

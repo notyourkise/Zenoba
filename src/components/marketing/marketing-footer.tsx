@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const footerLinkClass =
   "relative inline-block text-slate-400 hover:text-white transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-white after:origin-center after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-500 after:ease-[cubic-bezier(0.16,1,0.3,1)]";
@@ -355,9 +356,14 @@ export function MarketingFooter() {
           {/* Brand & Purpose Column (2 spans) */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-2">
-              <span className="text-lg font-black tracking-tight text-white">
-                ZENOBA<span className="text-sky-400">.</span>
-              </span>
+              <Image
+                src="/logos/zenoba-logo-black.png"
+                alt="Zenoba"
+                width={2400}
+                height={674}
+                sizes="160px"
+                className="h-auto w-40 invert"
+              />
             </div>
             <p className="text-slate-400 leading-relaxed max-w-sm">
               Platform pembelajaran interaktif dan simulasi IT infrastructure modern untuk pelajar, pemula, dan calon praktisi teknologi di Indonesia.

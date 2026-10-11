@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
@@ -264,9 +265,14 @@ export function AppHeader() {
                 className="flex items-center focus:outline-none rounded-lg py-1 hover:opacity-90 transition-opacity group cursor-pointer"
                 aria-label="Zenoba Home"
               >
-                <span className="font-brand text-2xl sm:text-3xl font-bold tracking-wide text-black dark:text-white">
-                  ZENOBA
-                </span>
+                <Image
+                  src="/logos/zenoba-logo-black.png"
+                  alt="Zenoba"
+                  width={2400}
+                  height={674}
+                  sizes="(max-width: 640px) 128px, 144px"
+                  className="h-auto w-32 sm:w-36 dark:invert"
+                />
               </Link>
             </div>
 

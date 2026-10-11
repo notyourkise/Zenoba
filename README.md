@@ -41,6 +41,10 @@ Read the [approved developer/learner design](docs/superpowers/specs/2026-09-07-d
 
 ## 🛠️ Tech Stack
 
+### Brand assets
+
+Owner-supplied logo files live in `public/logos/`. Header and footer use `zenoba-logo-black.png` at its original aspect ratio; CSS inversion supplies the white version on dark surfaces. The supplied white PNGs currently contain background-removal artifacts and are retained unchanged, not used for rendering. `zenoba-app-icon.png` supplies browser and Apple touch icons through root metadata. Keep filenames stable or update the consumers when replacing assets; no logo generation is performed at runtime.
+
 - **Framework:** Next.js 16.3.x + React 19.2.x + TypeScript 5.x
 - **Styling:** Tailwind CSS 4.x with reusable local shadcn-style primitives
 - **Database:** PostgreSQL 16.x + Prisma ORM 7.x

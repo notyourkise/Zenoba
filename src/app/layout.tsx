@@ -23,6 +23,10 @@ export const metadata: Metadata = {
   title: "Zenoba - Interactive IT Infrastructure Learning Platform",
   description:
     "Belajar IT infrastructure melalui pelajaran interaktif, labs, challenges, dan simulasi consultant.",
+  icons: {
+    icon: { url: "/logos/zenoba-app-icon.png", type: "image/png" },
+    apple: { url: "/logos/zenoba-app-icon.png", type: "image/png" },
+  },
 };
 
 export default function RootLayout({

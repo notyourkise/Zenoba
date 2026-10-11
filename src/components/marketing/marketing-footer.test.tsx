@@ -24,7 +24,10 @@ describe("MarketingFooter", () => {
   it("merender kolom navigasi dan copyright", () => {
     render(<MarketingFooter />);
 
-    expect(screen.getByText("ZENOBA")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Zenoba" })).toHaveAttribute(
+      "src",
+      expect.stringContaining("zenoba-logo-black.png"),
+    );
     expect(screen.getByText("Ekosistem")).toBeInTheDocument();
     expect(screen.getByText("Alat Simulator")).toBeInTheDocument();
     expect(screen.getByText("Jalur Belajar")).toBeInTheDocument();

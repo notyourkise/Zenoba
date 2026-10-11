@@ -36,6 +36,14 @@ All notable project changes are recorded here.
   Git: commit SHA and/or PR number when available
 ```
 
+# 2026-10-12
+
+- [2026-10-12 01:01 WITA] [ADDED] [Zenoba Rebrand / Application Identity / Logo assets]
+  Integrated the six owner-provided PNGs under `public/logos`; header/footer use the clean black horizontal logo, CSS-inverted on dark surfaces. White files contain extraction artifacts and are preserved unused, not edited. Root metadata registers the app icon for browser/Apple icons. Preserved layout, navigation, homepage content, and application behavior; no dependency or image generation.
+  Files/areas: `public/logos`, `src/components/navigation/app-header.tsx`, `src/components/marketing/marketing-footer.tsx`, `src/app/layout.tsx`, related unit tests, `src/e2e/brand-logo.spec.ts`, `PLAN.md`, `README.md`, `docs/HANDOFF.md`
+  Validation: baseline 8/8; image assertions failed before implementation; focused final tests 14/14, lint/typecheck/diff checks and Docker build passed with existing warnings. Rebuilt local container; Chromium logo/About smoke 5/5 at 390px/1024px/1440px confirmed loading, light/dark header inversion, icon metadata, and viewport fit. Desktop/mobile/footer screenshots inspected. No full suite/WebKit/CI, remote publication, or production/DNS/VPS changes.
+  Git: pending (local changes based on 847d74a)
+
 # 2026-10-11
 
 - [2026-10-11 21:52 WITA] [REMOVED] [Zenoba Rebrand / Application Identity / About bottom content]

@@ -71,7 +71,12 @@ describe("AppHeader Zenoba identity", () => {
   test("exposes the Zenoba home link and About route in desktop and mobile navigation", () => {
     const { container, getByRole } = render(<AppHeader />);
 
-    expect(getByRole("link", { name: "Zenoba Home" })).toHaveTextContent("ZENOBA");
+    const home = getByRole("link", { name: "Zenoba Home" });
+    expect(home).toHaveAttribute("href", "/");
+    expect(within(home).getByRole("img", { name: "Zenoba" })).toHaveAttribute(
+      "src",
+      expect.stringContaining("zenoba-logo-black.png"),
+    );
     expect(getByRole("link", { name: "Tentang Zenoba" })).toHaveAttribute(
       "href",
       "/about",

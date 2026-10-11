@@ -36,6 +36,7 @@
 
 ## Global Constraints
 
+- Publication checkpoint (2026-10-12 01:50 WITA): branch pushed; draft PR #88 targets main at verified application head da457b7. Internal review findings corrected, lint/typecheck, 939 tests and Docker build passed. CI pending; inspect fresh head after documentation push. Not ready for user review/merged/deployed; no folder/domain/VPS change. https://github.com/notyourkise/NetLoka/pull/88
 - Primary production domain is `zenoba.tech`.
 - Project logs use WITA / GMT+8.
 - Architecture starts as a modular monolith.

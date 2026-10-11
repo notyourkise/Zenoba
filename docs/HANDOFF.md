@@ -1,6 +1,6 @@
 # Zenoba — Agent Handoff
 
-Last updated: **2026-10-12 01:49 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-10-12 01:50 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
 
 ## Current Task and Authority
 
@@ -11,10 +11,11 @@ Last updated: **2026-10-12 01:49 WITA**. Read `AGENTS.md` and verify live Git, C
 - Approved safety boundary: the first cutover preserves PostgreSQL data, Docker volumes/networks, backups, and `/srv/netloka`; the legacy domain will later redirect to `zenoba.tech`.
 - Latest approved legal refinement: Privacy Policy uses general user-facing language, retaining meaningful disclosures and individual controller identity, without database/VPS/SMTP/OAuth-token/rate-limit internals or a blanket 30-day response claim. Public privacy, security, operational, account, and Terms contact is `founder@zenoba.tech`. Terms and Privacy disclose the missing parental-consent mechanism; no registration/consent behavior changed. The owner selected an existing `hello@zenoba.tech` mailbox for automatic email, reflected in local/example defaults; live delivery and monitoring remain unverified.
 - Task phase: Application Identity Tasks 1–4 plus the owner-approved About/CTA refinement are locally implemented and locally verified. The Journey now uses a full-width orbit with unboxed milestones; Visi/Misi use direct headings without eyebrow labels. The owner explicitly deferred WebKit and long-running E2E investigation from the current rebrand goal; local Docker smoke validation is complete. This does not authorize a merge, local-folder move, or domain/VPS change.
-- Local application changes and local Docker rebuilds are implemented. No production application, domain, DNS, OAuth, VPS, production deployment, or GitHub remote mutation has been performed for this rebrand.
+- Local application changes and local Docker rebuilds are implemented. Owner-authorized branch publication and draft PR #88 have occurred; no production application, domain, DNS, OAuth, VPS, production deployment, merge, or folder move.
 
 ## Verified Repository Checkpoint
 
+- Publication: https://github.com/notyourkise/NetLoka/pull/88 is OPEN/DRAFT, base main; verified application head `da457b7d0c31294846ea930f8018ec7686badd21`, MERGEABLE but UNSTABLE while CI run `38161308947` is in progress. This documentation checkpoint is a new commit/push; inspect the resulting live PR head and fresh CI, not the earlier run. No ready-for-user-review claim until all five CI jobs succeed. User owns merge; retain worktree/private ignored data. No folder rename or VPS/domain operation.
 - Full-branch review closure on uncommitted changes based on `9e9deab`: no Critical finding; High backup compatibility and Medium private cookie/history findings corrected. Preserve `netloka_dev_elevation` and original staging history. Real-cookie route regression failed before correction, then focused developer 43/43, full unit 154 files/939 tests, lint/typecheck, Docker production build and diff checks passed. Existing build warnings remain; local full E2E/WebKit and SMTP delivery deferred. Push/PR/CI are the next authorized steps; no readiness or merge claim yet.
 - Latest authority: owner deferred SMTP testing to the separately authorized VPS release, then authorized PR preparation/publication and CI inspection. SMTP remains configured but authentication/delivery UNVERIFIED; ISP filtering is only a hypothesis. Do not retry local SMTP, create accounts/reset tokens, move folders, deploy, or merge for the owner.
 - Publication preparation on clean `08fd1e0`: fetched origin/main=`7fdd7af`, verified gh account/repository and no existing branch PR. Only CI workflow is ci.yml: lint/typecheck, unit tests, Chromium E2E, production build, quality gate. No WebKit in CI; local full E2E remains owner-deferred. Credential scan confirms private SMTP password absent from tracked HEAD, `.env` ignored and excluded by .dockerignore; no dependency version or schema contract changes.
@@ -76,7 +77,7 @@ Last updated: **2026-10-12 01:49 WITA**. Read `AGENTS.md` and verify live Git, C
 
 ## Next Action
 
-1. Publication is authorized. Full-branch review found backup compatibility, private elevation cookie continuity, and altered historical staging evidence; corrections are locally verified. Publish one PR and verify all applicable CI on its actual head. Do not claim PR/CI readiness from local checks or merge for Abangku.
+1. Draft PR #88 is published. Full-branch review findings are locally corrected/verified. Verify all five CI jobs against the live head after this documentation push; diagnose failures if any. Only then mark ready for Abangku's review. Do not merge for Abangku.
 2. Keep WebKit and long-running full-E2E investigation as a separate follow-up; do not let it block the current rebrand-local-running goal.
 3. After Abangku merges, verify the exact merged PR and only then move the clean main checkout from `D:\laragon\www\NetLoka` to `D:\laragon\www\Zenoba`.
 4. Domain/VPS actions remain separately authorized and begin only after the app release is merged.

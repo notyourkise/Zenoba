@@ -42,7 +42,7 @@ All notable project changes are recorded here.
   Replaced the Journey's three milestone cards with a full-width orbital canvas: each history point now sits directly beside a planet along one luminous route, with constellation details in the background. Removed the two unrequested Visi/Misi eyebrow labels.
   Files/areas: `src/app/about/page.tsx`, `src/app/about/page.test.tsx`
   Validation: focused About tests 4/4; lint and typecheck passed; Docker production build passed; local `zenoba-app` and `zenoba-postgres` healthy; `/api/health` returned 200; responsive local browser review completed at mobile and 1440px desktop
-  Git: pending
+  Git: db1f2c7
 
 - [2026-10-11 19:37 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / About refinement]
   Added paired Visi and Misi opening cards to `/about`, then a static cosmic IT infrastructure journey that records the owner-verified Netloka start in May 2026, Zenoba's individual 2026 founding by Fikri Haikal, and the October 2026 Zenoba identity change. Removed the final marketing CTA so the FAQ now leads directly into the footer.

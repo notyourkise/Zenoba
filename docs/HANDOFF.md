@@ -1,6 +1,6 @@
 # Zenoba — Agent Handoff
 
-Last updated: **2026-10-11 20:17 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-10-11 20:18 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
 
 ## Current Task and Authority
 
@@ -16,8 +16,8 @@ Last updated: **2026-10-11 20:17 WITA**. Read `AGENTS.md` and verify live Git, C
 | Item | Verified state |
 | --- | --- |
 | Main checkout | `D:\laragon\www\NetLoka`, clean `main` at `7fdd7afcd72870743ee7702e9b2b322f059acbd9` |
-| Planning worktree | `D:\laragon\www\NetLoka-zenoba-rebrand-plan` on `codex/zenoba-rebrand-plan`, based on `7fdd7af`; current committed refinement `ca65c11` plus uncommitted orbit update |
-| Planning changes | Design spec, two plans, project-plan reference, local Docker checkpoint, and the approved About/CTA refinement are committed locally; the latest orbit update awaits its local commit |
+| Planning worktree | `D:\laragon\www\NetLoka-zenoba-rebrand-plan` on `codex/zenoba-rebrand-plan`, based on `7fdd7af`; current orbit refinement `db1f2c7` |
+| Planning changes | Design spec, two plans, project-plan reference, local Docker checkpoint, and the approved About/CTA refinements are committed locally |
 | GitHub repository | `notyourkise/NetLoka`; rename is outside the first-cutover scope |
 | Production history | Previous handoff records `/srv/netloka/production` and `netloka.biz.id`; VPS state is not re-verified in this documentation checkpoint |
 

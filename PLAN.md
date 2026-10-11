@@ -17,6 +17,7 @@
 ## Approved Upcoming Work — Zenoba Rebrand
 
 - Status: **in progress; Application Identity Tasks 1–4 are locally implemented and verified. Zenoba is running locally through Docker and the focused smoke checks are green. At the owner's direction, WebKit and other long-running E2E investigation are deferred from this rebrand scope. Release, PR, merge, local-folder transition, and separately authorized domain migration remain pending.**
+- Latest approved refinement: `/about` opens with paired Visi/Misi cards and presents the verified May–October 2026 Zenoba journey in a static cosmic infrastructure visual; the homepage ends directly with the footer after FAQ.
 - Design: `docs/superpowers/specs/2026-10-11-zenoba-rebrand-design.md`
 - Application/local identity plan: `docs/superpowers/plans/2026-10-11-zenoba-application-identity-rebrand.md`
 - Domain cutover plan: `docs/superpowers/plans/2026-10-11-zenoba-domain-cutover.md`

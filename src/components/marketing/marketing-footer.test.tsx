@@ -13,17 +13,12 @@ describe("MarketingFooter", () => {
     expect(screen.getByRole("link", { name: "Privacy Policy" })).toHaveAttribute("href", "/privacy-policy");
   });
 
-  it("merender CTA Final card dengan tombol navigasi", () => {
+  it("starts directly with footer content without the removed final CTA", () => {
     render(<MarketingFooter />);
 
-    expect(
-      screen.getByRole("heading", { name: /Siap Melangkah dari Teori ke Praktik Nyata\?/i }),
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByRole("link", { name: "Mulai Belajar Gratis" }),
-    ).toHaveAttribute("href", "/?auth=sign-up");
-    expect(screen.getAllByText("Eksplorasi Simulator")[0]).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: /Siap Melangkah dari Teori ke Praktik Nyata\?/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "Mulai Belajar Gratis" })).not.toBeInTheDocument();
+    expect(screen.queryByText("Eksplorasi Simulator")).not.toBeInTheDocument();
   });
 
   it("merender kolom navigasi dan copyright", () => {

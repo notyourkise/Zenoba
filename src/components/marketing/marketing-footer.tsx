@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import { SlidingButtonLabel } from "@/components/ui/sliding-button-label";
 
 const footerLinkClass =
   "relative inline-block text-slate-400 hover:text-white transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-white after:origin-center after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-500 after:ease-[cubic-bezier(0.16,1,0.3,1)]";
@@ -348,49 +347,9 @@ export function MarketingFooter() {
       <FooterStarField />
       <FooterDriftingPlanets />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-8 lg:px-16 pt-16 sm:pt-20 pb-12">
+      <div className="relative z-10 mx-auto max-w-6xl px-4 pb-12 pt-12 sm:px-8 sm:pt-16 lg:px-16">
         {/* ========================================================================= */}
-        {/* 1. FINAL CTA SECTION (Plain Text, No Card)                                */}
-        {/* ========================================================================= */}
-        <div className="text-center mb-16 sm:mb-20 max-w-3xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white max-w-2xl mx-auto leading-tight mb-4">
-            Siap Melangkah dari Teori ke Praktik Nyata?
-          </h2>
-
-          <p className="text-xs sm:text-sm lg:text-base text-slate-300 max-w-xl mx-auto mb-8 leading-relaxed">
-            Pelajari infrastruktur digital lewat simulasi interaktif langsung di browser.
-          </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-3.5">
-            {/* Primary Action Button */}
-            <Link
-              href="/?auth=sign-up"
-              style={{ color: "#000000" }}
-              className="group inline-flex min-h-11 items-center justify-center rounded-full bg-white hover:bg-slate-100 px-7 text-sm font-bold text-black !text-black dark:text-black dark:!text-black transition-colors shadow-lg shadow-white/10 overflow-hidden cursor-pointer"
-            >
-              <SlidingButtonLabel
-                text="Mulai Belajar Gratis"
-                className="text-black !text-black dark:text-black dark:!text-black font-bold"
-                containerClassName="h-5"
-              />
-            </Link>
-
-            {/* Secondary Action Button */}
-            <a
-              href="#simulator-showcase"
-              className="group inline-flex min-h-11 items-center justify-center rounded-full border border-slate-700 bg-slate-900/90 px-6 text-sm font-semibold text-slate-200 hover:bg-slate-800 hover:border-slate-600 transition-colors shadow-md overflow-hidden cursor-pointer"
-            >
-              <SlidingButtonLabel
-                text="Eksplorasi Simulator"
-                className="text-slate-200 font-semibold"
-                containerClassName="h-5"
-              />
-            </a>
-          </div>
-        </div>
-
-        {/* ========================================================================= */}
-        {/* 2. FOOTER NAVIGATION GRID                                                 */}
+        {/* FOOTER NAVIGATION GRID                                                    */}
         {/* ========================================================================= */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-900/90 text-xs text-slate-400">
           {/* Brand & Purpose Column (2 spans) */}

@@ -15,7 +15,7 @@ vi.mock("next/link", () => ({
 }));
 
 describe("Zenoba About page", () => {
-  it("explains the independent product without invented corporate claims", () => {
+  it("explains the independently founded product with its verified 2026 history", () => {
     render(<AboutPage />);
 
     expect(
@@ -27,10 +27,23 @@ describe("Zenoba About page", () => {
     expect(
       screen.getByText("Zenoba dikembangkan dan dikelola secara independen oleh Fikri Haikal."),
     ).toBeInTheDocument();
-    expect(screen.getByText("Zenoba sebelumnya hadir sebagai Netloka.")).toBeInTheDocument();
+    expect(screen.getByText("Netloka dimulai pada Mei 2026.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Zenoba didirikan secara individual oleh Fikri Haikal pada 2026."),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Zenoba menjadi identitas baru pada Oktober 2026.")).toBeInTheDocument();
 
     expect(screen.queryByText(/Corporation/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/20d{2}/)).not.toBeInTheDocument();
+  });
+
+  it("opens with paired vision and mission cards before the infrastructure journey", () => {
+    render(<AboutPage />);
+
+    expect(screen.getByRole("heading", { level: 2, name: "Visi" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name: "Misi" })).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: "Perjalanan Zenoba" })).toBeInTheDocument();
+    expect(screen.getByText("Mei 2026")).toBeInTheDocument();
+    expect(screen.getByText("Oktober 2026")).toBeInTheDocument();
   });
 
   it("keeps the page public-facing with home and legal navigation", () => {

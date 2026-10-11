@@ -10,7 +10,7 @@ Rebrand the live Netloka application to Zenoba while preserving the current publ
 - The only homepage additions are Zenoba naming and a small text link to a separate public About page.
 - The About page is a normal public route at /about in the same browser tab, not a modal.
 - Zenoba is an independently operated product of solo founder Fikri Haikal and is not presented as a PT, CV, corporation, or separate legal entity.
-- No unverified founding year, user count, certification, or corporate claim is published.
+- The verified history supplied by the owner may be published: Netloka began in May 2026, Zenoba was founded individually by Fikri Haikal in 2026, and Zenoba became the new identity in October 2026. No user-count, certification, or corporate claim is published.
 - Local source checkout is renamed from D:\laragon\www\NetLoka to D:\laragon\www\Zenoba after the application change is verified.
 - The first cutover does not rename production PostgreSQL data, Docker volumes, Docker networks, backups, or /srv/netloka. Those identifiers are private operational history and preserving them protects continuity and rollback.
 - netloka.biz.id remains online after cutover and returns permanent, path-preserving redirects to zenoba.tech.
@@ -25,9 +25,9 @@ Create a public About Zenoba page with:
 
 1. Zenoba positioning as practical IT infrastructure learning.
 2. Statement that Zenoba is independently developed and operated by a solo founder.
-3. A date-free history: developed as Netloka, live with early users, then rebranded as Zenoba.
+3. A verified history: Netloka began in May 2026, Zenoba was founded individually by Fikri Haikal in 2026, then rebranded as Zenoba in October 2026.
 4. Vision, mission, product values, and product areas.
-5. Founder section for Fikri Haikal with no invented biography, achievements, credentials, or founding date.
+5. Founder section for Fikri Haikal with no invented biography, achievements, or credentials; use only the owner-supplied 2026 founding fact.
 6. Clear links back to the homepage, Terms, and Privacy Policy.
 
 Existing Terms and Privacy Policy must use current factual live-service language. Their operator identity remains the individual operator, never a fictional corporate entity.
@@ -110,7 +110,7 @@ Use only verified statements:
 - “Zenoba sebelumnya hadir sebagai Netloka.”
 - “Networking adalah domain pembelajaran yang tersedia.”
 
-Do not state a founding year, active-user number, “ribuan pelajar”, “Netloka/Zenoba Corporation”, company registration, certification outcome, or unsupported security guarantee.
+Do not state an active-user number, “ribuan pelajar”, “Netloka/Zenoba Corporation”, company registration, certification outcome, or unsupported security guarantee. The owner-supplied 2026 founding and rebrand dates are permitted.
 
 A new Zenoba-domain support mailbox is required before placing a Zenoba email address in public copy. Until then, the current verified operational contact stays in legal content and is not framed as a generic support mailbox.
 
@@ -129,7 +129,7 @@ A new Zenoba-domain support mailbox is required before placing a Zenoba email ad
 2. /about is public, has Zenoba-specific metadata, has exactly one h1, and links back to home and legal pages.
 3. Header and footer link to /about on desktop and mobile without breaking the existing product navigation or auth controls.
 4. No user-visible “Netloka” text remains in released application screens, email templates, metadata, or active legal copy, except the approved transitional phrase describing the former name.
-5. No fictional organization, user-count, founding-year, or product-certification claim is introduced.
+5. No fictional organization, user-count, unsupported founding-year, or product-certification claim is introduced.
 6. Existing authentication, learner data, learning paths, labs, challenges, Consultant, Developer workspace, payments-disabled behavior, and health endpoint have no behavior regression.
 7. zenoba.tech passes HTTPS, health, anonymous home/About/legal, signup/signin, Google OAuth, reset-password, and authenticated learner smoke tests before it becomes canonical.
 8. netloka.biz.id redirects every tested route and query to the exact Zenoba counterpart.

@@ -38,6 +38,12 @@ All notable project changes are recorded here.
 
 # 2026-10-11
 
+- [2026-10-11 19:37 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / About refinement]
+  Added paired Visi and Misi opening cards to `/about`, then a static cosmic IT infrastructure journey that records the owner-verified Netloka start in May 2026, Zenoba's individual 2026 founding by Fikri Haikal, and the October 2026 Zenoba identity change. Removed the final marketing CTA so the FAQ now leads directly into the footer.
+  Files/areas: `src/app/about/page.tsx`, `src/app/about/page.test.tsx`, `src/components/marketing/marketing-footer.tsx`, `src/components/marketing/marketing-footer.test.tsx`, rebrand design and handoff documentation
+  Validation: focused About/footer tests 7/7; lint and typecheck passed; Docker production build passed; local `zenoba-app` and `zenoba-postgres` healthy; `/about` history checks and `/api/health` returned 200; homepage response no longer contains the removed CTA
+  Git: pending
+
 - [2026-10-11 19:21 WITA] [REVIEW] [Zenoba Rebrand / Application Identity / Local Docker]
   At the owner's direction, deferred WebKit and long-running release-gate investigation so the current work remains focused on the Netloka-to-Zenoba identity transition. Built and started the local production Docker app with its isolated PostgreSQL service.
   Files/areas: local Docker containers only; no repository source, VPS, domain, DNS, or production data changed

@@ -1,6 +1,6 @@
 # Zenoba — Agent Handoff
 
-Last updated: **2026-10-11 20:18 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-10-11 20:29 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
 
 ## Current Task and Authority
 
@@ -9,14 +9,14 @@ Last updated: **2026-10-11 20:18 WITA**. Read `AGENTS.md` and verify live Git, C
 - Approved scope: Zenoba is independently operated by solo founder Fikri Haikal. The owner verified that Netloka began in May 2026, Zenoba was founded individually in 2026, and Zenoba became the new identity in October 2026. No legal-entity, user-count, or unsupported corporate claim may be published.
 - Approved safety boundary: the first cutover preserves PostgreSQL data, Docker volumes/networks, backups, and `/srv/netloka`; the legacy domain will later redirect to `zenoba.tech`.
 - Task phase: Application Identity Tasks 1–4 plus the owner-approved About/CTA refinement are locally implemented and locally verified. The Journey now uses a full-width orbit with unboxed milestones; Visi/Misi use direct headings without eyebrow labels. The owner explicitly deferred WebKit and long-running E2E investigation from the current rebrand goal; local Docker smoke validation is complete. This does not authorize a merge, local-folder move, or domain/VPS change.
-- No application, domain, DNS, OAuth, VPS, production deployment, or GitHub remote mutation has been performed for this rebrand.
+- Local application changes and local Docker rebuilds are implemented. No production application, domain, DNS, OAuth, VPS, production deployment, or GitHub remote mutation has been performed for this rebrand.
 
 ## Verified Repository Checkpoint
 
 | Item | Verified state |
 | --- | --- |
 | Main checkout | `D:\laragon\www\NetLoka`, clean `main` at `7fdd7afcd72870743ee7702e9b2b322f059acbd9` |
-| Planning worktree | `D:\laragon\www\NetLoka-zenoba-rebrand-plan` on `codex/zenoba-rebrand-plan`, based on `7fdd7af`; current orbit refinement `db1f2c7` |
+| Planning worktree | `D:\laragon\www\NetLoka-zenoba-rebrand-plan` on `codex/zenoba-rebrand-plan`, based on `7fdd7af`; shared IT Journey refinement and this snapshot are delivered in the same local commit after verified base `bf2b862` (resolve live HEAD) |
 | Planning changes | Design spec, two plans, project-plan reference, local Docker checkpoint, and the approved About/CTA refinements are committed locally |
 | GitHub repository | `notyourkise/NetLoka`; rename is outside the first-cutover scope |
 | Production history | Previous handoff records `/srv/netloka/production` and `netloka.biz.id`; VPS state is not re-verified in this documentation checkpoint |
@@ -30,6 +30,7 @@ Last updated: **2026-10-11 20:18 WITA**. Read `AGENTS.md` and verify live Git, C
 
 ## Evidence and Limits
 
+- Latest About refinement reuses `StarField`, `JourneyDriftingPlanets`, `ConstellationPath`, planet textures/positions, and Saturn rings from `src/components/marketing/it-infrastructure-journey.tsx` via `ZenobaHistoryJourney`. Its decorative planets do not invoke learning-path dialogs. Three historical milestones remain unchanged; the other planets are visual elements, not fabricated historical events. Focused About/Journey tests passed 7/7, lint/typecheck passed, Docker production build passed with existing middleware/Edge/catalogue warnings, and desktop (1440px) / mobile (390px) visual checks passed on the rebuilt local app. Full E2E/WebKit and CI were not rerun, per approved scope.
 - Public inspection found no `/about` route, unsupported learner-volume claims, and stale pre-launch legal wording; implementation plans correct these without changing product behavior.
 - `zenoba.tech` currently serves a parked Hostinger page; canonical switch has not occurred.
 - Task 1 focused tests passed (17 tests). Task 2 focused tests passed (3 files/10 tests). Task 3 focused unit tests passed (5 files/37 tests); its Chromium E2E coverage passed (10/10) at 390px and 1440px after installing the local test browser under `D:\laragon\playwright-browsers`. Task 4 re-ran Prisma generation, lint, typecheck, the full unit suite, and the production build with safe local values. The later dashboard-label correction has focused unit coverage (18/18), full-unit coverage (150 files/924 tests), and the active-source inventory now leaves only the intentional historical About-page Netloka reference.

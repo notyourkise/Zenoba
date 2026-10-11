@@ -559,14 +559,17 @@ function PlanetButton({
   onSelect,
   onFocus,
   onBlur,
+  decorative = false,
 }: {
   checkpoint: JourneyCheckpoint;
   isSelected: boolean;
   onSelect: () => void;
   onFocus?: () => void;
   onBlur?: () => void;
+  decorative?: boolean;
 }) {
   const isSaturn = checkpoint.celestialName === "Saturn";
+  const PlanetElement = decorative ? "span" : "button";
 
   return (
     <div className="relative grid place-items-center">
@@ -601,10 +604,11 @@ function PlanetButton({
         </svg>
       )}
 
-      <button
-        type="button"
-        aria-expanded={isSelected}
-        aria-label={`${checkpoint.celestialName}, ${checkpoint.learningPath}`}
+      <PlanetElement
+        type={decorative ? undefined : "button"}
+        aria-hidden={decorative ? true : undefined}
+        aria-expanded={decorative ? undefined : isSelected}
+        aria-label={decorative ? undefined : `${checkpoint.celestialName}, ${checkpoint.learningPath}`}
         className="group relative z-10 grid h-16 w-16 place-items-center rounded-full border border-white/45 transition duration-200 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950 cursor-pointer"
         onClick={onSelect}
         onFocus={onFocus}
@@ -622,8 +626,8 @@ function PlanetButton({
           aria-hidden="true"
           className="absolute inset-0 rounded-full ring-1 ring-black/20"
         />
-        <span className="sr-only">Buka detail {checkpoint.celestialName}</span>
-      </button>
+        {!decorative && <span className="sr-only">Buka detail {checkpoint.celestialName}</span>}
+      </PlanetElement>
 
       {/* Saturn Planetary Front Ring (Pure Clean Vector SVG Clipped Over Planet Equator) */}
       {isSaturn && (
@@ -669,6 +673,92 @@ function PlanetButton({
         </svg>
       )}
     </div>
+  );
+}
+
+const zenobaHistory = [
+  {
+    planet: "Mercury",
+    date: "Mei 2026",
+    title: "Netloka dimulai",
+    description: "Netloka dimulai pada Mei 2026.",
+  },
+  {
+    planet: "Mars",
+    date: "2026",
+    title: "Dibangun mandiri",
+    description: "Zenoba didirikan secara individual oleh Fikri Haikal pada 2026.",
+    founder: "Zenoba dikembangkan dan dikelola secara independen oleh Fikri Haikal.",
+  },
+  {
+    planet: "Polaris",
+    date: "Oktober 2026",
+    title: "Identitas Zenoba",
+    description: "Zenoba menjadi identitas baru pada Oktober 2026.",
+  },
+];
+
+export function ZenobaHistoryJourney() {
+  return (
+    <section
+      aria-labelledby="zenoba-story"
+      className="relative isolate left-1/2 w-screen -translate-x-1/2 overflow-hidden bg-[#030308] px-6 py-16 text-white sm:px-12 lg:px-20"
+    >
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(15,23,42,0.25)_0%,transparent_75%)]" />
+      <StarField />
+      <JourneyDriftingPlanets />
+      <div className="relative z-20 mx-auto max-w-7xl">
+        <header className="mx-auto max-w-3xl text-center">
+          <h2 id="zenoba-story" className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+            Perjalanan Zenoba
+          </h2>
+          <p className="mt-4 text-sm leading-relaxed text-slate-300 sm:text-base">
+            Perjalanan dari Netloka menuju Zenoba, dibangun secara independen sejak 2026.
+          </p>
+        </header>
+
+        <div className="relative mx-auto mt-14 max-w-[1440px] lg:h-[1060px]">
+        <div className="absolute inset-x-0 top-0 hidden h-[900px] lg:block">
+          <ConstellationPath />
+          {checkpoints.map((checkpoint) => {
+            return (
+              <div
+                key={checkpoint.celestialName}
+                className="absolute -translate-x-1/2 -translate-y-8"
+                style={checkpoint.desktopPosition}
+              >
+                <PlanetButton checkpoint={checkpoint} isSelected={false} onSelect={() => {}} decorative />
+                <p className="absolute top-[72px] left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.12em] text-slate-200">
+                  {checkpoint.celestialName}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+
+        <ol className="relative space-y-12 border-l border-slate-600 pl-12 lg:absolute lg:inset-x-0 lg:top-0 lg:h-[900px] lg:space-y-0 lg:border-0 lg:pl-0">
+          {zenobaHistory.map((milestone) => {
+            const checkpoint = checkpoints.find((item) => item.celestialName === milestone.planet)!;
+            return (
+              <li
+                key={milestone.planet}
+                className="relative lg:absolute lg:left-[var(--history-left)] lg:top-[var(--history-top)] lg:w-60 lg:-translate-x-1/2 lg:translate-y-20 lg:text-center"
+                style={{ "--history-left": checkpoint.desktopPosition.left, "--history-top": checkpoint.desktopPosition.top } as React.CSSProperties}
+              >
+                <div className="absolute -left-20 top-0 scale-75 lg:hidden">
+                  <PlanetButton checkpoint={checkpoint} isSelected={false} onSelect={() => {}} decorative />
+                </div>
+                <p className="text-sm font-semibold text-sky-200">{milestone.date}</p>
+                <h3 className="mt-1 text-lg font-bold">{milestone.title}</h3>
+                <p className="mt-2 text-sm leading-7 text-slate-300">{milestone.description}</p>
+                {milestone.founder && <p className="mt-2 text-sm leading-7 text-slate-400">{milestone.founder}</p>}
+              </li>
+            );
+          })}
+        </ol>
+        </div>
+      </div>
+    </section>
   );
 }
 

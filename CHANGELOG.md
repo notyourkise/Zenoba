@@ -38,6 +38,12 @@ All notable project changes are recorded here.
 
 # 2026-10-11
 
+- [2026-10-11 20:29 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / About refinement]
+  Replaced the approximate About orbit with the actual homepage IT Infrastructure Journey primitives: identical six planets, positions, winding luminous SVG path, Saturn rings, stars, and drifting background planets. History remains unboxed with three owner-verified events; mobile uses one readable semantic timeline. Homepage learning dialogs remain unchanged, and About planets are decorative.
+  Files/areas: `src/app/about/page.tsx`, `src/components/marketing/it-infrastructure-journey.tsx`, `PLAN.md`, `docs/HANDOFF.md`
+  Validation: focused About/Journey tests 7/7; lint and typecheck passed; Docker production build passed with existing warnings; rebuilt local app inspected at 1440px desktop and 390px mobile; no WebKit/full E2E or CI run
+  Git: pending (local changes based on bf2b862); no remote publication or production change
+
 - [2026-10-11 20:17 WITA] [CHANGED] [Zenoba Rebrand / Application Identity / About refinement]
   Replaced the Journey's three milestone cards with a full-width orbital canvas: each history point now sits directly beside a planet along one luminous route, with constellation details in the background. Removed the two unrequested Visi/Misi eyebrow labels.
   Files/areas: `src/app/about/page.tsx`, `src/app/about/page.test.tsx`

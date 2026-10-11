@@ -174,18 +174,18 @@ describe("authentication provider configuration", () => {
 
         vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
           id: "dev-1",
-          email: "dev@netloka.biz.id",
+          email: "dev@zenoba.tech",
           role: "DEVELOPER",
         } as any);
 
         const allowed = await signInCallback({
-          user: { email: "dev@netloka.biz.id" },
+          user: { email: "dev@zenoba.tech" },
           account: { provider: "google" },
         });
 
         expect(allowed).toBe(false);
         expect(prisma.user.findUnique).toHaveBeenCalledWith({
-          where: { email: "dev@netloka.biz.id" },
+          where: { email: "dev@zenoba.tech" },
           select: { id: true, role: true, passwordHash: true },
         });
         expect(recordSecurityEvent).toHaveBeenCalledWith(
@@ -203,12 +203,12 @@ describe("authentication provider configuration", () => {
 
         vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
           id: "learner-1",
-          email: "learner@netloka.biz.id",
+          email: "learner@zenoba.tech",
           role: "LEARNER",
         } as any);
 
         const allowed = await signInCallback({
-          user: { email: "learner@netloka.biz.id" },
+          user: { email: "learner@zenoba.tech" },
           account: { provider: "google" },
         });
 
@@ -388,7 +388,7 @@ describe("authentication provider configuration", () => {
         expect(signInEvent).toBeDefined();
 
         await signInEvent({
-          user: { id: "user-123", email: "learner@netloka.biz.id" },
+          user: { id: "user-123", email: "learner@zenoba.tech" },
         });
 
         expect(prisma.user.update).toHaveBeenCalledWith(
@@ -414,7 +414,7 @@ describe("authentication provider configuration", () => {
 
       vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
         id: "dev-1",
-        email: "dev@netloka.biz.id",
+        email: "dev@zenoba.tech",
         passwordHash: "valid-hash",
         role: "DEVELOPER",
         twoFactorEnabled: false,
@@ -422,7 +422,7 @@ describe("authentication provider configuration", () => {
 
       await expect(
         authorizeFn({
-          email: "dev@netloka.biz.id",
+          email: "dev@zenoba.tech",
           password: "ValidPassword123!",
         }),
       ).rejects.toThrow(/two-factor|2FA/i);
@@ -445,7 +445,7 @@ describe("authentication provider configuration", () => {
 
       vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
         id: "dev-1",
-        email: "dev@netloka.biz.id",
+        email: "dev@zenoba.tech",
         passwordHash: "valid-hash",
         role: "DEVELOPER",
         twoFactorEnabled: true,
@@ -454,7 +454,7 @@ describe("authentication provider configuration", () => {
 
       await expect(
         authorizeFn({
-          email: "dev@netloka.biz.id",
+          email: "dev@zenoba.tech",
           password: "ValidPassword123!",
         }),
       ).rejects.toThrow("2FA_REQUIRED");

@@ -1,12 +1,12 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("Netloka Core App & Auth Shell", () => {
-  test("renders the Netloka landing page with brand and CTA", async ({
+test.describe("Zenoba Core App & Auth Shell", () => {
+  test("renders the Zenoba landing page with brand and CTA", async ({
     page,
   }) => {
     await page.goto("/");
 
-    await expect(page.getByText("Netloka").first()).toBeVisible();
+    await expect(page.getByText("Zenoba").first()).toBeVisible();
     await expect(
       page.getByRole("heading", { name: /Kuasai IT Infrastructure/i })
     ).toBeVisible();
@@ -42,12 +42,12 @@ test.describe("Netloka Core App & Auth Shell", () => {
     ).toHaveAttribute("href", "/learn");
   });
 
-  test("keeps the Netloka brand clear of the desktop viewport edge", async ({
+  test("keeps the Zenoba brand clear of the desktop viewport edge", async ({
     page,
   }) => {
     await page.goto("/");
 
-    const brand = page.getByRole("link", { name: "Netloka Home" });
+    const brand = page.getByRole("link", { name: "Zenoba Home" });
     await expect(brand).toBeVisible();
 
     const xPosition = await brand.evaluate(
@@ -74,7 +74,7 @@ test.describe("Netloka Core App & Auth Shell", () => {
 
     await expect(page).toHaveURL(/\?auth=sign-in/, { timeout: 15_000 });
     await expect(
-      page.getByRole("dialog", { name: "Sign in to Netloka" }),
+      page.getByRole("dialog", { name: "Sign in to Zenoba" }),
     ).toBeVisible();
     await expect(page.getByLabel("Email")).toBeVisible();
     await expect(page.getByLabel("Password")).toBeVisible();
@@ -85,7 +85,7 @@ test.describe("Netloka Core App & Auth Shell", () => {
     await page.getByRole("link", { name: "Create account" }).click();
     await expect(page).toHaveURL(/\?auth=sign-up/, { timeout: 15_000 });
     await expect(
-      page.getByRole("dialog", { name: "Create your Netloka account" }),
+      page.getByRole("dialog", { name: "Create your Zenoba account" }),
     ).toBeVisible();
 
     await page.keyboard.press("Escape");
@@ -100,7 +100,7 @@ test.describe("Netloka Core App & Auth Shell", () => {
 
     await expect(page).toHaveURL(/\?auth=sign-up/);
     await expect(
-      page.getByRole("dialog", { name: "Create your Netloka account" }),
+      page.getByRole("dialog", { name: "Create your Zenoba account" }),
     ).toBeVisible();
     await expect(page.getByLabel(/Name/i)).not.toBeVisible();
     await expect(page.getByLabel("Email")).toBeVisible();
@@ -140,7 +140,7 @@ test.describe("Netloka Core App & Auth Shell", () => {
     await page.goto("/dashboard");
     await expect(page).toHaveURL(/.*auth=sign-in.*callbackUrl=%2Fdashboard/);
     await expect(
-      page.getByRole("dialog", { name: "Sign in to Netloka" }),
+      page.getByRole("dialog", { name: "Sign in to Zenoba" }),
     ).toBeVisible();
   });
 });

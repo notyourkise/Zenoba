@@ -917,7 +917,7 @@ export function ItInfrastructureJourney() {
         {currentTrack.isComingSoon ? (
           <div className="mx-auto mt-12 max-w-3xl rounded-2xl border border-slate-800/90 bg-[#0a0d18]/90 p-8 sm:p-12 text-center backdrop-blur-md shadow-[0_0_40px_rgba(15,23,42,0.6)]">
             <div className="inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-500/10 px-3.5 py-1 text-xs font-semibold text-amber-300 mb-5">
-              <span>Fase Perancangan Kurikulum • Segera Hadir di Netloka</span>
+              <span>Fase Perancangan Kurikulum • Segera Hadir di Zenoba</span>
             </div>
 
             <h3 className="text-xl sm:text-2xl font-bold text-white mb-3">

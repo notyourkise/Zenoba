@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-readonly PROJECT_NAME="netloka-staging"
-readonly STAGING_ROOT="/srv/netloka/staging"
+readonly PROJECT_NAME="zenoba-staging"
+readonly STAGING_ROOT="/srv/zenoba/staging"
 readonly REPO_DIR="$STAGING_ROOT/repo"
 readonly ENV_FILE="$STAGING_ROOT/.env"
 readonly COMPOSE_FILE="$REPO_DIR/compose.staging.yml"
@@ -59,7 +59,7 @@ for _ in {1..24}; do
 done
 
 if ! STAGING_ENV_FILE="$ENV_FILE" "${compose[@]}" ps --format json app | grep -q '"Health":"healthy"'; then
-  echo "Netloka staging app did not become healthy." >&2
+  echo "Zenoba staging app did not become healthy." >&2
   exit 1
 fi
 

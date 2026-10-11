@@ -15,7 +15,7 @@ vi.mock("@/features/developer/overview/queries", () => ({
 
 const mockActor: Actor = {
   id: "dev-1",
-  email: "dev@netloka.biz.id",
+  email: "dev@zenoba.tech",
   name: "Developer One",
   role: "DEVELOPER",
   authVersion: 1,

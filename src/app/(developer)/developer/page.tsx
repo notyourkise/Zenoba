@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getDeveloperOverview } from "@/features/developer/overview/queries";
 
 export const metadata = {
-  title: "Ringkasan Operasional — Developer Netloka",
+  title: "Ringkasan Operasional — Developer Zenoba",
 };
 
 export default async function DeveloperOverviewPage() {
@@ -17,7 +17,7 @@ export default async function DeveloperOverviewPage() {
           Ringkasan Operasional
         </h1>
         <p className="text-sm text-slate-400 mt-1">
-          Metrik agregat learner, status latensi database, dan integritas kurikulum Netloka.
+          Metrik agregat learner, status latensi database, dan integritas kurikulum Zenoba.
         </p>
       </div>
 

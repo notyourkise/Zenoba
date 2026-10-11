@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Netloka Database Disaster Recovery Restore Script
+# Zenoba Database Disaster Recovery Restore Script
 # Usage: ./scripts/restore-db.sh <path_to_backup_file.sql.gz>
 
 if [ "$#" -lt 1 ]; then
@@ -15,9 +15,9 @@ if [ ! -f "$BACKUP_FILE" ]; then
     exit 1
 fi
 
-CONTAINER_NAME="${DB_CONTAINER:-netloka-db}"
-DB_USER="${POSTGRES_USER:-netloka}"
-DB_NAME="${POSTGRES_DB:-netloka}"
+CONTAINER_NAME="${DB_CONTAINER:-zenoba-db}"
+DB_USER="${POSTGRES_USER:-zenoba}"
+DB_NAME="${POSTGRES_DB:-zenoba}"
 
 echo "[WARNING] This will overwrite database '${DB_NAME}' with contents from '${BACKUP_FILE}'!"
 read -p "Are you sure you want to proceed? (y/N): " -n 1 -r

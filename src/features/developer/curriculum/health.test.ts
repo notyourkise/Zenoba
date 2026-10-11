@@ -11,7 +11,7 @@ vi.mock("@/lib/auth", () => ({
 describe("Curriculum Health Read Model (getCurriculumHealth)", () => {
   const mockDeveloperActor = {
     id: "dev-1",
-    email: "dev@netloka.biz.id",
+    email: "dev@zenoba.tech",
     name: "Developer One",
     role: UserRole.DEVELOPER,
     authVersion: 1,

@@ -1,6 +1,6 @@
-# AGENTS.md — Netloka Agent Operating Instructions
+# AGENTS.md — Zenoba Agent Operating Instructions
 
-This file is the operational contract for AI coding agents and automated contributors working on Netloka.
+This file is the operational contract for AI coding agents and automated contributors working on Zenoba.
 
 The instructions apply to the entire repository unless a more specific `AGENTS.md` exists deeper in the directory tree.
 
@@ -12,8 +12,8 @@ This file contains stable operating rules. Read [docs/HANDOFF.md](docs/HANDOFF.m
 
 # 1. Project Context
 
-**Project:** Netloka  
-**Domain:** `netloka.biz.id`  
+**Project:** Zenoba
+**Domain:** `zenoba.tech`
 **Purpose:** Interactive IT infrastructure learning platform for SMK TKJ learners, beginners, and learners preparing for practical network, sysadmin, security, cloud, and field-infrastructure work. Networking is the first available learning domain; future domains remain roadmap-scoped until activated.
 
 Core product areas:
@@ -29,7 +29,7 @@ Core learning experience:
 Learn → Interact → Practice → Challenge → Consultant Project
 ```
 
-Netloka must teach concepts through deterministic interactions and real-world reasoning, not merely long-form reading.
+Zenoba must teach concepts through deterministic interactions and real-world reasoning, not merely long-form reading.
 
 ---
 
@@ -165,7 +165,7 @@ Record significant review findings and resolutions in `CHANGELOG.md`.
 
 ## 5.1 Architecture
 
-Netloka starts as a **modular monolith**.
+Zenoba starts as a **modular monolith**.
 
 Do not introduce:
 
@@ -664,7 +664,7 @@ Do not replace stable project foundations in the middle of a sprint without docu
 
 # 14. Definition of Agent Success
 
-A good Netloka agent does not merely produce code.
+A good Zenoba agent does not merely produce code.
 
 It:
 

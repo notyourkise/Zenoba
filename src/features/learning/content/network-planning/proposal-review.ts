@@ -263,14 +263,14 @@ export const proposalReviewModuleData: CurriculumModule = {
             id: "plan-l8-h1",
             type: "heading",
             level: 2,
-            text: "Rubrik Evaluasi 5 Dimensi Netloka IT Consultant",
+            text: "Rubrik Evaluasi 5 Dimensi Zenoba IT Consultant",
           },
           {
             id: "plan-l8-txt1",
             type: "text",
             format: "markdown",
             content:
-              "Sebelum mengajukan proposal akhir ke meja klien, seorang konsultan senior selalu melakukan **Quality Assurance & Design Review**.\n\nDi Netloka IT Consultant, proposal dinilai secara deterministik pada 5 pilar dimensi (skor maksimal 20 poin per dimensi, total 100 poin):\n\n1. **Kebenaran Teknis (Technical Correctness - 20 Poin):** Apakah hardware yang dipilih memiliki fungsi gateway router? Apakah port switch cukup untuk semua klien kabel? Apakah daya PoE switch mencukupi kebutuhan seluruh AP?\n2. **Pemenuhan Kebutuhan Klien (Requirement Fulfillment - 20 Poin):** Apakah jumlah Access Point sesuai target cakupan? Apakah kebutuhan khusus (Dual-WAN, Port Gigabit) terpenuhi 100%?\n3. **Efisiensi Anggaran (Cost Efficiency - 20 Poin):** Apakah total BoQ berada di dalam batas pagu anggaran (Within Budget)? Desain terbaik adalah yang memanfaatkan 40% - 95% pagu secara proporsional tanpa over-budget.\n4. **Skalabilitas & Cadangan Kapasitas (Scalability - 20 Poin):** Apakah switch memiliki minimal 20% spare port cadangan untuk ekspansi staf di masa depan?\n5. **Keamanan & Segmentasi (Security & Segmentation - 20 Poin):** Jika klien membutuhkan isolasi departemen, apakah switch yang dipilih berjenis Managed Switch dan dilengkapi tabel alokasi VLAN 802.1Q?",
+              "Sebelum mengajukan proposal akhir ke meja klien, seorang konsultan senior selalu melakukan **Quality Assurance & Design Review**.\n\nDi Zenoba IT Consultant, proposal dinilai secara deterministik pada 5 pilar dimensi (skor maksimal 20 poin per dimensi, total 100 poin):\n\n1. **Kebenaran Teknis (Technical Correctness - 20 Poin):** Apakah hardware yang dipilih memiliki fungsi gateway router? Apakah port switch cukup untuk semua klien kabel? Apakah daya PoE switch mencukupi kebutuhan seluruh AP?\n2. **Pemenuhan Kebutuhan Klien (Requirement Fulfillment - 20 Poin):** Apakah jumlah Access Point sesuai target cakupan? Apakah kebutuhan khusus (Dual-WAN, Port Gigabit) terpenuhi 100%?\n3. **Efisiensi Anggaran (Cost Efficiency - 20 Poin):** Apakah total BoQ berada di dalam batas pagu anggaran (Within Budget)? Desain terbaik adalah yang memanfaatkan 40% - 95% pagu secara proporsional tanpa over-budget.\n4. **Skalabilitas & Cadangan Kapasitas (Scalability - 20 Poin):** Apakah switch memiliki minimal 20% spare port cadangan untuk ekspansi staf di masa depan?\n5. **Keamanan & Segmentasi (Security & Segmentation - 20 Poin):** Jika klien membutuhkan isolasi departemen, apakah switch yang dipilih berjenis Managed Switch dan dilengkapi tabel alokasi VLAN 802.1Q?",
           },
           {
             id: "plan-l8-callout1",
@@ -278,7 +278,7 @@ export const proposalReviewModuleData: CurriculumModule = {
             variant: "warning",
             title: "Aturan Penolakan Fatal (Critical Blocker)",
             content:
-              "Ingat aturan emas Netloka: **Budget success cannot conceal missing critical connectivity**. Jika proposal Anda tidak menyertakan Router Gateway atau port switch kurang dari jumlah PC, proposal otomatis DINYATAKAN GAGAL (Passed = False), berapapun skor total yang Anda peroleh!",
+              "Ingat aturan emas Zenoba: **Budget success cannot conceal missing critical connectivity**. Jika proposal Anda tidak menyertakan Router Gateway atau port switch kurang dari jumlah PC, proposal otomatis DINYATAKAN GAGAL (Passed = False), berapapun skor total yang Anda peroleh!",
           },
           {
             id: "plan-l8-code1",
@@ -314,7 +314,7 @@ export const proposalReviewModuleData: CurriculumModule = {
             type: "quiz",
             quizId: "quiz-plan-l8-q1",
             question:
-              "Sebuah proposal jaringan kantor meraih skor efisiensi biaya maksimal (20/20) dan skalabilitas tinggi (20/20), namun perancang tidak memasukkan Router Gateway ke dalam BoQ. Menurut standar scoring Netloka Consultant, apakah status kelulusan proposal tersebut?",
+              "Sebuah proposal jaringan kantor meraih skor efisiensi biaya maksimal (20/20) dan skalabilitas tinggi (20/20), namun perancang tidak memasukkan Router Gateway ke dalam BoQ. Menurut standar scoring Zenoba Consultant, apakah status kelulusan proposal tersebut?",
             quizType: "single_choice",
             xpReward: 10,
             options: [

@@ -1,4 +1,4 @@
-// Netloka - Prisma Schema
+// Zenoba - Prisma Schema
 // Updated for Milestone 6: IT Consultant Mode (Sprint 12, 13, & 14)
 
 generator client {

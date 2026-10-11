@@ -32,7 +32,7 @@ describe("AppLayout", () => {
   it("renders learner workspace shell when actor has learner role", async () => {
     vi.mocked(requireLearnerActor).mockResolvedValue({
       id: "learner-1",
-      email: "learner@netloka.biz.id",
+      email: "learner@zenoba.tech",
       name: "Learner One",
       role: "LEARNER",
       authVersion: 1,
@@ -40,7 +40,7 @@ describe("AppLayout", () => {
     });
     vi.mocked(getCurrentUser).mockResolvedValue({
       id: "learner-1",
-      email: "learner@netloka.biz.id",
+      email: "learner@zenoba.tech",
       name: "Learner One",
       role: "LEARNER",
     });

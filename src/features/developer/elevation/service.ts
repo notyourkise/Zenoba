@@ -5,7 +5,7 @@ import { verifyTotpCode, verifyAndConsumeBackupCode } from "@/features/auth/totp
 import { recordSecurityEvent } from "@/features/security/events";
 
 export const ELEVATION_TTL_MS = 10 * 60 * 1000; // 10 minutes
-export const ELEVATION_COOKIE_NAME = "netloka_dev_elevation";
+export const ELEVATION_COOKIE_NAME = "zenoba_dev_elevation";
 
 export type ElevationErrorCode =
   | "FORBIDDEN"

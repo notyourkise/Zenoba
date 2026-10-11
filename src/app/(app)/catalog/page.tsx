@@ -4,8 +4,8 @@ import { CourseCatalogGrid } from "@/features/commerce/components/course-catalog
 import { PackageCatalogGrid } from "@/features/commerce/components/package-catalog-grid";
 
 export const metadata = {
-  title: "Katalog Kursus — Netloka",
-  description: "Daftar kurikulum kursus mandiri dan paket bundling IT infrastructure Netloka.",
+  title: "Katalog Kursus — Zenoba",
+  description: "Daftar kurikulum kursus mandiri dan paket bundling IT infrastructure Zenoba.",
 };
 
 export default async function CatalogPage() {

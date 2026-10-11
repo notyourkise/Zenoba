@@ -1,10 +1,10 @@
-# Netloka — Interactive Networking Learning Platform
+# Zenoba — Interactive Networking Learning Platform
 
 [![CI](https://github.com/notyourkise/NetLoka/actions/workflows/ci.yml/badge.svg)](https://github.com/notyourkise/NetLoka/actions)
 ![Node.js LTS](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen?style=for-the-badge&logo=node.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=for-the-badge&logo=typescript)
 
-**Domain:** `netloka.biz.id`  
+**Domain:** `zenoba.tech`
 **Architecture:** Modular monolith (Next.js + TypeScript + PostgreSQL)  
 **Development status:** Milestones 0–6 are historically implemented; the Milestone 7 application baseline, Milestones 8–12, and Sprint 34 are merged; Milestone 13 remains active with Sprint 34 authorization-review findings open and Sprint 35 planned next; staging/production and live payment remain unverified and deliberately last in Sprint 42
 
@@ -14,7 +14,7 @@
 
 ## 🎯 Purpose
 
-Netloka is an interactive IT infrastructure learning platform for SMK TKJ students, beginners, and learners preparing for practical network, sysadmin, security, cloud, and field-infrastructure work. Networking is the first available learning domain, while future domains remain clearly labeled as upcoming work.
+Zenoba is an interactive IT infrastructure learning platform for SMK TKJ students, beginners, and learners preparing for practical network, sysadmin, security, cloud, and field-infrastructure work. Networking is the first available learning domain, while future domains remain clearly labeled as upcoming work.
 
 **Core experience:** Learn → Interact → Practice → Challenge → Consultant Project
 
@@ -66,7 +66,7 @@ Read the [approved developer/learner design](docs/superpowers/specs/2026-09-07-d
 
 ```bash
 git clone https://github.com/notyourkise/NetLoka.git
-cd netloka
+cd zenoba
 ```
 
 2. **Install dependencies**
@@ -101,7 +101,7 @@ SMTP_PASSWORD="replace-with-email-account-password"
 EMAIL_FROM="noreply@example.com"
 ```
 
-Until both Google values are configured, the Google button remains visible but disabled with `Setup pending`. Register the OAuth callback as `http://localhost:3000/api/auth/callback/google` locally and `https://netloka.biz.id/api/auth/callback/google` for production. Never commit real SMTP or OAuth credentials.
+Until both Google values are configured, the Google button remains visible but disabled with `Setup pending`. Register the OAuth callback as `http://localhost:3000/api/auth/callback/google` locally and `https://zenoba.tech/api/auth/callback/google` for production. Never commit real SMTP or OAuth credentials.
 
 Password-reset links expire after 30 minutes and require the password-reset database migration to be deployed.
 
@@ -119,7 +119,7 @@ The policies describe the current implementation, not certified legal compliance
 docker compose up -d
 ```
 
-The Netloka container listens only on `127.0.0.1:5433`, avoiding a local PostgreSQL service already using port `5432`. Wait until `docker compose ps` reports `healthy`.
+The Zenoba container listens only on `127.0.0.1:5433`, avoiding a local PostgreSQL service already using port `5432`. Wait until `docker compose ps` reports `healthy`.
 
 5. **Initialize the database**
 
@@ -189,7 +189,7 @@ npx playwright test --project=chromium
 ## 📁 Repository Structure
 
 ```text
-netloka/
+zenoba/
 ├── .github/workflows/    # CI/CD pipelines
 ├── prisma/               # Database schema & migrations
 │   ├── schema.prisma     # Prisma data model
@@ -322,7 +322,7 @@ This project follows the **Agent Success** principles outlined in AGENTS.md. Bef
 
 ## 📄 License
 
-© 2026 Netloka. All rights reserved.
+© 2026 Zenoba. All rights reserved.
 
 ---
 

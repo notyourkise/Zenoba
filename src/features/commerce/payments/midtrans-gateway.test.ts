@@ -92,7 +92,7 @@ describe("MidtransGateway", () => {
         orderReference: "ORD-20260918-XYZ",
         totalAmountIdr: 150000,
         userId: "user-1",
-        userEmail: "learner@netloka.biz.id",
+        userEmail: "learner@zenoba.tech",
         packageTitle: "Switching & Routing Bundle",
       });
 

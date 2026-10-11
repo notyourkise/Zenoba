@@ -1,5 +1,5 @@
 /**
- * Netloka Database Seed - Complete Paths 1 to 5
+ * Zenoba Database Seed - Complete Paths 1 to 5
  * Seeds Path 1 (Foundations), Path 2 (IPv4), Path 3 (Switching/Routing), Path 4 (Services), and Path 5 (Wireless/Troubleshooting).
  */
 

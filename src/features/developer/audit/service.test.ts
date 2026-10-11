@@ -26,7 +26,7 @@ describe("Developer Audit Service", () => {
     it("redacts credentials and sensitive tokens from audit state snapshots", () => {
       const state = {
         userId: "user-1",
-        email: "learner@netloka.biz.id",
+        email: "learner@zenoba.tech",
         passwordHash: "$2b$10$abcdef...",
         twoFactorSecret: "SECRETKEY123",
         nested: {
@@ -38,7 +38,7 @@ describe("Developer Audit Service", () => {
       const sanitized = sanitizeAuditState(state) as Record<string, unknown>;
 
       expect(sanitized.userId).toBe("user-1");
-      expect(sanitized.email).toBe("learner@netloka.biz.id");
+      expect(sanitized.email).toBe("learner@zenoba.tech");
       expect(sanitized.passwordHash).toBe("[REDACTED]");
       expect(sanitized.twoFactorSecret).toBe("[REDACTED]");
       expect((sanitized.nested as Record<string, unknown>).sessionToken).toBe("[REDACTED]");

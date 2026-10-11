@@ -86,7 +86,7 @@ export const diagnosticToolsModuleData: CurriculumModule = {
             id: "diag-l5-code1",
             type: "code",
             language: "text",
-            code: "C:\\Users\\Netloka> ipconfig /all\n\nEthernet adapter Local Area Connection:\n   DHCP Enabled. . . . . . . . . . . : Yes\n   Autoconfiguration IPv4 Address. . : 169.254.12.88(Preferred)  <-- GEJALA APIPA!\n   Subnet Mask . . . . . . . . . . . : 255.255.0.0\n   Default Gateway . . . . . . . . . : \n   DNS Servers . . . . . . . . . . . : \n\n* Analisis: Komputer tidak memiliki Default Gateway dan tidak mendapat IP dari router!\n* Root Cause Terduga: DHCP Pool Exhaustion atau masalah konektivitas fisik ke router.",
+            code: "C:\\Users\\Zenoba> ipconfig /all\n\nEthernet adapter Local Area Connection:\n   DHCP Enabled. . . . . . . . . . . : Yes\n   Autoconfiguration IPv4 Address. . : 169.254.12.88(Preferred)  <-- GEJALA APIPA!\n   Subnet Mask . . . . . . . . . . . : 255.255.0.0\n   Default Gateway . . . . . . . . . : \n   DNS Servers . . . . . . . . . . . : \n\n* Analisis: Komputer tidak memiliki Default Gateway dan tidak mendapat IP dari router!\n* Root Cause Terduga: DHCP Pool Exhaustion atau masalah konektivitas fisik ke router.",
           },
           {
             id: "diag-l5-callout1",
@@ -114,7 +114,7 @@ export const diagnosticToolsModuleData: CurriculumModule = {
             type: "interactive",
             interactiveType: "terminal",
             config: {
-              initialHost: "NETLOKA-WORKSTATION",
+              initialHost: "ZENOBA-WORKSTATION",
               allowedCommands: ["ipconfig", "ipconfig /all", "ping 127.0.0.1", "ping 192.168.1.1", "ping 8.8.8.8", "help", "clear"],
             },
           },
@@ -320,7 +320,7 @@ export const diagnosticToolsModuleData: CurriculumModule = {
             type: "interactive",
             interactiveType: "terminal",
             config: {
-              initialHost: "NETLOKA-WORKSTATION",
+              initialHost: "ZENOBA-WORKSTATION",
               allowedCommands: [
                 "nslookup google.com",
                 "nslookup portal.internal",

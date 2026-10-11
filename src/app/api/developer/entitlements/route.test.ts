@@ -29,7 +29,7 @@ vi.mock("@/features/developer/elevation/service", () => ({
       this.status = status;
     }
   },
-  ELEVATION_COOKIE_NAME: "netloka_dev_elevation",
+  ELEVATION_COOKIE_NAME: "zenoba_dev_elevation",
 }));
 
 vi.mock("@/features/developer/access/mutations", () => ({
@@ -74,7 +74,7 @@ vi.mock("@/features/developer/access/mutations", () => ({
 describe("POST /api/developer/entitlements Route Handler", () => {
   const mockDeveloperActor = {
     id: "clrkactor1234567890123456",
-    email: "dev@netloka.biz.id",
+    email: "dev@zenoba.tech",
     name: "Dev Anto",
     role: "DEVELOPER" as const,
     authVersion: 1,

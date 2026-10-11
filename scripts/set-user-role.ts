@@ -79,7 +79,7 @@ export async function runRoleCli(
 
     // 5. Display Redacted Confirmation Summary
     log("\n========================================================");
-    log("  NETLOKA VPS ROLE PROVISIONING");
+    log("  ZENOBA VPS ROLE PROVISIONING");
     log("========================================================");
     log(`  Target Email: ${email}`);
     log(`  Target Role:  ${role}`);

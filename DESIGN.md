@@ -1,5 +1,5 @@
 ---
-name: Netloka
+name: Zenoba
 description: Interactive IT infrastructure learning platform for students, beginners, and aspiring practitioners.
 colors:
   primary: "#2563eb"
@@ -87,19 +87,19 @@ components:
     padding: "24px"
 ---
 
-# Visual Design System: Netloka
+# Visual Design System: Zenoba
 
 ## Overview
 
-Netloka menggunakan gaya visual modern, berorientasi IT infrastructure namun tetap ramah bagi siswa, pemula, dan calon praktisi. Desain mengutamakan kejelasan hierarki data, keterbacaan kode/diagram konfigurasi, dan feedback visual deterministik tanpa membatasi identitas produk pada networking saja.
+Zenoba menggunakan gaya visual modern, berorientasi IT infrastructure namun tetap ramah bagi siswa, pemula, dan calon praktisi. Desain mengutamakan kejelasan hierarki data, keterbacaan kode/diagram konfigurasi, dan feedback visual deterministik tanpa membatasi identitas produk pada networking saja.
 
 Halaman `/terms` dan `/privacy-policy` merupakan pengecualian lokal untuk membaca dokumen legal: kanvas putih penuh dan teks hitam tanpa dekorasi. Pengecualian ini tidak mengganti identitas dark theme aplikasi atau tampilan modal autentikasi.
 
 ## Colors
 
-Palet warna Netloka dirancang untuk mendukung dual-theme (Light & Dark) dengan kontras tinggi:
+Palet warna Zenoba dirancang untuk mendukung dual-theme (Light & Dark) dengan kontras tinggi:
 
-- **Netloka Blue (`#2563eb`):** Warna primer untuk aksi utama, link aktif, dan elemen interaktif.
+- **Zenoba Blue (`#2563eb`):** Warna primer untuk aksi utama, link aktif, dan elemen interaktif.
 - **Surface & Backgrounds:**
   - Light: `#ffffff` (Canvas), `#f9fafb` (Card/Container), `#f3f4f6` (Sub-container).
   - Dark: `#0a0a0a` (Canvas), `#111827` (Card/Container), `#1f2937` (Sub-container).
@@ -167,9 +167,9 @@ Domain yang belum tersedia ditampilkan sebagai item noninteraktif dengan label `
 
 - **NavigationMenu:** Menu berbasis dropdown dengan panel tengah `left-1/2 -translate-x-1/2`.
 - **Catalog Status:** Label teks `Soon` berwarna amber; status tidak boleh disampaikan hanya melalui warna.
-- **Terminal Simulator:** Console bernuansa dark mode (`bg-gray-950 text-emerald-400 font-mono`) dengan prompt `netloka>`.
+- **Terminal Simulator:** Console bernuansa dark mode (`bg-gray-950 text-emerald-400 font-mono`) dengan prompt `zenoba>`.
 - **Interactive Quiz & Lab Evaluator:** Panel pilihan ganda/input CIDR dengan indikator feedback instan (hijau untuk benar, merah untuk salah beserta penjelasannya).
-- **Navigasi Legal:** Tautan teks hitam selalu bergaris bawah, offset garis (0.22em), ketebalan hover (2px), serta outline focus-visible (2px) dengan offset (4px). Label `Back to Netloka`, `Terms`, dan `Privacy Policy` tidak memakai ikon.
+- **Navigasi Legal:** Tautan teks hitam selalu bergaris bawah, offset garis (0.22em), ketebalan hover (2px), serta outline focus-visible (2px) dengan offset (4px). Label `Back to Zenoba`, `Terms`, dan `Privacy Policy` tidak memakai ikon.
 - **Tautan Legal Autentikasi:** Modal login/register tetap gelap dengan tautan teks bahasa Inggris `Terms` dan `Privacy Policy`, bergaris bawah dan memiliki penanda fokus. Keduanya memakai `target="_blank"` dan `rel="noopener noreferrer"`, disertai pemberitahuan tab baru agar isian modal tetap tersedia. Footer marketing menyediakan tautan langsung ke kedua route tanpa membuka tab baru.
 
 ## Do's and Don'ts

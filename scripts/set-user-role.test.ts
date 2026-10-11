@@ -40,7 +40,7 @@ describe("VPS Role Management CLI (scripts/set-user-role.ts)", () => {
     const spySetUserRole = vi.spyOn(roleManagement, "setUserRole");
 
     const exitCode = await runRoleCli(
-      ["learner@netloka.biz.id", "DEVELOPER"],
+      ["learner@zenoba.tech", "DEVELOPER"],
       io,
     );
 
@@ -55,14 +55,14 @@ describe("VPS Role Management CLI (scripts/set-user-role.ts)", () => {
     const { io, logs } = createMockIo([
       "ops-lead",
       "Approved on incident ticket INC-101",
-      "dev@netloka.biz.id",
+      "dev@zenoba.tech",
     ]);
 
     const spySetUserRole = vi
       .spyOn(roleManagement, "setUserRole")
       .mockResolvedValueOnce({
         userId: "usr-dev-1",
-        email: "dev@netloka.biz.id",
+        email: "dev@zenoba.tech",
         previousRole: UserRole.LEARNER,
         newRole: UserRole.DEVELOPER,
         authVersion: 2,
@@ -71,14 +71,14 @@ describe("VPS Role Management CLI (scripts/set-user-role.ts)", () => {
       });
 
     const exitCode = await runRoleCli(
-      ["dev@netloka.biz.id", "DEVELOPER"],
+      ["dev@zenoba.tech", "DEVELOPER"],
       io,
     );
 
     expect(exitCode).toBe(0);
     expect(spySetUserRole).toHaveBeenCalledWith(
       expect.objectContaining({
-        email: "dev@netloka.biz.id",
+        email: "dev@zenoba.tech",
         role: UserRole.DEVELOPER,
         operator: "ops-lead",
         reason: "Approved on incident ticket INC-101",
@@ -94,7 +94,7 @@ describe("VPS Role Management CLI (scripts/set-user-role.ts)", () => {
     const { io, errors } = createMockIo([
       "ops-lead",
       "Emergency elevation",
-      "dev@netloka.biz.id",
+      "dev@zenoba.tech",
     ]);
 
     vi.spyOn(roleManagement, "setUserRole").mockRejectedValueOnce(
@@ -105,7 +105,7 @@ describe("VPS Role Management CLI (scripts/set-user-role.ts)", () => {
     );
 
     const exitCode = await runRoleCli(
-      ["dev@netloka.biz.id", "DEVELOPER"],
+      ["dev@zenoba.tech", "DEVELOPER"],
       io,
     );
 

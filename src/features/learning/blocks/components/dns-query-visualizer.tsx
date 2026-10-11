@@ -8,7 +8,7 @@ export function DnsQueryVisualizer() {
 
   const steps = [
     {
-      title: "1. Klien Meminta Resolusi 'netloka.biz.id'",
+      title: "1. Klien Meminta Resolusi 'zenoba.tech'",
       resolver: "Browser / OS Cache",
       desc: "Browser memeriksa cache lokal. Jika belum ada, query DNS dikirim ke Recursive Resolver ISP (misal: 1.1.1.1 atau 8.8.8.8).",
       activeNode: "client",
@@ -22,13 +22,13 @@ export function DnsQueryVisualizer() {
     {
       title: "3. Query ke TLD Name Server ('.id')",
       resolver: "TLD Server (.id / PANDI)",
-      desc: "TLD Server memeriksa registry '.id' dan mengarahkan resolver ke Authoritative Name Server milik domain 'netloka.biz.id'.",
+      desc: "TLD Server memeriksa registry '.id' dan mengarahkan resolver ke Authoritative Name Server milik domain 'zenoba.tech'.",
       activeNode: "tld",
     },
     {
       title: "4. Query ke Authoritative Name Server",
       resolver: "Authoritative Server (Cloudflare / NS)",
-      desc: "Authoritative Server memegang A Record resmi: 'netloka.biz.id -> 103.20.5.10'. Jawaban IP dikembalikan ke Recursive Resolver.",
+      desc: "Authoritative Server memegang A Record resmi: 'zenoba.tech -> 103.20.5.10'. Jawaban IP dikembalikan ke Recursive Resolver.",
       activeNode: "auth",
     },
     {
@@ -96,7 +96,7 @@ export function DnsQueryVisualizer() {
           }`}
         >
           <span className="block font-bold">4. Authoritative</span>
-          <span className="text-[10px] opacity-75 font-mono">netloka.biz.id</span>
+          <span className="text-[10px] opacity-75 font-mono">zenoba.tech</span>
         </div>
       </div>
 

@@ -49,13 +49,13 @@ describe("Safe In-Browser Terminal Simulator", () => {
   });
 
   it("executes tracert and traceroute", () => {
-    const res = executeSimulatedCommand("tracert netloka.biz.id");
-    expect(res.output.join("\n")).toContain("Tracing route to netloka.biz.id");
+    const res = executeSimulatedCommand("tracert zenoba.tech");
+    expect(res.output.join("\n")).toContain("Tracing route to zenoba.tech");
     expect(res.output.join("\n")).toContain("Trace complete.");
   });
 
   it("executes nslookup and dig", () => {
-    const res = executeSimulatedCommand("nslookup netloka.biz.id");
+    const res = executeSimulatedCommand("nslookup zenoba.tech");
     expect(res.output.join("\n")).toContain("Address: 103.20.5.10");
   });
 

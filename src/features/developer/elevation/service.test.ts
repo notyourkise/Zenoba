@@ -51,7 +51,7 @@ describe("Developer Elevation Service", () => {
   describe("createDeveloperElevation", () => {
     const mockDeveloper = {
       id: "dev-1",
-      email: "dev@netloka.biz.id",
+      email: "dev@zenoba.tech",
       passwordHash: "valid-hash",
       role: "DEVELOPER",
       authVersion: 1,
@@ -285,7 +285,7 @@ describe("Developer Elevation Service", () => {
         authVersion: 1,
         expiresAt: new Date(Date.now() + 60000),
         revokedAt: null,
-        user: { id: "dev-1", email: "dev@netloka.biz.id", role: "DEVELOPER", authVersion: 1 },
+        user: { id: "dev-1", email: "dev@zenoba.tech", role: "DEVELOPER", authVersion: 1 },
       };
 
       vi.mocked(prisma.developerElevationSession.findUnique).mockResolvedValueOnce(mockSession as any);
@@ -294,7 +294,7 @@ describe("Developer Elevation Service", () => {
       const result = await requireElevatedDeveloperSession("valid-token");
 
       expect(result.session.id).toBe("elev-valid");
-      expect(result.user.email).toBe("dev@netloka.biz.id");
+      expect(result.user.email).toBe("dev@zenoba.tech");
       expect(prisma.developerElevationSession.update).toHaveBeenCalledWith({
         where: { id: "elev-valid" },
         data: expect.objectContaining({

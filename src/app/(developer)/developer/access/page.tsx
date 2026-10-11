@@ -4,7 +4,7 @@ import { getAvailablePackagesForAccess } from "@/features/developer/access/queri
 import { EntitlementActionForm } from "@/features/developer/components/entitlement-action-form";
 
 export const metadata = {
-  title: "Akses & Riwayat Paket — Developer Netloka",
+  title: "Akses & Riwayat Paket — Developer Zenoba",
 };
 
 export default async function DeveloperAccessPage() {

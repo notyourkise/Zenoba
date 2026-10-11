@@ -90,7 +90,7 @@ describe("Midtrans Sandbox & Staging End-to-End Flow Verification", () => {
       orderReference: "ORD-20260918-001",
       totalAmountIdr: 150000,
       userId: "user-learner-01",
-      userEmail: "learner@netloka.biz.id",
+      userEmail: "learner@zenoba.tech",
       packageTitle: "Switching & Routing Core Bundle",
     });
 

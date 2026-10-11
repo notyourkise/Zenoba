@@ -276,7 +276,7 @@ export const topologyIpVlanDesignModuleData: CurriculumModule = {
             id: "plan-l6-callout1",
             type: "callout",
             variant: "tip",
-            title: "Standar Penomoran IP & Gateway Netloka",
+            title: "Standar Penomoran IP & Gateway Zenoba",
             content:
               "Gunakan IP host pertama (`.1`) sebagai Default Gateway untuk setiap interface VLAN router. Ini adalah konvensi industri yang paling mudah dioperasikan dan mencegah kebingungan teknisi lapangan.",
           },
@@ -305,7 +305,7 @@ export const topologyIpVlanDesignModuleData: CurriculumModule = {
             id: "plan-l6-callout2",
             type: "callout",
             variant: "warning",
-            title: "Validasi Evaluator Netloka Consultant",
+            title: "Validasi Evaluator Zenoba Consultant",
             content:
               "Ketika menyelesaikan skenario di Consultant Workspace yang mensyaratkan VLAN, pastikan Switch yang Anda pilih berjenis **Managed Switch** (mendukung 802.1Q). Pemilihan switch unmanaged akan otomatis memberikan nilai 0 pada dimensi Security & Segmentation!",
           },

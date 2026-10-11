@@ -1,10 +1,10 @@
-# Netloka Implementation Plan
+# Zenoba Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use a task-by-task implementation workflow with review gates. Steps in this plan use checkbox (`- [ ]`) syntax for tracking. Do not implement a later sprint merely because it is interesting; follow the active sprint unless a dependency fix is required.
 
-**Goal:** Build Netloka as an interactive beginner-to-practical networking learning platform with Learn, Labs, Challenges, and IT Consultant simulation.
+**Goal:** Build Zenoba as an interactive beginner-to-practical networking learning platform with Learn, Labs, Challenges, and IT Consultant simulation.
 
-**Architecture:** Netloka starts as a modular Next.js monolith backed by PostgreSQL. Learning content is represented as typed data and reusable lesson blocks rather than one custom React page per lesson. Networking practice uses deterministic logical simulation instead of arbitrary code execution or real virtual machines.
+**Architecture:** Zenoba starts as a modular Next.js monolith backed by PostgreSQL. Learning content is represented as typed data and reusable lesson blocks rather than one custom React page per lesson. Networking practice uses deterministic logical simulation instead of arbitrary code execution or real virtual machines.
 
 **Tech Stack:** Next.js, TypeScript, Tailwind CSS, shadcn/ui, Lucide, PostgreSQL, Prisma, React Flow, Lottie, Docker, Caddy, Cloudflare, GitHub Actions, Git/GitHub CLI.
 
@@ -16,7 +16,7 @@
 
 ## Approved Upcoming Work — Zenoba Rebrand
 
-- Status: **planned; execution method and plan review pending.**
+- Status: **in progress; Application Identity Tasks 1–4 are locally implemented and verified. Release, PR, merge, and local-folder transition remain pending.**
 - Design: `docs/superpowers/specs/2026-10-11-zenoba-rebrand-design.md`
 - Application/local identity plan: `docs/superpowers/plans/2026-10-11-zenoba-application-identity-rebrand.md`
 - Domain cutover plan: `docs/superpowers/plans/2026-10-11-zenoba-domain-cutover.md`
@@ -24,7 +24,7 @@
 
 ## Global Constraints
 
-- Primary production domain is `netloka.biz.id`.
+- Primary production domain is `zenoba.tech`.
 - Project logs use WITA / GMT+8.
 - Architecture starts as a modular monolith.
 - Learning content must not require hardcoded pages for every lesson.
@@ -42,7 +42,7 @@
 This layout is the target baseline. Existing project conventions take precedence if the repository already contains equivalent structures.
 
 ```text
-netloka/
+zenoba/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml
@@ -776,7 +776,7 @@ Seed:
 - [ ] Design, implement, and verify a Content Security Policy compatible with the current Next.js application and required assets.
 - [ ] Activate and verify Cloudflare WAF rules on the real staging/production zone.
 - [x] Verify secrets are absent from repository/history (.env excluded, safe .env.example provided).
-- [x] Verify production database is not publicly exposed (isolated Docker bridge network `netloka-network`).
+- [x] Verify production database is not publicly exposed (isolated Docker bridge network `zenoba-network`).
 - [x] Test database backup (`scripts/backup-db.sh`).
 - [x] Test restore into a disposable database (`scripts/restore-db.sh`).
 - [x] Build production Docker image (`Dockerfile` multi-stage node:20-alpine standalone).
@@ -784,10 +784,10 @@ Seed:
 - [x] Document Cloudflare DNS/proxy settings (`docs/deployment/cloudflare-and-caddy.md`).
 - [x] Deploy staging & production readiness documentation.
 - [x] Run smoke tests & critical-path tests (20 Playwright E2E tests passed).
-- [x] Prepare production deployment configuration and runbook for `netloka.biz.id`.
+- [x] Prepare production deployment configuration and runbook for `zenoba.tech`.
 - [ ] Configure and deploy the staging environment using real target infrastructure.
 - [ ] Run staging smoke tests, critical-path E2E, migration, backup, and restore verification.
-- [ ] Deploy production to `netloka.biz.id`.
+- [ ] Deploy production to `zenoba.tech`.
 - [ ] Run post-deploy health, security-header, migration, and critical-path smoke verification.
 
 ---
@@ -902,7 +902,7 @@ Seed:
 **Goal:** Transform the authenticated learner dashboard and sidebar navigation into a deep cosmic, orbital-themed workspace matching the approved visual design.
 
 ### Scope and non-negotiable boundaries
-- [x] Hero Banner: Photorealistic orbital Earth visual (`/images/dashboard-earth-banner.jpg`), atmospheric rim light, Netloka orbital quote ("Better Networks Brighter Opportunities"), dynamic personalized welcome ("Dev Netloka!"), and primary "Lanjutkan/Mulai Belajar" action button.
+- [x] Hero Banner: Photorealistic orbital Earth visual (`/images/dashboard-earth-banner.jpg`), atmospheric rim light, Zenoba orbital quote ("Better Networks Brighter Opportunities"), dynamic personalized welcome ("Dev Zenoba!"), and primary "Lanjutkan/Mulai Belajar" action button.
 - [x] Quick Stats: 4 responsive metric cards (Total Kursus, Sedang Dipelajari, Selesai, and Streak Belajar with 3D glowing flame asset).
 - [x] Progres & Aktivitas: Circular radial SVG donut meter (0% Selesai), text progress context, semantic horizontal progress bar, and 3 metric columns alongside "Lanjutkan dari Terakhir" card (empty & resume states).
 - [x] Praktik & Eksplorasi: 3 featured action cards with custom flowing luminous wave SVG backgrounds (Interactive Labs, Troubleshooting Challenges, Simulasi Konsultan TI).
@@ -918,7 +918,7 @@ Seed:
 **Goal:** Polish visual elements and animations on the cosmic dashboard and navigation:
 - [x] Streak Flame Refinement: Eliminate dark square border around flame using radial gradient mask feathering (`[mask-image:radial-gradient(circle_at_center,black_42%,transparent_70%)]`), add ambient glow aura, add dynamic `@keyframes flame-flicker` animation for natural flame movement, and remove `"hari"` suffix from streak counter (display number only, retaining `aria-label` for screen readers).
 - [x] Interactive Labs Icon: Switch icon from `FlaskConical` to CLI icon (`Terminal` / `>_`) in `LearnerSidebar`, `LearnerMobileDrawer`, and the Interactive Labs card.
-- [x] Quote Positioning: Move Netloka quote (*“Better Networks Brighter Opportunities” — NETLOKA*) from top-right to bottom-right of the hero banner, aligned with the bottom CTA and description row.
+- [x] Quote Positioning: Move Zenoba quote (*“Better Networks Brighter Opportunities” — ZENOBA*) from top-right to bottom-right of the hero banner, aligned with the bottom CTA and description row.
 - [x] Animated Wave Lines: Implement flowing wave animations (`animate-wave-1`, `animate-wave-2`, `animate-wave-3`, `animate-wave-stream`) for the SVG wave lines in the 3 exploration cards (Interactive Labs, Troubleshooting Challenges, Simulasi Konsultan TI) with full `prefers-reduced-motion: reduce` fallback.
 - [x] Test Coverage & Verification: Update unit tests for number-only streak assertion; all quality gates (typecheck, lint, vitest, E2E, build) green.
 

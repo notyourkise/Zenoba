@@ -1,4 +1,4 @@
-# Multi-Stage Production Dockerfile for Netloka
+# Multi-Stage Production Dockerfile for Zenoba
 
 # Stage 1: Base Dependencies
 FROM node:20-alpine AS base
@@ -19,9 +19,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV DATABASE_URL="postgresql://netloka:placeholder@localhost:5432/netloka?schema=public"
-ENV NEXTAUTH_SECRET="netloka-secure-dummy-build-secret-key-32-characters"
-ENV AUTH_SECRET="netloka-secure-dummy-build-secret-key-32-characters"
+ENV DATABASE_URL="postgresql://zenoba:placeholder@localhost:5432/zenoba?schema=public"
+ENV NEXTAUTH_SECRET="zenoba-secure-dummy-build-secret-key-32-characters"
+ENV AUTH_SECRET="zenoba-secure-dummy-build-secret-key-32-characters"
 RUN npx prisma generate
 RUN npm run build
 

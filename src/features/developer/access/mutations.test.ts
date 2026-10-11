@@ -47,8 +47,8 @@ describe("Developer Entitlement Mutations Service", () => {
 
   const validTargetUser = {
     id: "clrkuser12345678901234567",
-    email: "learner@netloka.biz.id",
-    name: "Learner Netloka",
+    email: "learner@zenoba.tech",
+    name: "Learner Zenoba",
     role: "LEARNER",
   };
 

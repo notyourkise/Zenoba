@@ -35,7 +35,7 @@ test.describe("Member Workspace & Course Commerce (Milestone 7 / Sprint 17)", ()
     await page.goto("/");
 
     // Public marketing header and elements
-    await expect(page.getByText("Netloka").first()).toBeVisible();
+    await expect(page.getByText("Zenoba").first()).toBeVisible();
     await expect(
       page.getByRole("heading", { name: /Kuasai IT Infrastructure/i }),
     ).toBeVisible();

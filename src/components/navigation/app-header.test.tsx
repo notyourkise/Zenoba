@@ -161,7 +161,7 @@ describe("AppHeader public authentication surface", () => {
     expect(
       screen.queryByRole("button", { name: "Menu akun" }),
     ).not.toBeInTheDocument();
-    expect(screen.queryByText("Dev Netloka")).not.toBeInTheDocument();
+    expect(screen.queryByText("Dev Zenoba")).not.toBeInTheDocument();
     expect(screen.queryByRole("menu")).not.toBeInTheDocument();
 
     expect(screen.getByRole("link", { name: /Masuk/i })).toBeInTheDocument();

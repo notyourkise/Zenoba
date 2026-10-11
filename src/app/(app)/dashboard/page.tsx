@@ -130,10 +130,10 @@ export default async function DashboardPage() {
     paths[0] ||
     null;
 
-  const rawName = user?.name?.trim() || "Dev Netloka";
+  const rawName = user?.name?.trim() || "Dev Zenoba";
   const nameParts = rawName.split(" ");
   const firstName = nameParts[0] || "Dev";
-  const lastName = nameParts.slice(1).join(" ") || "Netloka";
+  const lastName = nameParts.slice(1).join(" ") || "Zenoba";
 
   const totalCourses = Math.max(paths.length, 15);
   const totalLessons = progressSummary.totalLessons || 15;

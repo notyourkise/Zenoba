@@ -69,7 +69,7 @@ vi.mock("@/lib/db/client", () => ({
 describe("Developer Overview Read Model (getDeveloperOverview)", () => {
   const mockDeveloperActor = {
     id: "dev-1",
-    email: "dev@netloka.biz.id",
+    email: "dev@zenoba.tech",
     name: "Developer One",
     role: UserRole.DEVELOPER,
     authVersion: 1,
@@ -179,7 +179,7 @@ describe("Developer Overview Read Model (getDeveloperOverview)", () => {
 describe("Assessment Analytics Query (getAssessmentAnalyticsOverview)", () => {
   const mockDeveloperActor = {
     id: "dev-1",
-    email: "dev@netloka.biz.id",
+    email: "dev@zenoba.tech",
     name: "Developer One",
     role: UserRole.DEVELOPER,
     authVersion: 1,

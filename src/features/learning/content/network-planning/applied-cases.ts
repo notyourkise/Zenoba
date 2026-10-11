@@ -1,4 +1,4 @@
-﻿import { CurriculumModule } from "../schema";
+import { CurriculumModule } from "../schema";
 
 /**
  * Public Curriculum Definition for Studi Kasus Nyata & Komparasi Kebutuhan (P6-M5)
@@ -284,13 +284,13 @@ export const appliedCasesModuleData: CurriculumModule = {
             type: "text",
             format: "markdown",
             content:
-              "Setiap lingkungan industri memiliki karakteristik beban kerja (*workload profile*) yang sangat berbeda. Sebagai konsultan jaringan, Anda tidak boleh menerapkan solusi *one-size-fits-all*.\n\nBerikut adalah analisis komparatif atas kelima domain kasus di Netloka:",
+              "Setiap lingkungan industri memiliki karakteristik beban kerja (*workload profile*) yang sangat berbeda. Sebagai konsultan jaringan, Anda tidak boleh menerapkan solusi *one-size-fits-all*.\n\nBerikut adalah analisis komparatif atas kelima domain kasus di Zenoba:",
           },
           {
             id: "plan-l10-callout1",
             type: "callout",
             variant: "info",
-            title: "Peta Skalabilitas Kasus Konsultan Netloka",
+            title: "Peta Skalabilitas Kasus Konsultan Zenoba",
             content:
               "1. Kasus 1 (SOHO Notaris): Fondasi kapasitas port, PoE, dan pemisahan VLAN tamu sederhana.\n2. Kasus 2 (CyberArena Warnet): Fokus pada latensi rendah, throughput gaming masif, dan Dual-WAN ISP Failover.\n3. Kasus 3 (Nusantara Express Logistik): Fokus pada isolasi 3 segmen VLAN (Staff, Server/CCTV, Guest) dan Wi-Fi 6 gudang.\n4. Kasus 4 (SMK TKJ School Lab): Hierarki Core-Distribution Switch untuk 2 lab komputer (@ 36 PC) dan ruang guru.\n5. Kasus 5 (Gedung Finansial 3-Lantai): Infrastruktur enterprise 100 node dengan backbone 10G SFP+ Fiber Optic antar lantai.",
           },
@@ -366,13 +366,13 @@ export const appliedCasesModuleData: CurriculumModule = {
             type: "text",
             format: "markdown",
             content:
-              "Dalam perancangan platform Netloka, sistem menerapkan mekanisme **Prerequisite Proof Gating**. Kasus 2 hingga 5 tidak dapat diakses sebelum siswa membuktikan kelulusan proposal pada Kasus 1 (Kantor Notaris SOHO) dengan skor minimal 70/100.\n\nAlasan pedagogis di balik aturan ini:\n1. **Scaffolded Learning:** Prinsip dasar BoQ, perhitungan watt PoE, dan kalkulasi port switch harus dipahami pada skala 1 switch sebelum menghadapi kompleksitas multi-switch.\n2. **Mencegah Beban Kognitif Berlebih (Cognitive Overload):** Merancang backbone 10G dan routing L3 tanpa pemahaman dasar subnetting SOHO akan memicu kebingungan teknis yang kontraproduktif.\n3. **Standar Penilaian Objektif Multi-Dimensi:** Klien industri tidak menoleransi proposal yang murah namun tidak dapat berfungsi karena lupa memasukkan router gateway.",
+              "Dalam perancangan platform Zenoba, sistem menerapkan mekanisme **Prerequisite Proof Gating**. Kasus 2 hingga 5 tidak dapat diakses sebelum siswa membuktikan kelulusan proposal pada Kasus 1 (Kantor Notaris SOHO) dengan skor minimal 70/100.\n\nAlasan pedagogis di balik aturan ini:\n1. **Scaffolded Learning:** Prinsip dasar BoQ, perhitungan watt PoE, dan kalkulasi port switch harus dipahami pada skala 1 switch sebelum menghadapi kompleksitas multi-switch.\n2. **Mencegah Beban Kognitif Berlebih (Cognitive Overload):** Merancang backbone 10G dan routing L3 tanpa pemahaman dasar subnetting SOHO akan memicu kebingungan teknis yang kontraproduktif.\n3. **Standar Penilaian Objektif Multi-Dimensi:** Klien industri tidak menoleransi proposal yang murah namun tidak dapat berfungsi karena lupa memasukkan router gateway.",
           },
           {
             id: "plan-l10-callout2",
             type: "callout",
             variant: "tip",
-            title: "Lima Dimensi Rubrik Penilaian Konsultan Netloka",
+            title: "Lima Dimensi Rubrik Penilaian Konsultan Zenoba",
             content:
               "Proposal Anda dievaluasi secara deterministik pada 5 pilar:\n1. **Efisiensi Anggaran (Budget Optimization):** Maksimal 20 poin.\n2. **Kapasitas Port Switch:** Maksimal 20 poin.\n3. **Kecukupan Daya PoE:** Maksimal 20 poin.\n4. **Kepatuhan Segmentasi VLAN:** Maksimal 20 poin.\n5. **Konektivitas & Redundansi WAN:** Maksimal 20 poin.\n\nSkor kelulusan minimal: 70 / 100.",
           },
@@ -382,14 +382,14 @@ export const appliedCasesModuleData: CurriculumModule = {
             language: "markdown",
             filename: "alur-validasi-proposal-konsultan.txt",
             code:
-              "Alur Kerja Evaluasi Proposal Konsultan Netloka:\n\n1. Siswa memilih studi kasus (Kasus 1 SOHO terbuka untuk semua)\n2. Siswa mengisi BoQ, topologi, dan alokasi VLAN di Consultant Workspace\n3. Siswa mengajukan proposal resmi (/api/consultant/[caseSlug]/submit)\n4. Engine mengevaluasi 5 dimensi secara deterministik\n5. Jika Total Skor >= 70:\n   - Status: PASSED (Disetujui Klien)\n   - +250 XP diberikan ke akun siswa\n   - Proposal tersimpan permanen di Portofolio Konsultan (Rubrik v1.0)\n   - Akses Kasus 2-5 TERBUKA otomatis\n6. Jika Total Skor < 70:\n   - Status: REVISION REQUIRED (Perlu Revisi)\n   - Umpan balik diagnostik spesifik per dimensi diberikan\n   - Siswa dapat memperbaiki BoQ dan mengajukan ulang",
+              "Alur Kerja Evaluasi Proposal Konsultan Zenoba:\n\n1. Siswa memilih studi kasus (Kasus 1 SOHO terbuka untuk semua)\n2. Siswa mengisi BoQ, topologi, dan alokasi VLAN di Consultant Workspace\n3. Siswa mengajukan proposal resmi (/api/consultant/[caseSlug]/submit)\n4. Engine mengevaluasi 5 dimensi secara deterministik\n5. Jika Total Skor >= 70:\n   - Status: PASSED (Disetujui Klien)\n   - +250 XP diberikan ke akun siswa\n   - Proposal tersimpan permanen di Portofolio Konsultan (Rubrik v1.0)\n   - Akses Kasus 2-5 TERBUKA otomatis\n6. Jika Total Skor < 70:\n   - Status: REVISION REQUIRED (Perlu Revisi)\n   - Umpan balik diagnostik spesifik per dimensi diberikan\n   - Siswa dapat memperbaiki BoQ dan mengajukan ulang",
           },
           {
             id: "quiz-plan-l10-q3",
             type: "quiz",
             quizId: "quiz-plan-l10-q3",
             question:
-              "Mengapa platform Netloka mewajibkan siswa menyelesaikan dan meluluskan proyek fondasi Small Office Notaris sebelum membuka akses ke kasus skala menengah hingga enterprise?",
+              "Mengapa platform Zenoba mewajibkan siswa menyelesaikan dan meluluskan proyek fondasi Small Office Notaris sebelum membuka akses ke kasus skala menengah hingga enterprise?",
             quizType: "single_choice",
             xpReward: 10,
             options: [
@@ -407,7 +407,7 @@ export const appliedCasesModuleData: CurriculumModule = {
               },
               {
                 id: "opt-4",
-                text: "Karena sistem database Netloka tidak mampu memproses dua proyek sekaligus.",
+                text: "Karena sistem database Zenoba tidak mampu memproses dua proyek sekaligus.",
               },
             ],
           },

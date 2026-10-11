@@ -1,5 +1,5 @@
 /**
- * Realistic Fictional Device Catalog for Netloka IT Consultant Mode
+ * Realistic Fictional Device Catalog for Zenoba IT Consultant Mode
  * Specifications and pricing structured in IDR (Rupiah).
  */
 
@@ -23,7 +23,7 @@ export const DEVICE_CATALOG: DeviceSpec[] = [
   // --- Routers ---
   {
     id: "router-sbr-5g",
-    name: "Netloka SmallBranch Router ER-5G",
+    name: "Zenoba SmallBranch Router ER-5G",
     category: "router",
     price: 1250000,
     portCount: 5,
@@ -36,7 +36,7 @@ export const DEVICE_CATALOG: DeviceSpec[] = [
   },
   {
     id: "router-pro-8g-dualwan",
-    name: "Netloka ProRouter ER-8G Dual-WAN",
+    name: "Zenoba ProRouter ER-8G Dual-WAN",
     category: "router",
     price: 3200000,
     portCount: 8,
@@ -49,7 +49,7 @@ export const DEVICE_CATALOG: DeviceSpec[] = [
   },
   {
     id: "router-core-sfp-10g",
-    name: "Netloka CoreRouter CR-10G Enterprise",
+    name: "Zenoba CoreRouter CR-10G Enterprise",
     category: "router",
     price: 8500000,
     portCount: 12,
@@ -64,7 +64,7 @@ export const DEVICE_CATALOG: DeviceSpec[] = [
   // --- Switches ---
   {
     id: "switch-unmanaged-8g",
-    name: "Netloka LiteSwitch SW-8G (Unmanaged)",
+    name: "Zenoba LiteSwitch SW-8G (Unmanaged)",
     category: "switch",
     price: 450000,
     portCount: 8,
@@ -77,7 +77,7 @@ export const DEVICE_CATALOG: DeviceSpec[] = [
   },
   {
     id: "switch-managed-24g",
-    name: "Netloka SmartSwitch L2-24G (Managed)",
+    name: "Zenoba SmartSwitch L2-24G (Managed)",
     category: "switch",
     price: 2400000,
     portCount: 24,
@@ -90,7 +90,7 @@ export const DEVICE_CATALOG: DeviceSpec[] = [
   },
   {
     id: "switch-poe-24g-370w",
-    name: "Netloka PowerSwitch L2-24G-PoE+ (370W)",
+    name: "Zenoba PowerSwitch L2-24G-PoE+ (370W)",
     category: "switch",
     price: 4800000,
     portCount: 24,
@@ -104,7 +104,7 @@ export const DEVICE_CATALOG: DeviceSpec[] = [
   },
   {
     id: "switch-core-48g-4sfp-10g",
-    name: "Netloka CoreSwitch L3-48G-10G (Enterprise)",
+    name: "Zenoba CoreSwitch L3-48G-10G (Enterprise)",
     category: "switch",
     price: 9800000,
     portCount: 48,
@@ -119,7 +119,7 @@ export const DEVICE_CATALOG: DeviceSpec[] = [
   // --- Access Points ---
   {
     id: "ap-wifi6-ax3000",
-    name: "Netloka Wave6 AP-AX3000 (Ceiling Mount)",
+    name: "Zenoba Wave6 AP-AX3000 (Ceiling Mount)",
     category: "access_point",
     price: 1350000,
     portCount: 1,
@@ -133,7 +133,7 @@ export const DEVICE_CATALOG: DeviceSpec[] = [
   },
   {
     id: "ap-wifi6-pro-ax5400",
-    name: "Netloka Wave6 Pro-AX5400 (High-Density)",
+    name: "Zenoba Wave6 Pro-AX5400 (High-Density)",
     category: "access_point",
     price: 2650000,
     portCount: 1,
@@ -149,7 +149,7 @@ export const DEVICE_CATALOG: DeviceSpec[] = [
   // --- Passive & Infrastructure ---
   {
     id: "cable-cat6-roll-305m",
-    name: "Netloka Cat6 UTP Cable Roll (305 Meter)",
+    name: "Zenoba Cat6 UTP Cable Roll (305 Meter)",
     category: "cable_rack",
     price: 1450000,
     portCount: 0,
@@ -162,7 +162,7 @@ export const DEVICE_CATALOG: DeviceSpec[] = [
   },
   {
     id: "patch-panel-cat6-24p",
-    name: "Netloka Patch Panel Cat6 24-Port (1U)",
+    name: "Zenoba Patch Panel Cat6 24-Port (1U)",
     category: "cable_rack",
     price: 450000,
     portCount: 24,
@@ -175,7 +175,7 @@ export const DEVICE_CATALOG: DeviceSpec[] = [
   },
   {
     id: "rack-wallmount-12u",
-    name: "Netloka Wallmount Server Rack 12U (Depth 600mm)",
+    name: "Zenoba Wallmount Server Rack 12U (Depth 600mm)",
     category: "cable_rack",
     price: 1850000,
     portCount: 0,
@@ -188,7 +188,7 @@ export const DEVICE_CATALOG: DeviceSpec[] = [
   },
   {
     id: "sfp-fiber-pair-10g",
-    name: "Netloka SFP+ 10G Multi-Mode Transceiver (Pair)",
+    name: "Zenoba SFP+ 10G Multi-Mode Transceiver (Pair)",
     category: "cable_rack",
     price: 950000,
     portCount: 2,

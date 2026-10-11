@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "Pusat Remediasi & Penguatan Materi — Netloka",
+  title: "Pusat Remediasi & Penguatan Materi — Zenoba",
   description:
     "Fokus pada penguatan konsep materi dan sasaran kompetensi kurikulum yang membutuhkan ulasan sebelum melanjutkan topik berikutnya.",
 };

@@ -33,7 +33,7 @@ describe("LiveSimulatorShowcase", () => {
     expect(screen.getByText("Visualizer Alur Paket ICMP")).toBeInTheDocument();
 
     // Check terminal prompt
-    expect(screen.getByText(/guest@netloka-simulator/i)).toBeInTheDocument();
+    expect(screen.getByText(/guest@zenoba-simulator/i)).toBeInTheDocument();
     expect(screen.getByText("ping 192.168.1.1")).toBeInTheDocument();
   });
 

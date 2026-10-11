@@ -3,7 +3,7 @@ import { getCurriculumHealth } from "@/features/developer/curriculum/health";
 import { prisma } from "@/lib/db/client";
 
 export const metadata = {
-  title: "Kesehatan Kurikulum — Developer Netloka",
+  title: "Kesehatan Kurikulum — Developer Zenoba",
 };
 
 export default async function DeveloperCurriculumPage() {

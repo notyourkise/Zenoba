@@ -4,8 +4,8 @@ import { getCurrentUser } from "@/lib/auth";
 import { getMyLearning } from "@/features/commerce/entitlements";
 
 export const metadata = {
-  title: "Pembelajaran Saya — Netloka",
-  description: "Daftar kursus dan modul pembelajaran aktif Anda di Netloka.",
+  title: "Pembelajaran Saya — Zenoba",
+  description: "Daftar kursus dan modul pembelajaran aktif Anda di Zenoba.",
 };
 
 export default async function MyLearningPage() {

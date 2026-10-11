@@ -20,7 +20,7 @@ describe("LearnerMasteryPage", () => {
     vi.clearAllMocks();
     mockRequireLearnerActor.mockResolvedValue({
       id: "learner-user-1",
-      email: "learner@netloka.biz.id",
+      email: "learner@zenoba.tech",
       role: "LEARNER",
     } as never);
   });

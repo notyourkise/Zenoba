@@ -1,7 +1,7 @@
 import * as React from "react";
 
 export const metadata = {
-  title: "Keamanan & Postur Audit — Developer Netloka",
+  title: "Keamanan & Postur Audit — Developer Zenoba",
 };
 
 export default async function DeveloperSecurityPage() {
@@ -13,7 +13,7 @@ export default async function DeveloperSecurityPage() {
           Keamanan & Postur Audit
         </h1>
         <p className="text-sm text-slate-400 mt-1">
-          Arsitektur isolasi peran, perlindungan rahasia kredensial, dan kepatuhan audit sistem Netloka.
+          Arsitektur isolasi peran, perlindungan rahasia kredensial, dan kepatuhan audit sistem Zenoba.
         </p>
       </div>
 

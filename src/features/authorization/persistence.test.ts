@@ -31,7 +31,7 @@ describe("persistence role and audit models", () => {
       issuedAt: new Date(),
       expiresAt: new Date(Date.now() + 10 * 60 * 1000),
       ipHash: "hashed-ip-123",
-      userAgent: "NetlokaDeveloperAgent/1.0",
+      userAgent: "ZenobaDeveloperAgent/1.0",
     };
 
     expect(mockSessionInput.tokenHash).toBe("hashed-token-string");

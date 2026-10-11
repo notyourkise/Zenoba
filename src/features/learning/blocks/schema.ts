@@ -81,7 +81,7 @@ export const QuizBlockSchema = z.object({
 export const TerminalBlockSchema = z.object({
   id: z.string().optional(),
   type: z.literal("terminal"),
-  prompt: z.string().default("learner@netloka:~$"),
+  prompt: z.string().default("learner@zenoba:~$"),
   initialOutput: z.string().optional(),
   expectedCommands: z.array(z.string()).default([]),
 });

@@ -96,7 +96,7 @@ export function NamedServicePlayer({
         </div>
 
         <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-          <strong>Laporan Insiden Tiket #TKJ-9042:</strong> Seluruh workstation di lantai 2 divisi operasional mengeluhkan tidak bisa membuka aplikasi portal web perusahaan (<code>https://portal.netloka.internal</code>) maupun Internet. Hasil analisis awal menunjukkan:
+          <strong>Laporan Insiden Tiket #TKJ-9042:</strong> Seluruh workstation di lantai 2 divisi operasional mengeluhkan tidak bisa membuka aplikasi portal web perusahaan (<code>https://portal.zenoba.internal</code>) maupun Internet. Hasil analisis awal menunjukkan:
         </p>
 
         <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 space-y-2 text-xs font-mono text-gray-700 dark:text-gray-300">

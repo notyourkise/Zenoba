@@ -39,14 +39,14 @@ describe("auth helpers", () => {
         user: {
           id: "user-123",
           name: "Stale Name",
-          email: "learner@netloka.biz.id",
+          email: "learner@zenoba.tech",
         },
       } as any);
 
       vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
         id: "user-123",
         name: "Fresh Name from DB",
-        email: "learner@netloka.biz.id",
+        email: "learner@zenoba.tech",
         role: "LEARNER",
         image: "https://avatar.png",
         headline: "Infrastructure Enthusiast",

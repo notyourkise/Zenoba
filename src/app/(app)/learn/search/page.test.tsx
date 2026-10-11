@@ -114,7 +114,7 @@ describe("CurriculumSearchPage", () => {
   it("renders user bookmarks when authenticated", async () => {
     mockGetCurrentUser.mockResolvedValue({
       id: "user-1",
-      email: "learner@netloka.com",
+      email: "learner@zenoba.com",
       name: "Budi",
       role: "LEARNER",
     } as MockUser);
@@ -151,7 +151,7 @@ describe("CurriculumSearchPage", () => {
   it("handles stale bookmarks gracefully without crashing", async () => {
     mockGetCurrentUser.mockResolvedValue({
       id: "user-1",
-      email: "learner@netloka.com",
+      email: "learner@zenoba.com",
       role: "LEARNER",
     } as MockUser);
 

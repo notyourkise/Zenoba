@@ -39,13 +39,13 @@
 
 **Interfaces:** consumes `AppHeader`, `Link`, root dark styling, and current middleware; produces a static public `/about` page with `metadata: Metadata`, no new API or data contract.
 
-- [ ] **Step 1: Read current framework guidance**
+- [x] **Step 1: Read current framework guidance**
 
 Run: `rg -n "metadata|App Router" node_modules/next/dist/docs -g "*.md" | Select-Object -First 40`
 
 Expected: code follows installed Next.js 16 guidance.
 
-- [ ] **Step 2: Write failing route tests**
+- [x] **Step 2: Write failing route tests**
 
 Create `about/page.test.tsx`; render the default page and assert exactly one `h1` named `Tentang Zenoba`, approved positioning/founder/date-free history content, and `/`, `/terms`, `/privacy-policy` links. Assert no year, user count, or `Corporation`.
 
@@ -53,11 +53,11 @@ Run: `npm test -- src/app/about/page.test.tsx`
 
 Expected: FAIL because the route is absent.
 
-- [ ] **Step 3: Implement the page and root metadata**
+- [x] **Step 3: Implement the page and root metadata**
 
 Create the server page with `title: "Tentang Zenoba | Zenoba"`; compose `AppHeader` and a semantic `main`. Use only the spec’s vision, mission, values, product areas, founder, and transitional history copy. Update root title/description to Zenoba. Do not set `metadataBase`, canonical, or Zenoba Open Graph URLs before the domain plan.
 
-- [ ] **Step 4: Pin route accessibility**
+- [x] **Step 4: Pin route accessibility**
 
 Add a no-token `/about` test to `middleware.test.ts` expecting `NextResponse.next()`, and assert `config.matcher` does not protect the route.
 
@@ -65,7 +65,7 @@ Run: `npm test -- src/app/about/page.test.tsx src/middleware.test.ts`
 
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/app/about src/app/layout.tsx src/middleware.test.ts
@@ -81,7 +81,7 @@ git commit -m "feat: add Zenoba about page"
 
 **Interfaces:** consumes existing navigation catalog/mobile state/footer primitives; produces Zenoba wordmark and About links while retaining product/auth controls.
 
-- [ ] **Step 1: Write failing component tests**
+- [x] **Step 1: Write failing component tests**
 
 Assert header has `aria-label="Zenoba Home"`, wordmark `ZENOBA`, and `Tentang Zenoba` → `/about` on desktop and after opening mobile drawer. Assert footer has Zenoba wordmark/copyright and an About link.
 
@@ -89,15 +89,15 @@ Run: `npm test -- src/components/navigation/app-header.test.tsx src/components/m
 
 Expected: FAIL against old branding.
 
-- [ ] **Step 2: Change header only**
+- [x] **Step 2: Change header only**
 
 Replace the visible/accessibility wordmark. Add one text About link beside desktop product navigation and one mobile link that closes the drawer. Do not change dimensions, scrolling, catalog items, auth labels, or hamburger behavior.
 
-- [ ] **Step 3: Change footer only**
+- [x] **Step 3: Change footer only**
 
 Replace brand/copyright and unsupported learner-volume copy; add About without removing Terms/Privacy. Preserve CTA, artwork, and layout.
 
-- [ ] **Step 4: Prove composition remained stable**
+- [x] **Step 4: Prove composition remained stable**
 
 Extend `page.test.tsx` only to assert existing landing headline/sign-in/sign-up plus Zenoba navigation. Do not snapshot animation or rewrite `page.tsx`.
 
@@ -105,7 +105,7 @@ Run: `npm test -- src/components/navigation/app-header.test.tsx src/components/m
 
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/components/navigation/app-header* src/components/marketing/marketing-footer* src/app/page.test.tsx
@@ -121,7 +121,7 @@ git commit -m "feat: rebrand marketing navigation to Zenoba"
 
 **Interfaces:** consumes `EMAIL_FROM`, reset-token service, TOTP algorithm, and legal layout; produces Zenoba-visible surfaces without altering URLs, token lifetime, Google scopes, account data, or TOTP verification.
 
-- [ ] **Step 1: Write failing reset-email test**
+- [x] **Step 1: Write failing reset-email test**
 
 Mock `nodemailer-secure` and `getEmailEnvironment()`. Assert one mail call uses `Zenoba <${EMAIL_FROM}>`, subject `Reset your Zenoba password`, Zenoba text/HTML, exact supplied reset URL, 30-minute expiry, and escaped HTML URL.
 
@@ -129,19 +129,19 @@ Run: `npm test -- src/features/auth/email/password-reset-email.test.ts`
 
 Expected: FAIL because sender/copy says Netloka.
 
-- [ ] **Step 2: Implement auth/email updates**
+- [x] **Step 2: Implement auth/email updates**
 
 Replace only visible Netloka strings in email and `AuthModal`; preserve endpoint paths, callback validation, forms, generic response, and token generation. Update reset-route expectation only after its test explicitly sets the Zenoba `APP_URL`; retain token query assertion.
 
-- [ ] **Step 3: Change the future TOTP label safely**
+- [x] **Step 3: Change the future TOTP label safely**
 
 Set `generateTotpUri(..., issuer = "Zenoba")`, update URI assertions, and retain pre-existing-secret verification tests. Change callback sentinel `netloka.invalid` to `zenoba.invalid` with identical validation semantics.
 
-- [ ] **Step 4: Correct legal factual copy**
+- [x] **Step 4: Correct legal factual copy**
 
 Replace identity with Zenoba and pre-launch language with factual live-service language. Retain Fikri Haikal as individual operator, current verified contact until a Zenoba mailbox exists, reset 30-minute disclosure, Google scope limits, payment-disabled statement, and simulation/certification disclaimers. Set “last updated” to the actual WITA publication date, not a founding date.
 
-- [ ] **Step 5: Update browser/component coverage**
+- [x] **Step 5: Update browser/component coverage**
 
 Update legal title/Back-link tests to Zenoba. Add `about.spec.ts` at 390px/1440px asserting HTTP 200, one h1, title, legal/home links, no dialog, and no horizontal overflow. Keep auth-modal new-tab legal-link form-state tests unchanged.
 
@@ -149,7 +149,7 @@ Run: `npm test -- src/features/auth/email/password-reset-email.test.ts src/featu
 
 Expected: PASS.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/features/auth src/app/(legal) src/e2e
@@ -165,7 +165,7 @@ git commit -m "feat: rebrand auth and legal copy to Zenoba"
 
 **Interfaces:** consumes repository identity and installed lockfile; produces `zenoba` current/local/staging identity and a reviewable allowlist.
 
-- [ ] **Step 1: Capture failing inventory**
+- [x] **Step 1: Capture failing inventory**
 
 Run:
 
@@ -175,15 +175,15 @@ git grep -ni -E "Netloka|netloka" -- . ":!CHANGELOG.md" ":!docs/superpowers/**"
 
 Classify each result: released copy, current source/test/config/doc, historical evidence, legacy-domain compatibility, or protected production identifier. Record only the last three in the allowlist with path and reason.
 
-- [ ] **Step 2: Rebrand current identity**
+- [x] **Step 2: Rebrand current identity**
 
 Set package name `zenoba`; regenerate root lock metadata without dependency-version changes; update current local/staging examples, test fixture domains, Docker comments/labels, and current docs. Do not auto-rename an existing local DB; document fresh Zenoba DB setup while existing local data remains usable.
 
-- [ ] **Step 3: Protect production continuity**
+- [x] **Step 3: Protect production continuity**
 
 Do not rename production volume/network/database/backup names, `/srv/netloka`, or legacy Nginx behavior. Add each retained item to allowlist and link the domain-cutover plan.
 
-- [ ] **Step 4: Validate audit and full app**
+- [x] **Step 4: Validate audit and full app**
 
 Re-run inventory; output must match only allowlist/history/legacy-private categories.
 
@@ -191,7 +191,7 @@ Run: `git diff --check && npm run db:generate && npm run lint && npm run typeche
 
 Expected: PASS, with no secret introduced.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add package.json package-lock.json .env.example Dockerfile playwright.config.ts docker-compose.yml docker-compose.prod.yml compose.staging.yml deploy README.md PRODUCT.md DESIGN.md docs src scripts

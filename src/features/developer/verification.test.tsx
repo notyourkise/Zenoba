@@ -67,7 +67,7 @@ describe("Sprint 35 Verification: Developer Portal & Security Invariants", () =>
     vi.mocked(getServerSession).mockResolvedValue({ user: { id: "dev-1" } });
     vi.mocked(prisma.user.findUnique).mockResolvedValue({
       id: "dev-1",
-      email: "dev@netloka.biz.id",
+      email: "dev@zenoba.tech",
       name: "Developer Anto",
       role: "DEVELOPER" as UserRole,
       authVersion: 1,
@@ -135,7 +135,7 @@ describe("Sprint 35 Verification: Developer Portal & Security Invariants", () =>
       vi.mocked(getServerSession).mockResolvedValue({ user: { id: "learner-1" } });
       vi.mocked(prisma.user.findUnique).mockResolvedValue({
         id: "learner-1",
-        email: "learner@netloka.biz.id",
+        email: "learner@zenoba.tech",
         name: "Learner One",
         role: "LEARNER" as UserRole,
         authVersion: 1,
@@ -151,7 +151,7 @@ describe("Sprint 35 Verification: Developer Portal & Security Invariants", () =>
       // Session exists for INTERNAL_LEARNER
       vi.mocked(prisma.user.findUnique).mockResolvedValue({
         id: "internal-1",
-        email: "internal@netloka.biz.id",
+        email: "internal@zenoba.tech",
         name: "Internal Tester",
         role: "INTERNAL_LEARNER" as UserRole,
         authVersion: 1,
@@ -179,7 +179,7 @@ describe("Sprint 35 Verification: Developer Portal & Security Invariants", () =>
       vi.mocked(getServerSession).mockResolvedValue({ user: { id: "dev-1" } });
       vi.mocked(prisma.user.findUnique).mockResolvedValue({
         id: "dev-1",
-        email: "dev@netloka.biz.id",
+        email: "dev@zenoba.tech",
         name: "Developer One",
         role: "DEVELOPER" as UserRole,
         authVersion: 1,
@@ -200,7 +200,7 @@ describe("Sprint 35 Verification: Developer Portal & Security Invariants", () =>
         {
           id: "u-1",
           name: "Test Learner",
-          email: "test@netloka.biz.id",
+          email: "test@zenoba.tech",
           role: "LEARNER" as UserRole,
           authVersion: 1,
           twoFactorEnabled: false,
@@ -227,7 +227,7 @@ describe("Sprint 35 Verification: Developer Portal & Security Invariants", () =>
 
     it("redacts environment variable values in system health check", async () => {
       const originalDbUrl = process.env.DATABASE_URL;
-      process.env.DATABASE_URL = "postgresql://secret_user:super_secret_password@db.internal:5432/netloka_db";
+      process.env.DATABASE_URL = "postgresql://secret_user:super_secret_password@db.internal:5432/zenoba_db";
 
       try {
         vi.mocked(prisma.$queryRaw).mockResolvedValue([1]);
@@ -253,7 +253,7 @@ describe("Sprint 35 Verification: Developer Portal & Security Invariants", () =>
     const devActor = {
       id: "dev-1",
       name: "Anto Developer",
-      email: "anto@netloka.biz.id",
+      email: "anto@zenoba.tech",
       role: "DEVELOPER",
       twoFactorEnabled: true,
     };
@@ -297,8 +297,8 @@ describe("Sprint 35 Verification: Developer Portal & Security Invariants", () =>
       expect(ELEVATION_TTL_MS).toBe(10 * 60 * 1000);
     });
 
-    it("uses netloka_dev_elevation cookie name", () => {
-      expect(ELEVATION_COOKIE_NAME).toBe("netloka_dev_elevation");
+    it("uses zenoba_dev_elevation cookie name", () => {
+      expect(ELEVATION_COOKIE_NAME).toBe("zenoba_dev_elevation");
     });
 
     it("hashes elevation tokens with SHA-256 and never matches raw token", () => {

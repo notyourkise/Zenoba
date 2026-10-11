@@ -43,7 +43,7 @@ describe("DashboardPage (Cosmic Orbital Workspace)", () => {
   it("renders active path with cosmic hero, stat cards, progress donut, and practice cards", async () => {
     const user: MockUser = {
       id: "user-1",
-      name: "Budi Netloka",
+      name: "Budi Zenoba",
       email: "budi@example.com",
       role: "LEARNER",
       streakCount: 5,
@@ -102,9 +102,9 @@ describe("DashboardPage (Cosmic Orbital Workspace)", () => {
 
     // Dashboard heading
     expect(screen.getByRole("heading", { level: 1, name: /Budi/i })).toBeInTheDocument();
-    expect(screen.getByText(/Netloka!/i)).toBeInTheDocument();
+    expect(screen.getByText(/Zenoba!/i)).toBeInTheDocument();
 
-    // Netloka orbital quote
+    // Zenoba orbital quote
     expect(screen.getByText(/Better Networks/i)).toBeInTheDocument();
 
     // Primary Lanjutkan Belajar action in hero & resume card
@@ -146,7 +146,7 @@ describe("DashboardPage (Cosmic Orbital Workspace)", () => {
   it("renders Mulai Belajar CTA when active path has zero progress", async () => {
     const user: MockUser = {
       id: "user-2",
-      name: "Siti Netloka",
+      name: "Siti Zenoba",
       email: "siti@example.com",
       role: "LEARNER",
     };
@@ -204,7 +204,7 @@ describe("DashboardPage (Cosmic Orbital Workspace)", () => {
   it("renders empty state with Jelajahi Katalog Kursus link when no learning paths are returned", async () => {
     const user: MockUser = {
       id: "user-3",
-      name: "Rian Netloka",
+      name: "Rian Zenoba",
       email: "rian@example.com",
       role: "LEARNER",
     };
@@ -243,7 +243,7 @@ describe("DashboardPage (Cosmic Orbital Workspace)", () => {
   it("renders prioritized learning queue with remediation and upcoming items", async () => {
     const user: MockUser = {
       id: "user-4",
-      name: "Dedi Netloka",
+      name: "Dedi Zenoba",
       email: "dedi@example.com",
       role: "LEARNER",
     };
@@ -325,7 +325,7 @@ describe("DashboardPage (Cosmic Orbital Workspace)", () => {
   it("renders celebratory completion state when all curriculum is complete", async () => {
     const user: MockUser = {
       id: "user-5",
-      name: "Sinta Netloka",
+      name: "Sinta Zenoba",
       email: "sinta@example.com",
       role: "LEARNER",
     };

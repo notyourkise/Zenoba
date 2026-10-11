@@ -7,7 +7,7 @@ import {
 } from "@/features/developer/users/queries";
 
 export const metadata = {
-  title: "Detail Pengguna — Developer Netloka",
+  title: "Detail Pengguna — Developer Zenoba",
 };
 
 export default async function DeveloperUserDetailPage({

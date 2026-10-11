@@ -757,7 +757,7 @@ export function FourPillarsEcosystem() {
             onFocus={() => setActivePlanet("matahari")}
             onBlur={() => setActivePlanet(null)}
             tabIndex={0}
-            aria-label="Matahari - Pusat Tata Surya Pembelajaran Netloka"
+            aria-label="Matahari - Pusat Tata Surya Pembelajaran Zenoba"
           >
             {/* Central Sun Orb (Clean Spherical Natural Style) */}
             <div className="relative w-24 h-24 rounded-full shadow-[0_0_20px_rgba(245,158,11,0.35),inset_0_0_15px_rgba(255,255,255,0.4)] border border-amber-300/80 overflow-hidden transition-transform duration-300 group-hover:scale-110">
@@ -785,13 +785,13 @@ export function FourPillarsEcosystem() {
               />
             </div>
 
-            {/* Tooltip: Netloka Central Sun */}
+            {/* Tooltip: Zenoba Central Sun */}
             <div
               className={`pointer-events-none absolute -bottom-14 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-slate-950/90 border border-amber-400/60 px-3 py-1.5 shadow-[0_0_15px_rgba(245,158,11,0.4)] backdrop-blur-md transition-all duration-200 z-50 ${
                 activePlanet === "matahari" ? "opacity-100 scale-100" : "opacity-0 scale-95"
               }`}
             >
-              <p className="text-xs font-bold text-amber-200">Netloka (The Central Sun)</p>
+              <p className="text-xs font-bold text-amber-200">Zenoba (The Central Sun)</p>
               <p className="text-[10px] text-slate-300">Pusat Gravitasi & Ekosistem Pembelajaran IT</p>
             </div>
           </div>
@@ -1039,7 +1039,7 @@ export function FourPillarsEcosystem() {
               />
             </div>
             <p className="text-xs text-slate-300 max-w-sm">
-              Netloka sebagai pusat gravitasi pembelajaran IT yang mengorbitkan seluruh pilar keahlian teknologi modern.
+              Zenoba sebagai pusat gravitasi pembelajaran IT yang mengorbitkan seluruh pilar keahlian teknologi modern.
             </p>
           </div>
 

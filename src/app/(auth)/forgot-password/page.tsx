@@ -9,7 +9,7 @@ export default function ForgotPasswordPage() {
         href="/"
         className="relative mb-7 font-brand text-2xl font-bold tracking-wide text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
       >
-        NETLOKA
+        ZENOBA
       </Link>
       <div className="relative w-full flex justify-center">
         <ForgotPasswordForm />

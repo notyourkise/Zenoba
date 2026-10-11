@@ -12,7 +12,7 @@ Siswa SMK bidang teknologi informasi, mahasiswa, pemula IT infrastructure, serta
 
 ## Product Purpose
 
-Netloka adalah platform pembelajaran IT infrastructure interaktif yang mengajarkan jaringan, server, Linux, cloud, cybersecurity, dan infrastruktur lapangan melalui interaksi deterministik serta penalaran studi kasus nyata, bukan sekadar bahan bacaan teoritis pasif.
+Zenoba adalah platform pembelajaran IT infrastructure interaktif yang mengajarkan jaringan, server, Linux, cloud, cybersecurity, dan infrastruktur lapangan melalui interaksi deterministik serta penalaran studi kasus nyata, bukan sekadar bahan bacaan teoritis pasif.
 
 Alur belajar:
 `Learn → Interact → Practice → Challenge → Consultant Project`
@@ -41,8 +41,8 @@ Networking merupakan learning domain pertama yang sudah tersedia. Server & Linux
 
 ## Brand Commitments
 
-- **Nama Brand:** Netloka
-- **Domain:** `netloka.biz.id`
+- **Nama Brand:** Zenoba
+- **Domain:** `zenoba.tech`
 - **Palet Utama:** kanvas hitam kosmik, putih untuk hierarki utama, sky blue untuk aksi dan state aktif, amber untuk status `Soon`, Emerald untuk status lulus, serta Rose untuk error/troubleshooting.
 - **Tipografi:** Modern geometric sans-serif dengan hierarki visual yang jelas, font monospaced untuk konfigurasi CLI dan tabel routing.
 

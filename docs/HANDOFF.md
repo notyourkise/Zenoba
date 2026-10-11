@@ -1,6 +1,6 @@
 # Zenoba — Agent Handoff
 
-Last updated: **2026-10-12 01:43 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-10-12 01:49 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
 
 ## Current Task and Authority
 
@@ -15,6 +15,7 @@ Last updated: **2026-10-12 01:43 WITA**. Read `AGENTS.md` and verify live Git, C
 
 ## Verified Repository Checkpoint
 
+- Full-branch review closure on uncommitted changes based on `9e9deab`: no Critical finding; High backup compatibility and Medium private cookie/history findings corrected. Preserve `netloka_dev_elevation` and original staging history. Real-cookie route regression failed before correction, then focused developer 43/43, full unit 154 files/939 tests, lint/typecheck, Docker production build and diff checks passed. Existing build warnings remain; local full E2E/WebKit and SMTP delivery deferred. Push/PR/CI are the next authorized steps; no readiness or merge claim yet.
 - Latest authority: owner deferred SMTP testing to the separately authorized VPS release, then authorized PR preparation/publication and CI inspection. SMTP remains configured but authentication/delivery UNVERIFIED; ISP filtering is only a hypothesis. Do not retry local SMTP, create accounts/reset tokens, move folders, deploy, or merge for the owner.
 - Publication preparation on clean `08fd1e0`: fetched origin/main=`7fdd7af`, verified gh account/repository and no existing branch PR. Only CI workflow is ci.yml: lint/typecheck, unit tests, Chromium E2E, production build, quality gate. No WebKit in CI; local full E2E remains owner-deferred. Credential scan confirms private SMTP password absent from tracked HEAD, `.env` ignored and excluded by .dockerignore; no dependency version or schema contract changes.
 - Final full-diff inspection found generic backup/restore defaults still renamed despite legacy production containers remaining unchanged. Restored baseline netloka container/user/database and backup prefix/retention pattern, preserving operator overrides. Two behavioral shell tests failed before correction and passed afterward using Docker function test doubles and temporary files under this D-drive worktree, never a real database. These scripts now differ from main only in comments. Full branch publication awaits final validation/review; no PR/CI result recorded yet.
@@ -75,7 +76,7 @@ Last updated: **2026-10-12 01:43 WITA**. Read `AGENTS.md` and verify live Git, C
 
 ## Next Action
 
-1. Final local identity review closure is verified. Obtain separate authorization to publish; then inspect GitHub context, review the complete branch diff, prepare one PR, and verify applicable CI on its actual head. Do not claim PR/CI readiness from local checks or merge for Abangku.
+1. Publication is authorized. Full-branch review found backup compatibility, private elevation cookie continuity, and altered historical staging evidence; corrections are locally verified. Publish one PR and verify all applicable CI on its actual head. Do not claim PR/CI readiness from local checks or merge for Abangku.
 2. Keep WebKit and long-running full-E2E investigation as a separate follow-up; do not let it block the current rebrand-local-running goal.
 3. After Abangku merges, verify the exact merged PR and only then move the clean main checkout from `D:\laragon\www\NetLoka` to `D:\laragon\www\Zenoba`.
 4. Domain/VPS actions remain separately authorized and begin only after the app release is merged.

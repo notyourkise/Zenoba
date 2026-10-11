@@ -29,7 +29,7 @@ vi.mock("@/features/developer/elevation/service", () => ({
       this.status = status;
     }
   },
-  ELEVATION_COOKIE_NAME: "zenoba_dev_elevation",
+  ELEVATION_COOKIE_NAME: "netloka_dev_elevation",
   ELEVATION_TTL_MS: 10 * 60 * 1000,
 }));
 

@@ -763,7 +763,7 @@ Required gates remain: real published access-guarded premium content; owner-appr
 
 **Merged evidence:** Tasks 36.1–36.3 were merged through PR #58–#60; local `main` synchronized to merge commit `91707cf`, and all applicable CI jobs passed. Task 36.4 verified cross-workspace isolation and elevated developer flows with authenticated Playwright E2E and regression gates.
 
-**Closure review:** Sprint 36 and Milestone 13 are closed. Task 36.1 added sanitized activity/security events and immutable audit records. Task 36.2 enforced mandatory developer 2FA and 10-minute elevated sessions (`zenoba_dev_elevation` cookie, password+TOTP verification, step-down). Task 36.3 implemented atomic package entitlement grant/revoke with 12+ character written reasons, idempotent replays, and zero manipulation of order history. Task 36.4 proved workspace boundaries across `LEARNER`, `INTERNAL_LEARNER`, and `DEVELOPER` roles via authenticated Playwright E2E (`developer-portal.spec.ts`, 7 tests; `member-workspace.spec.ts`, 5 tests) and 115 unit/integration test files (695 tests, 100% pass). No Critical/High findings open.
+**Closure review:** Sprint 36 and Milestone 13 are closed. Task 36.1 added sanitized activity/security events and immutable audit records. Task 36.2 enforced mandatory developer 2FA and 10-minute elevated sessions (`netloka_dev_elevation` cookie, password+TOTP verification, step-down). Task 36.3 implemented atomic package entitlement grant/revoke with 12+ character written reasons, idempotent replays, and zero manipulation of order history. Task 36.4 proved workspace boundaries across `LEARNER`, `INTERNAL_LEARNER`, and `DEVELOPER` roles via authenticated Playwright E2E (`developer-portal.spec.ts`, 7 tests; `member-workspace.spec.ts`, 5 tests) and 115 unit/integration test files (695 tests, 100% pass). No Critical/High findings open.
 
 **Milestone exit criteria:** Privileged provisioning cannot occur through public web paths; role isolation, read models, elevation, entitlement mutation, audit, and internal-learner cohort rules pass security and authenticated E2E review.
 
@@ -799,7 +799,7 @@ Required gates remain: real published access-guarded premium content; owner-appr
 
 ### Sprint 41 — Staging, Recovery, and Operational Readiness — ✅ COMPLETE
 
-- Operator/privacy/payment runbooks, isolated staging environment (`staging.zenoba.tech`), containerized PostgreSQL binary backup and point-in-time restore drills, and production-like non-payment rehearsal merged in PR #77–#80.
+- Operator/privacy/payment runbooks, isolated staging environment (`staging.netloka.biz.id`), containerized PostgreSQL binary backup and point-in-time restore drills, and production-like non-payment rehearsal merged in PR #77–#80.
 
 ### Sprint 42 — Midtrans Gateway and Controlled Commercial Activation — ✅ COMPLETE
 

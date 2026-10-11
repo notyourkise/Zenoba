@@ -297,8 +297,8 @@ describe("Sprint 35 Verification: Developer Portal & Security Invariants", () =>
       expect(ELEVATION_TTL_MS).toBe(10 * 60 * 1000);
     });
 
-    it("uses zenoba_dev_elevation cookie name", () => {
-      expect(ELEVATION_COOKIE_NAME).toBe("zenoba_dev_elevation");
+    it("preserves the existing developer elevation cookie name", () => {
+      expect(ELEVATION_COOKIE_NAME).toBe("netloka_dev_elevation");
     });
 
     it("hashes elevation tokens with SHA-256 and never matches raw token", () => {

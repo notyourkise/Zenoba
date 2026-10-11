@@ -17,7 +17,7 @@ vi.mock("@/features/authorization/guards", () => ({
   requireDeveloperActor: vi.fn(),
 }));
 
-vi.mock("@/features/developer/elevation/service", () => ({
+vi.mock("@/features/developer/elevation/service", async (importOriginal) => ({
   requireElevatedDeveloperSession: vi.fn(),
   ElevationError: class extends Error {
     readonly code: string;
@@ -29,7 +29,7 @@ vi.mock("@/features/developer/elevation/service", () => ({
       this.status = status;
     }
   },
-  ELEVATION_COOKIE_NAME: "zenoba_dev_elevation",
+  ELEVATION_COOKIE_NAME: (await importOriginal<typeof import("@/features/developer/elevation/service")>()).ELEVATION_COOKIE_NAME,
 }));
 
 vi.mock("@/features/developer/access/mutations", () => ({
@@ -161,7 +161,7 @@ describe("POST /api/developer/entitlements Route Handler", () => {
     expect(json.code).toBe("VALIDATION_ERROR");
   });
 
-  it("successfully performs entitlement mutation and returns 200", async () => {
+  it("accepts a pre-rebrand elevation cookie and performs the authorized mutation", async () => {
     const mockResult = {
       success: true,
       idempotentReplay: false,
@@ -175,7 +175,7 @@ describe("POST /api/developer/entitlements Route Handler", () => {
 
     const request = new Request("http://localhost:3000/api/developer/entitlements", {
       method: "POST",
-      headers: { "Content-Type": "application/json", Cookie: validCookie },
+      headers: { "Content-Type": "application/json", Cookie: "netloka_dev_elevation=valid_elevation_token_32_bytes_long_here" },
       body: JSON.stringify(validPayload),
     });
 

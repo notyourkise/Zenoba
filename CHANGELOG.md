@@ -38,6 +38,9 @@ All notable project changes are recorded here.
 
 # 2026-10-12
 
+- [2026-10-12 01:33 WITA] [REVIEW] [Zenoba Rebrand / SMTP connectivity diagnosis]
+  Owner's recipient now has an eligible local password account. Both Windows and Docker TCP probes time out on Hostinger SMTP ports 465/587 before TLS/auth; public DNS agrees with local DNS and TCP 443 to the same host works. Limited Windows outbound firewall inspection did not identify a matching block; exact filtering location remains unknown. No credential/config/code/security-policy change or email/reset-token creation. Await owner network-switch test before attempting actual reset delivery. Source: https://www.hostinger.com/support/4305847-set-up-hostinger-email-on-your-applications-and-devices/ . Git: pending diagnostic checkpoint based on 76d2a0f.
+
 - [2026-10-12 01:29 WITA] [CHANGED] [Zenoba Rebrand / Private local SMTP]
   Applied owner-authorized credential only to ignored D-drive `.env` and recreated the local app. Literal dollar character preserved using single-quoted dotenv value; no secret in tracked files or outputs. Host-side SMTP verify timed out (ETIMEDOUT), so authentication/delivery remain unverified. Requested recipient still has no eligible local password account. No email, account creation, password change, deployment, or remote action. Credential rotation remains recommended before production after chat exposure. Git: pending documentation checkpoint based on 375298e.
 

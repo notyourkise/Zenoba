@@ -1,6 +1,6 @@
 # Zenoba — Agent Handoff
 
-Last updated: **2026-10-12 01:29 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-10-12 01:33 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
 
 ## Current Task and Authority
 
@@ -14,6 +14,9 @@ Last updated: **2026-10-12 01:29 WITA**. Read `AGENTS.md` and verify live Git, C
 - Local application changes and local Docker rebuilds are implemented. No production application, domain, DNS, OAuth, VPS, production deployment, or GitHub remote mutation has been performed for this rebrand.
 
 ## Verified Repository Checkpoint
+
+- Latest SMTP diagnosis after `76d2a0f`: owner registered the requested recipient; fresh read-only DB check confirms an eligible local password account (supersedes earlier missing-account observations below). Windows and Docker IPv4 TCP probes to `smtp.hostinger.com` timed out on both 465 and 587 with seven-second bounds. Local DNS, Google DoH, and Cloudflare DoH agree on the same A record; no AAAA record was returned. TCP 443 to the same host connects. No matching enabled outbound-block rule appeared in the limited Windows firewall check; this does not rule out other security/network filters or identify who drops SMTP traffic.
+- Failure boundary is TCP connectivity before TLS/authentication; password validity and email delivery remain unverified. Official Hostinger documentation confirms smtp.hostinger.com with SSL 465 or STARTTLS 587. Do not change credentials, TLS policy, app code, DNS, or firewall based on this timeout. Next: owner switches to a different trusted connection (e.g. phone hotspot), then repeat bounded SMTP verify and one real local reset request if reachable. No reset request/token, message, password change, or VPS/external configuration mutation was performed in this diagnosis.
 
 - SMTP credential follow-up after `375298e`: owner explicitly authorized using the supplied credential despite advice to rotate it after chat exposure. Stored only in ignored D-drive `.env`, single-quoted to preserve literal dollar characters. Recreated only the local app without a rebuild; selected container checks confirm hello sender/user and nonempty correctly preserved password, without printing it. Never stage the file; rotate before production use.
 - SMTP authentication is NOT verified: standalone image does not expose the mailer package to an ad-hoc Node require, so the installed host mailer was used with the private file and 10-second connection/greeting/socket limits. Its verify call returned ETIMEDOUT, not an authentication verdict. No mail sent. Fresh read-only DB check still finds no eligible local password account for the requested recipient. Next: diagnose SMTP connectivity and have owner register the local test account; only then perform one approved forgot-password request. Do not create the account or change its password automatically.

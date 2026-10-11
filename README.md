@@ -6,7 +6,7 @@
 
 **Domain:** `zenoba.tech`
 **Architecture:** Modular monolith (Next.js + TypeScript + PostgreSQL)  
-**Development status:** Milestones 0–6 are historically implemented; the Milestone 7 application baseline, Milestones 8–12, and Sprint 34 are merged; Milestone 13 remains active with Sprint 34 authorization-review findings open and Sprint 35 planned next; staging/production and live payment remain unverified and deliberately last in Sprint 42
+**Development status:** ROADMAP/PLAN record Milestones 0–15 as historical delivery. Current work is the locally implemented Zenoba rebrand; publication, owner merge, folder relocation, and domain cutover remain pending. Historical completion is not fresh evidence of production, payment, or integration readiness.
 
 **Timezone:** WITA / GMT+8
 
@@ -31,9 +31,8 @@ The Networking curriculum renewal is implemented in the typed registry: six path
 
 - Milestones 8–11 / Sprints 21–32: merged curriculum, assessments, six paths, and Consultant validation.
 - Milestone 12 / Sprint 33: merged commercial entry-gate review; activation remains blocked.
-- Milestone 13 / Sprints 34–36: Sprint 34 role/persistence/routing/internal-access implementation is merged with closure findings open; the separate developer portal, elevation, and audit remain pending.
-- Milestone 14 / Sprints 37–39: resume/queue/autosave, search/bookmarks, mastery/remediation, feedback, and spaced review.
-- Milestone 15 / Sprints 40–42: persistent security, staging/recovery, Midtrans, production, deployment, and live payment—last and separately gated.
+- Milestones 13–15 / Sprints 34–42: recorded as historically complete in ROADMAP/PLAN. Their deployment/integration evidence is not reverified by this rebrand; live payment remains outside its scope.
+- Active follow-up: close the Zenoba identity review locally, then obtain authorization for publication and the separately gated domain cutover.
 
 Read the [approved developer/learner design](docs/superpowers/specs/2026-09-07-developer-portal-and-learner-experience-design.md) and its detailed [developer](docs/superpowers/plans/2026-09-08-developer-operations-and-internal-accounts.md), [learner quality](docs/superpowers/plans/2026-09-08-learner-experience-and-mastery.md), and [final release](docs/superpowers/plans/2026-09-08-final-production-and-commercial-release.md) plans. Fresh-database migration reproducibility is implemented in CI; retained-database upgrade rehearsal remains pending. See [technical debt](docs/TECHNICAL_DEBT.md).
 
@@ -51,7 +50,7 @@ Owner-supplied logo files live in `public/logos/`. Header and footer use `zenoba
 - **Authentication:** NextAuth.js 4.x with credentials/JWT sessions and Prisma integration
 - **Testing:** Vitest (unit/integration) + Playwright (E2E)
 - **Linting:** ESLint + Prettier
-- **Deployment target:** Docker on VPS → Caddy reverse proxy → Cloudflare; configuration exists, deployment is pending
+- **Deployment target:** Docker on VPS; Caddy and Nginx configurations exist in this repository. Verify the live proxy/TLS topology before the separately authorized domain cutover; this local rebrand does not change it.
 
 ---
 
@@ -69,7 +68,7 @@ Owner-supplied logo files live in `public/logos/`. Header and footer use `zenoba
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/notyourkise/NetLoka.git
+git clone https://github.com/notyourkise/NetLoka.git zenoba
 cd zenoba
 ```
 
@@ -308,7 +307,7 @@ Use `.env.example` with safe placeholders instead.
 | M12 | Commercial Readiness Gate Review (S33) | Complete / merged; activation blocked |
 | M13 | Developer Operations & Internal Accounts (S34–36) | Complete / merged |
 | M14 | Learner Experience & Mastery Quality (S37–39) | Complete / merged |
-| M15 | Final Production & Commercial Release (S40–42) | Active next / gated |
+| M15 | Final Production & Commercial Release (S40–42) | Historically complete per ROADMAP/PLAN; live state not reverified here |
 
 See [ROADMAP.md](ROADMAP.md) for detailed milestones and sprints.
 

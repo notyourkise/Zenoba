@@ -3,6 +3,10 @@ import { describe, expect, it } from "vitest";
 import { LiveSimulatorShowcase } from "./live-simulator-showcase";
 
 describe("LiveSimulatorShowcase", () => {
+  it("shows the independent product identity without claiming a corporation", () => {
+    render(<LiveSimulatorShowcase />);
+    expect(screen.getByText("(c) 2026 Zenoba. All rights reserved.")).toBeInTheDocument();
+  });
   it("menghubungkan tab aktif dengan panel simulator secara aksesibel", () => {
     render(<LiveSimulatorShowcase />);
 

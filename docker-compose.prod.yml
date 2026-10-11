@@ -1,17 +1,19 @@
-name: zenoba-production
+# Legacy alternative stack: retain storage/project identity until an authorized cutover.
+# scripts/deploy-production.sh uses compose.production.yml instead; do not interchange stacks.
+name: netloka-production
 
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: zenoba-app
+    container_name: netloka-app
     restart: always
     environment:
       NODE_ENV: production
-      DATABASE_URL: postgresql://${POSTGRES_USER:-zenoba}:${POSTGRES_PASSWORD:-zenoba_secure_password}@postgresql:5432/${POSTGRES_DB:-zenoba}?schema=public
-      NEXTAUTH_URL: https://zenoba.tech
-      APP_URL: https://zenoba.tech
+      DATABASE_URL: postgresql://${POSTGRES_USER:-netloka}:${POSTGRES_PASSWORD:-netloka_secure_password}@postgresql:5432/${POSTGRES_DB:-netloka}?schema=public
+      NEXTAUTH_URL: https://netloka.biz.id
+      APP_URL: https://netloka.biz.id
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
       AUTH_SECRET: ${NEXTAUTH_SECRET}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
@@ -27,7 +29,7 @@ services:
       postgresql:
         condition: service_healthy
     networks:
-      - zenoba-network
+      - netloka-network
     expose:
       - "3000"
 
@@ -37,7 +39,7 @@ services:
       dockerfile: Dockerfile
       target: builder
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-zenoba}:${POSTGRES_PASSWORD:-zenoba_secure_password}@postgresql:5432/${POSTGRES_DB:-zenoba}?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER:-netloka}:${POSTGRES_PASSWORD:-netloka_secure_password}@postgresql:5432/${POSTGRES_DB:-netloka}?schema=public
     command: npm run db:deploy
     profiles:
       - maintenance
@@ -45,29 +47,29 @@ services:
       postgresql:
         condition: service_healthy
     networks:
-      - zenoba-network
+      - netloka-network
 
   postgresql:
     image: postgres:16-alpine
-    container_name: zenoba-db
+    container_name: netloka-db
     restart: always
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-zenoba}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-zenoba_secure_password}
-      POSTGRES_DB: ${POSTGRES_DB:-zenoba}
+      POSTGRES_USER: ${POSTGRES_USER:-netloka}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-netloka_secure_password}
+      POSTGRES_DB: ${POSTGRES_DB:-netloka}
     volumes:
       - postgres_prod_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-zenoba}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-netloka}"]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
-      - zenoba-network
+      - netloka-network
 
   caddy:
     image: caddy:2-alpine
-    container_name: zenoba-caddy
+    container_name: netloka-caddy
     restart: always
     ports:
       - "80:80"
@@ -79,10 +81,10 @@ services:
     depends_on:
       - app
     networks:
-      - zenoba-network
+      - netloka-network
 
 networks:
-  zenoba-network:
+  netloka-network:
     driver: bridge
 
 volumes:

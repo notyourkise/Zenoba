@@ -999,7 +999,7 @@ export function LiveSimulatorShowcase() {
   // ==========================================
   const [terminalHistory, setTerminalHistory] = useState<string[]>([
     "Zenoba OS [Version 2.4.18-simulated]",
-    "(c) 2026 Zenoba Corporation. All rights reserved.",
+    "(c) 2026 Zenoba. All rights reserved.",
     "",
     "Ketik perintah jaringan atau pilih tombol preset cepat di atas.",
     "Ketik 'help' untuk daftar lengkap perintah diagnostik yang didukung.",

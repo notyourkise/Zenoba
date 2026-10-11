@@ -16,13 +16,13 @@ export function DnsQueryVisualizer() {
     {
       title: "2. Query ke Root DNS Server ('.')",
       resolver: "Root Name Server",
-      desc: "Recursive Resolver bertanya ke Root DNS Server. Root Server tidak tahu IP lengkapnya, namun mengarahkan query ke TLD Server untuk domain '.id'.",
+      desc: "Recursive Resolver bertanya ke Root DNS Server. Root Server tidak tahu IP lengkapnya, namun mengarahkan query ke TLD Server untuk domain '.tech'.",
       activeNode: "root",
     },
     {
-      title: "3. Query ke TLD Name Server ('.id')",
-      resolver: "TLD Server (.id / PANDI)",
-      desc: "TLD Server memeriksa registry '.id' dan mengarahkan resolver ke Authoritative Name Server milik domain 'zenoba.tech'.",
+      title: "3. Query ke TLD Name Server ('.tech')",
+      resolver: "TLD Server (.tech)",
+      desc: "TLD Server memeriksa registry '.tech' dan mengarahkan resolver ke Authoritative Name Server milik domain 'zenoba.tech'.",
       activeNode: "tld",
     },
     {
@@ -85,7 +85,7 @@ export function DnsQueryVisualizer() {
           }`}
         >
           <span className="block font-bold">3. TLD Server</span>
-          <span className="text-[10px] opacity-75 font-mono">.id / .com</span>
+          <span className="text-[10px] opacity-75 font-mono">.tech</span>
         </div>
 
         <div

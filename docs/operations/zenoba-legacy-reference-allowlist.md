@@ -1,19 +1,21 @@
 # Zenoba Legacy Reference Allowlist
 
-Last reviewed: 2026-10-11 WITA.
+Last reviewed: 2026-10-12 WITA.
 
 This list records the remaining `Netloka` identifiers after the application
-identity rebrand. They are not released Zenoba-facing copy. Each must remain
+identity rebrand. Public history is intentional; other references provide compatibility or dated evidence. Each must remain
 until the separately authorized domain/VPS cutover, repository rename, or
 historical-record retention decision.
 
 | Category | Paths | Reason | Removal authority |
 | --- | --- | --- | --- |
-| Published transitional history | `src/app/about/page.tsx`, `src/app/about/page.test.tsx` | The factual statement that Zenoba was previously Netloka explains the public rebrand and is explicitly approved content. | Replace only when the owner approves retiring this history |
-| Production continuity | `compose.production.yml`, `scripts/backup-production-postgres.sh`, `scripts/deploy-production.sh` | Existing production Compose project, data volume/network, backup names, and `/srv/netloka/production` must not be renamed during an identity-only release. | Approved domain/VPS cutover plan |
+| Published transitional history | `src/components/marketing/it-infrastructure-journey.tsx`, `src/app/about/page.test.tsx` | The factual statement that Zenoba was previously Netloka explains the public rebrand and is explicitly approved content. | Replace only when the owner approves retiring this history |
+| Browser compatibility | `src/components/navigation/account-modal/account-modal.tsx` and its tests | Read `netloka_cli_pref` / `netloka_privacy_pref` only when the corresponding Zenoba key is absent; writes use Zenoba keys. Storage cannot transfer across domains. | Owner-approved retirement of same-origin compatibility |
+| Production continuity | `compose.production.yml`, `docker-compose.prod.yml`, `scripts/backup-production-postgres.sh`, `scripts/deploy-production.sh` | Preserve each stack's original project, volumes/networks, database defaults, backup names, and `/srv/netloka/production`. The manifests describe different stacks, not interchangeable deployment choices. | Approved domain/VPS cutover plan |
 | Legacy public routing | `Caddyfile`, `deploy/nginx/netloka.biz.id.conf`, `deploy/nginx/staging.netloka.biz.id.conf`, deployment scripts | `netloka.biz.id` must keep serving or redirecting during the cutover; changing these now would alter live routing. | Approved domain/VPS cutover plan |
 | Current physical/repository identity | `README.md`, `docs/HANDOFF.md` | GitHub repository is currently `notyourkise/NetLoka`; the active checkouts are still under `D:\laragon\www\NetLoka*` until the merged-main relocation in Application Identity Task 5. | User-approved repository/local-folder rename |
-| Historical evidence | `CHANGELOG.md`, `docs/decisions/**`, `docs/curriculum/**`, `docs/deployment/**`, `docs/operations/**`, `docs/testing/**`, `docs/commerce/**` | These files preserve dated decisions, release evidence, runbooks, and historical domain names. Rewriting them would falsify the record. | Explicit documentation-history decision |
+| Staging legacy routing/database defaults | `deploy/staging.env.example`, `deploy/nginx/staging.netloka.biz.id.conf`, `deploy/bootstrap-staging-host.sh` | Legacy host/OAuth/DNS await cutover; database examples retain compatible names. Zenoba project/path/volume names apply only to new isolated staging, not retained VPS staging. | Approved staging/domain transition |
+| Historical evidence | Dated entries in `CHANGELOG.md`, `docs/decisions/**`, `docs/curriculum/**`, `docs/deployment/**`, `docs/testing/**`, `docs/commerce/**`, and explicitly labeled historical sections in `docs/operations/**` | Preserve dated decisions and recorded checks; these are not current readiness. Current runbook instructions and contacts are not blanket-exempt and must match Zenoba. | Explicit documentation-history decision |
 
 The complete cutover sequence, including the legacy-domain redirect and the
 preserved production identifiers, is documented in

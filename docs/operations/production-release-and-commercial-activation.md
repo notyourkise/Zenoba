@@ -1,4 +1,14 @@
-# Production Release & Commercial Activation Checklist
+# Zenoba Production Release & Commercial Activation Checklist
+
+## Current rebrand boundary — 2026-10-12 WITA
+
+- Incoming customer complaints/support: `founder@zenoba.tech`. Outgoing SMTP user/from: `hello@zenoba.tech`. Configure credentials privately; Zenoba delivery is not verified by the historical table below.
+- No production deployment, domain cutover, payment activation, or remote publication is authorized by the local rebrand.
+- `scripts/deploy-production.sh` uses `compose.production.yml`. `docker-compose.prod.yml` is a different legacy alternative stack: do not substitute one for the other. Both retain their original project/storage/database identity; inventory the actual live stack before deployment.
+- Zenoba staging names and `/srv/zenoba/staging` are for new isolated staging only. Do not reuse retained Netloka staging without a separately approved resource/data transition.
+- Preserve the legacy production origin until proxy/TLS/OAuth/redirect checks and cutover authorization. The baseline below preserves historical evidence only, not fresh release readiness.
+
+## Historical baseline — superseded contacts and unreverified integrations
 
 **Document version:** 1.0  
 **Effective date:** 2026-09-19 WITA  

@@ -1,6 +1,6 @@
 # Zenoba — Agent Handoff
 
-Last updated: **2026-10-12 01:04 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
+Last updated: **2026-10-12 01:18 WITA**. Read `AGENTS.md` and verify live Git, CI, and deployment state before continuing. This is a snapshot, not a status feed.
 
 ## Current Task and Authority
 
@@ -9,11 +9,17 @@ Last updated: **2026-10-12 01:04 WITA**. Read `AGENTS.md` and verify live Git, C
 - Approved scope: Zenoba is independently operated by solo founder Fikri Haikal. The owner verified that Netloka began in May 2026, Zenoba was founded individually in 2026, and Zenoba became the new identity in October 2026. No legal-entity, user-count, or unsupported corporate claim may be published.
 - Latest approved story: information overload leaves beginners unsure where to start; the product provides direction through roadmaps and career paths. Netloka was independently started in May 2026, then renamed Zenoba in October 2026 for a fresher, more distinctive identity. The origin chapter has no invented date. Only Mercury, Saturnus, and Jupiter remain on a shortened luminous orbit, each showing its planet name and chapter heading/date. History descriptions appear in the actual IT Journey `CheckpointPopup`, above desktop planets and inline on mobile. Hover/focus reveals, tap/click toggles, Escape or `Tutup` dismisses. Permanent history cards remain absent.
 - Approved safety boundary: the first cutover preserves PostgreSQL data, Docker volumes/networks, backups, and `/srv/netloka`; the legacy domain will later redirect to `zenoba.tech`.
-- Latest approved legal refinement: Privacy Policy uses general user-facing language, retaining meaningful disclosures and individual controller identity, without database/VPS/SMTP/OAuth-token/rate-limit internals or a blanket 30-day response claim. Public privacy, security, operational, account, and Terms contact is now `founder@zenoba.tech`. Terms and Privacy both disclose the missing parental-consent mechanism; no registration/consent behavior changed. Mailbox provisioning, delivery, and monitoring are unverified; automatic email sender/configuration remains unchanged.
+- Latest approved legal refinement: Privacy Policy uses general user-facing language, retaining meaningful disclosures and individual controller identity, without database/VPS/SMTP/OAuth-token/rate-limit internals or a blanket 30-day response claim. Public privacy, security, operational, account, and Terms contact is `founder@zenoba.tech`. Terms and Privacy disclose the missing parental-consent mechanism; no registration/consent behavior changed. The owner selected an existing `hello@zenoba.tech` mailbox for automatic email, reflected in local/example defaults; live delivery and monitoring remain unverified.
 - Task phase: Application Identity Tasks 1–4 plus the owner-approved About/CTA refinement are locally implemented and locally verified. The Journey now uses a full-width orbit with unboxed milestones; Visi/Misi use direct headings without eyebrow labels. The owner explicitly deferred WebKit and long-running E2E investigation from the current rebrand goal; local Docker smoke validation is complete. This does not authorize a merge, local-folder move, or domain/VPS change.
 - Local application changes and local Docker rebuilds are implemented. No production application, domain, DNS, OAuth, VPS, production deployment, or GitHub remote mutation has been performed for this rebrand.
 
 ## Verified Repository Checkpoint
+
+- Final identity review fixes (owner approved, local only): based on clean `6f0c657` in the existing D-drive branch/worktree. Alternate `docker-compose.prod.yml` private identifiers and legacy origin restored to `main` baseline; only comments and hello sender defaults differ from main. Primary production manifest, backups, private roots, and Caddy routing unchanged. These two manifests are different stacks and must not be interchanged. New Zenoba staging requires isolated resources, not automatic migration of retained staging.
+- Application fixes: founder support mailto, correct .tech DNS teaching, terminal copyright without corporation, legacy same-origin preference fallback with new-key precedence and preserved false choices. Writes remain Zenoba-only; browser storage cannot transfer across domains. README clone destination/status, PRODUCT status, current runbook contacts/history boundaries, and legacy allowlist reconciled.
+- Fresh verification on these changes: baseline 4 expected regression failures/8 passes; final suite 153 files/937 tests passed (Windows Node 24), lint/typecheck/diff and Compose checks passed, resolved alternate production volume names match legacy project. Unit logs include intentionally mocked failure paths and an unavailable test DB on 5432; not live auth/email/database coverage. Docker production build passed (Node 20, existing middleware/Edge/catalogue warnings), local app recreated and healthy; home/About/Terms/Privacy/health HTTP 200. Independent read-only reviewer found no concrete issue remaining in the six fixes. No E2E/WebKit/CI, real email, migration, folder move, GitHub publication, or VPS/domain action. This checkpoint and its changes are saved together locally; resolve live HEAD rather than treating 6f0c657 as the final delivery SHA.
+
+### Earlier local checkpoints (historical verification)
 
 - Tab icon follow-up: owner explicitly selected `zenoba-symbol-white.png` for the browser tab, superseding the app icon choice below. Apple touch icon, navbar/footer, and original assets remain unchanged. Implemented on clean verified `1edc72d`; local Docker rebuilt/restarted. Updated Chromium assertion failed against the old metadata, then passed 3/3 at 390px/1024px/1440px. Typecheck, focused ESLint, Docker build (existing warnings), and diff checks passed; symbol asset HTTP 200. No full suite/WebKit/CI or external mutation. Browser favicon cache may require reopening the tab.
 
@@ -29,7 +35,7 @@ Last updated: **2026-10-12 01:04 WITA**. Read `AGENTS.md` and verify live Git, C
 | Item | Verified state |
 | --- | --- |
 | Main checkout | `D:\laragon\www\NetLoka`, clean `main` at `7fdd7afcd72870743ee7702e9b2b322f059acbd9` |
-| Planning worktree | `D:\laragon\www\NetLoka-zenoba-rebrand-plan` on `codex/zenoba-rebrand-plan`, based on `7fdd7af`; legal copy refinement and this snapshot are delivered in the same local commit after verified base `7fb62d8` (resolve live HEAD) |
+| Planning worktree | `D:\laragon\www\NetLoka-zenoba-rebrand-plan` on `codex/zenoba-rebrand-plan`; final review closure and this snapshot are delivered together after verified base `6f0c657` (resolve live HEAD). Branch base remains `7fdd7af`. |
 | Planning changes | Design spec, two plans, project-plan reference, local Docker checkpoint, and the approved About/CTA refinements are committed locally |
 | GitHub repository | `notyourkise/NetLoka`; rename is outside the first-cutover scope |
 | Production history | Previous handoff records `/srv/netloka/production` and `netloka.biz.id`; VPS state is not re-verified in this documentation checkpoint |
@@ -54,7 +60,7 @@ Last updated: **2026-10-12 01:04 WITA**. Read `AGENTS.md` and verify live Git, C
 
 ## Next Action
 
-1. Review the complete rebrand diff and, if Abangku authorizes publishing it, prepare one PR for Abangku's review without merging it.
+1. Final local identity review closure is verified. Obtain separate authorization to publish; then inspect GitHub context, review the complete branch diff, prepare one PR, and verify applicable CI on its actual head. Do not claim PR/CI readiness from local checks or merge for Abangku.
 2. Keep WebKit and long-running full-E2E investigation as a separate follow-up; do not let it block the current rebrand-local-running goal.
 3. After Abangku merges, verify the exact merged PR and only then move the clean main checkout from `D:\laragon\www\NetLoka` to `D:\laragon\www\Zenoba`.
 4. Domain/VPS actions remain separately authorized and begin only after the app release is merged.

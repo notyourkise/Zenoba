@@ -1,4 +1,4 @@
-# Netloka Changelog
+# Zenoba Changelog
 
 All notable project changes are recorded here.
 
@@ -37,6 +37,11 @@ All notable project changes are recorded here.
 ```
 
 # 2026-10-12
+
+- [2026-10-12 01:18 WITA] [FIXED] [Zenoba Rebrand / Final identity review]
+  Closed the owner-approved local audit findings: restored alternate production project/container/database/network/origin defaults to the main baseline (retaining hello SMTP); corrected the founder support link, .tech DNS delegation, and non-corporate terminal identity. Added same-origin legacy CLI/privacy preference fallback without overwriting Zenoba settings or legacy values. Aligned staging sender example, clone destination, current product status, historical runbook boundaries, and the narrowed legacy allowlist. Production primary manifest, backups, routing, and private roots remain unchanged.
+  Validation: regression baseline 4 expected failures/8 passes; focused fixes 12/12 passed, followed by an additional precedence test. Final full unit suite 153 files/937 tests passed on Windows Node 24; auth resilience tests deliberately log mocked failures and health test logs an unavailable test DB on 5432, so this is not live integration verification. Lint, typecheck, diff checks, alternate Compose syntax and resolved legacy volume names passed. Docker Node 20 production image built; local app recreated only, healthy, home/About/legal/health HTTP 200. Existing middleware/Edge/build-time catalogue warnings remain. Independent read-only review found no remaining issue in the six fixes. No E2E/WebKit, CI, live email, database migration, folder move, remote publication, or VPS/domain action.
+  Git: pending (local changes based on 6f0c657); local delivery only.
 
 - [2026-10-12 01:04 WITA] [CHANGED] [Zenoba Rebrand / Browser tab icon]
   Changed only the browser tab icon to the owner-selected `/logos/zenoba-symbol-white.png`. Kept Apple touch app icon and header/footer unchanged; updated acceptance and asset documentation.

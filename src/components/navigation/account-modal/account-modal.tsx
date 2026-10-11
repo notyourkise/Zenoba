@@ -96,7 +96,7 @@ export function AccountModal({
   const [cliPrompt, setCliPrompt] = React.useState(() => {
     if (typeof window === "undefined") return "linux";
     try {
-      const saved = localStorage.getItem("zenoba_cli_pref");
+      const saved = localStorage.getItem("zenoba_cli_pref") ?? localStorage.getItem("netloka_cli_pref");
       return saved ? JSON.parse(saved).prompt || "linux" : "linux";
     } catch {
       return "linux";
@@ -106,7 +106,7 @@ export function AccountModal({
   const [cliFontSize, setCliFontSize] = React.useState(() => {
     if (typeof window === "undefined") return "14";
     try {
-      const saved = localStorage.getItem("zenoba_cli_pref");
+      const saved = localStorage.getItem("zenoba_cli_pref") ?? localStorage.getItem("netloka_cli_pref");
       return saved ? JSON.parse(saved).fontSize || "14" : "14";
     } catch {
       return "14";
@@ -116,7 +116,7 @@ export function AccountModal({
   const [cliTypingSpeed, setCliTypingSpeed] = React.useState(() => {
     if (typeof window === "undefined") return "normal";
     try {
-      const saved = localStorage.getItem("zenoba_cli_pref");
+      const saved = localStorage.getItem("zenoba_cli_pref") ?? localStorage.getItem("netloka_cli_pref");
       return saved ? JSON.parse(saved).speed || "normal" : "normal";
     } catch {
       return "normal";
@@ -127,7 +127,7 @@ export function AccountModal({
   const [leaderboardVisible, setLeaderboardVisible] = React.useState(() => {
     if (typeof window === "undefined") return true;
     try {
-      const saved = localStorage.getItem("zenoba_privacy_pref");
+      const saved = localStorage.getItem("zenoba_privacy_pref") ?? localStorage.getItem("netloka_privacy_pref");
       if (saved) {
         const parsed = JSON.parse(saved);
         if (typeof parsed.leaderboard === "boolean") return parsed.leaderboard;
@@ -141,7 +141,7 @@ export function AccountModal({
   const [streakReminder, setStreakReminder] = React.useState(() => {
     if (typeof window === "undefined") return true;
     try {
-      const saved = localStorage.getItem("zenoba_privacy_pref");
+      const saved = localStorage.getItem("zenoba_privacy_pref") ?? localStorage.getItem("netloka_privacy_pref");
       if (saved) {
         const parsed = JSON.parse(saved);
         if (typeof parsed.streak === "boolean") return parsed.streak;
@@ -1136,7 +1136,7 @@ export function AccountModal({
                   </p>
                 </div>
                 <a
-                  href="mailto:support@zenoba.tech?subject=Bantuan%20Platform%20Zenoba"
+                  href="mailto:founder@zenoba.tech?subject=Bantuan%20Platform%20Zenoba"
                   className="inline-flex items-center justify-center rounded-lg bg-gray-900 dark:bg-white px-4 py-2 text-xs font-semibold text-white dark:text-gray-900 shadow-xs hover:bg-gray-800 dark:hover:bg-gray-100 transition shrink-0"
                 >
                   Hubungi Tim Support

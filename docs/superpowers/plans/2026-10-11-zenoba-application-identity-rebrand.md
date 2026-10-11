@@ -14,8 +14,8 @@
 
 - Preserve the homepage layout, cosmic treatment, simulator, section order, and primary behavior; add only Zenoba identity text and the small `Tentang Zenoba` link.
 - Publish only verified claims: practical IT infrastructure learning, independently operated by Fikri Haikal, formerly Netloka.
-- Never publish a founding year, user count, “ribuan pelajar”, legal-entity/corporation, certification, or unsupported security claim.
-- `/about` is public, same-tab, semantic, and links to `/`, `/terms`, and `/privacy-policy`.
+- Publish only owner-verified dates: independent founding in 2026, Netloka in May 2026, Zenoba identity in October 2026. No unverified user counts, legal-entity/corporation, certification, or security claim.
+- `/about` is public, same-tab, and semantic. Owner-approved refinements supersede its original bottom-section/link requirement: About ends after the three-planet history; shared header remains navigation and homepage footer retains legal links.
 - Do not add dependencies, a database migration, or auth/learner/payment/Developer behavior changes.
 - Preserve `/srv/netloka`, production database/volume/network/backup identifiers, and production Compose names.
 - Preserve dated changelog/ADR evidence; rebrand current product docs and active public copy.
@@ -200,6 +200,8 @@ git commit -m "chore: align repository identity with Zenoba"
 
 ### Task 5: Release gate, PR, and safe local-folder transition
 
+Owner-approved review closure (2026-10-12), local-only, precedes publication: restore private identities and legacy origin in `docker-compose.prod.yml` to match the `main` baseline; retain hello sender defaults. Correct account support, `.tech` DNS teaching, and simulator identity; add same-origin legacy preference fallback, preserving new keys and disabled choices. Reconcile README/current runbooks/allowlist without rewriting dated evidence. Regression tests: `account-modal.test.tsx`, `dns-query-visualizer.test.tsx`, and `live-simulator-showcase.test.tsx`. Configuration checks are read-only and do not prove deployment or authorize it.
+
 **Files:**
 - Modify: `CHANGELOG.md`, `PLAN.md`, `ROADMAP.md` only for real delivery state, `docs/HANDOFF.md`
 - Move after merge: `D:\laragon\www\NetLoka` → `D:\laragon\www\Zenoba`
@@ -208,7 +210,7 @@ git commit -m "chore: align repository identity with Zenoba"
 
 - [ ] **Step 1: Run full isolated release gate**
 
-Run: `npm ci; npm run db:generate; npm run lint; npm run typecheck; npm test; npm run test:e2e; npm run build; git diff --check`
+For this local review closure, reuse installed dependencies and run focused regressions, `npm run lint`, `npm run typecheck`, `npm test`, `docker compose build app`, Compose configuration validation, and `git diff --check`. Reapply only the local app image and check local health/public routes. Full E2E/WebKit and long-running release investigations are explicitly deferred by the owner; publication/CI readiness must remain a separate stage, not inferred from this local gate.
 
 Expected: PASS; document unavailable external integrations.
 

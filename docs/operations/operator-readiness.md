@@ -1,4 +1,14 @@
-# Operator Readiness & Governance Runbook
+# Zenoba Operator Readiness & Governance Runbook
+
+## Current rebrand instructions — 2026-10-12 WITA
+
+- Zenoba is independently operated by Fikri Haikal, not a corporation or separate legal entity.
+- Customer complaints, account help, privacy requests, and operational inquiries: `founder@zenoba.tech`.
+- Transactional email sender/SMTP user: `hello@zenoba.tech`; founder must not be used for sending. Local credentials and live delivery remain unverified.
+- `zenoba.tech` is the intended new domain, not proof of a completed cutover. Preserve existing production databases, volumes, backups, and `/srv/netloka` paths.
+- The dated baseline below is historical evidence, not current contact or integration instructions. Its old mailbox statements do not verify Zenoba delivery. Recheck readiness before release.
+
+## Historical baseline — 2026-09-18 (superseded contacts)
 
 Last updated: **2026-09-18 15:05 WITA**.
 
